@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/wayfair/brickkit-android.svg)](https://travis-ci.org/wayfair/brickkit-android)
+[![codecov.io](http://codecov.io/github/wayfair/brickkit-android/coverage.svg)](http://codecov.io/github/wayfair/brickkit-android)
+
 <div align="center">
 <span><img src="Docs/SampleImage/BrickKit.png" alt="BrickKit" title="BrickKit" ></span>
 <span style="font-size:60px; writing-mode: tb-rl;">BrickKit</span>
