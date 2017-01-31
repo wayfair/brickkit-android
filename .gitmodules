@@ -1,0 +1,3 @@
+[submodule "golley"]
+	path = golley
+	url = git@git.csnzoo.com:androiddev/golley.git

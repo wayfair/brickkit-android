@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright © 2017 Wayfair. All rights reserved. -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/header_sticky_container"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal|top">
+
+    <RelativeLayout
+        android:id="@+id/header_sticky_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        tools:background="@android:color/white"
+        tools:layout_height="40dp"/>
+
+    <ImageView
+        android:id="@+id/header_bar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:src="@drawable/bottom_shadow"
+        tools:ignore="ContentDescription" />
+</LinearLayout>

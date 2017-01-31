@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright © 2017 Wayfair. All rights reserved. -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:padding="@dimen/default_brick_content_padding">
+
+    <ImageView
+        android:id="@+id/user_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/arrow_up_black"/>
+
+    <Button
+        android:id="@+id/follow_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:drawableStart="@drawable/ic_arrow_forward"
+        android:drawableLeft="@drawable/ic_arrow_forward"
+        android:text="follow" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_avatar"
+        style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
+        android:drawableEnd="@drawable/arrow_up_black"
+        android:drawableRight="@drawable/arrow_up_black"
+        android:text="Wayfair, LLC"/>
+
+    <TextView
+        android:id="@+id/user_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name"
+        style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
+        android:text="\@wayfair"/>
+
+    <TextView
+        android:id="@+id/user_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_tag"
+        style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
+        android:text="a #zillion tweets about everything home. Support hours are 9am-5pm EST 7 days a week!"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/user_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_description"
+        android:drawableStart="@drawable/arrow_up_black"
+        android:drawableLeft="@drawable/arrow_up_black"
+        style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
+        android:text="wayfair.com"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/user_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_link"
+        android:drawableStart="@drawable/arrow_up_black"
+        android:drawableLeft="@drawable/arrow_up_black"
+        style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
+        android:text="Most responsive 9am-5pm"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+</RelativeLayout>

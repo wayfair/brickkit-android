@@ -1,0 +1,8 @@
+<!-- Copyright © 2017 Wayfair. All rights reserved. -->
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wayfair.brickkit">
+
+    <application android:label="@string/app_name"
+                 android:supportsRtl="true" />
+</manifest>
