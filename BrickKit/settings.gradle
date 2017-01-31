@@ -1,2 +1,1 @@
-include ':app', ':golleycore', ':bricks'
-project(':golleycore').projectDir = new File('../golley/golleycore')
+include ':app', ':bricks'
