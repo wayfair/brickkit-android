@@ -25,3 +25,6 @@ script:
   - cd BrickKit
   - ./gradlew build connectedCheck
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
