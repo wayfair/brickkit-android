@@ -22,6 +22,7 @@ before_script:
 script:
   - cd BrickKit
   - ./gradlew build connectedCheck
+  - cd ..
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
