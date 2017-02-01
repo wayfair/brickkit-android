@@ -25,7 +25,9 @@ public class MainActivityFragment extends BrickFragment {
     private static final int TWO_FIFTH = 96;
 
     @Override
-    public void createBricks() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         InnerOuterBrickPadding padding = new InnerOuterBrickPadding(8, 0);
 
         ArrayList<BaseBrick> usedBricks = new ArrayList<>();

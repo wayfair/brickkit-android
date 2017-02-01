@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -575,6 +576,166 @@ public class BrickDataManagerTest {
 
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(1, observer.getItemRangeChangedItemCount());
+
+        verify(behavior).onDataSetChanged();
+    }
+
+    @Test
+    public void testAddItemsBeforeLastItem() {
+        ArrayList<BaseBrick> items = new ArrayList<>();
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateBrick());
+        manager.addBeforeItem(manager.getRecyclerViewItems().get(3), items);
+
+        assertEquals(7, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
+
+        assertEquals(3, observer.getItemRangeInsertedPositionStart());
+        assertEquals(3, observer.getItemRangeInsertedItemCount());
+
+        assertEquals(3, observer.getItemRangeChangedPositionStart());
+        assertEquals(1, observer.getItemRangeChangedItemCount());
+
+        verify(behavior).onDataSetChanged();
+    }
+
+    @Test
+    public void testAddItemsWithOneHiddenBeforeLastItem() {
+        ArrayList<BaseBrick> items = new ArrayList<>();
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateHiddenBrick());
+        items.add(brickTestHelper.generateBrick());
+        manager.addBeforeItem(manager.getRecyclerViewItems().get(3), items);
+
+        assertEquals(6, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
+
+        assertEquals(3, observer.getItemRangeInsertedPositionStart());
+        assertEquals(2, observer.getItemRangeInsertedItemCount());
+
+        assertEquals(3, observer.getItemRangeChangedPositionStart());
+        assertEquals(1, observer.getItemRangeChangedItemCount());
+
+        verify(behavior).onDataSetChanged();
+    }
+
+    @Test
+    public void testAddItemsWithAllHiddenBeforeLastItem() {
+        ArrayList<BaseBrick> items = new ArrayList<>();
+        items.add(brickTestHelper.generateHiddenBrick());
+        items.add(brickTestHelper.generateHiddenBrick());
+        items.add(brickTestHelper.generateHiddenBrick());
+        manager.addBeforeItem(manager.getRecyclerViewItems().get(3), items);
+
+        assertEquals(4, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
+
+        assertEquals(-1, observer.getItemRangeInsertedPositionStart());
+        assertEquals(-1, observer.getItemRangeInsertedItemCount());
+
+        assertEquals(-1, observer.getItemRangeChangedPositionStart());
+        assertEquals(-1, observer.getItemRangeChangedItemCount());
+
+        verify(behavior, never()).onDataSetChanged();
+    }
+
+    @Test
+    public void testAddItemsBeforeMissingItem() {
+        ArrayList<BaseBrick> items = new ArrayList<>();
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateBrick());
+        manager.addBeforeItem(brickTestHelper.generateBrick(), items);
+
+        assertEquals(7, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
+
+        assertEquals(0, observer.getItemRangeInsertedPositionStart());
+        assertEquals(3, observer.getItemRangeInsertedItemCount());
+
+        assertEquals(0, observer.getItemRangeChangedPositionStart());
+        assertEquals(4, observer.getItemRangeChangedItemCount());
+
+        verify(behavior).onDataSetChanged();
+    }
+
+    @Test
+    public void testAddItemsAfterLastItem() {
+        ArrayList<BaseBrick> items = new ArrayList<>();
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(3), items);
+
+        assertEquals(7, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
+
+        assertEquals(4, observer.getItemRangeInsertedPositionStart());
+        assertEquals(3, observer.getItemRangeInsertedItemCount());
+
+        assertEquals(4, observer.getItemRangeChangedPositionStart());
+        assertEquals(0, observer.getItemRangeChangedItemCount());
+
+        verify(behavior).onDataSetChanged();
+    }
+
+    @Test
+    public void testAddItemsWithOneHiddenAfterLastItem() {
+        ArrayList<BaseBrick> items = new ArrayList<>();
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateHiddenBrick());
+        items.add(brickTestHelper.generateBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(3), items);
+
+        assertEquals(6, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
+
+        assertEquals(4, observer.getItemRangeInsertedPositionStart());
+        assertEquals(2, observer.getItemRangeInsertedItemCount());
+
+        assertEquals(4, observer.getItemRangeChangedPositionStart());
+        assertEquals(0, observer.getItemRangeChangedItemCount());
+
+        verify(behavior).onDataSetChanged();
+    }
+
+    @Test
+    public void testAddItemsWithAllHiddenAfterLastItem() {
+        ArrayList<BaseBrick> items = new ArrayList<>();
+        items.add(brickTestHelper.generateHiddenBrick());
+        items.add(brickTestHelper.generateHiddenBrick());
+        items.add(brickTestHelper.generateHiddenBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(3), items);
+
+        assertEquals(4, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
+
+        assertEquals(-1, observer.getItemRangeInsertedPositionStart());
+        assertEquals(-1, observer.getItemRangeInsertedItemCount());
+
+        assertEquals(-1, observer.getItemRangeChangedPositionStart());
+        assertEquals(-1, observer.getItemRangeChangedItemCount());
+
+        verify(behavior, never()).onDataSetChanged();
+    }
+
+    @Test
+    public void testAddItemsAfterMissingItem() {
+        ArrayList<BaseBrick> items = new ArrayList<>();
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateBrick());
+        items.add(brickTestHelper.generateBrick());
+        manager.addAfterItem(brickTestHelper.generateBrick(), items);
+
+        assertEquals(7, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
+
+        assertEquals(4, observer.getItemRangeInsertedPositionStart());
+        assertEquals(3, observer.getItemRangeInsertedItemCount());
+
+        assertEquals(4, observer.getItemRangeChangedPositionStart());
+        assertEquals(0, observer.getItemRangeChangedItemCount());
 
         verify(behavior).onDataSetChanged();
     }
