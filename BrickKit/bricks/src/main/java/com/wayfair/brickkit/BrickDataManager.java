@@ -326,6 +326,33 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
+     * Inserts brick before the anchor brick.
+     *
+     * @param anchor brick to insert before
+     * @param items the bricks to add
+     */
+    public void addBeforeItem(BaseBrick anchor, Collection<BaseBrick> items) {
+        int index = adapterIndex(anchor);
+
+        if (index == -1) {
+            index = 0;
+            this.items.addAll(index, items);
+        } else {
+            this.items.addAll(index, items);
+        }
+
+        int visibleCount = getVisibleCount(items);
+        if (visibleCount > 0) {
+            dataHasChanged();
+            if (brickRecyclerAdapter != null) {
+                int refreshStartIndex = computePaddingPosition(getRecyclerViewItems().get(index));
+                brickRecyclerAdapter.safeNotifyItemRangeInserted(index, visibleCount);
+                brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, getRecyclerViewItems().size() - visibleCount - refreshStartIndex);
+            }
+        }
+    }
+
+    /**
      * Inserts brick after the anchor brick.
      *
      * @param anchor brick to insert after
@@ -346,6 +373,34 @@ public class BrickDataManager implements Serializable {
                 int refreshStartIndex = computePaddingPosition(item);
                 brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex(item));
                 brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, getRecyclerViewItems().size() - refreshStartIndex);
+            }
+        }
+    }
+
+    /**
+     * Inserts brick before the anchor brick.
+     *
+     * @param anchor brick to insert before
+     * @param items the bricks to add
+     */
+    public void addAfterItem(BaseBrick anchor, Collection<BaseBrick> items) {
+        int index = adapterIndex(anchor);
+
+        if (index == -1) {
+            index = getRecyclerViewItems().size();
+            this.items.addAll(index, items);
+        } else {
+            index++;
+            this.items.addAll(index, items);
+        }
+
+        int visibleCount = getVisibleCount(items);
+        if (visibleCount > 0) {
+            dataHasChanged();
+            if (brickRecyclerAdapter != null) {
+                int refreshStartIndex = computePaddingPosition(getRecyclerViewItems().get(index));
+                brickRecyclerAdapter.safeNotifyItemRangeInserted(index, visibleCount);
+                brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, getRecyclerViewItems().size() - visibleCount - refreshStartIndex);
             }
         }
     }

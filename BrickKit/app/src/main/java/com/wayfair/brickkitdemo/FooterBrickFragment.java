@@ -3,6 +3,8 @@
  */
 package com.wayfair.brickkitdemo;
 
+import android.os.Bundle;
+
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
 import com.wayfair.brickkit.size.SimpleBrickSize;
@@ -18,8 +20,11 @@ import com.wayfair.brickkit.StickyScrollMode;
  * another "footer" brick is scrolled into the footer area.
  */
 public class FooterBrickFragment extends BrickFragment {
+
     @Override
-    public void createBricks() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         for (int i = 0; i < 100; i++) {
             TextBrick unusedBrick2 = new TextBrick(
                     getContext(),

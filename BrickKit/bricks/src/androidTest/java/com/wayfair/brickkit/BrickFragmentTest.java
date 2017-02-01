@@ -24,7 +24,6 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -51,7 +50,7 @@ public class BrickFragmentTest {
     @Test
     public void onCreate() {
         testBrickFragment.onCreate(new Bundle());
-        assertTrue(testBrickFragment.createBricksCalled);
+        assertTrue(testBrickFragment.onCreateCalled);
     }
 
     @Test
@@ -92,7 +91,7 @@ public class BrickFragmentTest {
 
     public static final class TestBrickFragment extends BrickFragment {
         private int orientation;
-        private boolean createBricksCalled;
+        private boolean onCreateCalled;
 
         public void setOrientation(int orientation) {
             this.orientation = orientation;
@@ -113,11 +112,6 @@ public class BrickFragmentTest {
             return super.reverse();
         }
 
-        @Override
-        public void createBricks() {
-            createBricksCalled = true;
-        }
-
         public int getDefaultOrientation(){
             return super.orientation();
         }
@@ -125,6 +119,8 @@ public class BrickFragmentTest {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
+            onCreateCalled = true;
         }
 
         @Override
