@@ -33,6 +33,7 @@ import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -311,6 +312,8 @@ public class StickyHeaderBehaviorTest {
         BrickPadding padding = new BrickPadding(new Rect(1, 1, 1, 1), new Rect(1, 1, 1, 1));
         BaseBrick brick = mock(BaseBrick.class);
         when(dataManager.brickAtPosition(HEADER_INDEX)).thenReturn(brick);
+        doReturn(stickyHolderLayout).when(headerBehavior).inflateStickyView(any(BaseBrick.class), any(RecyclerView.class));
+        when(brick.createViewHolder(stickyHolderLayout)).thenReturn(stickyViewHolder);
         when(brick.getPadding()).thenReturn(padding);
         headerBehavior.onScrolled(recyclerView, SCROLL_DISTANCE, SCROLL_DISTANCE);
         verify(dataManager.brickAtPosition(HEADER_INDEX), atLeastOnce()).getPadding();
