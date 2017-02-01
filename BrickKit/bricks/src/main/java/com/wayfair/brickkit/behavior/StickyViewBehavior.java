@@ -8,6 +8,7 @@ import android.support.annotation.ColorInt;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickRecyclerAdapter;
 import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.StickyScrollMode;
 
@@ -57,7 +59,7 @@ abstract class StickyViewBehavior extends BrickBehavior {
     /**
      * Constructor for Unit Tests.
      *
-     * @param brickDataManager   {@link BrickDataManager} whose adapter is used for finding bricks
+     * @param brickDataManager      {@link BrickDataManager} whose adapter is used for finding bricks
      * @param stickyHolderContainer sticky layout needed for the behavior
      * @param stickyViewLayoutId    The ID of the view that gets the contents of the sticky item.
      * @param stickyShadowImageId   The ID of the shadow image view to accent the sticky view.
@@ -329,14 +331,17 @@ abstract class StickyViewBehavior extends BrickBehavior {
      * @return a {@link BrickViewHolder}
      */
     private BrickViewHolder getStickyViewHolder(int position) {
-        BrickRecyclerAdapter adapter = brickDataManager.getBrickRecyclerAdapter();
+        // We want to create this view outside of the RecyclerView to avoid any issues with the sticky view getting recycled
+        BrickViewHolder holder = null;
 
-        //Find existing ViewHolder
-        BrickViewHolder holder = (BrickViewHolder) adapter.getRecyclerView().findViewHolderForAdapterPosition(position);
-        if (holder == null) {
-            //Create and binds a new ViewHolder
-            holder = adapter.createViewHolder(adapter.getRecyclerView(), adapter.getItemViewType(position));
-            adapter.bindViewHolder(holder, position);
+        BaseBrick stickyBrick = brickDataManager.brickAtPosition(position);
+        if (stickyBrick != null) {
+            RecyclerView recyclerView = brickDataManager.getRecyclerView();
+            BrickRecyclerAdapter adapter = brickDataManager.getBrickRecyclerAdapter();
+
+            View stickyBrickView = inflateStickyView(stickyBrick, recyclerView);
+            holder = stickyBrick.createViewHolder(stickyBrickView);
+            stickyBrick.onBindData(holder);
 
             //Calculate width and height
             int widthSpec;
@@ -364,6 +369,19 @@ abstract class StickyViewBehavior extends BrickBehavior {
             stickyView.layout(0, 0, stickyView.getMeasuredWidth(), stickyView.getMeasuredHeight());
         }
         return holder;
+    }
+
+    /**
+     * Inflate sticky brick.
+     *
+     * Public for testing.
+     *
+     * @param stickyBrick The brick that we are inflating
+     * @param recyclerView The parent recyclerview
+     * @return Inflated view for the given brick
+     */
+    public View inflateStickyView(BaseBrick stickyBrick, RecyclerView recyclerView) {
+        return LayoutInflater.from(recyclerView.getContext()).inflate(stickyBrick.getLayout(), recyclerView, false);
     }
 
     /**
