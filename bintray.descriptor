@@ -27,7 +27,7 @@
 
     "files":
         [
-        {"includePattern": "/BrickKit/bricks/build/outputs/aar/bricks-release.aar"},
+        {"includePattern": "/BrickKit/bricks/build/outputs/aar/bricks-release.aar"}
         ],
     "publish": true
 }
