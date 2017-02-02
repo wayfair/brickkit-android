@@ -121,10 +121,7 @@ public class AddRemoveBrickFragment extends BrickFragment {
                 dataManager.addLast(brick);
             }
         }
-    }
 
-    @Override
-    public void addBehaviors() {
         dataManager.addBehavior(new StickyHeaderBehavior(dataManager));
         dataManager.addBehavior(new StickyFooterBehavior(dataManager));
     }

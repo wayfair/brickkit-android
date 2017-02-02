@@ -45,10 +45,7 @@ public class FooterBrickFragment extends BrickFragment {
 
             dataManager.addLast(unusedBrick2);
         }
-    }
 
-    @Override
-    public void addBehaviors() {
         dataManager.addBehavior(new StickyFooterBehavior(dataManager));
     }
 }

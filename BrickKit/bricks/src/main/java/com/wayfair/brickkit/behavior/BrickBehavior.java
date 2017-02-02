@@ -12,23 +12,61 @@ import com.wayfair.brickkit.BrickRecyclerAdapter;
  * bricks, like {@link StickyHeaderBehavior} and {@link StickyFooterBehavior}.
  */
 public abstract class BrickBehavior extends RecyclerView.OnScrollListener {
+    private boolean attached = false;
+
     /**
      * Method that is called when the dataset for {@link BrickRecyclerAdapter} has changed.
      */
     public abstract void onDataSetChanged();
 
     /**
-     * Method that is called when the {@link android.support.v7.widget.RecyclerView} has scrolled.
+     * Method that is called when the {@link RecyclerView} has scrolled.
      */
     public abstract void onScroll();
 
     /**
-     * Method that is called when this behavior is attached to the {@link android.support.v7.widget.RecyclerView}.
+     * Implement this method to attach the behaviour to the given {@link RecyclerView}.
+     *
+     * @param recyclerView The {@link RecyclerView} to attach to.
+     *
+     * @return Return TRUE when the behaviour was successfully attached to the recycler view.
      */
-    public abstract void attachToRecyclerView();
+    protected abstract boolean attach(RecyclerView recyclerView);
 
     /**
-     * Method that is called when this behavior is detached to the {@link android.support.v7.widget.RecyclerView}.
+     * Method that is called by {@link com.wayfair.brickkit.BrickDataManager} when a behaviour is added and it needs to be attached to the
+     * {@link RecyclerView}.
+     *
+     * @param recyclerView The {@link RecyclerView} to attach to.
      */
-    public abstract void detachFromRecyclerView();
+    public void attachToRecyclerView(RecyclerView recyclerView) {
+        if (attached || recyclerView == null) {
+            return;
+        }
+
+        attached = attach(recyclerView);
+    }
+
+    /**
+     * Implement this method to attach the behaviour to the given {@link RecyclerView}.
+     *
+     * @param recyclerView The {@link RecyclerView} to attach to.
+     *
+     * @return Return TRUE when the behaviour was successfully detached from the RecyclerView
+     */
+    protected abstract boolean detach(RecyclerView recyclerView);
+
+    /**
+     * Method that is called by {@link com.wayfair.brickkit.BrickDataManager} when a behaviour is removed and it needs to be detached from the
+     * {@link RecyclerView}.
+     *
+     * @param recyclerView The {@link RecyclerView} to attach to.
+     */
+    public void detachFromRecyclerView(RecyclerView recyclerView) {
+        if (!attached || recyclerView == null) {
+            return;
+        }
+
+        attached = !detach(recyclerView);
+    }
 }

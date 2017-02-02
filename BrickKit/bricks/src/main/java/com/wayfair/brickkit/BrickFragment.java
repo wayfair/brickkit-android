@@ -35,7 +35,6 @@ public abstract class BrickFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setBackgroundColor(recyclerViewBackground);
         dataManager.setRecyclerView(getContext(), recyclerView, orientation(), reverse(), view);
-        addBehaviors();
         return view;
     }
 
@@ -53,11 +52,6 @@ public abstract class BrickFragment extends Fragment {
     public int maxSpans() {
         return 240;
     }
-
-    /**
-     * Method called to add behaviors to this fragment.
-     */
-    public void addBehaviors() { }
 
     /**
      * Get the orientation to lay out this fragment.

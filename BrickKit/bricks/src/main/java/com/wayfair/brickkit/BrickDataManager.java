@@ -77,7 +77,7 @@ public class BrickDataManager implements Serializable {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         for (BrickBehavior behavior : behaviors) {
-            behavior.attachToRecyclerView();
+            behavior.attachToRecyclerView(recyclerView);
         }
 
         if (getRecyclerViewItems().size() > 0) {
@@ -770,6 +770,15 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
+     * Get the collection of behaviours currently in the BrickDataManager. Mostly for testing.
+     *
+     * @return The current behaviours attached tot he BrickDataManger
+     */
+    public Collection<BrickBehavior> getBehaviours() {
+        return behaviors;
+    }
+
+    /**
      * Add a {@link BrickBehavior}.
      *
      * @param behavior {@link BrickBehavior} to add
@@ -780,7 +789,19 @@ public class BrickDataManager implements Serializable {
                 return;
             }
         }
+
         behaviors.add(behavior);
+        behavior.attachToRecyclerView(getRecyclerView());
+    }
+
+    /**
+     * Remove a {@link BrickBehavior}.
+     *
+     * @param behavior {@link BrickBehavior} to be removed
+     */
+    public void removeBehavior(BrickBehavior behavior) {
+        behaviors.remove(behavior);
+        behavior.detachFromRecyclerView(getRecyclerView());
     }
 
     /**
@@ -797,7 +818,7 @@ public class BrickDataManager implements Serializable {
      */
     public void onDestroyView() {
         for (BrickBehavior behavior : behaviors) {
-            behavior.detachFromRecyclerView();
+            behavior.detachFromRecyclerView(getRecyclerView());
         }
     }
 

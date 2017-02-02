@@ -50,10 +50,7 @@ public class HeaderBrickFragment extends BrickFragment {
 
             dataManager.addLast(unusedBrick2);
         }
-    }
 
-    @Override
-    public void addBehaviors() {
         dataManager.addBehavior(new StickyHeaderBehavior(dataManager));
     }
 }
