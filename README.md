@@ -9,7 +9,7 @@
 
 ## What is the BrickKit
 
-BrickKit is a tool developed with the Android RecyclerView and GridLayout. With BrickKit, you can manage complex and different layouts (bricks) on the same page by one RecyclerView and DataManger. It's easy to reuse and extend bricks which highly reduces the code redundancy and difficulty of UI testing.
+With BrickKit, you can manage complex, dynamic, device type specific, and orientation aware layouts with the same code. It's easy to reuse and extend bricks which highly reduces code redundancy and makes UI testing easier. BrickKit is based on RecyclerView and GridLayoutManager meaning it works well with many (think thousands) items inside. Use it, extend it, and make it your own!
 
 
 ## How to import BrickKit as a library
@@ -29,10 +29,14 @@ BrickKit is a tool developed with the Android RecyclerView and GridLayout. With 
 
 ### BasicFragment
 
+We created `BrickFragment` as a convienence to you and ourselves. Our [Android Application](https://play.google.com/store/apps/details?id=com.wayfair.wayfair "Google Play Store: Wayfair - Furniture & Decor") is primarily based off of this class (50+ fragments extend) and it has greatly reduced the lines of code and complexity of those Fragments.
+
 ![SimpleFragment](Docs/SampleImage/SimpleFragment.png)
 ```java
 public class SimpleBrickFragment extends BrickFragment {
-      private static final int HALF = 120;  //maxSpans == 240
+      private static final int HALF = 120;  //maxSpans == 240; We use 240
+                                            //because of how many numbers it
+                                            //can be divided by easily.
       private int numberOfBricks = 20;
 
       public static SimpleBrickFragment newInstance(int numberOfBricks) {
@@ -42,7 +46,9 @@ public class SimpleBrickFragment extends BrickFragment {
       }
 
       @Override
-      public void createBricks() {
+      public void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+
           for (int i = 0; i < numberOfBricks; i++) {
               TextBrick textBrick = new TextBrick(
                       getContext(),
@@ -89,19 +95,21 @@ public class SimpleBrickFragment extends BrickFragment {
 
 | Method   |      Description  |
 |----------|:-------------:|
-| createBricks |  Allows to constitute the different types of 'bricks' to the View.
-| addBehaviors |  Adds complex layout interactions to the View.  
-| orientation |   Defines the orientations in which the 'bricks' are layed out (GridLayoutManager.VERTICAL/GridLayoutManager.HORIZONTAL)
-| reverse |  If false, the bricks will be added from the top of screen, otherwise it will be added from the bottom.
+| onCreate | Generally where you will create bricks for display in the recycler view. When created here, they will be immediately ready for the view when it is displayed. Bricks can be created and added at anytime if you wan them to animate in. |
+| onCreateView | Generally where you will add Behaviours (think sticky header and footer) and other features like Swipe-To-Dismiss and Drag-And-Drop. |
+| orientation | Defines the orientations in which the 'bricks' are layed out (GridLayoutManager.VERTICAL/GridLayoutManager.HORIZONTAL) |
+| reverse | If false, the bricks will be added from the top of screen, otherwise it will be added from the bottom. |
 
 
 ### Bricks with different spans
+
+Building layouts differently for different screen orientations and device type is easy and handled by BrickKit. Simply define different span values in various `BrickSize` subclasses and pass them into the brick you are creating. It is the easiest way to create dynamic layouts across your App.
 
 ![Span Example](Docs/SampleImage/SpanExample.png)
 
 ```java
 @Override
-public void createBricks() {
+public void onCreate(Bundle savedInstanceState) {
     for (int i = 0; i < dataManager.getMaxSpanCount() / HALF; i++) {   // HALF == 120
         TextBrick textBrick = new TextBrick(
                 getContext(),
@@ -201,25 +209,26 @@ public void createBricks() {
 
 ```java
 @Override
-public void addBehaviors() {
-     dataManager.addBehavior(new StickyHeaderBehavior(dataManager));
+public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View view = super.onCreateView(inflater, container, savedInstanceState);
+    dataManager.addBehavior(new StickyHeaderBehavior(dataManager));
+    return view;
 }
 
 @Override
-public void createBricks() {
-        BaseBrick brick = new TextBrick(
-                getContext(),
-                new SimpleBrickSize(maxSpans()) {
-                    @Override
-                    protected int size() {
-                        return dataManager.getMaxSpanCount();
-                    }
-                },
-                "simple" + i
-        );
-        brick.setHeader(true);
-        dataManager.addLast(brick);
-    }
+public void onCreate(Bundle savedInstanceState) {
+    BaseBrick brick = new TextBrick(
+            getContext(),
+            new SimpleBrickSize(maxSpans()) {
+                @Override
+                protected int size() {
+                    return dataManager.getMaxSpanCount();
+                }
+            },
+            "simple" + i
+    );
+    brick.setHeader(true);
+    dataManager.addLast(brick);
 }
 ```
 
@@ -228,25 +237,26 @@ public void createBricks() {
 
 ```java
 @Override
-public void addBehaviors() {
-     dataManager.addBehavior(new StickyFooterBehavior(dataManager));
+public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View view = super.onCreateView(inflater, container, savedInstanceState);
+    dataManager.addBehavior(new StickyFooterBehavior(dataManager));
+    return view;
 }
 
 @Override
-public void createBricks() {
-        BaseBrick brick = new TextBrick(
-                getContext(),
-                new SimpleBrickSize(maxSpans()) {
-                    @Override
-                    protected int size() {
-                        return MAX_SPANS;
-                    }
-                },
-                "simple" + i
-        );
-        brick.setFooter(true);
-        dataManager.addLast(brick);
-    }
+public void onCreate(Bundle savedInstanceState) {
+    BaseBrick brick = new TextBrick(
+            getContext(),
+            new SimpleBrickSize(maxSpans()) {
+                @Override
+                protected int size() {
+                    return MAX_SPANS;
+                }
+            },
+            "simple" + i
+    );
+    brick.setFooter(true);
+    dataManager.addLast(brick);
 }
 ```
 
@@ -258,27 +268,6 @@ public boolean reverse() {
     return true;
 }
 ```
-
-#### InfiniteScroll layout
-```java
-@Override
-public void createBricks() {
-    dataManager.getBrickRecyclerAdapter().setOnReachedItemAtPosition(
-            new OnReachedItemAtPosition() {
-                @Override
-                public void bindingItemAtPosition(int position) {
-                    if (position == dataManager.getRecyclerViewItems().size() - 1) {
-                        page++;
-                        addNewBricks();
-                    }
-                }
-            }
-    );
-
-    addNewBricks();
-}
-```
-
 
 #### Section layout
 ```java
@@ -303,12 +292,13 @@ public class FragmentBrickFragment extends BrickFragment {
     }
 }
 ```
-> FragmentBrick enables us to nest the brickFragment within the another one in which we could brick the simple bricks in the nested brickFragment and arrange the outer brickFragment as well.
+> FragmentBrick enables us to nest the brickFragment within the another one in which we could brick the simple bricks in the nested brickFragment and arrange the outer brickFragment as well. This gives us the idea of `sections`.
+> **USE THIS WITH CARE: It prevents recycling of these bricks**
 
 
 ## Customize your own brick
 ```java
-public class CustomizedBrick extends BaseBrick {
+public class MyBrick extends BaseBrick {
   /**
    * Constructor.
    *
@@ -316,28 +306,19 @@ public class CustomizedBrick extends BaseBrick {
    * @param spanSize size information for this brick
    * @param padding padding for this brick
    */
-    public CustomizedBrick(Context context, BrickSize spanSize, BrickPadding padding) {
+    public MyBrick(Context context, BrickSize spanSize, BrickPadding padding) {
         super(context, spanSize, padding);
     }
 
     /**
      * Called by the BrickRecyclerAdapter to display the information in this brick to the specified ViewHolder.
      *
-     * @param holder ViewHolder which should be updated.
+     * @param viewHolder ViewHolder which should be updated.
      */    
     @Override
-    public void onBindData(RecyclerView.ViewHolder holder) {
-
-    }
-
-    /**
-     * Gets the template string for this brick type.
-     *
-     * @return the template string for this brick type
-     */
-    @Override
-    public String getTemplate() {
-        return null;
+    public void onBindData(RecyclerView.ViewHolder viewHolder) {
+        MyBrickHolder myBrickHolder = (MyBrickHolder) viewHolder;
+        myBrickHolder.myTextView.setText(text);
     }
 
     /**
@@ -347,7 +328,7 @@ public class CustomizedBrick extends BaseBrick {
      */
     @Override
     public int getLayout() {
-        return 0;
+        return R.layout.my_brick;
     }
 
     /**
@@ -355,16 +336,34 @@ public class CustomizedBrick extends BaseBrick {
      *
      * @param itemView view to pass into the {@link BrickViewHolder}
      * @return the {@link BrickViewHolder}
-     */    @Override
+     */
+    @Override
     public BrickViewHolder createViewHolder(View itemView) {
-        return null;
+        return new MyBrickHolder(itemView);
+    }
+
+    /**
+     * {@link BrickViewHolder} for MyBrickHolder.
+     */
+    static class MyBrickHolder extends BrickViewHolder {
+        TextView myTextView;
+
+        /**
+         * Constructor for MyBrickHolder.
+         *
+         * @param itemView view for this brick
+         */
+        MyBrickHolder(View itemView) {
+            super(itemView);
+
+            myTextView = (TextView) itemView.findViewById(R.id.my_text_view);
+        }
     }
 }
 ```
 
->- Configure layout xml file, template's name and bind the child view by your own.
->- Set customized innerPadding/outerPadding, portrait/landscape spanSize by extending BrickSize and BrickPadding.
->- Define different brick behaviors satisfying your needs.
+>- `getLayout()` should be the id of the XML you wish to inflate for the brick.
+>- Pass in or hard-code the padding you want this brick instance to have.
 
 
 ## Manager your bricks with BrickDataManager
@@ -377,7 +376,17 @@ The 'BrickDataManager' manages the RecyclerView's adapter and manipulates the br
 | getDataManagerItems |  Gets all bricks in the 'BaseDataManager'.
 | addLast |  Inserts brick/Collection of bricks after all other bricks.
 | addFirst |   Inserts brick/Collection of bricks before all other bricks.
-| removeItem |  Remove a brick from the 'BaseDataManager'.
+| addBefore | Inserts a brick/collection of bricks before the given anchor brick.
+| addAfter | Inserts a brick/collection of bricks after the given anchor brick.
+| removeItem(s) |  Remove a brick/collection of bricks.
+| removeAll | Removes all bricks of a certain class.
+| refreshItem | Refreshes the content of that brick.
+| hideItem | Makes the brick invisible to the RecyclerView, but keeps it in the `DataManager`.
+| showItem | Makes the brick visible to the RecyclerView.
+| moveItem | Relocates the brick from one position to another.
+| replaceItem | Swaps the target brick for the new one you are passing in.
+| clear | Removes all bricks.
+| setItems | Completely removes all existing bricks and inserts the collection of bricks you pass in.
 | brickWithLayout |  Retrieves a brick who's associated layout resource ID matches.
 | brickAtPosition |  Retrieves a brick at a specific position.
 
