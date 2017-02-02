@@ -21,7 +21,7 @@ before_script:
 
 script:
   - cd BrickKit
-  - ./gradlew build connectedCheck
+  - ./gradlew build connectedCheck createPom
   - cd ..
 
 after_success:
