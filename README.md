@@ -29,7 +29,7 @@ And add it as a Gradle compine dependency
 ## How to run BrickKit demo project
 
 ```
-1. git clone 'XXXXXXX'
+1. git clone 'git@github.com:wayfair/brickkit-android.git'
 2. Open Android Studio -> New -> Import Project
 3. Run BrickKit
 ```
