@@ -51,7 +51,7 @@ abstract class StickyViewBehavior extends BrickBehavior {
         this.stickyViewLayoutId = stickyViewLayoutId;
         this.stickyShadowImageId = stickyShadowImageId;
         this.brickDataManager = brickDataManager;
-        attachToRecyclerView();
+        attachToRecyclerView(brickDataManager.getRecyclerView());
     }
 
     /**
@@ -71,7 +71,7 @@ abstract class StickyViewBehavior extends BrickBehavior {
         }
 
         this.brickDataManager = brickDataManager;
-        attachToRecyclerView();
+        attachToRecyclerView(brickDataManager.getRecyclerView());
     }
 
     /**
@@ -122,28 +122,28 @@ abstract class StickyViewBehavior extends BrickBehavior {
     }
 
     @Override
-    public void attachToRecyclerView() {
-        BrickRecyclerAdapter adapter = brickDataManager.getBrickRecyclerAdapter();
-
-        if (adapter != null && adapter.getRecyclerView() != null) {
-            adapter.getRecyclerView().addOnScrollListener(this);
-            adapter.getRecyclerView().post(new Runnable() {
+    protected boolean attach(RecyclerView recyclerView) {
+        if (recyclerView != null) {
+            recyclerView.addOnScrollListener(this);
+            recyclerView.post(new Runnable() {
                 @Override
                 public void run() {
                     onScroll();
                 }
             });
         }
+
+        return true;
     }
 
     @Override
-    public void detachFromRecyclerView() {
-        BrickRecyclerAdapter adapter = brickDataManager.getBrickRecyclerAdapter();
-
-        if (adapter != null && adapter.getRecyclerView() != null) {
-            adapter.getRecyclerView().removeOnScrollListener(this);
+    protected boolean detach(RecyclerView recyclerView) {
+        if (recyclerView != null) {
+            recyclerView.removeOnScrollListener(this);
             clearStickyView();
         }
+
+        return true;
     }
 
     /**

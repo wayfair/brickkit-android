@@ -3,6 +3,8 @@
  */
 package com.wayfair.brickkitdemo;
 
+import android.os.Bundle;
+
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
 import com.wayfair.brickkit.size.OrientationBrickSize;
@@ -20,7 +22,9 @@ public class HeaderBrickFragment extends BrickFragment {
     private static final int HALF = 120;
 
     @Override
-    public void createBricks() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         for (int i = 0; i < 100; i++) {
             TextBrick unusedBrick2 = new TextBrick(
                     getContext(),
@@ -46,10 +50,7 @@ public class HeaderBrickFragment extends BrickFragment {
 
             dataManager.addLast(unusedBrick2);
         }
-    }
 
-    @Override
-    public void addBehaviors() {
         dataManager.addBehavior(new StickyHeaderBehavior(dataManager));
     }
 }

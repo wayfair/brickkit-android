@@ -4,6 +4,7 @@
 package com.wayfair.brickkitdemo;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.view.View;
 
 import com.wayfair.brickkit.brick.BaseBrick;
@@ -24,7 +25,9 @@ public class AddRemoveBrickFragment extends BrickFragment {
     private ControllerBrick controllerBrick;
 
     @Override
-    public void createBricks() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         for (int i = 0; i < NUMBER_OF_BRICKS; i++) {
 
             if (i == 0) {
@@ -118,10 +121,7 @@ public class AddRemoveBrickFragment extends BrickFragment {
                 dataManager.addLast(brick);
             }
         }
-    }
 
-    @Override
-    public void addBehaviors() {
         dataManager.addBehavior(new StickyHeaderBehavior(dataManager));
         dataManager.addBehavior(new StickyFooterBehavior(dataManager));
     }

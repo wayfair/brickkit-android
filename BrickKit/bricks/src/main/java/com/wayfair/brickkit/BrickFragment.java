@@ -5,6 +5,7 @@ package com.wayfair.brickkit;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,13 +23,7 @@ public abstract class BrickFragment extends Fragment {
     @ColorInt private int recyclerViewBackground = Color.TRANSPARENT;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        createBricks();
-    }
-
-    @Override
+    @CallSuper
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view;
         if (orientation() == OrientationHelper.VERTICAL) {
@@ -40,7 +35,6 @@ public abstract class BrickFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setBackgroundColor(recyclerViewBackground);
         dataManager.setRecyclerView(getContext(), recyclerView, orientation(), reverse(), view);
-        addBehaviors();
         return view;
     }
 
@@ -58,16 +52,6 @@ public abstract class BrickFragment extends Fragment {
     public int maxSpans() {
         return 240;
     }
-
-    /**
-     * Method called to create bricks in this fragment.
-     */
-    public abstract void createBricks();
-
-    /**
-     * Method called to add behaviors to this fragment.
-     */
-    public void addBehaviors() { }
 
     /**
      * Get the orientation to lay out this fragment.

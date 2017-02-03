@@ -3,6 +3,8 @@
  */
 package com.wayfair.brickkitdemo;
 
+import android.os.Bundle;
+
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.size.SimpleBrickSize;
 import com.wayfair.brickkitdemo.bricks.FragmentBrick;
@@ -14,7 +16,9 @@ public class FragmentBrickFragment extends BrickFragment {
     private int[] colors = new int[3];
 
     @Override
-    public void createBricks() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         colors[0] = getResources().getColor(R.color.colorAccent);
         colors[1] = getResources().getColor(R.color.colorPrimary);
         colors[2] = getResources().getColor(R.color.colorPrimaryDark);

@@ -39,8 +39,10 @@ public class SimpleBrickFragment extends BrickFragment {
         return fragment;
     }
 
-    @Override
-    public void createBricks() {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
         bricks = new TextBrick[numberOfBricks];
 
         for (int i = 0; i < numberOfBricks; i++) {

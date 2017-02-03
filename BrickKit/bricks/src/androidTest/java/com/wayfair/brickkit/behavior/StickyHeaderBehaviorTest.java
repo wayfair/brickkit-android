@@ -3,7 +3,6 @@
  */
 package com.wayfair.brickkit.behavior;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -207,12 +206,12 @@ public class StickyHeaderBehaviorTest {
     @Test
     public void testAttachToRecyclerView() {
         when(adapter.getRecyclerView()).thenReturn(null);
-        headerBehavior.attachToRecyclerView();
-        verify(headerBehavior).attachToRecyclerView();
+        headerBehavior.attachToRecyclerView(recyclerView);
+        verify(headerBehavior).attachToRecyclerView(recyclerView);
 
         when(dataManager.getBrickRecyclerAdapter()).thenReturn(null);
-        headerBehavior.attachToRecyclerView();
-        verify(headerBehavior, atLeastOnce()).attachToRecyclerView();
+        headerBehavior.attachToRecyclerView(recyclerView);
+        verify(headerBehavior, atLeastOnce()).attachToRecyclerView(recyclerView);
     }
 
     @Test
@@ -276,15 +275,18 @@ public class StickyHeaderBehaviorTest {
 
     @Test
     public void testDetachFromRecyclerView() {
-        headerBehavior.detachFromRecyclerView();
+        headerBehavior.attachToRecyclerView(recyclerView);
+        headerBehavior.detachFromRecyclerView(recyclerView);
+        verify(headerBehavior, atLeastOnce()).detachFromRecyclerView(recyclerView);
 
+        headerBehavior.attachToRecyclerView(recyclerView);
         when(adapter.getRecyclerView()).thenReturn(null);
-        headerBehavior.detachFromRecyclerView();
-        verify(headerBehavior, atLeastOnce()).detachFromRecyclerView();
+        headerBehavior.detachFromRecyclerView(recyclerView);
+        verify(headerBehavior, atLeastOnce()).detachFromRecyclerView(recyclerView);
 
         when(dataManager.getBrickRecyclerAdapter()).thenReturn(null);
-        headerBehavior.detachFromRecyclerView();
-        verify(headerBehavior, atLeastOnce()).detachFromRecyclerView();
+        headerBehavior.detachFromRecyclerView(recyclerView);
+        verify(headerBehavior, atLeastOnce()).detachFromRecyclerView(recyclerView);
     }
 
     @Test
