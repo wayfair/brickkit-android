@@ -13,8 +13,17 @@ BrickKit is a tool developed with the Android RecyclerView and GridLayout. With 
 
 
 ## How to import BrickKit as a library
+
+Add new maven endpoint to your repositories
+
 ```
- compile 'XXXXXXX' on your project build.gralde
+  maven {
+    url  "http://wayfair.bintray.com/brickkit-android"
+  }
+```
+And add it as a Gradle compine dependency
+```
+  compile "com.wayfair:brickkit-android:0.9.1"
 ```
 
 ## How to run BrickKit demo project
