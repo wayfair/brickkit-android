@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.9.3](https://github.com/wayfair/brickkit-android/tree/0.9.3) (2017-02-10)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.2...0.9.3)
+
+**Merged pull requests:**
+
+- Add smoothScrollToBrick method to BrickDataManager [\#26](https://github.com/wayfair/brickkit-android/pull/26) ([thusson13](https://github.com/thusson13))
+- Release 0.9.2 [\#25](https://github.com/wayfair/brickkit-android/pull/25) ([thusson13](https://github.com/thusson13))
+
 ## [0.9.2](https://github.com/wayfair/brickkit-android/tree/0.9.2) (2017-02-09)
 [Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.1...0.9.2)
 
