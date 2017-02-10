@@ -622,6 +622,18 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
+     * Smooth scroll to the given brick.
+     *
+     * @param item brick to smooth scroll to
+     */
+    public void smoothScrollToBrick(BaseBrick item) {
+        int index = getBrickRecyclerAdapter().indexOf(item);
+        if (index != -1) {
+            recyclerView.smoothScrollToPosition(index);
+        }
+    }
+
+    /**
      * Checks / Determines if the brick is on the left wall, first row, right wall, last row.
      *
      * @param currentBrick BaseBrick item that was changed / added / removed

@@ -45,14 +45,13 @@ public class BrickDataManagerTest {
     private BrickBehavior footerBehavior;
     private BrickBehavior headerBehavior;
     private BrickTestHelper brickTestHelper;
-    private Context context;
 
     @Before
     public void setup() {
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
-        context = InstrumentationRegistry.getTargetContext();
+        Context context = InstrumentationRegistry.getTargetContext();
         manager = new BrickDataManager(MAX_SPANS);
         View parentView = mock(View.class);
         manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.VERTICAL, false, parentView);
@@ -1194,4 +1193,9 @@ public class BrickDataManagerTest {
         assertEquals(0, manager.getBehaviours().size());
     }
 
+    @Test
+    public void testSmoothScrollToBrick() {
+        manager.smoothScrollToBrick(manager.brickAtPosition(manager.getRecyclerViewItems().size() - 1));
+        manager.smoothScrollToBrick(brickTestHelper.generateBrick());
+    }
 }
