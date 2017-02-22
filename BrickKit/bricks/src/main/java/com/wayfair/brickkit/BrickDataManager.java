@@ -493,12 +493,13 @@ public class BrickDataManager implements Serializable {
      * @param target brick to replace
      * @param replacement the brick being added
      */
-    public void replaceItem(BaseBrick target, BaseBrick replacement) {
+    public synchronized void replaceItem(BaseBrick target, BaseBrick replacement) {
         int index = adapterIndex(target);
         if ((index == -1) == replacement.isHidden()) {
             if (!target.isHidden()) {
-                items.remove(index);
-                items.add(index, replacement);
+                int dataIndex = items.indexOf(target);
+                items.remove(dataIndex);
+                items.add(dataIndex, replacement);
                 dataHasChanged();
                 if (brickRecyclerAdapter != null) {
                     int refreshStartIndex = computePaddingPosition(replacement);
@@ -508,7 +509,7 @@ public class BrickDataManager implements Serializable {
             }
         } else {
             if (replacement.isHidden()) {
-                int dataIndex = getDataManagerItems().indexOf(target);
+                int dataIndex = items.indexOf(target);
                 items.remove(dataIndex);
                 items.add(dataIndex, replacement);
                 dataHasChanged();
@@ -518,15 +519,17 @@ public class BrickDataManager implements Serializable {
                     brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, getRecyclerViewItems().size() - refreshStartIndex);
                 }
             } else {
-                int dataIndex = getDataManagerItems().indexOf(target);
-                items.remove(dataIndex);
-                items.add(dataIndex, replacement);
-                dataHasChanged();
-                if (brickRecyclerAdapter != null) {
-                    int adapterIndex = adapterIndex(replacement);
-                    int refreshStartIndex = computePaddingPosition(target);
-                    brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
-                    brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, getRecyclerViewItems().size() - refreshStartIndex);
+                int dataIndex = items.indexOf(target);
+                if (dataIndex != -1) { // A double-tap can cause this
+                    items.remove(dataIndex);
+                    items.add(dataIndex, replacement);
+                    dataHasChanged();
+                    if (brickRecyclerAdapter != null) {
+                        int adapterIndex = adapterIndex(replacement);
+                        int refreshStartIndex = computePaddingPosition(target);
+                        brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
+                        brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, getRecyclerViewItems().size() - refreshStartIndex);
+                    }
                 }
             }
         }
