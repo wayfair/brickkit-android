@@ -943,8 +943,7 @@ public class BrickDataManagerTest {
         verify(headerBehavior, never()).onDataSetChanged();
     }
 
-    @Test
-    public void testReplaceItemBothVisible() {
+    private void replaceItemBothVisible(int replaceCount) {
         BaseBrick brickToReplace = brickTestHelper.generateBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToReplace);
 
@@ -953,7 +952,9 @@ public class BrickDataManagerTest {
         observer.setItemRangeChangedPositionStart(-1);
         observer.setItemRangeChangedItemCount(-1);
 
-        manager.replaceItem(brickToReplace, brickTestHelper.generateBrick());
+        for (int i = 0; i < replaceCount; i++) {
+            manager.replaceItem(brickToReplace, brickTestHelper.generateBrick());
+        }
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -968,6 +969,16 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeRemovedItemCount());
 
         verify(headerBehavior, atLeastOnce()).onDataSetChanged();
+    }
+
+    @Test
+    public void testReplaceItemBothVisible() {
+        replaceItemBothVisible(1);
+    }
+
+    @Test
+    public void testReplaceItemBothVisibleDoubleTap() {
+        replaceItemBothVisible(2);
     }
 
     @Test
