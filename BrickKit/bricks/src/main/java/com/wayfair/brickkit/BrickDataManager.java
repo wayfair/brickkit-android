@@ -625,6 +625,22 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
+     * If all items have instance of clazz.
+     *
+     * @param clazz class to be found
+     *
+     * @return whether the clazz is in the all items
+     */
+    public boolean hasInstanceOf(Class clazz) {
+        for (BaseBrick item : this.items) {
+            if (clazz.isInstance(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Smooth scroll to the given brick.
      *
      * @param item brick to smooth scroll to
