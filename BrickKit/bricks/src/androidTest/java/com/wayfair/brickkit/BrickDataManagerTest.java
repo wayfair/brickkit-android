@@ -140,9 +140,9 @@ public class BrickDataManagerTest {
 
     @Test
     public void testItemExist() {
-        assertTrue(manager.itemExist(BaseBrick.class));
+        assertTrue(manager.hasInstanceOf(BaseBrick.class));
         manager.clear();
-        assertFalse(manager.itemExist(BaseBrick.class));
+        assertFalse(manager.hasInstanceOf(BaseBrick.class));
     }
 
     @Test

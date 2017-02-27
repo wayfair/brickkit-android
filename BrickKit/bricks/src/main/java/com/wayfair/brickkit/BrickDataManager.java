@@ -625,13 +625,13 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
-     * Find if the class exists in the all items.
+     * If all items have instance of clazz.
      *
      * @param clazz class to be found
      *
-     * @return whether the class is in the all items
+     * @return whether the clazz is in the all items
      */
-    public boolean itemExist(Class clazz) {
+    public boolean hasInstanceOf(Class clazz) {
         for (BaseBrick item : this.items) {
             if (clazz.isInstance(item)) {
                 return true;
