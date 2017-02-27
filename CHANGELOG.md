@@ -1,5 +1,21 @@
 # Change Log
 
+## [0.9.5](https://github.com/wayfair/brickkit-android/tree/0.9.5) (2017-02-27)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.4...0.9.5)
+
+**Merged pull requests:**
+
+- Add itemExist function and test [\#30](https://github.com/wayfair/brickkit-android/pull/30) ([jhuwayfair](https://github.com/jhuwayfair))
+- Release 0.9.4 [\#29](https://github.com/wayfair/brickkit-android/pull/29) ([thusson13](https://github.com/thusson13))
+
+## [0.9.4](https://github.com/wayfair/brickkit-android/tree/0.9.4) (2017-02-23)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.3...0.9.4)
+
+**Merged pull requests:**
+
+- Replacing a brick with any hidden bricks before it was broken [\#28](https://github.com/wayfair/brickkit-android/pull/28) ([rnorvielwf](https://github.com/rnorvielwf))
+- Release 0.9.3 [\#27](https://github.com/wayfair/brickkit-android/pull/27) ([thusson13](https://github.com/thusson13))
+
 ## [0.9.3](https://github.com/wayfair/brickkit-android/tree/0.9.3) (2017-02-10)
 [Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.2...0.9.3)
 
