@@ -139,6 +139,13 @@ public class BrickDataManagerTest {
     }
 
     @Test
+    public void testItemExist() {
+        assertTrue(manager.hasInstanceOf(BaseBrick.class));
+        manager.clear();
+        assertFalse(manager.hasInstanceOf(BaseBrick.class));
+    }
+
+    @Test
     public void testAddLastHidden() {
         manager.addLast(brickTestHelper.generateHiddenBrick());
 
