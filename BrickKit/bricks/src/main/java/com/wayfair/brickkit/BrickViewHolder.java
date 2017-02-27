@@ -22,6 +22,13 @@ public class BrickViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
+     * Called when {@link BrickRecyclerAdapter#onViewAttachedToWindow(BrickViewHolder)}
+     * is invoked.
+     */
+    protected void onViewAttachedToWindow() {
+    }
+
+    /**
      * Method called when the view is detached from the {@link RecyclerView}. All views that have resources
      * should release them here (e.g. ImageView).
      */
