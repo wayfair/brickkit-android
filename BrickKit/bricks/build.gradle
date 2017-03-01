@@ -73,7 +73,7 @@ task createPom << {
         project {
             groupId 'com.wayfair'
             artifactId 'brickkit-android'
-            version '0.9.5'
+            version '0.9.6'
             packaging 'aar'
  
             licenses {
@@ -84,4 +84,4 @@ task createPom << {
                 }
             }
         }
-    }.writeTo("build/brickkit-android-0.9.5.pom")}
+    }.writeTo("build/brickkit-android-0.9.6.pom")}
