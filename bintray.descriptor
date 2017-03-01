@@ -28,7 +28,7 @@
     "files":
         [
         {"includePattern": "BrickKit/bricks/build/outputs/aar/bricks-release.aar", "uploadPattern":"com/wayfair/brickkit-android/0.9.6/brickkit-android-0.9.6.aar"},
-        {"includePattern": "BrickKit/bricks/build/brickkit-android-0.9.5.pom", "uploadPattern":"com/wayfair/brickkit-android/0.9.6/brickkit-android-0.9.6.pom"}
+        {"includePattern": "BrickKit/bricks/build/brickkit-android-0.9.6.pom", "uploadPattern":"com/wayfair/brickkit-android/0.9.6/brickkit-android-0.9.6.pom"}
         ],
     "publish": true
 }
