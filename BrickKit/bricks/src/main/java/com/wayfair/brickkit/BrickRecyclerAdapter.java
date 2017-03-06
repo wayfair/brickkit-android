@@ -258,12 +258,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
     }
 
     /**
-     * Get the first footer after the given position.
+     * Get the first footer after the given position unless the given position is the last element.
      * @param position position after which to find the next footer
      * @return the first footer after the given position.
      */
     public BaseBrick getSectionFooter(int position) {
-        if (position >= 0) {
+        if (position >= 0 && dataManager.getRecyclerViewItems().size() - 1 > position) {
             BaseBrick brick = dataManager.getRecyclerViewItems().get(position);
             if (brick != null && brick.isFooter()) {
                 return brick;

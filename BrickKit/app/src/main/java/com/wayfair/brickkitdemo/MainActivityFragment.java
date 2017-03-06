@@ -108,6 +108,28 @@ public class MainActivityFragment extends BrickFragment {
                             }
                         },
                         padding,
+                        "Expandable Brick View",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getFragmentManager().beginTransaction()
+                                        .replace(R.id.content, new ExpandableHeaderFooterFragment())
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+                        }
+                )
+        );
+        usedBricks.add(
+                new UsedBrick(
+                        getContext(),
+                        new SimpleBrickSize(maxSpans()) {
+                            @Override
+                            protected int size() {
+                                return TWO_FIFTH;
+                            }
+                        },
+                        padding,
                         "Add/Remove Brick View",
                         new View.OnClickListener() {
                             @Override
