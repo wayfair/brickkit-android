@@ -398,6 +398,15 @@ public class BrickRecyclerAdapterTest {
     }
 
     @Test
+    public void testOnViewAttachedToWindow() {
+        BrickViewHolder brickViewHolder = mock(BrickViewHolder.class);
+
+        adapter.onViewAttachedToWindow(brickViewHolder);
+
+        verify(brickViewHolder).onViewAttachedToWindow();
+    }
+
+    @Test
     public void testOnViewDetachedFromWindow() {
         BrickViewHolder brickViewHolder = mock(BrickViewHolder.class);
 

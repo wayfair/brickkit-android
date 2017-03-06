@@ -193,6 +193,11 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
     }
 
     @Override
+    public void onViewAttachedToWindow(BrickViewHolder holder) {
+        holder.onViewAttachedToWindow();
+    }
+
+    @Override
     public void onViewDetachedFromWindow(BrickViewHolder holder) {
         holder.releaseViewsOnDetach();
     }

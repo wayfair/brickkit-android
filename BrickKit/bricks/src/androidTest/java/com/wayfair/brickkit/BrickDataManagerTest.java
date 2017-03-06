@@ -45,14 +45,13 @@ public class BrickDataManagerTest {
     private BrickBehavior footerBehavior;
     private BrickBehavior headerBehavior;
     private BrickTestHelper brickTestHelper;
-    private Context context;
 
     @Before
     public void setup() {
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
-        context = InstrumentationRegistry.getTargetContext();
+        Context context = InstrumentationRegistry.getTargetContext();
         manager = new BrickDataManager(MAX_SPANS);
         View parentView = mock(View.class);
         manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.VERTICAL, false, parentView);
@@ -137,6 +136,13 @@ public class BrickDataManagerTest {
         assertEquals(0, observer.getItemRangeChangedItemCount());
 
         verify(headerBehavior).onDataSetChanged();
+    }
+
+    @Test
+    public void testItemExist() {
+        assertTrue(manager.hasInstanceOf(BaseBrick.class));
+        manager.clear();
+        assertFalse(manager.hasInstanceOf(BaseBrick.class));
     }
 
     @Test
@@ -944,8 +950,7 @@ public class BrickDataManagerTest {
         verify(headerBehavior, never()).onDataSetChanged();
     }
 
-    @Test
-    public void testReplaceItemBothVisible() {
+    private void replaceItemBothVisible(int replaceCount) {
         BaseBrick brickToReplace = brickTestHelper.generateBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToReplace);
 
@@ -954,7 +959,9 @@ public class BrickDataManagerTest {
         observer.setItemRangeChangedPositionStart(-1);
         observer.setItemRangeChangedItemCount(-1);
 
-        manager.replaceItem(brickToReplace, brickTestHelper.generateBrick());
+        for (int i = 0; i < replaceCount; i++) {
+            manager.replaceItem(brickToReplace, brickTestHelper.generateBrick());
+        }
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -969,6 +976,16 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeRemovedItemCount());
 
         verify(headerBehavior, atLeastOnce()).onDataSetChanged();
+    }
+
+    @Test
+    public void testReplaceItemBothVisible() {
+        replaceItemBothVisible(1);
+    }
+
+    @Test
+    public void testReplaceItemBothVisibleDoubleTap() {
+        replaceItemBothVisible(2);
     }
 
     @Test
@@ -1194,4 +1211,9 @@ public class BrickDataManagerTest {
         assertEquals(0, manager.getBehaviours().size());
     }
 
+    @Test
+    public void testSmoothScrollToBrick() {
+        manager.smoothScrollToBrick(manager.brickAtPosition(manager.getRecyclerViewItems().size() - 1));
+        manager.smoothScrollToBrick(brickTestHelper.generateBrick());
+    }
 }

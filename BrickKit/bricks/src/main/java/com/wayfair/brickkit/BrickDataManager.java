@@ -493,12 +493,13 @@ public class BrickDataManager implements Serializable {
      * @param target brick to replace
      * @param replacement the brick being added
      */
-    public void replaceItem(BaseBrick target, BaseBrick replacement) {
+    public synchronized void replaceItem(BaseBrick target, BaseBrick replacement) {
         int index = adapterIndex(target);
         if ((index == -1) == replacement.isHidden()) {
             if (!target.isHidden()) {
-                items.remove(index);
-                items.add(index, replacement);
+                int dataIndex = items.indexOf(target);
+                items.remove(dataIndex);
+                items.add(dataIndex, replacement);
                 dataHasChanged();
                 if (brickRecyclerAdapter != null) {
                     int refreshStartIndex = computePaddingPosition(replacement);
@@ -508,7 +509,7 @@ public class BrickDataManager implements Serializable {
             }
         } else {
             if (replacement.isHidden()) {
-                int dataIndex = getDataManagerItems().indexOf(target);
+                int dataIndex = items.indexOf(target);
                 items.remove(dataIndex);
                 items.add(dataIndex, replacement);
                 dataHasChanged();
@@ -518,15 +519,17 @@ public class BrickDataManager implements Serializable {
                     brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, getRecyclerViewItems().size() - refreshStartIndex);
                 }
             } else {
-                int dataIndex = getDataManagerItems().indexOf(target);
-                items.remove(dataIndex);
-                items.add(dataIndex, replacement);
-                dataHasChanged();
-                if (brickRecyclerAdapter != null) {
-                    int adapterIndex = adapterIndex(replacement);
-                    int refreshStartIndex = computePaddingPosition(target);
-                    brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
-                    brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, getRecyclerViewItems().size() - refreshStartIndex);
+                int dataIndex = items.indexOf(target);
+                if (dataIndex != -1) { // A double-tap can cause this
+                    items.remove(dataIndex);
+                    items.add(dataIndex, replacement);
+                    dataHasChanged();
+                    if (brickRecyclerAdapter != null) {
+                        int adapterIndex = adapterIndex(replacement);
+                        int refreshStartIndex = computePaddingPosition(target);
+                        brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
+                        brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, getRecyclerViewItems().size() - refreshStartIndex);
+                    }
                 }
             }
         }
@@ -619,6 +622,34 @@ public class BrickDataManager implements Serializable {
         }
 
         removeItems(itemToRemove);
+    }
+
+    /**
+     * If all items have instance of clazz.
+     *
+     * @param clazz class to be found
+     *
+     * @return whether the clazz is in the all items
+     */
+    public boolean hasInstanceOf(Class clazz) {
+        for (BaseBrick item : this.items) {
+            if (clazz.isInstance(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Smooth scroll to the given brick.
+     *
+     * @param item brick to smooth scroll to
+     */
+    public void smoothScrollToBrick(BaseBrick item) {
+        int index = getBrickRecyclerAdapter().indexOf(item);
+        if (index != -1) {
+            recyclerView.smoothScrollToPosition(index);
+        }
     }
 
     /**
