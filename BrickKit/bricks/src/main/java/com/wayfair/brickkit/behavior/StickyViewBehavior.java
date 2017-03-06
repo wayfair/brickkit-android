@@ -92,6 +92,7 @@ abstract class StickyViewBehavior extends BrickBehavior {
     @Override
     public void onDataSetChanged() {
         dataSetChanged = true;
+        updateOrClearStickyView(true);
     }
 
     @Override

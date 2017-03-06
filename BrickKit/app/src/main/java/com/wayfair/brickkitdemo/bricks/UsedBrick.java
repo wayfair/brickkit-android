@@ -8,13 +8,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wayfair.brickkit.brick.BaseBrick;
+import com.wayfair.brickkit.brick.TouchableBrick;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
 import com.wayfair.brickkit.BrickViewHolder;
 import com.wayfair.brickkitdemo.R;
 
 /**
- * {@link TouchableBrick} used in {@link com.wayfair.brickkitdemo.MainActivityFragment} to link to other fragments.
+ * {@link com.wayfair.brickkit.brick.TouchableBrick} used in {@link com.wayfair.brickkitdemo.MainActivityFragment} to link to other fragments.
  */
 public class UsedBrick extends BaseBrick implements TouchableBrick {
     public CharSequence text;
