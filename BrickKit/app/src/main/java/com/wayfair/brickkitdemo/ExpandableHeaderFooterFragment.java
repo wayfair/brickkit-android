@@ -50,12 +50,18 @@ public class ExpandableHeaderFooterFragment extends BrickFragment {
         }
 
         dataManager.getRecyclerViewItems().get(0).setHeader(true);
-        dataManager.getRecyclerViewItems().get(dataManager.getRecyclerViewItems().size()-1).setFooter(true);
+        dataManager.getRecyclerViewItems().get(dataManager.getRecyclerViewItems().size() - 1).setFooter(true);
 
         dataManager.addBehavior(new StickyFooterBehavior(dataManager));
         dataManager.addBehavior(new StickyHeaderBehavior(dataManager));
     }
 
+    /**
+     * Add or remove the child bricks in the expandable list.
+     *
+     * @param i The position of the clicked brick in the list
+     * @return The click listener that adds or removes the child bricks
+     */
     private View.OnClickListener getExpandableClickListener(final int i) {
 
         return new View.OnClickListener() {
