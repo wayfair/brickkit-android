@@ -513,6 +513,7 @@ public class BrickRecyclerAdapterTest {
 
         assertEquals(footerBrick, adapter.getSectionFooter(0));
         assertEquals(footerBrick, adapter.getSectionFooter(1));
+        assertEquals(null, adapter.getSectionFooter(-1));
     }
 
     @Test
