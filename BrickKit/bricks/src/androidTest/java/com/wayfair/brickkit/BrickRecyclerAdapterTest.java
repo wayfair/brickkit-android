@@ -517,6 +517,23 @@ public class BrickRecyclerAdapterTest {
     }
 
     @Test
+    public void testGetMiddleSectionFooter() {
+        BaseBrick footerBrick = mock(BaseBrick.class);
+        when(footerBrick.isFooter()).thenReturn(true);
+
+        BaseBrick brick = mock(BaseBrick.class);
+
+        bricks.addLast(null);
+        bricks.addLast(brick);
+        bricks.addLast(footerBrick);
+        bricks.addLast(null);
+
+        assertEquals(footerBrick, adapter.getSectionFooter(0));
+        assertEquals(footerBrick, adapter.getSectionFooter(1));
+        assertEquals(footerBrick, adapter.getSectionFooter(2));
+    }
+
+    @Test
     public void testGetSectionFooterLastElement() {
         BaseBrick footerBrick = mock(BaseBrick.class);
         when(footerBrick.isFooter()).thenReturn(true);
