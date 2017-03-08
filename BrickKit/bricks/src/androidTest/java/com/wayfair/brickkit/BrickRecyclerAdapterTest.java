@@ -77,6 +77,11 @@ public class BrickRecyclerAdapterTest {
     }
 
     @Test
+    public void testGetBrickDataManager() {
+        assertNotNull(adapter.getBrickDataManager());
+    }
+
+    @Test
     public void testSafeNotifyDataSetChanged() {
         adapter.safeNotifyDataSetChanged();
 

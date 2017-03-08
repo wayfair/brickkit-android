@@ -39,6 +39,15 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
     }
 
     /**
+     * Get brickDataManager {@link BrickDataManager}.
+     *
+     * @return brickDataManager {@link BrickDataManager} for this adapter
+     */
+    public BrickDataManager getBrickDataManager() {
+        return dataManager;
+    }
+
+    /**
      * Safe version of {@link RecyclerView.Adapter#notifyDataSetChanged()}.
      */
     public void safeNotifyDataSetChanged() {
