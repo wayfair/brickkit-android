@@ -18,7 +18,7 @@ Add new maven endpoint to your repositories
 
 ```
   maven {
-    url  "http://wayfair.bintray.com/brickkit-android"
+    url  "http://dl.bintray.com/wayfair/brickkit-android"
   }
 ```
 And add it as a Gradle compine dependency
