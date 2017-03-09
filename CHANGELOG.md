@@ -1,5 +1,35 @@
 # Change Log
 
+## [Unreleased](https://github.com/wayfair/brickkit-android/tree/HEAD)
+
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.7...HEAD)
+
+**Merged pull requests:**
+
+- Horizontal scroll issue [\#39](https://github.com/wayfair/brickkit-android/pull/39) ([jhuwayfair](https://github.com/jhuwayfair))
+- Update README.md to point at new bintray location [\#38](https://github.com/wayfair/brickkit-android/pull/38) ([thusson13](https://github.com/thusson13))
+- Release 0.9.7 [\#37](https://github.com/wayfair/brickkit-android/pull/37) ([thusson13](https://github.com/thusson13))
+
+## [0.9.7](https://github.com/wayfair/brickkit-android/tree/0.9.7) (2017-03-06)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.6...0.9.7)
+
+**Closed issues:**
+
+- No callback for when view attached to window [\#32](https://github.com/wayfair/brickkit-android/issues/32)
+
+**Merged pull requests:**
+
+- Fixed bug causing footer to be displayed twice.  [\#36](https://github.com/wayfair/brickkit-android/pull/36) ([ahsrav](https://github.com/ahsrav))
+- 0.9.6 release [\#34](https://github.com/wayfair/brickkit-android/pull/34) ([lizottenj](https://github.com/lizottenj))
+
+## [0.9.6](https://github.com/wayfair/brickkit-android/tree/0.9.6) (2017-03-01)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.5...0.9.6)
+
+**Merged pull requests:**
+
+- Add callback for when view attached to window [\#33](https://github.com/wayfair/brickkit-android/pull/33) ([craigtack](https://github.com/craigtack))
+- Release 0.9.5 [\#31](https://github.com/wayfair/brickkit-android/pull/31) ([thusson13](https://github.com/thusson13))
+
 ## [0.9.5](https://github.com/wayfair/brickkit-android/tree/0.9.5) (2017-02-27)
 [Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.4...0.9.5)
 
