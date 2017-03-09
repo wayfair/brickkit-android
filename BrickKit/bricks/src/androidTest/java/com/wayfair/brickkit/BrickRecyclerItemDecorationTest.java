@@ -63,6 +63,9 @@ public class BrickRecyclerItemDecorationTest {
         when(brickDataManager.getRecyclerViewItems()).thenReturn(bricks);
         when(brickDataManager.getMaxSpanCount()).thenReturn(MAX_SPANS);
 
+        BrickRecyclerAdapter adapter = mock(BrickRecyclerAdapter.class);
+        when(parent.getAdapter()).thenReturn(adapter);
+        when(adapter.getBrickDataManager()).thenReturn(brickDataManager);
         itemDecoration = new BrickRecyclerItemDecoration(brickDataManager);
 
         outRect = new Rect();
