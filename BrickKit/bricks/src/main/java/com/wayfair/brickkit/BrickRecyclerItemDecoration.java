@@ -29,7 +29,9 @@ class BrickRecyclerItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        if (parent.getChildAdapterPosition(view) == -1 || brickDataManager.getRecyclerViewItems().get(parent.getChildAdapterPosition(view)) == null) {
+        if (parent.getChildAdapterPosition(view) == -1
+                || brickDataManager != ((BrickRecyclerAdapter) parent.getAdapter()).getBrickDataManager()
+                || brickDataManager.getRecyclerViewItems().get(parent.getChildAdapterPosition(view)) == null) {
             return;
         }
 
