@@ -174,6 +174,28 @@ public class MainActivityFragment extends BrickFragment {
                             }
                         },
                         padding,
+                        "Staggered Infinite Scroll Brick View",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getFragmentManager().beginTransaction()
+                                        .replace(R.id.content, new StaggeredInfiniteScrollBrickFragment())
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+                        }
+                )
+        );
+        usedBricks.add(
+                new UsedBrick(
+                        getContext(),
+                        new SimpleBrickSize(maxSpans()) {
+                            @Override
+                            protected int size() {
+                                return TWO_FIFTH;
+                            }
+                        },
+                        padding,
                         "Fragment Brick View",
                         new View.OnClickListener() {
                             @Override
