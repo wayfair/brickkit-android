@@ -558,4 +558,5 @@ public class BrickRecyclerAdapterTest {
     public void testGetSectionFooterBadPosition() {
         assertNull(adapter.getSectionFooter(-1));
     }
+
 }
