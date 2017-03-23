@@ -25,8 +25,6 @@ import com.wayfair.brickkit.size.SimpleBrickSize;
  * items are bound in the adapter.
  */
 public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
-    private static final int HALF = 120;
-
     private int page = 0;
 
     @Override

@@ -31,7 +31,6 @@ public abstract class BaseBrick {
     private boolean isOnRightWall;
     @StickyScrollMode
     private int stickyScrollMode = StickyScrollMode.SHOW_ON_SCROLL;
-    private boolean fullSize;
 
     /**
      * Constructor.
