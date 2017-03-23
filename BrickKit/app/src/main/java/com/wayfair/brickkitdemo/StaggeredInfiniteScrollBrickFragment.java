@@ -15,7 +15,6 @@ import com.wayfair.brickkit.OnReachedItemAtPosition;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.TextBrick;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
-import com.wayfair.brickkit.size.OrientationBrickSize;
 import com.wayfair.brickkit.size.SimpleBrickSize;
 
 /**
