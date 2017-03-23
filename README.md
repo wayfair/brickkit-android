@@ -23,7 +23,7 @@ Add new maven endpoint to your repositories
 ```
 And add it as a Gradle compine dependency
 ```
-  compile "com.wayfair:brickkit-android:0.9.8"
+  compile "com.wayfair:brickkit-android:0.9.9"
 ```
 
 ## How to run BrickKit demo project
