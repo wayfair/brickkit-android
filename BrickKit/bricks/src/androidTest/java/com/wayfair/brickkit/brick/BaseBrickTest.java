@@ -71,16 +71,6 @@ public class BaseBrickTest {
     }
 
     @Test
-    public void testFullSize() {
-        TestBaseBrick brick = new TestBaseBrick(context, brickSize);
-
-        assertFalse(brick.isFullSize());
-
-        brick.setFullSize(true);
-        assertTrue(brick.isFullSize());
-    }
-
-    @Test
     public void testHeader() {
         TestBaseBrick brick = new TestBaseBrick(context, brickSize);
 

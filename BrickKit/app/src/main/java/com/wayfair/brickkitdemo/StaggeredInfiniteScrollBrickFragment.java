@@ -16,6 +16,7 @@ import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.TextBrick;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
 import com.wayfair.brickkit.size.OrientationBrickSize;
+import com.wayfair.brickkit.size.SimpleBrickSize;
 
 /**
  * Example fragment which loads more bricks when scrolling to the bottom.
@@ -60,36 +61,33 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
     private void addNewBricks() {
         String text = "Brick: " + page + " ";
         String textToAppend;
-        for (int i = 0; i < 100; i++) {
 
+        for (int i = 0; i < 100; i++) {
+            final int brickSpan;
             if (i % 19 == 0) {
                 textToAppend = "fullsize ";
+                brickSpan = dataManager.getMaxSpanCount();
             } else if (i % 4 == 0) {
+                brickSpan = dataManager.getMaxSpanCount() / 2;
                 textToAppend = "multi\nline ";
             } else {
+                brickSpan = dataManager.getMaxSpanCount() / 2;
                 textToAppend = "";
             }
             textToAppend += String.valueOf(i);
 
             BaseBrick unusedBrick2 = new TextBrick(
                     getContext(),
-                    new OrientationBrickSize(maxSpans()) {
+                    new SimpleBrickSize(maxSpans()) {
                         @Override
-                        protected int portrait() {
-                            return dataManager.getMaxSpanCount();
-                        }
-
-                        @Override
-                        protected int landscape() {
-                            return HALF;
+                        protected int size() {
+                            return brickSpan;
                         }
                     },
-                    new InnerOuterBrickPadding(5, 10),
+                    new InnerOuterBrickPadding(5, 5),
                     text + textToAppend
             );
-            if (i % 19 == 0) {
-                unusedBrick2.setFullSize(true);
-            }
+
             dataManager.addLast(unusedBrick2);
         }
     }

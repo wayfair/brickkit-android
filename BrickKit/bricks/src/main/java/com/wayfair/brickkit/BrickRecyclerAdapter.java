@@ -197,7 +197,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         if (baseBrick != null) {
             if (recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
                 StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-                if (baseBrick.isFullSize()) {
+                if (baseBrick.getSpanSize().getSpans(recyclerView.getContext()) == dataManager.getMaxSpanCount()) {
                     layoutParams.setFullSpan(true);
                 } else {
                     layoutParams.setFullSpan(false);
