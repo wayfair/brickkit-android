@@ -10,6 +10,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.wayfair.brickkit.behavior.BrickBehavior;
@@ -1215,5 +1216,18 @@ public class BrickDataManagerTest {
     public void testSmoothScrollToBrick() {
         manager.smoothScrollToBrick(manager.brickAtPosition(manager.getRecyclerViewItems().size() - 1));
         manager.smoothScrollToBrick(brickTestHelper.generateBrick());
+    }
+
+    @Test
+    public void testApplyGridLayout() {
+        manager.applyGridLayout(GridLayoutManager.VERTICAL, true);
+        assertTrue(manager.getRecyclerView().getLayoutManager() instanceof GridLayoutManager);
+    }
+
+    @Test
+    public void testApplyStaggeredGridLayout() {
+        manager.applyStaggeredGridLayout(2, StaggeredGridLayoutManager.VERTICAL);
+        assertTrue(manager.getRecyclerView().getLayoutManager() instanceof StaggeredGridLayoutManager);
+        assertFalse(manager.getRecyclerView().getLayoutManager().isItemPrefetchEnabled());
     }
 }

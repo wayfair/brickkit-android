@@ -381,6 +381,8 @@ The 'BrickDataManager' manages the RecyclerView's adapter and manipulates the br
 
 | Methods Used Frequently   |      Description  |
 |----------|:-------------:|
+| applyGridLayout |  Applies a GridLayout to all bricks in a datamanager.
+| applyStaggeredGridLayout |  Applies a StaggeredGridLayout to all bricks in a dataManager
 | getRecyclerViewItems |  Gets all 'visible' bricks in the 'BaseDataManager'.
 | getDataManagerItems |  Gets all bricks in the 'BaseDataManager'.
 | addLast |  Inserts brick/Collection of bricks after all other bricks.

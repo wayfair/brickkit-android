@@ -5,6 +5,7 @@ package com.wayfair.brickkit;
 
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -194,6 +195,14 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         BaseBrick baseBrick = dataManager.brickAtPosition(position);
 
         if (baseBrick != null) {
+            if (recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+                if (baseBrick.getSpanSize().getSpans(recyclerView.getContext()) == dataManager.getMaxSpanCount()) {
+                    layoutParams.setFullSpan(true);
+                } else {
+                    layoutParams.setFullSpan(false);
+                }
+            }
             baseBrick.onBindData(holder);
             if (onReachedItemAtPosition != null) {
                 onReachedItemAtPosition.bindingItemAtPosition(position);
