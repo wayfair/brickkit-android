@@ -29,8 +29,13 @@ class BrickSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
 
     @Override
     public int getSpanSize(int position) {
-        BaseBrick brick = brickDataManager.getRecyclerViewItems().get(position);
+        try {
+            BaseBrick brick = brickDataManager.getRecyclerViewItems().get(position);
 
-        return brick != null ? brick.getSpanSize().getSpans(context) : 1;
+            return brick != null ? brick.getSpanSize().getSpans(context) : 1;
+        } catch (IndexOutOfBoundsException e) {
+            // Appears to be a bug in the support lib.
+            return 1;
+        }
     }
 }
