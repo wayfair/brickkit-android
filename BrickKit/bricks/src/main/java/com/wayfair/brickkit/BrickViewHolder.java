@@ -18,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
  * Base ViewHolder for bricks. It extends {@link android.support.v7.widget.RecyclerView.ViewHolder} with
  * one additional method that is called when the view holder is detached from the {@link RecyclerView} so
  * that views can be released.
+ * @param <B> Data binding instance
+ * @param <V> ViewModel instance
  */
 public class BrickViewHolder<B extends ViewDataBinding, V extends MvvmViewModel> extends RecyclerView.ViewHolder {
 
