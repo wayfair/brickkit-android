@@ -4,7 +4,6 @@
 package com.wayfair.brickkit;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.Observable;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
@@ -49,11 +48,16 @@ public class BrickViewHolder<B extends ViewDataBinding, V extends MvvmViewModel>
     protected void releaseViewsOnDetach() {
     }
 
-    /* Use this method to create the binding for the ViewHolder. This method also handles
-     * setting the view model on the binding and attaching the view. */
-    protected final void bindContentView(@IntegerRes int vm, @NonNull View view, @NotNull V viewModel) {
+    /**
+     * Use this method to create the binding for the ViewHolder. This method also handles
+     * setting the view model on the binding and attaching the view.
+     * @param viewModelVariableId variable id used in View
+     * @param view View attached
+     * @param viewModel ViewModel attached
+     */
+    protected final void bindContentView(@IntegerRes int viewModelVariableId, @NonNull View view, @NotNull V viewModel) {
         this.viewModel = viewModel;
         binding = DataBindingUtil.bind(view);
-        binding.setVariable(vm, viewModel);
+        binding.setVariable(viewModelVariableId, viewModel);
     }
 }

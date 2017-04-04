@@ -25,13 +25,12 @@ public abstract class BaseViewModel<V extends MvvmView> extends BaseObservable i
 
     /**
      * Add logic on view attach
-     * @param view
-     * @param savedInstanceState
-     * @param isAttachedOnBackPressed
+     * @param view View that will be attached to ViewModel
+     * @param savedInstanceState State that will be use for restoring
      */
     @Override
     @CallSuper
-    public void attachView(@NonNull V view, @Nullable Bundle savedInstanceState, boolean isAttachedOnBackPressed) {
+    public void attachView(@NonNull V view, @Nullable Bundle savedInstanceState) {
         mView = view;
 
         restoreInstanceState(savedInstanceState);
@@ -50,7 +49,7 @@ public abstract class BaseViewModel<V extends MvvmView> extends BaseObservable i
 
     /**
      * Override saving state logic on ViewModel
-     * @param outState
+     * @param outState State that will be saved
      */
     @Override
     public void saveInstanceState(@NonNull Bundle outState) {
@@ -58,7 +57,7 @@ public abstract class BaseViewModel<V extends MvvmView> extends BaseObservable i
 
     /**
      * Override restoring state logic on ViewModel
-     * @param savedInstanceState
+     * @param savedInstanceState State that will restored
      */
     @Override
     @CallSuper
