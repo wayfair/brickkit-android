@@ -193,12 +193,11 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
     @Override
     public void onBindViewHolder(BrickViewHolder holder, int position) {
         BaseBrick baseBrick = dataManager.brickAtPosition(position);
-        boolean isFullSpan;
         if (baseBrick != null) {
-            isFullSpan = baseBrick.getSpanSize().getSpans(recyclerView.getContext()) == dataManager.getMaxSpanCount();
             if (recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
                 if (holder.itemView.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams) {
-                    ((StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams()).setFullSpan(isFullSpan);
+                    ((StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams()).setFullSpan(
+                            baseBrick.getSpanSize().getSpans(recyclerView.getContext()) == dataManager.getMaxSpanCount());
                 }
             }
             baseBrick.onBindData(holder);
