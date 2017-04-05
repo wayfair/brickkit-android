@@ -70,8 +70,8 @@ public class BrickDataManager implements Serializable {
 
     /**
      * Sets the layout for the recyclerview to be a StaggeredGridLayout.
-     * setItemPrefetch is disabled because of a known android bug (March 2016)
-     * which creates a fatal on staggeredGrid when scrolling quickly while paging.
+     * SetItemPrefetch is disabled because of a known android bug (March 2016).
+     * It creates a fatal on staggeredGrid when scrolling quickly while paging.
      *
      * @param spanCount   the number of columns to which the bricks will conform
      * @param orientation the orientation of the layout
@@ -81,26 +81,6 @@ public class BrickDataManager implements Serializable {
             StaggeredGridLayoutManager staggeredGridLayoutManager = new NpaStaggeredGridLayoutManager(spanCount, orientation);
             staggeredGridLayoutManager.setItemPrefetchEnabled(false);
             recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        }
-    }
-
-    /**
-     * Non-Predictive Animations {@link StaggeredGridLayoutManager}
-     */
-    private static class NpaStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
-        NpaStaggeredGridLayoutManager(int spanCount, int orientation) {
-            super(spanCount, orientation);
-        }
-
-        /**
-         * There is a bug in recyclerviews (March 2017) which causes them to load animations for views which don't yet exist.
-         * For us this is a race condition, it currently only occurs on the infinite brick pages.
-         *
-         * @return false
-         */
-        @Override
-        public boolean supportsPredictiveItemAnimations() {
-            return false;
         }
     }
 
@@ -929,5 +909,32 @@ public class BrickDataManager implements Serializable {
             return getRecyclerViewItems().get(position);
         }
         return null;
+    }
+
+    /**
+     * Non-Predictive Animations {@link StaggeredGridLayoutManager}
+     */
+    private static class NpaStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
+        
+        /**
+         * Constructor for the NpaStaggeredGridLayoutManager.
+         *
+         * @param spanCount
+         * @param orientation
+         */
+        NpaStaggeredGridLayoutManager(int spanCount, int orientation) {
+            super(spanCount, orientation);
+        }
+
+        /**
+         * There is a bug in recyclerviews (March 2017) which causes them to load animations for views which don't yet exist.
+         * For us this is a race condition, it currently only occurs on the infinite brick pages.
+         *
+         * @return false
+         */
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
     }
 }
