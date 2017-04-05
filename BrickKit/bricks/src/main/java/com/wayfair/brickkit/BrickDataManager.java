@@ -78,9 +78,29 @@ public class BrickDataManager implements Serializable {
      */
     public void applyStaggeredGridLayout(int spanCount, int orientation) {
         if (recyclerView != null) {
-            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(spanCount, orientation);
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new NpaStaggeredGridLayoutManager(spanCount, orientation);
             staggeredGridLayoutManager.setItemPrefetchEnabled(false);
             recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        }
+    }
+
+    /**
+     * Non-Predictive Animations {@link StaggeredGridLayoutManager}
+     */
+    private static class NpaStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
+        NpaStaggeredGridLayoutManager(int spanCount, int orientation) {
+            super(spanCount, orientation);
+        }
+
+        /**
+         * There is a bug in recyclerviews (March 2017) which causes them to load animations for views which don't yet exist.
+         * For us this is a race condition, it currently only occurs on the infinite brick pages.
+         *
+         * @return false
+         */
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
         }
     }
 
