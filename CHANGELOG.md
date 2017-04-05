@@ -1,5 +1,33 @@
 # Change Log
 
+## [0.9.11](https://github.com/wayfair/brickkit-android/tree/0.9.11) (2017-04-05)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.10...0.9.11)
+
+**Closed issues:**
+
+- GirdLayoutManager.SpanSizeLookup\#getSpanSize\(\) support lib bug [\#45](https://github.com/wayfair/brickkit-android/issues/45)
+
+**Merged pull requests:**
+
+- Release 0.9.10 [\#48](https://github.com/wayfair/brickkit-android/pull/48) ([thusson13](https://github.com/thusson13))
+- Add data binding support [\#47](https://github.com/wayfair/brickkit-android/pull/47) ([kojadin](https://github.com/kojadin))
+
+## [0.9.10](https://github.com/wayfair/brickkit-android/tree/0.9.10) (2017-03-30)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.9...0.9.10)
+
+**Merged pull requests:**
+
+- Fix for getSpanSize\(\) support lib bug [\#46](https://github.com/wayfair/brickkit-android/pull/46) ([craigtack](https://github.com/craigtack))
+- Release 0.9.9 [\#44](https://github.com/wayfair/brickkit-android/pull/44) ([thusson13](https://github.com/thusson13))
+
+## [0.9.9](https://github.com/wayfair/brickkit-android/tree/0.9.9) (2017-03-23)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.8...0.9.9)
+
+**Merged pull requests:**
+
+- Adding ability to switch between StaggeredGridLayout and GridLayout [\#43](https://github.com/wayfair/brickkit-android/pull/43) ([patbeagan1](https://github.com/patbeagan1))
+- Release 0.9.8 [\#41](https://github.com/wayfair/brickkit-android/pull/41) ([thusson13](https://github.com/thusson13))
+
 ## [0.9.8](https://github.com/wayfair/brickkit-android/tree/0.9.8) (2017-03-09)
 [Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.7...0.9.8)
 
