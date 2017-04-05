@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="center"
+        tools:background="@android:color/white"
         tools:layout_height="40dp"/>
 
     <ImageView
