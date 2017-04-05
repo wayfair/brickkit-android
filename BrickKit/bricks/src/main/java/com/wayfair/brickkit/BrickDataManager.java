@@ -912,15 +912,15 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
-     * Non-Predictive Animations {@link StaggeredGridLayoutManager}
+     * Non-Predictive Animations {@link StaggeredGridLayoutManager}.
      */
     private static class NpaStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
-        
+
         /**
          * Constructor for the NpaStaggeredGridLayoutManager.
          *
-         * @param spanCount
-         * @param orientation
+         * @param spanCount the number of columns to use in the StaggeredGridLayoutManager.
+         * @param orientation the orientation of the StaggeredGridLayoutManager.
          */
         NpaStaggeredGridLayoutManager(int spanCount, int orientation) {
             super(spanCount, orientation);
