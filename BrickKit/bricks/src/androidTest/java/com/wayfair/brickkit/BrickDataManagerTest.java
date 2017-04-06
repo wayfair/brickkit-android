@@ -1229,5 +1229,6 @@ public class BrickDataManagerTest {
         manager.applyStaggeredGridLayout(2, StaggeredGridLayoutManager.VERTICAL);
         assertTrue(manager.getRecyclerView().getLayoutManager() instanceof StaggeredGridLayoutManager);
         assertFalse(manager.getRecyclerView().getLayoutManager().isItemPrefetchEnabled());
+        assertFalse(manager.getRecyclerView().getLayoutManager().supportsPredictiveItemAnimations());
     }
 }
