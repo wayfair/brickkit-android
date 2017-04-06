@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.9.12](https://github.com/wayfair/brickkit-android/tree/0.9.12) (2017-04-06)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.11...0.9.12)
+
+**Merged pull requests:**
+
+- Fixing crash when staggeredgrid used with header [\#50](https://github.com/wayfair/brickkit-android/pull/50) ([patbeagan1](https://github.com/patbeagan1))
+- Release 0.9.11 [\#49](https://github.com/wayfair/brickkit-android/pull/49) ([thusson13](https://github.com/thusson13))
+
 ## [0.9.11](https://github.com/wayfair/brickkit-android/tree/0.9.11) (2017-04-05)
 [Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.10...0.9.11)
 
