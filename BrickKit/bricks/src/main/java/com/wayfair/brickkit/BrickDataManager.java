@@ -7,6 +7,7 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
@@ -98,6 +99,11 @@ public class BrickDataManager implements Serializable {
         this.brickRecyclerAdapter = new BrickRecyclerAdapter(this, recyclerView);
         this.vertical = orientation == GridLayout.VERTICAL;
         this.recyclerViewParent = recyclerViewParent;
+
+        RecyclerView.ItemAnimator itemAnimator = recyclerView.getItemAnimator();
+        if (itemAnimator != null && itemAnimator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) itemAnimator).setSupportsChangeAnimations(false);
+        }
 
         this.recyclerView = recyclerView;
         recyclerView.setAdapter(brickRecyclerAdapter);
@@ -919,7 +925,7 @@ public class BrickDataManager implements Serializable {
         /**
          * Constructor for the NpaStaggeredGridLayoutManager.
          *
-         * @param spanCount the number of columns to use in the StaggeredGridLayoutManager.
+         * @param spanCount   the number of columns to use in the StaggeredGridLayoutManager.
          * @param orientation the orientation of the StaggeredGridLayoutManager.
          */
         NpaStaggeredGridLayoutManager(int spanCount, int orientation) {
