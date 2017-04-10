@@ -18,9 +18,9 @@ import android.widget.ImageView;
 import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickRecyclerAdapter;
 import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.padding.BrickPadding;
-import com.wayfair.brickkit.StickyScrollMode;
 
 /**
  * Abstract parent for {@link StickyHeaderBehavior} and {@link StickyFooterBehavior}. This class contains
@@ -37,8 +37,10 @@ abstract class StickyViewBehavior extends BrickBehavior {
     private int stickyViewContainerId;
     private int stickyViewLayoutId;
     private int stickyShadowImageId;
-    @StickyScrollMode int stickyScrollMode = StickyScrollMode.SHOW_ON_SCROLL;
-    @ColorInt private int stickyBackgroundColor = Color.TRANSPARENT;
+    @StickyScrollMode
+    int stickyScrollMode = StickyScrollMode.SHOW_ON_SCROLL;
+    @ColorInt
+    private int stickyBackgroundColor = Color.TRANSPARENT;
 
     /**
      * Constructor.
@@ -347,13 +349,10 @@ abstract class StickyViewBehavior extends BrickBehavior {
             //Calculate width and height
             int widthSpec;
             int heightSpec;
-            if (getOrientation(adapter.getRecyclerView()) == LinearLayoutManager.VERTICAL) {
-                widthSpec = View.MeasureSpec.makeMeasureSpec(adapter.getRecyclerView().getWidth(), View.MeasureSpec.EXACTLY);
-                heightSpec = View.MeasureSpec.makeMeasureSpec(adapter.getRecyclerView().getHeight(), View.MeasureSpec.UNSPECIFIED);
-            } else {
-                widthSpec = View.MeasureSpec.makeMeasureSpec(adapter.getRecyclerView().getWidth(), View.MeasureSpec.UNSPECIFIED);
-                heightSpec = View.MeasureSpec.makeMeasureSpec(adapter.getRecyclerView().getHeight(), View.MeasureSpec.EXACTLY);
-            }
+
+            //Need to set the height and width exactly to ensure header size when changing layout
+            widthSpec = View.MeasureSpec.makeMeasureSpec(adapter.getRecyclerView().getWidth(), View.MeasureSpec.EXACTLY);
+            heightSpec = View.MeasureSpec.makeMeasureSpec(adapter.getRecyclerView().getHeight(), View.MeasureSpec.EXACTLY);
 
             //Measure and Layout the itemView
             final View stickyView = holder.itemView;
@@ -374,10 +373,10 @@ abstract class StickyViewBehavior extends BrickBehavior {
 
     /**
      * Inflate sticky brick.
-     *
+     * <p>
      * Public for testing.
      *
-     * @param stickyBrick The brick that we are inflating
+     * @param stickyBrick  The brick that we are inflating
      * @param recyclerView The parent recyclerview
      * @return Inflated view for the given brick
      */
