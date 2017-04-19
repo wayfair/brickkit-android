@@ -24,8 +24,6 @@ script:
   - ./gradlew build connectedCheck createPom
   - cd ..
 
-env:   global:    - CURRENT_VERSION=git describe --abbrev=0 --tags
-
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
