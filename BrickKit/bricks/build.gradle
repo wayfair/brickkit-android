@@ -77,9 +77,9 @@ task createPom << {
         project {
             groupId 'com.wayfair'
             artifactId 'brickkit-android'
-            version '0.9.13'
+            version System.getenv('CURRENT_VERSION')
             packaging 'aar'
- 
+
             licenses {
                 license {
                     name 'The Apache Software License, Version 2.0'
@@ -88,4 +88,5 @@ task createPom << {
                 }
             }
         }
-    }.writeTo("build/brickkit-android-0.9.13.pom")}
+    }.writeTo("build/brickkit-android-" + System.getenv('CURRENT_VERSION') + ".pom")
+}
