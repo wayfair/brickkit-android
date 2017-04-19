@@ -17,18 +17,18 @@
     },
 
     "version": {
-        "name": System.getenv('CURRENT_VERSION'),
+        "name": "0.9.13",
         "desc": "Initial Release of brickkit-android",
         "released": "2017-02-01",
-        "vcs_tag": System.getenv('CURRENT_VERSION'),
+        "vcs_tag": "0.9.13",
         "attributes": [],
         "gpgSign": false
     },
 
     "files":
         [
-        {"includePattern": "BrickKit/bricks/build/outputs/aar/bricks-release.aar", "uploadPattern":"com/wayfair/brickkit-android/" + System.getenv('CURRENT_VERSION') + "/brickkit-android-" + System.getenv('CURRENT_VERSION') + ".aar"},
-        {"includePattern": "BrickKit/bricks/build/brickkit-android-" + System.getenv('CURRENT_VERSION') + ".pom", "uploadPattern":"com/wayfair/brickkit-android/" + System.getenv('CURRENT_VERSION') + "/brickkit-android-" + System.getenv('CURRENT_VERSION') + ".pom"}
+        {"includePattern": "BrickKit/bricks/build/outputs/aar/bricks-release.aar", "uploadPattern":"com/wayfair/brickkit-android/0.9.13/brickkit-android-0.9.13.aar"},
+        {"includePattern": "BrickKit/bricks/build/brickkit-android-0.9.13.pom", "uploadPattern":"com/wayfair/brickkit-android/0.9.13/brickkit-android-0.9.13.pom"}
         ],
     "publish": true
 }
