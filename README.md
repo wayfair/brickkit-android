@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/wayfair/brickkit-android.svg)](https://travis-ci.org/wayfair/brickkit-android)
 [![codecov.io](http://codecov.io/github/wayfair/brickkit-android/coverage.svg)](http://codecov.io/github/wayfair/brickkit-android)
+[ ![Download](https://api.bintray.com/packages/wayfair/brickkit-android/brickkit-android/images/download.svg) ](https://bintray.com/wayfair/brickkit-android/brickkit-android/_latestVersion)
 
 <div align="center">
 <span><img src="Docs/SampleImage/BrickKit.png" alt="BrickKit" title="BrickKit" ></span>
@@ -21,9 +22,9 @@ Add new maven endpoint to your repositories
     url  "http://dl.bintray.com/wayfair/brickkit-android"
   }
 ```
-And add it as a Gradle compine dependency
+And add it as a Gradle compine dependency [Latest](https://bintray.com/wayfair/brickkit-android/brickkit-android/_latestVersion)
 ```
-  compile "com.wayfair:brickkit-android:0.9.13"
+  compile "com.wayfair:brickkit-android:0.9.X"
 ```
 
 ## How to run BrickKit demo project
