@@ -48,7 +48,6 @@ public class SimpleBrickFragment extends BrickFragment {
         for (int i = 0; i < numberOfBricks; i++) {
             final int j = i;
             bricks[i] = new TextBrick(
-                    getContext(),
                     new OrientationBrickSize(maxSpans()) {
                         @Override
                         protected int portrait() {

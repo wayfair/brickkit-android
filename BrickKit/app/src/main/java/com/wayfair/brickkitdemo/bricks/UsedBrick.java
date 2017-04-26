@@ -3,7 +3,6 @@
  */
 package com.wayfair.brickkitdemo.bricks;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,14 +23,13 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
     /**
      * Constructor for UsedBrick.
      *
-     * @param context context this brick exists in
      * @param spanSize size information for this brick
      * @param padding padding for this brick
      * @param text text to display on this brick
      * @param onTouch listener for click events on this brick
      */
-    public UsedBrick(Context context, BrickSize spanSize, BrickPadding padding, CharSequence text, View.OnClickListener onTouch) {
-        super(context, spanSize, padding);
+    public UsedBrick(BrickSize spanSize, BrickPadding padding, CharSequence text, View.OnClickListener onTouch) {
+        super(spanSize, padding);
         this.text = text;
         this.onTouch = onTouch;
     }

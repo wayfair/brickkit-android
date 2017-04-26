@@ -181,7 +181,7 @@ public class BaseBrickTest {
         brick.setOnLeftWall(true);
         brick.setOnRightWall(true);
 
-        assertEquals("--2--\n| 1 |\n2 1 2\n|   |\n--2--", brick.toString(manager));
+        assertEquals("--2--\n| 1 |\n2 1 2\n|   |\n--2--", brick.toString(context, manager));
     }
 
     @Test
@@ -205,17 +205,17 @@ public class BaseBrickTest {
         brick.setOnLeftWall(false);
         brick.setOnRightWall(false);
 
-        assertEquals("--1--\n|111|\n11111\n|   |\n--1--", brick.toString(manager));
+        assertEquals("--1--\n|111|\n11111\n|   |\n--1--", brick.toString(context, manager));
     }
 
     private static final class TestBaseBrick extends BaseBrick {
 
         private TestBaseBrick(Context context, BrickSize spanSize, BrickPadding padding) {
-            super(context, spanSize, padding);
+            super(spanSize, padding);
         }
 
         private TestBaseBrick(Context context, BrickSize spanSize) {
-            super(context, spanSize);
+            super(spanSize);
         }
 
         @Override

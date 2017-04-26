@@ -22,6 +22,7 @@ import com.wayfair.brickkitdemo.R;
  */
 public class FragmentBrick extends BaseBrick {
     public static final int NO_BG_COLOR = -1;
+    private final Context context;
 
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -40,8 +41,9 @@ public class FragmentBrick extends BaseBrick {
     public FragmentBrick(
             Context context, BrickSize spanSize, FragmentManager fragmentManager, Fragment fragment, String tag
     ) {
-        super(context, spanSize);
+        super(spanSize);
 
+        this.context = context;
         this.fragmentManager = fragmentManager;
         this.fragment = fragment;
         this.tag = tag;

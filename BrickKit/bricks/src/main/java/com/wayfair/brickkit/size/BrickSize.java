@@ -44,7 +44,7 @@ public abstract class BrickSize {
     /**
      * Calculates the spans for this brick based off the device type and orientation.
      *
-     * @param context {@link Context} to grab device type / orientation information from
+     * @param context the context to use to get resources
      * @return the number of spans this brick will take up
      */
     public int getSpans(Context context) {

@@ -3,7 +3,6 @@
  */
 package com.wayfair.brickkitdemo.bricks;
 
-import android.content.Context;
 import android.view.View;
 
 import com.wayfair.brickkit.brick.BaseBrick;
@@ -19,12 +18,11 @@ public class UnusedBrick extends BaseBrick {
     /**
      * Constructor for UnusedBrick.
      *
-     * @param context context this brick exists in
      * @param spanSize size information for this brick
      * @param padding padding for this brick
      */
-    public UnusedBrick(Context context, BrickSize spanSize, BrickPadding padding) {
-        super(context, spanSize, padding);
+    public UnusedBrick(BrickSize spanSize, BrickPadding padding) {
+        super(spanSize, padding);
     }
 
 

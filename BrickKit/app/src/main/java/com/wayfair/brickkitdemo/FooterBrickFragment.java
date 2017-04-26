@@ -27,7 +27,6 @@ public class FooterBrickFragment extends BrickFragment {
 
         for (int i = 0; i < 100; i++) {
             TextBrick unusedBrick2 = new TextBrick(
-                    getContext(),
                     new SimpleBrickSize(maxSpans()) {
                         @Override
                         protected int size() {

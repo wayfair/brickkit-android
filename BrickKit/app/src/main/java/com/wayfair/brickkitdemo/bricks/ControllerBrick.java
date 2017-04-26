@@ -3,7 +3,6 @@
  */
 package com.wayfair.brickkitdemo.bricks;
 
-import android.content.Context;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
@@ -29,7 +28,6 @@ public class ControllerBrick extends BaseBrick {
     /**
      * Constructor.
      *
-     * @param context context this brick exists in
      * @param spanSize size information for this brick
      * @param padding padding for this brick
      * @param value initial value to use in {@link android.widget.EditText}
@@ -37,9 +35,9 @@ public class ControllerBrick extends BaseBrick {
      * @param removeClick click listener for remove button
      * @param addClick click listener for add button
      */
-    public ControllerBrick(Context context, BrickSize spanSize, BrickPadding padding, String value,
+    public ControllerBrick(BrickSize spanSize, BrickPadding padding, String value,
                            String hint, View.OnClickListener removeClick, View.OnClickListener addClick) {
-        super(context, spanSize, padding);
+        super(spanSize, padding);
 
         this.value = value;
         this.hint = hint;

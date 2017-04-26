@@ -34,7 +34,6 @@ public class ExpandableHeaderFooterFragment extends BrickFragment {
 
         for (int i = 0; i < 5; i++) {
             final TouchableTextBrick unusedBrick2 = new TouchableTextBrick(
-                    getContext(),
                     new SimpleBrickSize(maxSpans()) {
                         @Override
                         protected int size() {
@@ -70,7 +69,6 @@ public class ExpandableHeaderFooterFragment extends BrickFragment {
                 if (isAdd) {
                     for (int j = 0; j < 8; j++) {
                         TextBrick newBrick = new TextBrick(
-                                getContext(),
                                 new SimpleBrickSize(maxSpans()) {
                                     @Override
                                     protected int size() {

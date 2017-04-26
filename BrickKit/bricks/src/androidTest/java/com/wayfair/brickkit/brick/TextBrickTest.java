@@ -38,17 +38,17 @@ public class TextBrickTest {
 
     @Test
     public void testThreeArgumentConstructor() {
-        assertNotNull(new TextBrick(context, brickSize, TEXT));
+        assertNotNull(new TextBrick(brickSize, TEXT));
     }
 
     @Test
     public void testFourArgumentConstructor() {
-        assertNotNull(new TextBrick(context, brickSize, brickPadding, TEXT));
+        assertNotNull(new TextBrick(brickSize, brickPadding, TEXT));
     }
 
     @Test
     public void testOnBindData() {
-        TextBrick brick = new TextBrick(context, brickSize, TEXT);
+        TextBrick brick = new TextBrick(brickSize, TEXT);
 
         View itemView = LayoutInflater.from(context).inflate(brick.getLayout(), new LinearLayout(context), false);
 
@@ -64,7 +64,7 @@ public class TextBrickTest {
     public void testDismissed() {
         Runnable runnable = mock(Runnable.class);
 
-        TextBrick brick = new TextBrick(context, brickSize, TEXT);
+        TextBrick brick = new TextBrick(brickSize, TEXT);
 
         brick.dismissed();
 
