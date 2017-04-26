@@ -32,7 +32,7 @@ public class BrickTestHelper {
         private final int layoutId;
 
         private TestBrick(Context context, BrickSize spanSize, BrickPadding padding, int layoutId) {
-            super(context, spanSize, padding);
+            super(spanSize, padding);
             this.layoutId = layoutId;
         }
 
@@ -55,7 +55,7 @@ public class BrickTestHelper {
     private static final class TestBrick2 extends BaseBrick {
 
         private TestBrick2(Context context, BrickSize spanSize, BrickPadding padding) {
-            super(context, spanSize, padding);
+            super(spanSize, padding);
         }
 
         @Override

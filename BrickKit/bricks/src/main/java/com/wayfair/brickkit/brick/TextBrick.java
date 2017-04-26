@@ -3,7 +3,6 @@
  */
 package com.wayfair.brickkit.brick;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,25 +21,23 @@ public class TextBrick extends BaseBrick {
     /**
      * Constructor which uses the default padding.
      *
-     * @param context context this brick exists in
      * @param spanSize size information for this brick
      * @param text text to display on this brick
      */
-    public TextBrick(Context context, BrickSize spanSize, CharSequence text) {
-        super(context, spanSize);
+    public TextBrick(BrickSize spanSize, CharSequence text) {
+        super(spanSize);
         this.text = text;
     }
 
     /**
      * Constructor.
      *
-     * @param context context this brick exists in
      * @param spanSize size information for this brick
      * @param padding padding for this brick
      * @param text text to display on this brick
      */
-    public TextBrick(Context context, BrickSize spanSize, BrickPadding padding, CharSequence text) {
-        super(context, spanSize, padding);
+    public TextBrick(BrickSize spanSize, BrickPadding padding, CharSequence text) {
+        super(spanSize, padding);
         this.text = text;
     }
 

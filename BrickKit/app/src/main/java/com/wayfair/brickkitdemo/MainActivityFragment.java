@@ -34,7 +34,6 @@ public class MainActivityFragment extends BrickFragment {
 
         usedBricks.add(
                 new UsedBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -56,7 +55,6 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -78,7 +76,6 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -100,7 +97,6 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -122,7 +118,6 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -144,7 +139,6 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -166,7 +160,6 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -188,7 +181,6 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -245,12 +237,11 @@ public class MainActivityFragment extends BrickFragment {
                         };
             }
 
-            UnusedBrick unusedBrick1 = new UnusedBrick(getContext(), first, padding);
+            UnusedBrick unusedBrick1 = new UnusedBrick(first, padding);
             dataManager.addLast(unusedBrick1);
 
             if (i == 0 || i == usedBricks.size() + 1) {
                 UnusedBrick usedBrick = new UnusedBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -264,7 +255,7 @@ public class MainActivityFragment extends BrickFragment {
                 dataManager.addLast(usedBricks.get(i - 1));
             }
 
-            UnusedBrick unusedBrick2 = new UnusedBrick(getContext(), last, padding);
+            UnusedBrick unusedBrick2 = new UnusedBrick(last, padding);
             dataManager.addLast(unusedBrick2);
 
         }

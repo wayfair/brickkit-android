@@ -21,7 +21,6 @@ public abstract class BaseBrick {
     private final BrickPadding padding;
     private final BrickSize spanSize;
 
-    protected Context context;
     private boolean hidden = false;
     private boolean header = false;
     private boolean footer = false;
@@ -35,12 +34,10 @@ public abstract class BaseBrick {
     /**
      * Constructor.
      *
-     * @param context context this brick exists in
      * @param spanSize size information for this brick
      * @param padding padding for this brick
      */
-    public BaseBrick(Context context, BrickSize spanSize, BrickPadding padding) {
-        this.context = context;
+    public BaseBrick(BrickSize spanSize, BrickPadding padding) {
         this.spanSize = spanSize;
         this.spanSize.setBaseBrick(this);
         this.padding = padding;
@@ -49,11 +46,9 @@ public abstract class BaseBrick {
     /**
      * Constructor which uses the default padding.
      *
-     * @param context context this brick exists in
      * @param spanSize size information for this brick
      */
-    public BaseBrick(Context context, BrickSize spanSize) {
-        this.context = context;
+    public BaseBrick(BrickSize spanSize) {
         this.spanSize = spanSize;
         this.spanSize.setBaseBrick(this);
         this.padding = new SimpleBrickPadding(0);
@@ -262,10 +257,11 @@ public abstract class BaseBrick {
     /**
      * Print out the brick's adapter position, width (in spans), and padding.
      *
+     * @param context The context to use to get this bricks spans
      * @param dataManager The data manager the brick is in.
      * @return A string representation of the brick.
      */
-    public String toString(BrickDataManager dataManager) {
+    public String toString(Context context, BrickDataManager dataManager) {
         int position = dataManager.getRecyclerViewItems().indexOf(this);
         StringBuilder sb = new StringBuilder();
 

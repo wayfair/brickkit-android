@@ -61,7 +61,6 @@ public class InfiniteScrollBrickFragment extends BrickFragment {
         ArrayList<BaseBrick> items = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             items.add(new TextBrick(
-                    getContext(),
                     new OrientationBrickSize(maxSpans()) {
                         @Override
                         protected int portrait() {

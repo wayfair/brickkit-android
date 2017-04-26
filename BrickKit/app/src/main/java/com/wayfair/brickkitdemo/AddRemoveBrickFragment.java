@@ -32,7 +32,6 @@ public class AddRemoveBrickFragment extends BrickFragment {
 
             if (i == 0) {
                 controllerBrick = new ControllerBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -67,7 +66,6 @@ public class AddRemoveBrickFragment extends BrickFragment {
                                 if (index == dataManager.getRecyclerViewItems().size()) {
                                     dataManager.addLast(
                                             new TextBrick(
-                                                    getContext(),
                                                     new SimpleBrickSize(maxSpans()) {
                                                         @Override
                                                         protected int size() {
@@ -82,7 +80,6 @@ public class AddRemoveBrickFragment extends BrickFragment {
                                     dataManager.addBeforeItem(
                                             dataManager.getRecyclerViewItems().get(index),
                                             new TextBrick(
-                                                    getContext(),
                                                     new SimpleBrickSize(maxSpans()) {
                                                         @Override
                                                         protected int size() {
@@ -107,7 +104,6 @@ public class AddRemoveBrickFragment extends BrickFragment {
                 dataManager.addLast(controllerBrick);
             } else {
                 @SuppressLint("DefaultLocale") BaseBrick brick = new TextBrick(
-                        getContext(),
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {

@@ -74,7 +74,6 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
             textToAppend += String.valueOf(i);
 
             BaseBrick unusedBrick2 = new TextBrick(
-                    getContext(),
                     new SimpleBrickSize(maxSpans()) {
                         @Override
                         protected int size() {
