@@ -19,6 +19,9 @@ import java.util.ListIterator;
  * {@link BrickDataManager} to a given {@link RecyclerView}.
  */
 public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> {
+
+    private static final String TAG = BrickRecyclerAdapter.class.getName();
+
     private final BrickDataManager dataManager;
     private OnReachedItemAtPosition onReachedItemAtPosition;
     private RecyclerView recyclerView;
@@ -187,7 +190,9 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
     @Override
     public BrickViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        return dataManager.brickWithLayout(viewType).createViewHolder(itemView);
+        BaseBrick brick = dataManager.brickWithLayout(viewType);
+        brick = brick == null ? dataManager.brickWithPlaceHolderLayout(viewType) : brick;
+        return brick.createViewHolder(itemView);
     }
 
     @Override
@@ -200,7 +205,10 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
                             baseBrick.getSpanSize().getSpans(recyclerView.getContext()) == dataManager.getMaxSpanCount());
                 }
             }
-            baseBrick.onBindData(holder);
+
+            if (baseBrick.isDataReady()) {
+                baseBrick.onBindData(holder);
+            }
             if (onReachedItemAtPosition != null) {
                 onReachedItemAtPosition.bindingItemAtPosition(position);
             }
@@ -228,6 +236,10 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
 
         if (brick == null) {
             return 0;
+        }
+
+        if (!brick.isDataReady()) {
+            return brick.getPlaceholderLayout();
         }
 
         return brick.getLayout();
