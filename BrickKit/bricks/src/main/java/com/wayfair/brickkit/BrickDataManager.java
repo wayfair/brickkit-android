@@ -5,6 +5,7 @@ package com.wayfair.brickkit;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -13,6 +14,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.GridLayout;
 
+import com.wayfair.brickkit.animator.MyItemAnimator;
 import com.wayfair.brickkit.behavior.BrickBehavior;
 import com.wayfair.brickkit.brick.BaseBrick;
 
@@ -101,11 +103,9 @@ public class BrickDataManager implements Serializable {
         this.recyclerViewParent = recyclerViewParent;
 
         this.recyclerView = recyclerView;
-        recyclerView.setAdapter(brickRecyclerAdapter);
-        recyclerView.addItemDecoration(new BrickRecyclerItemDecoration(this));
-        if (this.recyclerView.getItemAnimator() instanceof SimpleItemAnimator) {
-            ((SimpleItemAnimator) this.recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        }
+        this.recyclerView.setAdapter(brickRecyclerAdapter);
+        this.recyclerView.addItemDecoration(new BrickRecyclerItemDecoration(this));
+        this.recyclerView.setItemAnimator(new MyItemAnimator());
 
         applyGridLayout(orientation, reverse);
 

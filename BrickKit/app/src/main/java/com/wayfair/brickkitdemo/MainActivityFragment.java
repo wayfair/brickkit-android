@@ -54,14 +54,14 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(usedBrick);
 
-        // Fake waiting as in a API request
+        // Fake waiting as in a API request to show off placeholder when data is not ready
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 usedBrick.setText("Simple Brick View");
                 dataManager.refreshItem(usedBrick);
             }
-        }, 3000);
+        }, 2000);
 
         usedBricks.add(
                 new UsedBrick(
