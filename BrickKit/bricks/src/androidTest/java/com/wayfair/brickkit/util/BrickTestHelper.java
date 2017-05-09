@@ -74,6 +74,42 @@ public class BrickTestHelper {
         }
     }
 
+    public static final class TestPlaceholderBrick extends BaseBrick {
+        private final int placeholderLayoutId;
+        private final boolean isDataReady;
+
+        private TestPlaceholderBrick(Context context, BrickSize spanSize, BrickPadding padding, int placeholderLayoutId, boolean isDataReady) {
+            super(spanSize, padding);
+            this.placeholderLayoutId = placeholderLayoutId;
+            this.isDataReady = isDataReady;
+        }
+
+        @Override
+        public void onBindData(BrickViewHolder holder) {
+
+        }
+
+        @Override
+        public boolean isDataReady() {
+            return isDataReady;
+        }
+
+        @Override
+        public int getPlaceholderLayout() {
+            return placeholderLayoutId;
+        }
+
+        @Override
+        public int getLayout() {
+            return 0;
+        }
+
+        @Override
+        public BrickViewHolder createViewHolder(View itemView) {
+            return null;
+        }
+    }
+
     public BaseBrick generateHiddenBrick() {
         BaseBrick brick = generateBrick();
         brick.setHidden(true);
@@ -94,6 +130,21 @@ public class BrickTestHelper {
             }
 
         }, new SimpleBrickPadding(PADDING), layoutId);
+    }
+
+    public BaseBrick generateBrickWithPlaceholderLayoutId(int placeholderLayoutId, boolean isDataReady) {
+        return new TestPlaceholderBrick(context, new SimpleBrickSize(MAX) {
+            @Override
+            public int getSpans(Context context) {
+                return HALF_SPAN;
+            }
+
+            @Override
+            protected int size() {
+                return HALF_SPAN;
+            }
+
+        }, new SimpleBrickPadding(PADDING), placeholderLayoutId, isDataReady);
     }
 
     public BaseBrick generateBrick() {

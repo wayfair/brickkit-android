@@ -28,6 +28,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,6 +41,7 @@ public class BrickRecyclerAdapterTest {
     private static final Object PAYLOAD = new Object();
     private static final int BRICK_COUNT = 3;
     private static final int LAYOUT = 7;
+    private static final int PLACEHOLDER_LAYOUT = 8;
     private BrickRecyclerAdapter adapter;
     private BrickTestHelper.TestAdapterDataObserver observer;
     private LinkedList<BaseBrick> bricks;
@@ -373,10 +375,11 @@ public class BrickRecyclerAdapterTest {
     }
 
     @Test
-    public void testOnBindViewHolderNullBindListener() {
+    public void testOnBindViewHolderNullBindListenerWhenDataIsReady() {
         BaseBrick brick = mock(BaseBrick.class);
 
         when(dataManager.brickAtPosition(0)).thenReturn(brick);
+        when(brick.isDataReady()).thenReturn(true);
 
         BrickViewHolder holder = mock(BrickViewHolder.class);
 
@@ -386,13 +389,46 @@ public class BrickRecyclerAdapterTest {
     }
 
     @Test
-    public void testOnBindViewHolder() {
+    public void testOnBindViewHolderNullBindListenerWhenDataIsNotReady() {
+        BaseBrick brick = mock(BaseBrick.class);
+
+        when(dataManager.brickAtPosition(0)).thenReturn(brick);
+        when(brick.isDataReady()).thenReturn(false);
+
+        BrickViewHolder holder = mock(BrickViewHolder.class);
+
+        adapter.onBindViewHolder(holder, 0);
+
+        verify(brick, times(0)).onBindData(holder);
+    }
+
+    @Test
+    public void testOnBindViewHolderWhenDataIsNotReady() {
         BaseBrick brick = mock(BaseBrick.class);
 
         OnReachedItemAtPosition listener = mock(OnReachedItemAtPosition.class);
         adapter.setOnReachedItemAtPosition(listener);
 
         when(dataManager.brickAtPosition(0)).thenReturn(brick);
+        when(brick.isDataReady()).thenReturn(false);
+
+        BrickViewHolder holder = mock(BrickViewHolder.class);
+
+        adapter.onBindViewHolder(holder, 0);
+
+        verify(brick, times(0)).onBindData(holder);
+        verify(listener).bindingItemAtPosition(0);
+    }
+
+    @Test
+    public void testOnBindViewHolderWhenDataIsReady() {
+        BaseBrick brick = mock(BaseBrick.class);
+
+        OnReachedItemAtPosition listener = mock(OnReachedItemAtPosition.class);
+        adapter.setOnReachedItemAtPosition(listener);
+
+        when(dataManager.brickAtPosition(0)).thenReturn(brick);
+        when(brick.isDataReady()).thenReturn(true);
 
         BrickViewHolder holder = mock(BrickViewHolder.class);
 
@@ -430,13 +466,25 @@ public class BrickRecyclerAdapterTest {
     }
 
     @Test
-    public void testGetItemViewType() {
+    public void testGetItemViewTypeWhenDataIsReady() {
         BaseBrick brick = mock(BaseBrick.class);
         when(brick.getLayout()).thenReturn(LAYOUT);
+        when(brick.isDataReady()).thenReturn(true);
 
         when(dataManager.brickAtPosition(0)).thenReturn(brick);
 
         assertEquals(LAYOUT, adapter.getItemViewType(0));
+    }
+
+    @Test
+    public void testGetItemViewTypeWhenDataIsNotReady() {
+        BaseBrick brick = mock(BaseBrick.class);
+        when(brick.getPlaceholderLayout()).thenReturn(PLACEHOLDER_LAYOUT);
+        when(brick.isDataReady()).thenReturn(false);
+
+        when(dataManager.brickAtPosition(0)).thenReturn(brick);
+
+        assertEquals(PLACEHOLDER_LAYOUT, adapter.getItemViewType(0));
     }
 
     @Test

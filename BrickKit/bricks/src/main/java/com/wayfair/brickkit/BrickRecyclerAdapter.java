@@ -191,7 +191,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
     public BrickViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         BaseBrick brick = dataManager.brickWithLayout(viewType);
-        brick = brick == null ? dataManager.brickWithPlaceHolderLayout(viewType) : brick;
+        brick = brick == null ? dataManager.brickWithPlaceholderLayout(viewType) : brick;
         return brick.createViewHolder(itemView);
     }
 

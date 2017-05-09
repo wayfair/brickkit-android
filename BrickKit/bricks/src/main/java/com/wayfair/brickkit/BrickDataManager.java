@@ -908,7 +908,7 @@ public class BrickDataManager implements Serializable {
      * @param placeholderLayoutResId Placeholder Layout resource ID
      * @return An instance of BaseBrick or null
      */
-    public BaseBrick brickWithPlaceHolderLayout(@LayoutRes int placeholderLayoutResId) {
+    public BaseBrick brickWithPlaceholderLayout(@LayoutRes int placeholderLayoutResId) {
         List<BaseBrick> visibleItems = getRecyclerViewItems();
         for (int i = 0; i < visibleItems.size(); i++) {
             if (!visibleItems.get(i).isDataReady() && visibleItems.get(i).getPlaceholderLayout()

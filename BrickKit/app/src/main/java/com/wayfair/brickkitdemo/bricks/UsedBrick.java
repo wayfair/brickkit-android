@@ -29,6 +29,7 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
      * @param spanSize size information for this brick
      * @param padding  padding for this brick
      * @param onTouch  listener for click events on this brick
+     * @param text     the text to display in brick
      */
     public UsedBrick(BrickSize spanSize, BrickPadding padding, CharSequence text, View.OnClickListener onTouch) {
         super(spanSize, padding);
@@ -36,10 +37,22 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
         this.text = text;
     }
 
+    /**
+     * Constructor for UsedBrick.
+     *
+     * @param spanSize size information for this brick
+     * @param padding  padding for this brick
+     * @param onTouch  listener for click events on this brick
+     */
     public UsedBrick(BrickSize spanSize, BrickPadding padding, View.OnClickListener onTouch) {
         this(spanSize, padding, null, onTouch);
     }
 
+    /**
+     * Sets the text to be displayed in brick.
+     *
+     * @param text the text to be set
+     */
     public void setText(CharSequence text) {
         this.text = text;
     }
