@@ -57,7 +57,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
-    compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
 
     testCompile 'junit:junit:4.12'
 }
