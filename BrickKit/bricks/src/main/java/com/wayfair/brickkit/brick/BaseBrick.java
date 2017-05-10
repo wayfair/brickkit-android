@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickViewHolder;
-import com.wayfair.brickkit.R;
 import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.padding.SimpleBrickPadding;
@@ -87,8 +86,8 @@ public abstract class BaseBrick {
      */
     @LayoutRes
     public int getPlaceholderLayout() {
-        throw new UnsupportedOperationException(getClass().getSimpleName() +
-                " getPlaceholderLayout() method must be overridden within brick extending BaseBrick");
+        throw new UnsupportedOperationException(getClass().getSimpleName()
+                + " getPlaceholderLayout() method must be overridden within brick extending BaseBrick");
     }
 
     /**

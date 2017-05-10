@@ -3,6 +3,11 @@ package com.wayfair.brickkit.animator;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 
+/**
+ * Item animator which overrides
+ * {@link DefaultItemAnimator#animateChange(RecyclerView.ViewHolder, RecyclerView.ViewHolder, int, int, int, int)}
+ * in order to avoid flickering when replacing ViewHolders.
+ */
 public class MyItemAnimator extends DefaultItemAnimator {
 
     @Override
