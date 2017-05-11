@@ -12,6 +12,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.GridLayout;
 
+import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator;
 import com.wayfair.brickkit.behavior.BrickBehavior;
 import com.wayfair.brickkit.brick.BaseBrick;
 
@@ -100,8 +101,9 @@ public class BrickDataManager implements Serializable {
         this.recyclerViewParent = recyclerViewParent;
 
         this.recyclerView = recyclerView;
-        recyclerView.setAdapter(brickRecyclerAdapter);
-        recyclerView.addItemDecoration(new BrickRecyclerItemDecoration(this));
+        this.recyclerView.setAdapter(brickRecyclerAdapter);
+        this.recyclerView.addItemDecoration(new BrickRecyclerItemDecoration(this));
+        this.recyclerView.setItemAnimator(new AvoidFlickerItemAnimator());
 
         applyGridLayout(orientation, reverse);
 
@@ -891,6 +893,24 @@ public class BrickDataManager implements Serializable {
         List<BaseBrick> visibleItems = getRecyclerViewItems();
         for (int i = 0; i < visibleItems.size(); i++) {
             if (visibleItems.get(i).getLayout() == layoutResId) {
+                return visibleItems.get(i);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Retrieves a brick who's associated placeholder layout resource ID matches that of the parameter.
+     *
+     * @param placeholderLayoutResId Placeholder Layout resource ID
+     * @return An instance of BaseBrick or null
+     */
+    public BaseBrick brickWithPlaceholderLayout(@LayoutRes int placeholderLayoutResId) {
+        List<BaseBrick> visibleItems = getRecyclerViewItems();
+        for (int i = 0; i < visibleItems.size(); i++) {
+            if (!visibleItems.get(i).isDataReady() && visibleItems.get(i).getPlaceholderLayout()
+                    == placeholderLayoutResId) {
                 return visibleItems.get(i);
             }
         }

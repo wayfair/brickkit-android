@@ -229,6 +229,11 @@ public class BaseBrickTest {
         }
 
         @Override
+        public int getPlaceholderLayout() {
+            return 0;
+        }
+
+        @Override
         public BrickViewHolder createViewHolder(View itemView) {
             return null;
         }

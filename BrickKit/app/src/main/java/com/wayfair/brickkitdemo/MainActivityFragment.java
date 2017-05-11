@@ -4,6 +4,8 @@
 package com.wayfair.brickkitdemo;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,27 +34,35 @@ public class MainActivityFragment extends BrickFragment {
 
         ArrayList<BaseBrick> usedBricks = new ArrayList<>();
 
-        usedBricks.add(
-                new UsedBrick(
-                        new SimpleBrickSize(maxSpans()) {
-                            @Override
-                            protected int size() {
-                                return TWO_FIFTH;
-                            }
-                        },
-                        padding,
-                        "Simple Brick View",
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                getFragmentManager().beginTransaction()
-                                        .replace(R.id.content, new SimpleBrickFragment())
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-                        }
-                )
+        final UsedBrick usedBrick = new UsedBrick(
+                new SimpleBrickSize(maxSpans()) {
+                    @Override
+                    protected int size() {
+                        return TWO_FIFTH;
+                    }
+                },
+                padding,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.content, new SimpleBrickFragment())
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                }
         );
+        usedBricks.add(usedBrick);
+
+        // Fake waiting as in a API request to show off placeholder when data is not ready
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                usedBrick.setText("Simple Brick View");
+                dataManager.refreshItem(usedBrick);
+            }
+        }, 2000);
+
         usedBricks.add(
                 new UsedBrick(
                         new SimpleBrickSize(maxSpans()) {
@@ -241,7 +251,7 @@ public class MainActivityFragment extends BrickFragment {
             dataManager.addLast(unusedBrick1);
 
             if (i == 0 || i == usedBricks.size() + 1) {
-                UnusedBrick usedBrick = new UnusedBrick(
+                UnusedBrick unusedBrick = new UnusedBrick(
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -250,7 +260,7 @@ public class MainActivityFragment extends BrickFragment {
                         },
                         padding
                 );
-                dataManager.addLast(usedBrick);
+                dataManager.addLast(unusedBrick);
             } else {
                 dataManager.addLast(usedBricks.get(i - 1));
             }

@@ -35,7 +35,7 @@ public abstract class BaseBrick {
      * Constructor.
      *
      * @param spanSize size information for this brick
-     * @param padding padding for this brick
+     * @param padding  padding for this brick
      */
     public BaseBrick(BrickSize spanSize, BrickPadding padding) {
         this.spanSize = spanSize;
@@ -68,6 +68,27 @@ public abstract class BaseBrick {
      */
     @LayoutRes
     public abstract int getLayout();
+
+    /**
+     * Current brick must implement this method in order for the BrickRecyclerAdapter to inflate
+     * either placeholder or brick layout. If method is not overridden we always assume data is ready.
+     *
+     * @return True if data is ready
+     */
+    public boolean isDataReady() {
+        return true;
+    }
+
+    /**
+     * Get layout resource id for this brick's placeholder.
+     *
+     * @return The layout resource id for this brick's placeholder
+     */
+    @LayoutRes
+    public int getPlaceholderLayout() {
+        throw new UnsupportedOperationException(getClass().getSimpleName()
+                + " getPlaceholderLayout() method must be overridden within brick extending BaseBrick");
+    }
 
     /**
      * Creates an instance of the {@link BrickViewHolder} for this class.
@@ -257,7 +278,7 @@ public abstract class BaseBrick {
     /**
      * Print out the brick's adapter position, width (in spans), and padding.
      *
-     * @param context The context to use to get this bricks spans
+     * @param context     The context to use to get this bricks spans
      * @param dataManager The data manager the brick is in.
      * @return A string representation of the brick.
      */

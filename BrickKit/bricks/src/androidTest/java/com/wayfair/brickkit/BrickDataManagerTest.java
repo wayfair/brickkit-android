@@ -1198,6 +1198,50 @@ public class BrickDataManagerTest {
     }
 
     @Test
+    public void testBrickWithPlaceholderLayoutWhenDataIsReady() {
+        List<BaseBrick> newItems = new LinkedList<>();
+        newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, true));
+
+        manager.setItems(newItems);
+
+        @LayoutRes int layoutRes = 1;
+        assertNull(manager.brickWithPlaceholderLayout(layoutRes));
+    }
+
+    @Test
+    public void testBrickWithPlaceholderLayoutWhenDataIsNotReady() {
+        List<BaseBrick> newItems = new LinkedList<>();
+        newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, false));
+
+        manager.setItems(newItems);
+
+        @LayoutRes int layoutRes = 1;
+        assertNotNull(manager.brickWithPlaceholderLayout(layoutRes));
+    }
+
+    @Test
+    public void testBrickWithPlaceholderLayoutInvalidLayoutWhenDataIsNotReady() {
+        List<BaseBrick> newItems = new LinkedList<>();
+        newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, false));
+
+        manager.setItems(newItems);
+
+        @LayoutRes int layoutRes = 2;
+        assertNull(manager.brickWithPlaceholderLayout(layoutRes));
+    }
+
+    @Test
+    public void testBrickWithPlaceholderLayoutInvalidLayoutWhenDataIsReady() {
+        List<BaseBrick> newItems = new LinkedList<>();
+        newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, true));
+
+        manager.setItems(newItems);
+
+        @LayoutRes int layoutRes = 2;
+        assertNull(manager.brickWithPlaceholderLayout(layoutRes));
+    }
+
+    @Test
     public void testBrickAtPosition() {
         assertNotNull(manager.brickAtPosition(manager.getDataManagerItems().size() - 1));
         assertNull(manager.brickAtPosition(manager.getDataManagerItems().size()));
