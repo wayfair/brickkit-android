@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
  * {@link DefaultItemAnimator#animateChange(RecyclerView.ViewHolder, RecyclerView.ViewHolder, int, int, int, int)}
  * in order to avoid flickering when replacing ViewHolders.
  */
-public class MyItemAnimator extends DefaultItemAnimator {
+public class AvoidFlickerItemAnimator extends DefaultItemAnimator {
 
     @Override
     public boolean animateChange(RecyclerView.ViewHolder oldHolder, RecyclerView.ViewHolder newHolder, int fromX,
