@@ -68,8 +68,8 @@ public abstract class BaseBrick {
      * @param holder BrickViewHolder which should be updated.
      */
     public void onBindPlaceholder(BrickViewHolder holder) {
-        throw new UnsupportedOperationException(getClass().getSimpleName() +
-                " onBindPlaceholder(BrickViewHolder holder) method must be overridden within brick extending BaseBrick");
+        throw new UnsupportedOperationException(getClass().getSimpleName()
+                + " onBindPlaceholder(BrickViewHolder holder) method must be overridden within brick extending BaseBrick");
     }
 
     /**
