@@ -399,7 +399,7 @@ public class BrickRecyclerAdapterTest {
 
         adapter.onBindViewHolder(holder, 0);
 
-        verify(brick, times(0)).onBindData(holder);
+        verify(brick).onBindPlaceholder(holder);
     }
 
     @Test
@@ -416,7 +416,7 @@ public class BrickRecyclerAdapterTest {
 
         adapter.onBindViewHolder(holder, 0);
 
-        verify(brick, times(0)).onBindData(holder);
+        verify(brick).onBindPlaceholder(holder);
         verify(listener).bindingItemAtPosition(0);
     }
 
