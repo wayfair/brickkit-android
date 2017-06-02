@@ -31,6 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.LinkedList;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Matchers.any;
@@ -293,9 +295,11 @@ public class StickyHeaderBehaviorTest {
     @Test
     public void testUpdateOrClearStickyView() {
         //have to set up stickyLayoutBottomLine
+        LinkedList<BaseBrick> bricks = mock(LinkedList.class);
         headerBehavior.onScroll();
         assertEquals(stickyHolderLayout, headerBehavior.getStickyHolderLayout());
-
+        when(dataManager.getDataManagerItems()).thenReturn(bricks);
+        when(bricks.size()).thenReturn(ADAPTER_COUNT);
         when(recyclerView.getChildCount()).thenReturn(ADAPTER_COUNT);
         doReturn(RecyclerView.NO_POSITION).when(headerBehavior).getStickyViewPosition(RecyclerView.NO_POSITION);
         headerBehavior.onScrolled(recyclerView, SCROLL_DISTANCE, SCROLL_DISTANCE);
