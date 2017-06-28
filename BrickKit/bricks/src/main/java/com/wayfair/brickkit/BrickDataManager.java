@@ -831,11 +831,11 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
-     * Get the collection of behaviours currently in the BrickDataManager. Mostly for testing.
+     * Get the list of behaviours currently in the BrickDataManager.
      *
      * @return The current behaviours attached tot he BrickDataManger
      */
-    public Collection<BrickBehavior> getBehaviours() {
+    public List<BrickBehavior> getBehaviours() {
         return behaviors;
     }
 
