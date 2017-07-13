@@ -415,7 +415,7 @@ public class BrickDataManager implements Serializable {
      * @param items  the bricks to add
      */
     public void addAfterItem(BaseBrick anchor, Collection<BaseBrick> items) {
-        int index = adapterIndex(anchor);
+        int index = this.items.indexOf(anchor);
 
         if (index == -1) {
             index = getRecyclerViewItems().size();
