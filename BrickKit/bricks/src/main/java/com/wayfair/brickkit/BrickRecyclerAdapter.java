@@ -265,12 +265,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
     }
 
     /**
-     * Get the first header before the given position.
+     * Get the first header before the given position unless the given position is the last element.
      * @param position position before which to find the next header
      * @return the first header before the given position.
      */
     public BaseBrick getSectionHeader(int position) {
-        if (position >= 0) {
+        if (position >= 0 && dataManager.getRecyclerViewItems().size() - 1 > position) {
             BaseBrick brick = dataManager.getRecyclerViewItems().get(position);
             if (brick != null && brick.isHeader()) {
                 return brick;
