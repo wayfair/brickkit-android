@@ -12,8 +12,6 @@ import android.view.View;
 
 import com.wayfair.brickkit.base.viewmodel.MvvmViewModel;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Base ViewHolder for bricks. It extends {@link android.support.v7.widget.RecyclerView.ViewHolder} with
  * one additional method that is called when the view holder is detached from the {@link RecyclerView} so
@@ -57,7 +55,7 @@ public class BrickViewHolder<B extends ViewDataBinding, V extends MvvmViewModel>
      * @param view View attached
      * @param viewModel ViewModel attached
      */
-    protected final void bindContentView(@IntegerRes int viewModelVariableId, @NonNull View view, @NotNull V viewModel) {
+    protected final void bindContentView(@IntegerRes int viewModelVariableId, @NonNull View view, @NonNull V viewModel) {
         this.viewModel = viewModel;
         binding = DataBindingUtil.bind(view);
         binding.setVariable(viewModelVariableId, viewModel);

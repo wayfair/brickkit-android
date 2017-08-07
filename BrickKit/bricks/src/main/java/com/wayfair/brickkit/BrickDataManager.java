@@ -250,6 +250,7 @@ public class BrickDataManager implements Serializable {
      */
     public void addLast(BaseBrick item) {
         this.items.addLast(item);
+        item.setDataManager(this);
         if (!item.isHidden()) {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
@@ -267,6 +268,7 @@ public class BrickDataManager implements Serializable {
      */
     public void addFirst(BaseBrick item) {
         this.items.addFirst(item);
+        item.setDataManager(this);
         if (!item.isHidden()) {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
@@ -285,6 +287,9 @@ public class BrickDataManager implements Serializable {
     public void addLast(Collection<BaseBrick> items) {
         int index = getRecyclerViewItems().size();
         this.items.addAll(items);
+        for (BaseBrick item : items) {
+            item.setDataManager(this);
+        }
         int visibleCount = getVisibleCount(items);
         if (visibleCount > 0) {
             dataHasChanged();
@@ -303,6 +308,9 @@ public class BrickDataManager implements Serializable {
      */
     public void addFirst(Collection<BaseBrick> items) {
         this.items.addAll(0, items);
+        for (BaseBrick item : items) {
+            item.setDataManager(this);
+        }
         int visibleCount = getVisibleCount(items);
         if (visibleCount > 0) {
             dataHasChanged();
@@ -361,6 +369,7 @@ public class BrickDataManager implements Serializable {
         } else {
             items.add(anchorDataManagerIndex, item);
         }
+        item.setDataManager(this);
 
         if (!item.isHidden()) {
             dataHasChanged();
@@ -386,6 +395,9 @@ public class BrickDataManager implements Serializable {
             this.items.addAll(index, items);
         } else {
             this.items.addAll(index, items);
+        }
+        for (BaseBrick item : items) {
+            item.setDataManager(this);
         }
 
         int visibleCount = getVisibleCount(items);
@@ -414,6 +426,7 @@ public class BrickDataManager implements Serializable {
         } else {
             this.items.add(anchorDataManagerIndex + 1, item);
         }
+        item.setDataManager(this);
         if (!item.isHidden()) {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
@@ -440,6 +453,9 @@ public class BrickDataManager implements Serializable {
             index++;
             this.items.addAll(index, items);
         }
+        for (BaseBrick item : items) {
+            item.setDataManager(this);
+        }
 
         int visibleCount = getVisibleCount(items);
         if (visibleCount > 0) {
@@ -460,6 +476,7 @@ public class BrickDataManager implements Serializable {
      */
     public void removeItem(BaseBrick item) {
         this.items.remove(item);
+        item.setDataManager(null);
 
         if (!item.isHidden()) {
             int index = adapterIndex(item);
@@ -510,6 +527,9 @@ public class BrickDataManager implements Serializable {
      */
     public void removeItems(Collection<BaseBrick> items) {
         this.items.removeAll(items);
+        for (BaseBrick item : items) {
+            item.setDataManager(null);
+        }
         int visibleCount = getVisibleCount(items);
         if (visibleCount > 0) {
             dataHasChanged();
@@ -546,8 +566,11 @@ public class BrickDataManager implements Serializable {
         if ((index == -1) == replacement.isHidden()) {
             if (!target.isHidden()) {
                 int dataIndex = items.indexOf(target);
-                items.remove(dataIndex);
+                BaseBrick brickToRemove = items.get(dataIndex);
+                items.remove(brickToRemove);
+                brickToRemove.setDataManager(null);
                 items.add(dataIndex, replacement);
+                replacement.setDataManager(this);
                 dataHasChanged();
                 if (brickRecyclerAdapter != null) {
                     int refreshStartIndex = computePaddingPosition(replacement);
@@ -558,8 +581,11 @@ public class BrickDataManager implements Serializable {
         } else {
             if (replacement.isHidden()) {
                 int dataIndex = items.indexOf(target);
-                items.remove(dataIndex);
+                BaseBrick brickToRemove = items.get(dataIndex);
+                items.remove(brickToRemove);
+                brickToRemove.setDataManager(null);
                 items.add(dataIndex, replacement);
+                replacement.setDataManager(this);
                 dataHasChanged();
                 if (brickRecyclerAdapter != null) {
                     int refreshStartIndex = computePaddingPosition(target);
@@ -569,8 +595,11 @@ public class BrickDataManager implements Serializable {
             } else {
                 int dataIndex = items.indexOf(target);
                 if (dataIndex != -1) { // A double-tap can cause this
-                    items.remove(dataIndex);
+                    BaseBrick brickToRemove = items.get(dataIndex);
+                    items.remove(brickToRemove);
+                    brickToRemove.setDataManager(null);
                     items.add(dataIndex, replacement);
+                    replacement.setDataManager(this);
                     dataHasChanged();
                     if (brickRecyclerAdapter != null) {
                         int adapterIndex = adapterIndex(replacement);
