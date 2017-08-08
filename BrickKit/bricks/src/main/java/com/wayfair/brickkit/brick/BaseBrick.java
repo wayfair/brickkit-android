@@ -30,6 +30,7 @@ public abstract class BaseBrick {
     private boolean isOnRightWall;
     @StickyScrollMode
     private int stickyScrollMode = StickyScrollMode.SHOW_ON_SCROLL;
+    private BrickDataManager dataManager;
 
     /**
      * Constructor.
@@ -142,7 +143,34 @@ public abstract class BaseBrick {
      * @param hidden whether the brick should be hidden
      */
     public void setHidden(boolean hidden) {
+        boolean wasHidden = this.hidden;
         this.hidden = hidden;
+        if (wasHidden != hidden && dataManager != null) {
+            if (!wasHidden) {
+                dataManager.hideItem(this);
+            } else {
+                dataManager.showItem(this);
+            }
+        }
+
+    }
+
+    /**
+     * If this brick as attached to a DataManager, refresh this brick in that DataManager.
+     */
+    public void refreshItem() {
+        if (dataManager != null) {
+            dataManager.refreshItem(this);
+        }
+    }
+
+    /**
+     * If this brick as attached to a DataManager, smooth scroll this this brick in that DataManager.
+     */
+    public void smoothScroll() {
+        if (dataManager != null) {
+            dataManager.smoothScrollToBrick(this);
+        }
     }
 
     /**
@@ -284,6 +312,14 @@ public abstract class BaseBrick {
      * Called when an item is swiped-to-dismiss.
      */
     public void dismissed() {
+    }
+
+    /**
+     * Set the current DataManager this brick is connected to.
+     * @param dataManager The current DataManager for this brick
+     */
+    public void setDataManager(BrickDataManager dataManager) {
+        this.dataManager = dataManager;
     }
 
     /**
