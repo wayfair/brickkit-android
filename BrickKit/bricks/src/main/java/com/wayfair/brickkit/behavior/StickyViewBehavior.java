@@ -285,7 +285,8 @@ abstract class StickyViewBehavior extends BrickBehavior {
     private void updateOrClearStickyView(boolean updateStickyContent) {
         BrickRecyclerAdapter adapter = brickDataManager.getBrickRecyclerAdapter();
 
-        if (stickyHolderLayout == null || adapter == null || adapter.getRecyclerView() == null || adapter.getRecyclerView().getChildCount() == 0) {
+        if (stickyHolderLayout == null || adapter == null || adapter.getRecyclerView() == null || adapter.getRecyclerView().getChildCount() == 0
+            || brickDataManager.getDataManagerItems().size() == 0) {
             clearStickyView();
         } else {
             int stickyPosition = getStickyViewPosition(RecyclerView.NO_POSITION);

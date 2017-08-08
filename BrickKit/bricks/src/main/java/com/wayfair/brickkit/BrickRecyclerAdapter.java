@@ -208,6 +208,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
 
             if (baseBrick.isDataReady()) {
                 baseBrick.onBindData(holder);
+            } else {
+                baseBrick.onBindPlaceholder(holder);
             }
             if (onReachedItemAtPosition != null) {
                 onReachedItemAtPosition.bindingItemAtPosition(position);
