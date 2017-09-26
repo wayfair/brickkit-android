@@ -42,6 +42,7 @@ public class BrickDataManager implements Serializable {
     private boolean vertical;
     private RecyclerView recyclerView;
     private View recyclerViewParent;
+    private RecyclerView.ItemDecoration itemDecoration;
 
     /**
      * Constructor.
@@ -102,7 +103,11 @@ public class BrickDataManager implements Serializable {
 
         this.recyclerView = recyclerView;
         this.recyclerView.setAdapter(brickRecyclerAdapter);
-        this.recyclerView.addItemDecoration(new BrickRecyclerItemDecoration(this));
+        if (itemDecoration != null) {
+            this.recyclerView.removeItemDecoration(itemDecoration);
+        }
+        this.itemDecoration = new BrickRecyclerItemDecoration(this);
+        this.recyclerView.addItemDecoration(itemDecoration);
         this.recyclerView.setItemAnimator(new AvoidFlickerItemAnimator());
 
         applyGridLayout(orientation, reverse);
