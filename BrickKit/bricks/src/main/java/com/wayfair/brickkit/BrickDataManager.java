@@ -237,7 +237,7 @@ public class BrickDataManager implements Serializable {
      *
      * @param items new bricks to be added.
      */
-    public void setItems(Collection<BaseBrick> items) {
+    public void setItems(Collection<? extends BaseBrick> items) {
         clear();
 
         this.items = new LinkedList<>(items);
@@ -289,7 +289,7 @@ public class BrickDataManager implements Serializable {
      *
      * @param items the bricks to add
      */
-    public void addLast(Collection<BaseBrick> items) {
+    public void addLast(Collection<? extends BaseBrick> items) {
         int index = getRecyclerViewItems().size();
         this.items.addAll(items);
         for (BaseBrick item : items) {
@@ -311,7 +311,7 @@ public class BrickDataManager implements Serializable {
      *
      * @param items the bricks to add
      */
-    public void addFirst(Collection<BaseBrick> items) {
+    public void addFirst(Collection<? extends BaseBrick> items) {
         this.items.addAll(0, items);
         for (BaseBrick item : items) {
             item.setDataManager(this);
@@ -333,7 +333,7 @@ public class BrickDataManager implements Serializable {
      * @param items collection of bricks to get visible count from
      * @return number of visible bricks in the collection
      */
-    private int getVisibleCount(Collection<BaseBrick> items) {
+    private int getVisibleCount(Collection<? extends BaseBrick> items) {
         int visibleCount = 0;
         for (BaseBrick brick : items) {
             if (!brick.isHidden()) {
@@ -350,7 +350,7 @@ public class BrickDataManager implements Serializable {
      * @param items collection of bricks to get visible brick from
      * @return first visible brick in the collection
      */
-    private BaseBrick getFirstVisibleItem(Collection<BaseBrick> items) {
+    private BaseBrick getFirstVisibleItem(Collection<? extends BaseBrick> items) {
         for (BaseBrick brick : items) {
             if (!brick.isHidden()) {
                 return brick;
@@ -392,7 +392,7 @@ public class BrickDataManager implements Serializable {
      * @param anchor brick to insert before
      * @param items  the bricks to add
      */
-    public void addBeforeItem(BaseBrick anchor, Collection<BaseBrick> items) {
+    public void addBeforeItem(BaseBrick anchor, Collection<? extends BaseBrick> items) {
         int index = this.items.indexOf(anchor);
 
         if (index == -1) {
@@ -448,7 +448,7 @@ public class BrickDataManager implements Serializable {
      * @param anchor brick to insert before
      * @param items  the bricks to add
      */
-    public void addAfterItem(BaseBrick anchor, Collection<BaseBrick> items) {
+    public void addAfterItem(BaseBrick anchor, Collection<? extends BaseBrick> items) {
         int index = this.items.indexOf(anchor);
 
         if (index == -1) {
@@ -530,7 +530,7 @@ public class BrickDataManager implements Serializable {
      *
      * @param items the bricks to remove
      */
-    public void removeItems(Collection<BaseBrick> items) {
+    public void removeItems(Collection<? extends BaseBrick> items) {
         this.items.removeAll(items);
         for (BaseBrick item : items) {
             item.setDataManager(null);
