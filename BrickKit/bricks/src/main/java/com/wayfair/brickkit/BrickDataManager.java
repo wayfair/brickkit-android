@@ -64,7 +64,7 @@ public class BrickDataManager implements Serializable {
      */
     public void applyGridLayout(int orientation, boolean reverse) {
         if (recyclerView != null) {
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(context, maxSpanCount, orientation, reverse);
+            GridLayoutManager gridLayoutManager = new WFGridLayoutManager(context, maxSpanCount, orientation, reverse);
             gridLayoutManager.setSpanSizeLookup(new BrickSpanSizeLookup(context, this));
             recyclerView.setLayoutManager(gridLayoutManager);
         }
@@ -1006,6 +1006,42 @@ public class BrickDataManager implements Serializable {
         @Override
         public boolean supportsPredictiveItemAnimations() {
             return false;
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Exception is thrown when dataSet gets updated synchronously at different thread {@link GridLayoutManager}.
+     */
+    private static class WFGridLayoutManager extends GridLayoutManager {
+
+        /**
+         * Constructor for the WFGridLayoutManager.
+         *
+         * @param context            {@link Context} to use
+         * @param spanCount          the number of columns to which the bricks will conform
+         * @param orientation        Layout orientation. Should be {@link GridLayoutManager#HORIZONTAL} or {@link GridLayoutManager#VERTICAL}.
+         * @param reverseLayout      When set to true, layouts from end to start.
+         */
+        public WFGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
+            super(context, spanCount, orientation, reverseLayout);
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
