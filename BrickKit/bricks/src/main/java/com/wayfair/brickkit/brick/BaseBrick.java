@@ -21,6 +21,7 @@ public abstract class BaseBrick {
     private final BrickPadding padding;
     private final BrickSize spanSize;
 
+    private Object tag;
     private boolean hidden = false;
     private boolean header = false;
     private boolean footer = false;
@@ -50,9 +51,7 @@ public abstract class BaseBrick {
      * @param spanSize size information for this brick
      */
     public BaseBrick(BrickSize spanSize) {
-        this.spanSize = spanSize;
-        this.spanSize.setBaseBrick(this);
-        this.padding = new SimpleBrickPadding(0);
+        this(spanSize, new SimpleBrickPadding(0));
     }
 
     /**
@@ -100,6 +99,32 @@ public abstract class BaseBrick {
     public int getPlaceholderLayout() {
         throw new UnsupportedOperationException(getClass().getSimpleName()
                 + " getPlaceholderLayout() method must be overridden within brick extending BaseBrick");
+    }
+
+    /**
+     * Set the brick's tag. This is similar to a {@link View#setTag(Object)}.
+     *
+     * @param tag Set the tag that can be used to ID the brick later
+     */
+    public void setTag(Object tag) {
+        if (dataManager != null && this.tag != null && !this.tag.equals(tag)) {
+            dataManager.removeFromTagCache(this);
+        }
+
+        this.tag = tag;
+
+        if (dataManager != null && tag != null) {
+            dataManager.addToTagCache(this);
+        }
+    }
+
+    /**
+     * Get's the brick's tag. This is similar to a {@link View#getTag()}.
+     *
+     * @return The tag for the brick
+     */
+    public Object getTag() {
+        return tag;
     }
 
     /**
@@ -310,8 +335,13 @@ public abstract class BaseBrick {
 
     /**
      * Called when an item is swiped-to-dismiss.
+     *
+     * @param direction one of {@link ItemTouchHelper.UP}, {@link ItemTouchHelper.RIGHT},
+     *                  {@link ItemTouchHelper.DOWN}, {@link ItemTouchHelper.LEFT},
+     *                  {@link ItemTouchHelper.START}, {@link ItemTouchHelper.END}
+     *
      */
-    public void dismissed() {
+    public void dismissed(int direction) {
     }
 
     /**

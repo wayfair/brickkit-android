@@ -58,7 +58,7 @@ public class TextBrick extends BaseBrick {
     }
 
     @Override
-    public void dismissed() {
+    public void dismissed(int direction) {
         if (onDismiss != null) {
             onDismiss.run();
         }

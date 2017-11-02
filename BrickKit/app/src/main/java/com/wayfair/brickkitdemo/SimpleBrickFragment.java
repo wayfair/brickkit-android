@@ -1,31 +1,35 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
- */
 package com.wayfair.brickkitdemo;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.wayfair.brickkit.BrickFragment;
+import com.wayfair.brickkit.brick.SwipeListener;
+import com.wayfair.brickkit.brick.ViewModelBrick;
+import com.wayfair.brickkit.models.TextDataModel;
+import com.wayfair.brickkit.models.TextViewModel;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
 import com.wayfair.brickkit.size.OrientationBrickSize;
-import com.wayfair.brickkit.brick.TextBrick;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Example fragment which shows text bricks.
  *
  * In portrait, the bricks are full width.
  * In landscape the bricks are half width.
+ *
+ * Copyright © 2017 Wayfair. All rights reserved.
  */
 public class SimpleBrickFragment extends BrickFragment {
     private static final int HALF = 120;
 
     private int numberOfBricks = 100;
-
-    private TextBrick[] bricks;
 
     /**
      * Create a new instance of a SimpleBrickFragment.
@@ -43,11 +47,20 @@ public class SimpleBrickFragment extends BrickFragment {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-        bricks = new TextBrick[numberOfBricks];
+            ViewModelBrick[] bricks = new ViewModelBrick[numberOfBricks];
 
         for (int i = 0; i < numberOfBricks; i++) {
-            final int j = i;
-            bricks[i] = new TextBrick(
+            final TextDataModel dataModel = new TextDataModel("Brick: " + i);
+
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    dataModel.appendText(" Hello");
+                }
+
+            }, 0, 1000);
+
+            bricks[i] = new ViewModelBrick(
                     new OrientationBrickSize(maxSpans()) {
                         @Override
                         protected int portrait() {
@@ -60,17 +73,29 @@ public class SimpleBrickFragment extends BrickFragment {
                         }
                     },
                     new InnerOuterBrickPadding(5, 10),
-                    "Brick: " + i
+                    R.layout.text_brick_vm,
+                    BR.textViewModel,
+                    new TextViewModel(dataModel)
             );
             bricks[i].setOnDismiss(
-                    new Runnable() {
+                    new SwipeListener() {
                         @Override
-                        public void run() {
-                            Snackbar.make(
-                                    dataManager.getBrickRecyclerAdapter().getRecyclerView(),
-                                    "Deleted " + bricks[j].getText(),
-                                    Snackbar.LENGTH_SHORT
-                            ).show();
+                        public void swiped(int direction) {
+                            if (direction == ItemTouchHelper.RIGHT
+                                    || direction == ItemTouchHelper.END) {
+                                Snackbar.make(
+                                        dataManager.getBrickRecyclerAdapter().getRecyclerView(),
+                                        "Moved " + dataModel.getText(),
+                                        Snackbar.LENGTH_SHORT
+                                ).show();
+                            } else if (direction == ItemTouchHelper.LEFT
+                                    || direction == ItemTouchHelper.START) {
+                                Snackbar.make(
+                                        dataManager.getBrickRecyclerAdapter().getRecyclerView(),
+                                        "Deleted " + dataModel.getText(),
+                                        Snackbar.LENGTH_SHORT
+                                ).show();
+                            }
                         }
                     }
             );

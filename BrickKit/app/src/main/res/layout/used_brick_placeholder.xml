@@ -8,7 +8,6 @@
     android:paddingBottom="24dp"
     android:paddingStart="@dimen/default_brick_content_padding"
     android:paddingEnd="@dimen/default_brick_content_padding"
-    app:base_alpha="0.7"
     app:intensity="0.2"
     app:auto_start="true">
 

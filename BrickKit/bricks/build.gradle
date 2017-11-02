@@ -4,7 +4,7 @@ apply plugin: 'maven'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 14
@@ -34,6 +34,7 @@ android {
     lintOptions {
         warningsAsErrors true
         abortOnError true
+        disable 'ObsoleteLintCustomCheck'
     }
 }
 
@@ -75,23 +76,25 @@ def getCurrentVersion() {
     return "git describe --abbrev=0 --tag".execute().text.trim();
 }
 
-task createPom << {
-    pom {
-        project {
-            groupId 'com.wayfair'
-            artifactId 'brickkit-android'
-            version getCurrentVersion()
-            packaging 'aar'
+task createPom {
+    doLast {
+        pom {
+            project {
+                groupId 'com.wayfair'
+                artifactId 'brickkit-android'
+                version getCurrentVersion()
+                packaging 'aar'
 
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
                 }
             }
-        }
-    }.writeTo("build/brickkit-android-" + getCurrentVersion() + ".pom")
+        }.writeTo("build/brickkit-android-" + getCurrentVersion() + ".pom")
+    }
 }
 
 
