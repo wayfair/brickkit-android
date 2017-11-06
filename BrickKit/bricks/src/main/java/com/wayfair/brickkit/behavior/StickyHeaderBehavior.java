@@ -52,7 +52,7 @@ public class StickyHeaderBehavior extends StickyViewBehavior {
             // When getSectionHeader is trying to access that position within the recyclerViewItems, that position
             // won't exist since data manager recyclerViewItems linked list just removed it. That will follow up
             // with an indexOfBoundsException and crash the app.
-            if (adapterPosHere == adapter.getItemCount()) {
+            if (adapterPosHere >= adapter.getItemCount()) {
                 return RecyclerView.NO_POSITION;
             }
         }
