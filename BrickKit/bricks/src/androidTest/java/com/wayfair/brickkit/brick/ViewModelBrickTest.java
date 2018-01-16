@@ -55,7 +55,7 @@ public class ViewModelBrickTest {
     }
 
     @Test
-    public void ViewModelBrick_SingleViewModel_Test() throws Throwable {
+    public void ViewModelBrick_SingleViewModel_Test() {
         uiThreadTestRule.runOnUiThread(
                 new Runnable() {
                     @Override
@@ -86,7 +86,7 @@ public class ViewModelBrickTest {
     }
 
     @Test
-    public void ViewModelBrick_MultiViewModel_Test() throws Throwable {
+    public void ViewModelBrick_MultiViewModel_Test() {
         uiThreadTestRule.runOnUiThread(
                 new Runnable() {
                     @Override
@@ -119,7 +119,7 @@ public class ViewModelBrickTest {
     }
 
     @Test
-    public void ViewModelBrick_Dismissed_Test() throws Throwable {
+    public void ViewModelBrick_Dismissed_Test() {
         uiThreadTestRule.runOnUiThread(
                 new Runnable() {
                     @Override
@@ -154,7 +154,7 @@ public class ViewModelBrickTest {
     }
 
     @Test
-    public void ViewModelBrick_Dismissed_NotSet_Test() throws Throwable {
+    public void ViewModelBrick_Dismissed_NotSet_Test() {
         uiThreadTestRule.runOnUiThread(
                 new Runnable() {
                     @Override

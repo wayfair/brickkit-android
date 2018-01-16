@@ -209,8 +209,6 @@ public class BaseBrickTest {
         assertEquals("--1--\n|111|\n11111\n|   |\n--1--", brick.toString(context, manager));
     }
 
-
-
     private static final class TestBaseBrick extends BaseBrick {
 
         private TestBaseBrick(Context context, BrickSize spanSize, BrickPadding padding) {

@@ -5,7 +5,7 @@ ext.androidSupportVersion = '26.1.0'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId 'com.wayfair.brickkitdemo'
         minSdkVersion 14

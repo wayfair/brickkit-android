@@ -13,11 +13,20 @@ import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.padding.SimpleBrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
+import com.wayfair.brickkit.size.SimpleBrickSize;
 
 /**
  * Abstract class which defines Bricks.
  */
 public abstract class BaseBrick {
+    private final static BrickSize DEFAULT_SIZE_FULL_WIDTH = new SimpleBrickSize(1) {
+        @Override
+        protected int size() {
+            return 1;
+        }
+    };
+    private final static BrickPadding DEFAULT_PADDING_NONE = new SimpleBrickPadding(0);
+
     private final BrickPadding padding;
     private final BrickSize spanSize;
 
@@ -32,6 +41,13 @@ public abstract class BaseBrick {
     @StickyScrollMode
     private int stickyScrollMode = StickyScrollMode.SHOW_ON_SCROLL;
     private BrickDataManager dataManager;
+
+    /**
+     * Constructor.
+     */
+    public BaseBrick() {
+        this(DEFAULT_SIZE_FULL_WIDTH, DEFAULT_PADDING_NONE);
+    }
 
     /**
      * Constructor.
@@ -51,7 +67,7 @@ public abstract class BaseBrick {
      * @param spanSize size information for this brick
      */
     public BaseBrick(BrickSize spanSize) {
-        this(spanSize, new SimpleBrickPadding(0));
+        this(spanSize, DEFAULT_PADDING_NONE);
     }
 
     /**

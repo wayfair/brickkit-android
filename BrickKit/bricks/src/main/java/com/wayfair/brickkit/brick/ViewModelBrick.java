@@ -23,6 +23,34 @@ public class ViewModelBrick extends BaseBrick {
     private SwipeListener onDismiss;
 
     /**
+     * Constructor for setting up a {@link BaseBrick} with full width and no padding.
+     *
+     * @param layoutId the id {@link LayoutRes} for the XML
+     * @param bindId the id generated for the "variable" from {@link ViewDataBinding}
+     * @param viewModel the {@link ViewModel} to bind the the XML
+     */
+    public ViewModelBrick(@LayoutRes int layoutId, int bindId, ViewModel viewModel) {
+        super();
+
+        this.layoutId = layoutId;
+        this.viewModels = new SparseArray<>();
+    }
+
+    /**
+     * Constructor for setting up a {@link BaseBrick} with full width and no padding.
+     *
+     * @param layoutId the id {@link LayoutRes} for the XML
+     * @param viewModels the {@link ViewModel}s and ids generated for the "variable"
+     *                   from {@link ViewDataBinding} to bind the the XML
+     */
+    public ViewModelBrick(@LayoutRes int layoutId, SparseArray<ViewModel> viewModels) {
+        super();
+
+        this.layoutId = layoutId;
+        this.viewModels = viewModels;
+    }
+
+    /**
      * Constructor for setting up a ViewModelBrick with only one {@link ViewModel}.
      *
      * @param spanSize size information for this brick
