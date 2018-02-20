@@ -1,14 +1,13 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
- */
 package com.wayfair.brickkit;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.GridLayout;
 
@@ -20,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -28,11 +28,15 @@ import java.util.ListIterator;
  * Class which maintains a collection of bricks and manages how they are laid out in an provided RecyclerView.
  * <p>
  * This class maintains the bricks and handles notifying the underlying adapter when items are updated.
+ *
+ * Copyright © 2017 Wayfair. All rights reserved.
  */
 public class BrickDataManager implements Serializable {
     private ArrayList<BrickBehavior> behaviors;
     private BrickRecyclerAdapter brickRecyclerAdapter;
     private final int maxSpanCount;
+    private final SparseArray<LinkedList<BaseBrick>> idCache;
+    private final HashMap<Object, LinkedList<BaseBrick>> tagCache;
     private LinkedList<BaseBrick> items;
     private LinkedList<BaseBrick> currentlyVisibleItems;
     private boolean dataHasChanged;
@@ -52,6 +56,8 @@ public class BrickDataManager implements Serializable {
     public BrickDataManager(int maxSpanCount) {
         this.maxSpanCount = maxSpanCount;
         this.items = new LinkedList<>();
+        this.idCache = new SparseArray<>();
+        this.tagCache = new HashMap<>();
         this.behaviors = new ArrayList<>();
         this.currentlyVisibleItems = new LinkedList<>();
     }
@@ -249,12 +255,86 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
+     * Adds a brick with a layout ID to the cache.
+     *
+     * @param item the Brick
+     */
+    private void addToIdCache(@NonNull BaseBrick item) {
+        synchronized (this.idCache) {
+            if (this.idCache.get(item.getLayout()) != null) {
+                this.idCache.get(item.getLayout()).add(item);
+            } else {
+                LinkedList<BaseBrick> list = new LinkedList<>();
+                list.add(item);
+                this.idCache.put(item.getLayout(), list);
+            }
+        }
+    }
+
+    /**
+     * Adds a brick with a tag to the cache.
+     *
+     * @param item the Brick
+     */
+    public void addToTagCache(BaseBrick item) {
+        synchronized (this.tagCache) {
+            if (item.getTag() != null) {
+                if (this.tagCache.containsKey(item.getTag())) {
+                    this.tagCache.get(item.getTag()).add(item);
+                } else {
+                    LinkedList<BaseBrick> list = new LinkedList<>();
+                    list.add(item);
+                    this.tagCache.put(item.getTag(), list);
+                }
+            }
+        }
+    }
+
+    /**
+     * Removes a brick with a layout ID from the cache.
+     *
+     * @param item the Brick
+     */
+    private void removeFromIdCache(@NonNull BaseBrick item) {
+        synchronized (this.idCache) {
+            if (this.idCache.get(item.getLayout()) != null) {
+                LinkedList<BaseBrick> list = this.idCache.get(item.getLayout());
+                list.remove(item);
+
+                if (list.size() == 0) {
+                    this.idCache.remove(item.getLayout());
+                }
+            }
+        }
+    }
+
+    /**
+     * Removes a brick with a tag from the cache.
+     *
+     * @param item the Brick
+     */
+    public void removeFromTagCache(@NonNull BaseBrick item) {
+        synchronized (this.tagCache) {
+            if (item.getTag() != null && this.tagCache.containsKey(item.getTag())) {
+                LinkedList<BaseBrick> list = this.tagCache.get(item.getTag());
+                list.remove(item);
+
+                if (list.size() == 0) {
+                    this.tagCache.remove(item.getTag());
+                }
+            }
+        }
+    }
+
+    /**
      * Inserts brick after all other bricks.
      *
      * @param item the brick to add
      */
     public void addLast(BaseBrick item) {
         this.items.addLast(item);
+        addToIdCache(item);
+        addToTagCache(item);
         item.setDataManager(this);
         if (!item.isHidden()) {
             dataHasChanged();
@@ -273,6 +353,8 @@ public class BrickDataManager implements Serializable {
      */
     public void addFirst(BaseBrick item) {
         this.items.addFirst(item);
+        addToIdCache(item);
+        addToTagCache(item);
         item.setDataManager(this);
         if (!item.isHidden()) {
             dataHasChanged();
@@ -293,6 +375,8 @@ public class BrickDataManager implements Serializable {
         int index = getRecyclerViewItems().size();
         this.items.addAll(items);
         for (BaseBrick item : items) {
+            addToIdCache(item);
+            addToTagCache(item);
             item.setDataManager(this);
         }
         int visibleCount = getVisibleCount(items);
@@ -314,6 +398,8 @@ public class BrickDataManager implements Serializable {
     public void addFirst(Collection<? extends BaseBrick> items) {
         this.items.addAll(0, items);
         for (BaseBrick item : items) {
+            addToIdCache(item);
+            addToTagCache(item);
             item.setDataManager(this);
         }
         int visibleCount = getVisibleCount(items);
@@ -361,6 +447,26 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
+     * Return all the bricks that have the tag.
+     *
+     * @param tag The tag we are looking for
+     * @return A list of all the bricks that have the same tag
+     */
+    public List<BaseBrick> getBricksByTag(@NonNull Object tag) {
+        return tagCache.get(tag) == null ? null : (List<BaseBrick>) tagCache.get(tag).clone();
+    }
+
+    /**
+     * Return all the bricks that have the layout.
+     *
+     * @param layoutId The layout id we are looking for
+     * @return A list of all the bricks that have the same layout
+     */
+    public List<BaseBrick> getBricksByLayoutId(@LayoutRes int layoutId) {
+        return idCache.get(layoutId) == null ? null : (List<BaseBrick>) idCache.get(layoutId).clone();
+    }
+
+    /**
      * Inserts brick before the anchor brick.
      *
      * @param anchor brick to insert before
@@ -374,6 +480,9 @@ public class BrickDataManager implements Serializable {
         } else {
             items.add(anchorDataManagerIndex, item);
         }
+
+        addToIdCache(item);
+        addToTagCache(item);
         item.setDataManager(this);
 
         if (!item.isHidden()) {
@@ -402,6 +511,8 @@ public class BrickDataManager implements Serializable {
             this.items.addAll(index, items);
         }
         for (BaseBrick item : items) {
+            addToIdCache(item);
+            addToTagCache(item);
             item.setDataManager(this);
         }
 
@@ -431,7 +542,11 @@ public class BrickDataManager implements Serializable {
         } else {
             this.items.add(anchorDataManagerIndex + 1, item);
         }
+
+        addToIdCache(item);
+        addToTagCache(item);
         item.setDataManager(this);
+
         if (!item.isHidden()) {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
@@ -459,6 +574,8 @@ public class BrickDataManager implements Serializable {
             this.items.addAll(index, items);
         }
         for (BaseBrick item : items) {
+            addToIdCache(item);
+            addToTagCache(item);
             item.setDataManager(this);
         }
 
@@ -481,6 +598,9 @@ public class BrickDataManager implements Serializable {
      */
     public void removeItem(BaseBrick item) {
         this.items.remove(item);
+
+        removeFromIdCache(item);
+        removeFromTagCache(item);
         item.setDataManager(null);
 
         if (!item.isHidden()) {
@@ -533,6 +653,8 @@ public class BrickDataManager implements Serializable {
     public void removeItems(Collection<? extends BaseBrick> items) {
         this.items.removeAll(items);
         for (BaseBrick item : items) {
+            removeFromIdCache(item);
+            removeFromTagCache(item);
             item.setDataManager(null);
         }
         int visibleCount = getVisibleCount(items);
@@ -554,6 +676,8 @@ public class BrickDataManager implements Serializable {
     public void clear() {
         int startCount = getRecyclerViewItems().size();
         this.items = new LinkedList<>();
+        this.idCache.clear();
+        this.tagCache.clear();
         dataHasChanged();
         if (brickRecyclerAdapter != null) {
             brickRecyclerAdapter.safeNotifyItemRangeRemoved(0, startCount);
@@ -573,8 +697,12 @@ public class BrickDataManager implements Serializable {
                 int dataIndex = items.indexOf(target);
                 BaseBrick brickToRemove = items.get(dataIndex);
                 items.remove(brickToRemove);
+                removeFromIdCache(brickToRemove);
+                removeFromTagCache(brickToRemove);
                 brickToRemove.setDataManager(null);
                 items.add(dataIndex, replacement);
+                addToIdCache(replacement);
+                addToTagCache(replacement);
                 replacement.setDataManager(this);
                 dataHasChanged();
                 if (brickRecyclerAdapter != null) {
@@ -588,8 +716,12 @@ public class BrickDataManager implements Serializable {
                 int dataIndex = items.indexOf(target);
                 BaseBrick brickToRemove = items.get(dataIndex);
                 items.remove(brickToRemove);
+                removeFromIdCache(brickToRemove);
+                removeFromTagCache(brickToRemove);
                 brickToRemove.setDataManager(null);
                 items.add(dataIndex, replacement);
+                addToIdCache(replacement);
+                addToTagCache(replacement);
                 replacement.setDataManager(this);
                 dataHasChanged();
                 if (brickRecyclerAdapter != null) {
@@ -602,8 +734,12 @@ public class BrickDataManager implements Serializable {
                 if (dataIndex != -1) { // A double-tap can cause this
                     BaseBrick brickToRemove = items.get(dataIndex);
                     items.remove(brickToRemove);
+                    removeFromIdCache(brickToRemove);
+                    removeFromTagCache(brickToRemove);
                     brickToRemove.setDataManager(null);
                     items.add(dataIndex, replacement);
+                    addToIdCache(replacement);
+                    addToTagCache(replacement);
                     replacement.setDataManager(this);
                     dataHasChanged();
                     if (brickRecyclerAdapter != null) {
@@ -704,6 +840,24 @@ public class BrickDataManager implements Serializable {
         }
 
         removeItems(itemToRemove);
+    }
+
+    /**
+     * Removes all instances of a given tag.
+     *
+     * @param tag tag to remove all instances of
+     */
+    public void removeAllByTag(@NonNull Object tag) {
+        removeItems(getBricksByTag(tag));
+    }
+
+    /**
+     * Removes all instances of a given layout Id.
+     *
+     * @param layoutId layout to remove all instances of
+     */
+    public void removeAllByLayoutId(@LayoutRes int layoutId) {
+        removeItems(getBricksByLayoutId(layoutId));
     }
 
     /**
@@ -1031,7 +1185,7 @@ public class BrickDataManager implements Serializable {
          * @param orientation        Layout orientation. Should be {@link GridLayoutManager#HORIZONTAL} or {@link GridLayoutManager#VERTICAL}.
          * @param reverseLayout      When set to true, layouts from end to start.
          */
-        public WFGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
+        WFGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
             super(context, spanCount, orientation, reverseLayout);
         }
 

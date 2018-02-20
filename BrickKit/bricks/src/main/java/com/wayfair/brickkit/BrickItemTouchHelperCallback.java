@@ -74,6 +74,6 @@ class BrickItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         BaseBrick brick = dataManager.brickAtPosition(viewHolder.getAdapterPosition());
         dataManager.removeItem(brick);
-        brick.dismissed();
+        brick.dismissed(direction);
     }
 }

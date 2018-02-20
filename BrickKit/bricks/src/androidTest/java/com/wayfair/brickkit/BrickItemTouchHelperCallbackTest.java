@@ -129,6 +129,6 @@ public class BrickItemTouchHelperCallbackTest {
         callback.onSwiped(viewHolder, DIRECTION);
 
         verify(dataManager).removeItem(brick);
-        verify(brick).dismissed();
+        verify(brick).dismissed(DIRECTION);
     }
 }
