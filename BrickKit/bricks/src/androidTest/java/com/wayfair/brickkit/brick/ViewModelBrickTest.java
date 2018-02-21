@@ -1,11 +1,10 @@
 package com.wayfair.brickkit.brick;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.SparseArray;
@@ -15,23 +14,19 @@ import android.widget.LinearLayout;
 
 import com.wayfair.brickkit.BR;
 import com.wayfair.brickkit.R;
-import com.wayfair.brickkit.databinding.TextBrickVmBinding;
 import com.wayfair.brickkit.models.TextDataModel;
 import com.wayfair.brickkit.models.TextViewModel;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.matchers.Not;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class ViewModelBrickTest {
@@ -44,9 +39,6 @@ public class ViewModelBrickTest {
     private BrickSize brickSize;
     private BrickPadding brickPadding;
 
-    @Rule
-    public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
-
     @Before
     public void setup() {
         context = InstrumentationRegistry.getTargetContext();
@@ -55,8 +47,9 @@ public class ViewModelBrickTest {
     }
 
     @Test
+    @UiThreadTest
     public void ViewModelBrick_SingleViewModel_Test() {
-        uiThreadTestRule.runOnUiThread(
+        new Handler(Looper.getMainLooper()).post(
                 new Runnable() {
                     @Override
                     public void run() {
@@ -86,8 +79,9 @@ public class ViewModelBrickTest {
     }
 
     @Test
+    @UiThreadTest
     public void ViewModelBrick_MultiViewModel_Test() {
-        uiThreadTestRule.runOnUiThread(
+        new Handler(Looper.getMainLooper()).post(
                 new Runnable() {
                     @Override
                     public void run() {
@@ -119,8 +113,9 @@ public class ViewModelBrickTest {
     }
 
     @Test
+    @UiThreadTest
     public void ViewModelBrick_Dismissed_Test() {
-        uiThreadTestRule.runOnUiThread(
+        new Handler(Looper.getMainLooper()).post(
                 new Runnable() {
                     @Override
                     public void run() {
@@ -154,8 +149,9 @@ public class ViewModelBrickTest {
     }
 
     @Test
+    @UiThreadTest
     public void ViewModelBrick_Dismissed_NotSet_Test() {
-        uiThreadTestRule.runOnUiThread(
+        new Handler(Looper.getMainLooper()).post(
                 new Runnable() {
                     @Override
                     public void run() {
