@@ -25,6 +25,11 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
         setDataModel(dataModel);
     }
 
+    /**
+     * Add an {@link ViewModelUpdateListener} to the list of items watching for changes
+     *
+     * @param updateListener the object that is watching
+     */
     public void addUpdateListener(ViewModelUpdateListener updateListener) {
         updateListeners.add(updateListener);
     }
@@ -71,7 +76,13 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
         return dataModel != null && dataModel.isReady();
     }
 
+    /**
+     * Interface for listening to changes
+     */
     public interface ViewModelUpdateListener {
+        /**
+         * Called when notify change is called
+         */
         void onChange();
     }
 }
