@@ -13,14 +13,26 @@ import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.padding.SimpleBrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
+import com.wayfair.brickkit.size.SimpleBrickSize;
 
 /**
  * Abstract class which defines Bricks.
  */
 public abstract class BaseBrick {
+    public static final int DEFAULT_MAX_SPAN_COUNT = 240;
+
+    public final static BrickSize DEFAULT_SIZE_FULL_WIDTH = new SimpleBrickSize(DEFAULT_MAX_SPAN_COUNT) {
+        @Override
+        protected int size() {
+            return DEFAULT_MAX_SPAN_COUNT;
+        }
+    };
+    public final static BrickPadding DEFAULT_PADDING_NONE = new SimpleBrickPadding(0);
+
     private final BrickPadding padding;
     private final BrickSize spanSize;
 
+    private Object tag;
     private boolean hidden = false;
     private boolean header = false;
     private boolean footer = false;
@@ -31,6 +43,13 @@ public abstract class BaseBrick {
     @StickyScrollMode
     private int stickyScrollMode = StickyScrollMode.SHOW_ON_SCROLL;
     private BrickDataManager dataManager;
+
+    /**
+     * Constructor.
+     */
+    public BaseBrick() {
+        this(DEFAULT_SIZE_FULL_WIDTH, DEFAULT_PADDING_NONE);
+    }
 
     /**
      * Constructor.
@@ -50,9 +69,16 @@ public abstract class BaseBrick {
      * @param spanSize size information for this brick
      */
     public BaseBrick(BrickSize spanSize) {
-        this.spanSize = spanSize;
-        this.spanSize.setBaseBrick(this);
-        this.padding = new SimpleBrickPadding(0);
+        this(spanSize, DEFAULT_PADDING_NONE);
+    }
+
+    /**
+     * Constructor which uses the default padding.
+     *
+     * @param padding  padding for this brick
+     */
+    public BaseBrick(BrickPadding padding) {
+        this(DEFAULT_SIZE_FULL_WIDTH, padding);
     }
 
     /**
@@ -100,6 +126,32 @@ public abstract class BaseBrick {
     public int getPlaceholderLayout() {
         throw new UnsupportedOperationException(getClass().getSimpleName()
                 + " getPlaceholderLayout() method must be overridden within brick extending BaseBrick");
+    }
+
+    /**
+     * Set the brick's tag. This is similar to a {@link View#setTag(Object)}.
+     *
+     * @param tag Set the tag that can be used to ID the brick later
+     */
+    public void setTag(Object tag) {
+        if (dataManager != null && this.tag != null && !this.tag.equals(tag)) {
+            dataManager.removeFromTagCache(this);
+        }
+
+        this.tag = tag;
+
+        if (dataManager != null && tag != null) {
+            dataManager.addToTagCache(this);
+        }
+    }
+
+    /**
+     * Get's the brick's tag. This is similar to a {@link View#getTag()}.
+     *
+     * @return The tag for the brick
+     */
+    public Object getTag() {
+        return tag;
     }
 
     /**
@@ -310,8 +362,13 @@ public abstract class BaseBrick {
 
     /**
      * Called when an item is swiped-to-dismiss.
+     *
+     * @param direction one of {@link ItemTouchHelper.UP}, {@link ItemTouchHelper.RIGHT},
+     *                  {@link ItemTouchHelper.DOWN}, {@link ItemTouchHelper.LEFT},
+     *                  {@link ItemTouchHelper.START}, {@link ItemTouchHelper.END}
+     *
      */
-    public void dismissed() {
+    public void dismissed(int direction) {
     }
 
     /**

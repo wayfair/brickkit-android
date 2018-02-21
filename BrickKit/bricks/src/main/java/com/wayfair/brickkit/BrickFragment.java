@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wayfair.brickkit.brick.BaseBrick;
+
 /**
  * Fragment which provides a simple interface for adding bricks / behaviors.
  */
@@ -52,7 +54,7 @@ public abstract class BrickFragment extends Fragment {
      * @return the max spans for this fragment.
      */
     public int maxSpans() {
-        return 240;
+        return BaseBrick.DEFAULT_MAX_SPAN_COUNT;
     }
 
     /**

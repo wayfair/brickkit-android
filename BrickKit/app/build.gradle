@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
+ext.androidSupportVersion = '26.1.0'
+
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId 'com.wayfair.brickkitdemo'
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -18,8 +20,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            testCoverageEnabled true
+        }
     }
     productFlavors {
+    }
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -30,15 +38,15 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:support-v13:25.1.0'
-    compile 'com.android.support:support-compat:25.1.0'
-    compile 'com.android.support:support-core-utils:25.1.0'
-    compile 'com.android.support:support-core-ui:25.1.0'
-    compile 'com.android.support:support-fragment:25.1.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
+    compile "com.android.support:support-v4:${androidSupportVersion}"
+    compile "com.android.support:support-v13:${androidSupportVersion}"
+    compile "com.android.support:support-compat:${androidSupportVersion}"
+    compile "com.android.support:support-core-utils:${androidSupportVersion}"
+    compile "com.android.support:support-core-ui:${androidSupportVersion}"
+    compile "com.android.support:support-fragment:${androidSupportVersion}"
+    compile "com.android.support:appcompat-v7:${androidSupportVersion}"
+    compile "com.android.support:recyclerview-v7:${androidSupportVersion}"
+    compile "com.android.support:design:${androidSupportVersion}"
     compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
 
     testCompile 'junit:junit:4.12'

@@ -6,6 +6,7 @@ package com.wayfair.brickkit.brick;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -66,11 +67,11 @@ public class TextBrickTest {
 
         TextBrick brick = new TextBrick(brickSize, TEXT);
 
-        brick.dismissed();
+        brick.dismissed(ItemTouchHelper.START);
 
         brick.setOnDismiss(runnable);
 
-        brick.dismissed();
+        brick.dismissed(ItemTouchHelper.START);
 
         verify(runnable).run();
     }
