@@ -26,7 +26,7 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
     }
 
     /**
-     * Add an {@link ViewModelUpdateListener} to the list of items watching for changes
+     * Add an {@link ViewModelUpdateListener} to the list of items watching for changes.
      *
      * @param updateListener the object that is watching
      */
@@ -68,7 +68,7 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
     }
 
     /**
-     * Determines if the {@link DataModel} is ready, meaning the ViewModel is ready
+     * Determines if the {@link DataModel} is ready, meaning the ViewModel is ready.
      *
      * @return if the data model is ready, IE fully populated
      */
@@ -77,11 +77,11 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
     }
 
     /**
-     * Interface for listening to changes
+     * Interface for listening to changes.
      */
     public interface ViewModelUpdateListener {
         /**
-         * Called when notify change is called
+         * Called when notify change is called.
          */
         void onChange();
     }

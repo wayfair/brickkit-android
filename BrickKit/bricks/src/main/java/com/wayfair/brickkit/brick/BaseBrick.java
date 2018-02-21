@@ -21,13 +21,13 @@ import com.wayfair.brickkit.size.SimpleBrickSize;
 public abstract class BaseBrick {
     public static final int DEFAULT_MAX_SPAN_COUNT = 240;
 
-    public final static BrickSize DEFAULT_SIZE_FULL_WIDTH = new SimpleBrickSize(DEFAULT_MAX_SPAN_COUNT) {
+    public static final BrickSize DEFAULT_SIZE_FULL_WIDTH = new SimpleBrickSize(DEFAULT_MAX_SPAN_COUNT) {
         @Override
         protected int size() {
             return DEFAULT_MAX_SPAN_COUNT;
         }
     };
-    public final static BrickPadding DEFAULT_PADDING_NONE = new SimpleBrickPadding(0);
+    public static final BrickPadding DEFAULT_PADDING_NONE = new SimpleBrickPadding(0);
 
     private final BrickPadding padding;
     private final BrickSize spanSize;

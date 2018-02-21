@@ -3,7 +3,6 @@ package com.wayfair.brickkit.brick;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -67,7 +66,7 @@ public class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpda
     }
 
     /**
-     * Private constructor that the {@link Builder} class uses
+     * Private constructor that the {@link Builder} class uses.
      *
      * @param builder the builder
      */
@@ -80,113 +79,6 @@ public class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpda
 
         for (int i = 0; i < viewModels.size(); i++) {
             viewModels.valueAt(i).addUpdateListener(this);
-        }
-    }
-
-    /**
-     * A builder class for {@link ViewModelBrick}, this makes it clearer what is required and what you are actually doing when creating
-     * {@link ViewModelBrick}s.
-     */
-    public static class Builder {
-        @LayoutRes
-        int layoutId;
-        SparseArray<ViewModel> viewModels = new SparseArray<>();
-        BrickSize spanSize = getDefaultSize();
-        BrickPadding padding = getDefaultPadding();
-        SwipeListener onDismiss = null;
-
-        /**
-         * Builder constructor, requires only a {@link LayoutRes} to work.
-         *
-         * @param layoutId a {@link LayoutRes} to use as a brick
-         */
-        public Builder(@LayoutRes int layoutId) {
-            this.layoutId = layoutId;
-        }
-
-        /**
-         * Add a {@link ViewModel} with a binding Id for the layout already defined.
-         *
-         * @param bindingId the binding Id of the view model
-         * @param viewModel the view model to be bound, extends {@link ViewModel}
-         * @return the builder
-         */
-        public Builder addViewModel(int bindingId, ViewModel viewModel) {
-            if (viewModel != null) {
-                this.viewModels.put(bindingId, viewModel);
-            }
-            return this;
-        }
-
-        /**
-         * Add a set of {@link ViewModel}s and their binding Ids.
-         *
-         * @param viewModels a {@link SparseArray} of binding Ids and {@link ViewModel}s
-         * @return the builder
-         */
-        public Builder setViewModels(SparseArray<ViewModel> viewModels) {
-            this.viewModels = viewModels;
-            return this;
-        }
-
-        /**
-         * Set the {@link BrickSize}
-         *
-         * @param spanSize the {@link BrickSize}
-         * @return the builder
-         */
-        public Builder setSpanSize(BrickSize spanSize) {
-            this.spanSize = spanSize;
-            return this;
-        }
-
-        /**
-         * Set the {@link BrickPadding}
-         *
-         * @param padding the {@link BrickPadding}
-         * @return the builder
-         */
-        public Builder setPadding(BrickPadding padding) {
-            this.padding = padding;
-            return this;
-        }
-
-        /**
-         * Set the {@link SwipeListener}
-         *
-         * @param onDismiss the {@link SwipeListener}
-         * @return the builder
-         */
-        public Builder setOnDismiss(SwipeListener onDismiss) {
-            this.onDismiss = onDismiss;
-            return this;
-        }
-
-        /**
-         * Assemble the {@link ViewModelBrick}
-         *
-         * @return the complete {@link ViewModelBrick}
-         */
-        public ViewModelBrick build() {
-            return new ViewModelBrick(this);
-        }
-
-        /**
-         * Get the default size
-         *
-         * @return the default {@link BrickSize}
-         */
-        protected BrickSize getDefaultSize() {
-            return DEFAULT_SIZE_FULL_WIDTH;
-        }
-
-        /**
-         * Get the default padding
-         *
-         * @return the default {@link BrickPadding}
-         */
-        protected BrickPadding getDefaultPadding() {
-            return DEFAULT_PADDING_NONE;
         }
     }
 
@@ -210,7 +102,7 @@ public class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpda
     }
 
     /**
-     * Add a view model to the Brick
+     * Add a view model to the Brick.
      *
      * @param bindingId the binding ID of the view model
      * @param viewModel the view model
@@ -220,13 +112,13 @@ public class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpda
     }
 
     /**
-     * Replace all the view models with these
+     * Replace all the view models with these.
      *
      * @param viewModels the view models to replace existing view models
      */
     public void setViewModels(SparseArray<ViewModel> viewModels) {
         this.viewModels.clear();
-        for(int i = 0; i < viewModels.size(); i++) {
+        for (int i = 0; i < viewModels.size(); i++) {
             this.viewModels.put(viewModels.keyAt(i), viewModels.valueAt(i));
         }
     }
@@ -312,6 +204,113 @@ public class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpda
         }
 
         return isDataReady;
+    }
+
+    /**
+     * A builder class for {@link ViewModelBrick}, this makes it clearer what is required and what you are actually doing when creating
+     * {@link ViewModelBrick}s.
+     */
+    public static class Builder {
+        @LayoutRes
+        int layoutId;
+        SparseArray<ViewModel> viewModels = new SparseArray<>();
+        BrickSize spanSize = getDefaultSize();
+        BrickPadding padding = getDefaultPadding();
+        SwipeListener onDismiss = null;
+
+        /**
+         * Builder constructor, requires only a {@link LayoutRes} to work.
+         *
+         * @param layoutId a {@link LayoutRes} to use as a brick
+         */
+        public Builder(@LayoutRes int layoutId) {
+            this.layoutId = layoutId;
+        }
+
+        /**
+         * Add a {@link ViewModel} with a binding Id for the layout already defined.
+         *
+         * @param bindingId the binding Id of the view model
+         * @param viewModel the view model to be bound, extends {@link ViewModel}
+         * @return the builder
+         */
+        public Builder addViewModel(int bindingId, ViewModel viewModel) {
+            if (viewModel != null) {
+                this.viewModels.put(bindingId, viewModel);
+            }
+            return this;
+        }
+
+        /**
+         * Add a set of {@link ViewModel}s and their binding Ids.
+         *
+         * @param viewModels a {@link SparseArray} of binding Ids and {@link ViewModel}s
+         * @return the builder
+         */
+        public Builder setViewModels(SparseArray<ViewModel> viewModels) {
+            this.viewModels = viewModels;
+            return this;
+        }
+
+        /**
+         * Set the {@link BrickSize}.
+         *
+         * @param spanSize the {@link BrickSize}
+         * @return the builder
+         */
+        public Builder setSpanSize(BrickSize spanSize) {
+            this.spanSize = spanSize;
+            return this;
+        }
+
+        /**
+         * Set the {@link BrickPadding}.
+         *
+         * @param padding the {@link BrickPadding}
+         * @return the builder
+         */
+        public Builder setPadding(BrickPadding padding) {
+            this.padding = padding;
+            return this;
+        }
+
+        /**
+         * Set the {@link SwipeListener}.
+         *
+         * @param onDismiss the {@link SwipeListener}
+         * @return the builder
+         */
+        public Builder setOnDismiss(SwipeListener onDismiss) {
+            this.onDismiss = onDismiss;
+            return this;
+        }
+
+        /**
+         * Assemble the {@link ViewModelBrick}.
+         *
+         * @return the complete {@link ViewModelBrick}
+         */
+        public ViewModelBrick build() {
+            return new ViewModelBrick(this);
+        }
+
+        /**
+         * Get the default size.
+         *
+         * @return the default {@link BrickSize}
+         */
+        protected BrickSize getDefaultSize() {
+            return DEFAULT_SIZE_FULL_WIDTH;
+        }
+
+        /**
+         * Get the default padding.
+         *
+         * @return the default {@link BrickPadding}
+         */
+        protected BrickPadding getDefaultPadding() {
+            return DEFAULT_PADDING_NONE;
+        }
     }
 
     /**
