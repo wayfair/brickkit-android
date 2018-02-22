@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.annotation.UiThreadTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.SparseArray;
@@ -19,6 +18,8 @@ import com.wayfair.brickkit.models.TextViewModel;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,9 +32,11 @@ import static org.mockito.Mockito.verify;
 @RunWith(AndroidJUnit4.class)
 public class ViewModelBrickTest {
     private final String TEXT = "Test Text...";
+    private final String TEXT_2 = "Not Test Text...";
     private final String APPENDING_TEXT = " DONE";
     private final int LAYOUT_ID = R.layout.text_brick_vm;
     private final int BIND_ID = BR.textViewModel;
+    private final int BIND_ID_2 = BR.text;
 
     private Context context;
     private BrickSize brickSize;
@@ -47,7 +50,6 @@ public class ViewModelBrickTest {
     }
 
     @Test
-    @UiThreadTest
     public void ViewModelBrick_SingleViewModel_Test() {
         new Handler(Looper.getMainLooper()).post(
                 new Runnable() {
@@ -56,13 +58,11 @@ public class ViewModelBrickTest {
                         TextDataModel textDataModel = new TextDataModel(TEXT);
                         TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
 
-                        ViewModelBrick viewModelBrick = new ViewModelBrick(
-                                brickSize,
-                                brickPadding,
-                                LAYOUT_ID,
-                                BIND_ID,
-                                textViewModel
-                        );
+                        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                                .setSpanSize(brickSize)
+                                .setPadding(brickPadding)
+                                .addViewModel(BIND_ID, textViewModel)
+                                .build();
 
                         LinearLayout parent = new LinearLayout(context);
                         View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
@@ -79,7 +79,6 @@ public class ViewModelBrickTest {
     }
 
     @Test
-    @UiThreadTest
     public void ViewModelBrick_MultiViewModel_Test() {
         new Handler(Looper.getMainLooper()).post(
                 new Runnable() {
@@ -91,12 +90,11 @@ public class ViewModelBrickTest {
                         SparseArray<ViewModel> viewModels = new SparseArray<>();
                         viewModels.put(BIND_ID, textViewModel);
 
-                        ViewModelBrick viewModelBrick = new ViewModelBrick(
-                                brickSize,
-                                brickPadding,
-                                LAYOUT_ID,
-                                viewModels
-                        );
+                        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                                .setSpanSize(brickSize)
+                                .setPadding(brickPadding)
+                                .addViewModel(BIND_ID, textViewModel)
+                                .build();
 
                         LinearLayout parent = new LinearLayout(context);
                         View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
@@ -113,7 +111,6 @@ public class ViewModelBrickTest {
     }
 
     @Test
-    @UiThreadTest
     public void ViewModelBrick_Dismissed_Test() {
         new Handler(Looper.getMainLooper()).post(
                 new Runnable() {
@@ -149,7 +146,6 @@ public class ViewModelBrickTest {
     }
 
     @Test
-    @UiThreadTest
     public void ViewModelBrick_Dismissed_NotSet_Test() {
         new Handler(Looper.getMainLooper()).post(
                 new Runnable() {
@@ -185,4 +181,93 @@ public class ViewModelBrickTest {
         );
     }
 
+    @Test
+    public void ViewModelBrick_Equals_True_Test() {
+        TextDataModel textDataModel = new TextDataModel(TEXT);
+        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
+
+        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                .setSpanSize(brickSize)
+                .setPadding(brickPadding)
+                .addViewModel(BIND_ID, textViewModel)
+                .build();
+
+        SparseArray<ViewModel> viewModelSparseArray = new SparseArray<>();
+        viewModelSparseArray.put(BIND_ID, textViewModel);
+        viewModelBrick.setViewModels(viewModelSparseArray);
+        ViewModelBrick viewModelBrick2 = new ViewModelBrick(
+                brickSize,
+                brickPadding,
+                LAYOUT_ID,
+                viewModelSparseArray
+        );
+
+        Assert.assertTrue(viewModelBrick.equals(viewModelBrick2));
+    }
+
+    @Test
+    public void ViewModelBrick_Equals_True_False() {
+        TextDataModel textDataModel = new TextDataModel(TEXT);
+        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
+
+        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                .setSpanSize(brickSize)
+                .setPadding(brickPadding)
+                .addViewModel(BIND_ID, textViewModel)
+                .build();
+
+        TextDataModel textDataModel2 = new TextDataModel(TEXT_2);
+        TextViewModel textViewModel2 = spy(new TextViewModel(textDataModel2));
+
+        ViewModelBrick viewModelBrick2 = new ViewModelBrick(
+                brickSize,
+                brickPadding,
+                LAYOUT_ID,
+                BIND_ID,
+                textViewModel2
+        );
+
+
+        Assert.assertFalse(viewModelBrick.equals(viewModelBrick2));
+    }
+
+    @Test
+    public void ViewModelBrick_AddViewModel() {
+        TextDataModel textDataModel = new TextDataModel(TEXT);
+        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
+
+        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                .setSpanSize(brickSize)
+                .setPadding(brickPadding)
+                .addViewModel(BIND_ID, textViewModel)
+                .build();
+
+        TextDataModel textDataModel2 = new TextDataModel(TEXT_2);
+        TextViewModel textViewModel2 = spy(new TextViewModel(textDataModel2));
+
+        viewModelBrick.addViewModel(BIND_ID_2, textViewModel2);
+
+        Assert.assertEquals(2, viewModelBrick.getViewModels().size());
+    }
+
+    @Test
+    public void ViewModelBrick_SetViewModels() {
+        TextDataModel textDataModel = new TextDataModel(TEXT);
+        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
+
+        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                .setSpanSize(brickSize)
+                .setPadding(brickPadding)
+                .addViewModel(BIND_ID, textViewModel)
+                .build();
+
+        TextDataModel textDataModel2 = new TextDataModel(TEXT_2);
+        TextViewModel textViewModel2 = spy(new TextViewModel(textDataModel2));
+
+        SparseArray<ViewModel> viewModelSparseArray = new SparseArray<>();
+        viewModelSparseArray.put(BIND_ID_2, textViewModel2);
+        viewModelBrick.setViewModels(viewModelSparseArray);
+
+        Assert.assertEquals(1, viewModelBrick.getViewModels().size());
+    }
 }
