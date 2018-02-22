@@ -14,56 +14,12 @@ import com.wayfair.brickkit.size.BrickSize;
  * This class is used as a Generic Brick that can take in any XML Layout and use DataBinding to
  * insert information from a {@link ViewModel}.
  */
-public class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpdateListener {
+public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpdateListener {
     @LayoutRes
     private final int layoutId;
     protected final SparseArray<ViewModel> viewModels;
 
     protected SwipeListener onDismiss;
-
-//    /**
-//     * Constructor for setting up a ViewModelBrick with only one {@link ViewModel}.
-//     *
-//     * @param spanSize size information for this brick
-//     * @param padding padding for this brick
-//     * @param layoutId the id {@link LayoutRes} for the XML
-//     * @param bindId the id generated for the "variable" from {@link ViewDataBinding}
-//     * @param viewModel the {@link ViewModel} to bind the the XML
-//     */
-//    ViewModelBrick(BrickSize spanSize, BrickPadding padding,
-//                          @LayoutRes int layoutId, int bindId, ViewModel viewModel) {
-//        super(spanSize, padding);
-//
-//        this.layoutId = layoutId;
-//        this.viewModels = new SparseArray<>();
-//        this.viewModels.put(bindId, viewModel);
-//
-//        for (int i = 0; i < viewModels.size(); i++) {
-//            viewModels.valueAt(i).addUpdateListener(this);
-//        }
-//    }
-//
-//
-//    /**
-//     * Constructor for setting up a ViewModelBrick with only one {@link ViewModel}.
-//     *
-//     * @param spanSize size information for this brick
-//     * @param padding padding for this brick
-//     * @param layoutId the id {@link LayoutRes} for the XML
-//     * @param viewModels the {@link ViewModel}s and ids generated for the "variable"
-//     *                   from {@link ViewDataBinding} to bind the the XML
-//     */
-//    ViewModelBrick(BrickSize spanSize, BrickPadding padding,
-//                          @LayoutRes int layoutId, SparseArray<ViewModel> viewModels) {
-//        super(spanSize, padding);
-//
-//        this.layoutId = layoutId;
-//        this.viewModels = viewModels;
-//
-//        for (int i = 0; i < viewModels.size(); i++) {
-//            viewModels.valueAt(i).addUpdateListener(this);
-//        }
-//    }
 
     /**
      * Private constructor that the {@link Builder} class uses.
