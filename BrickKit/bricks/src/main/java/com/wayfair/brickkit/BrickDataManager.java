@@ -3,6 +3,7 @@ package com.wayfair.brickkit;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -227,6 +228,26 @@ public class BrickDataManager implements Serializable {
         }
 
         return currentlyVisibleItems;
+    }
+
+    /**
+     * Use DiffUtils to update the recycler view.
+     *
+     * @param bricks the new list of bricks.
+     */
+    public void diffUpdateViewModelBricks(LinkedList<BaseBrick> bricks) {
+        LinkedList<BaseBrick> newVisibleBricks = new LinkedList<>();
+
+        for (BaseBrick brick : bricks) {
+            if (!brick.isHidden()) {
+                newVisibleBricks.add(brick);
+            }
+        }
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new BrickDiffUtilCallback(currentlyVisibleItems, newVisibleBricks));
+        items.clear();
+        items.addAll(bricks);
+        dataHasChanged();
+        diffResult.dispatchUpdatesTo(brickRecyclerAdapter);
     }
 
     /**

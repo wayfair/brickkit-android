@@ -206,6 +206,33 @@ public class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpda
         return isDataReady;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean areContentsTheSame = true;
+
+        if (obj instanceof ViewModelBrick) {
+            for (int i = 0; i < getViewModels().size(); i++) {
+                for (int j = 0; j < ((ViewModelBrick) obj).getViewModels().size(); j++) {
+                    if (getViewModels().keyAt(i) == ((ViewModelBrick) obj).getViewModels().keyAt(j)) {
+                        if (!getViewModels().valueAt(i).equals(((ViewModelBrick) obj).getViewModels().valueAt(j))) {
+                            areContentsTheSame = false;
+                        }
+                    }
+                }
+
+            }
+        } else {
+            areContentsTheSame = false;
+        }
+
+        return areContentsTheSame;
+    }
+
     /**
      * A builder class for {@link ViewModelBrick}, this makes it clearer what is required and what you are actually doing when creating
      * {@link ViewModelBrick}s.
