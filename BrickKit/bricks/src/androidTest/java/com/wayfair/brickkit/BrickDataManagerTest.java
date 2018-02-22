@@ -141,6 +141,22 @@ public class BrickDataManagerTest {
     }
 
     @Test
+    public void testUpdateBricks() {
+        LinkedList<BaseBrick> bricks = new LinkedList<>(manager.getDataManagerItems());
+
+        bricks.addLast(brickTestHelper.generateBrick());
+        bricks.add(1, brickTestHelper.generateBrick());
+        bricks.add(3, brickTestHelper.generateBrick());
+
+        manager.updateBricks(bricks);
+
+        assertEquals(7, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
+
+        verify(headerBehavior).onDataSetChanged();
+    }
+
+    @Test
     public void testItemExist() {
         assertTrue(manager.hasInstanceOf(BaseBrick.class));
         manager.clear();

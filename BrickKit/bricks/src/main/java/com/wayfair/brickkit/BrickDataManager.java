@@ -235,7 +235,7 @@ public class BrickDataManager implements Serializable {
      *
      * @param bricks the new list of bricks.
      */
-    public void diffUpdateViewModelBricks(LinkedList<BaseBrick> bricks) {
+    public void updateBricks(LinkedList<BaseBrick> bricks) {
         LinkedList<BaseBrick> newVisibleBricks = new LinkedList<>();
 
         for (BaseBrick brick : bricks) {

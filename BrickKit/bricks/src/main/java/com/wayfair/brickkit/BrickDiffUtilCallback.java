@@ -7,7 +7,7 @@ import com.wayfair.brickkit.brick.BaseBrick;
 import java.util.LinkedList;
 
 /**
- * A DuffUtil for Bricks.
+ * A DiffUtil for Bricks.
  */
 public class BrickDiffUtilCallback extends DiffUtil.Callback {
 

@@ -119,13 +119,11 @@ public class ViewModelBrickTest {
                         TextDataModel textDataModel = new TextDataModel(TEXT);
                         TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
 
-                        ViewModelBrick viewModelBrick = new ViewModelBrick(
-                                brickSize,
-                                brickPadding,
-                                LAYOUT_ID,
-                                BIND_ID,
-                                textViewModel
-                        );
+                        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                                .setSpanSize(brickSize)
+                                .setPadding(brickPadding)
+                                .addViewModel(BIND_ID, textViewModel)
+                                .build();
 
                         SwipeListener swipeListener = mock(SwipeListener.class);
 
@@ -154,13 +152,11 @@ public class ViewModelBrickTest {
                         TextDataModel textDataModel = new TextDataModel(TEXT);
                         TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
 
-                        ViewModelBrick viewModelBrick = new ViewModelBrick(
-                                brickSize,
-                                brickPadding,
-                                LAYOUT_ID,
-                                BIND_ID,
-                                textViewModel
-                        );
+                        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                                .setSpanSize(brickSize)
+                                .setPadding(brickPadding)
+                                .addViewModel(BIND_ID, textViewModel)
+                                .build();
 
                         SwipeListener swipeListener = mock(SwipeListener.class);
 
@@ -195,12 +191,11 @@ public class ViewModelBrickTest {
         SparseArray<ViewModel> viewModelSparseArray = new SparseArray<>();
         viewModelSparseArray.put(BIND_ID, textViewModel);
         viewModelBrick.setViewModels(viewModelSparseArray);
-        ViewModelBrick viewModelBrick2 = new ViewModelBrick(
-                brickSize,
-                brickPadding,
-                LAYOUT_ID,
-                viewModelSparseArray
-        );
+        ViewModelBrick viewModelBrick2 = new ViewModelBrick.Builder(LAYOUT_ID)
+                .setSpanSize(brickSize)
+                .setPadding(brickPadding)
+                .setViewModels(viewModelSparseArray)
+                .build();
 
         Assert.assertTrue(viewModelBrick.equals(viewModelBrick2));
     }
@@ -219,13 +214,12 @@ public class ViewModelBrickTest {
         TextDataModel textDataModel2 = new TextDataModel(TEXT_2);
         TextViewModel textViewModel2 = spy(new TextViewModel(textDataModel2));
 
-        ViewModelBrick viewModelBrick2 = new ViewModelBrick(
-                brickSize,
-                brickPadding,
-                LAYOUT_ID,
-                BIND_ID,
-                textViewModel2
-        );
+
+        ViewModelBrick viewModelBrick2 = new ViewModelBrick.Builder(LAYOUT_ID)
+                .setSpanSize(brickSize)
+                .setPadding(brickPadding)
+                .addViewModel(BIND_ID, textViewModel2)
+                .build();
 
 
         Assert.assertFalse(viewModelBrick.equals(viewModelBrick2));

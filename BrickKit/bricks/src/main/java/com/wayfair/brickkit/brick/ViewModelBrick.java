@@ -21,49 +21,49 @@ public class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpda
 
     protected SwipeListener onDismiss;
 
-    /**
-     * Constructor for setting up a ViewModelBrick with only one {@link ViewModel}.
-     *
-     * @param spanSize size information for this brick
-     * @param padding padding for this brick
-     * @param layoutId the id {@link LayoutRes} for the XML
-     * @param bindId the id generated for the "variable" from {@link ViewDataBinding}
-     * @param viewModel the {@link ViewModel} to bind the the XML
-     */
-    ViewModelBrick(BrickSize spanSize, BrickPadding padding,
-                          @LayoutRes int layoutId, int bindId, ViewModel viewModel) {
-        super(spanSize, padding);
-
-        this.layoutId = layoutId;
-        this.viewModels = new SparseArray<>();
-        this.viewModels.put(bindId, viewModel);
-
-        for (int i = 0; i < viewModels.size(); i++) {
-            viewModels.valueAt(i).addUpdateListener(this);
-        }
-    }
-
-
-    /**
-     * Constructor for setting up a ViewModelBrick with only one {@link ViewModel}.
-     *
-     * @param spanSize size information for this brick
-     * @param padding padding for this brick
-     * @param layoutId the id {@link LayoutRes} for the XML
-     * @param viewModels the {@link ViewModel}s and ids generated for the "variable"
-     *                   from {@link ViewDataBinding} to bind the the XML
-     */
-    ViewModelBrick(BrickSize spanSize, BrickPadding padding,
-                          @LayoutRes int layoutId, SparseArray<ViewModel> viewModels) {
-        super(spanSize, padding);
-
-        this.layoutId = layoutId;
-        this.viewModels = viewModels;
-
-        for (int i = 0; i < viewModels.size(); i++) {
-            viewModels.valueAt(i).addUpdateListener(this);
-        }
-    }
+//    /**
+//     * Constructor for setting up a ViewModelBrick with only one {@link ViewModel}.
+//     *
+//     * @param spanSize size information for this brick
+//     * @param padding padding for this brick
+//     * @param layoutId the id {@link LayoutRes} for the XML
+//     * @param bindId the id generated for the "variable" from {@link ViewDataBinding}
+//     * @param viewModel the {@link ViewModel} to bind the the XML
+//     */
+//    ViewModelBrick(BrickSize spanSize, BrickPadding padding,
+//                          @LayoutRes int layoutId, int bindId, ViewModel viewModel) {
+//        super(spanSize, padding);
+//
+//        this.layoutId = layoutId;
+//        this.viewModels = new SparseArray<>();
+//        this.viewModels.put(bindId, viewModel);
+//
+//        for (int i = 0; i < viewModels.size(); i++) {
+//            viewModels.valueAt(i).addUpdateListener(this);
+//        }
+//    }
+//
+//
+//    /**
+//     * Constructor for setting up a ViewModelBrick with only one {@link ViewModel}.
+//     *
+//     * @param spanSize size information for this brick
+//     * @param padding padding for this brick
+//     * @param layoutId the id {@link LayoutRes} for the XML
+//     * @param viewModels the {@link ViewModel}s and ids generated for the "variable"
+//     *                   from {@link ViewDataBinding} to bind the the XML
+//     */
+//    ViewModelBrick(BrickSize spanSize, BrickPadding padding,
+//                          @LayoutRes int layoutId, SparseArray<ViewModel> viewModels) {
+//        super(spanSize, padding);
+//
+//        this.layoutId = layoutId;
+//        this.viewModels = viewModels;
+//
+//        for (int i = 0; i < viewModels.size(); i++) {
+//            viewModels.valueAt(i).addUpdateListener(this);
+//        }
+//    }
 
     /**
      * Private constructor that the {@link Builder} class uses.
@@ -195,12 +195,8 @@ public class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpda
     public boolean isDataReady() {
         boolean isDataReady = viewModels.size() != 0;
 
-        for (int i = 0; i < viewModels.size(); i++) {
+        for (int i = 0; isDataReady && i < viewModels.size(); i++) {
             isDataReady = viewModels.valueAt(i).isDataModelReady();
-
-            if (!isDataReady) {
-                break;
-            }
         }
 
         return isDataReady;
