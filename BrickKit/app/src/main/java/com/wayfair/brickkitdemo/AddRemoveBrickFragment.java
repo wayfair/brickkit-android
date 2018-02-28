@@ -5,16 +5,17 @@ package com.wayfair.brickkitdemo;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
 
-import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.BrickFragment;
-import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
-import com.wayfair.brickkit.size.SimpleBrickSize;
 import com.wayfair.brickkit.behavior.StickyFooterBehavior;
 import com.wayfair.brickkit.behavior.StickyHeaderBehavior;
-import com.wayfair.brickkitdemo.bricks.ControllerBrick;
+import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.TextBrick;
+import com.wayfair.brickkit.brick.ViewModelBrick;
+import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
+import com.wayfair.brickkit.size.SimpleBrickSize;
+
+import java.util.Locale;
 
 /**
  * Demo fragment that allows you to add and remove bricks at a given position.
@@ -22,7 +23,7 @@ import com.wayfair.brickkit.brick.TextBrick;
 public class AddRemoveBrickFragment extends BrickFragment {
     private static final int NUMBER_OF_BRICKS = 20;
     private static final String FORMAT = "Brick: %d";
-    private ControllerBrick controllerBrick;
+    private ControllerDataModel dataModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,77 +32,81 @@ public class AddRemoveBrickFragment extends BrickFragment {
         for (int i = 0; i < NUMBER_OF_BRICKS; i++) {
 
             if (i == 0) {
-                controllerBrick = new ControllerBrick(
-                        new SimpleBrickSize(maxSpans()) {
-                            @Override
-                            protected int size() {
-                                return dataManager.getMaxSpanCount();
-                            }
-                        },
-                        new InnerOuterBrickPadding(5, 10),
-                        String.valueOf(NUMBER_OF_BRICKS - 1),
-                        "Index",
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                int index = Integer.parseInt(controllerBrick.value);
+                dataModel = new ControllerDataModel(NUMBER_OF_BRICKS);
 
-                                if (index < 0 || index >= dataManager.getRecyclerViewItems().size()) {
-                                    return;
+                ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(R.layout.controller_brick_vm)
+                        .setSpanSize(
+                                new SimpleBrickSize(maxSpans()) {
+                                    @Override
+                                    protected int size() {
+                                        return dataManager.getMaxSpanCount();
+                                    }
                                 }
+                        )
+                        .setPadding(
+                                new InnerOuterBrickPadding(5, 10)
+                        )
+                        .addViewModel(
+                                BR.controllerViewModel,
+                                new ControllerViewModel(
+                                        dataModel,
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (dataModel.getValue() < 0 || dataModel.getValue() >= dataManager.getRecyclerViewItems().size()) {
+                                                    return;
+                                                }
 
-                                dataManager.removeItem(dataManager.getRecyclerViewItems().get(index));
-                            }
-                        },
-                        new View.OnClickListener() {
-                            @SuppressLint("DefaultLocale")
-                            @Override
-                            public void onClick(View v) {
-                                int index = Integer.parseInt(controllerBrick.value);
+                                                dataManager.removeItem(dataManager.getRecyclerViewItems().get(dataModel.getValue()));
+                                            }
+                                        },
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (dataModel.getValue() < 0 || dataModel.getValue() > dataManager.getRecyclerViewItems().size()) {
+                                                    return;
+                                                }
 
-                                if (index < 0 || index > dataManager.getRecyclerViewItems().size()) {
-                                    return;
-                                }
+                                                if (dataModel.getValue() == dataManager.getRecyclerViewItems().size()) {
+                                                    dataManager.addLast(
+                                                            new TextBrick(
+                                                                    new SimpleBrickSize(maxSpans()) {
+                                                                        @Override
+                                                                        protected int size() {
+                                                                            return dataManager.getMaxSpanCount();
+                                                                        }
+                                                                    },
+                                                                    new InnerOuterBrickPadding(5, 10),
+                                                                    String.format(Locale.getDefault(), FORMAT, dataModel.getValue())
+                                                            )
+                                                    );
+                                                } else {
+                                                    dataManager.addBeforeItem(
+                                                            dataManager.getRecyclerViewItems().get(dataModel.getValue()),
+                                                            new TextBrick(
+                                                                    new SimpleBrickSize(maxSpans()) {
+                                                                        @Override
+                                                                        protected int size() {
+                                                                            return dataManager.getMaxSpanCount();
+                                                                        }
+                                                                    },
+                                                                    new InnerOuterBrickPadding(5, 10),
+                                                                    String.format(Locale.getDefault(), FORMAT, dataModel.getValue())
+                                                            )
+                                                    );
+                                                }
 
-                                if (index == dataManager.getRecyclerViewItems().size()) {
-                                    dataManager.addLast(
-                                            new TextBrick(
-                                                    new SimpleBrickSize(maxSpans()) {
-                                                        @Override
-                                                        protected int size() {
-                                                            return dataManager.getMaxSpanCount();
-                                                        }
-                                                    },
-                                                    new InnerOuterBrickPadding(5, 10),
-                                                    String.format(FORMAT, index)
-                                            )
-                                    );
-                                } else {
-                                    dataManager.addBeforeItem(
-                                            dataManager.getRecyclerViewItems().get(index),
-                                            new TextBrick(
-                                                    new SimpleBrickSize(maxSpans()) {
-                                                        @Override
-                                                        protected int size() {
-                                                            return dataManager.getMaxSpanCount();
-                                                        }
-                                                    },
-                                                    new InnerOuterBrickPadding(5, 10),
-                                                    String.format(FORMAT, index)
-                                            )
-                                    );
-                                }
+                                                dataModel.setValue(dataModel.getValue() + 1);
+                                            }
+                                        }
+                                )
+                        )
+                        .build();
 
-                                controllerBrick.value = String.valueOf(index + 1);
-                                dataManager.refreshItem(controllerBrick);
-                            }
-                        }
-                );
+                viewModelBrick.setHeader(true);
+                viewModelBrick.setFooter(true);
 
-                controllerBrick.setHeader(true);
-                controllerBrick.setFooter(true);
-
-                dataManager.addLast(controllerBrick);
+                dataManager.addLast(viewModelBrick);
             } else {
                 @SuppressLint("DefaultLocale") BaseBrick brick = new TextBrick(
                         new SimpleBrickSize(maxSpans()) {

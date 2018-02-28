@@ -39,7 +39,9 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
 public class BrickDataManagerTest {
+    private static final int STARTING_BRICKS = 4;
     private static final int MAX_SPANS = 8;
+    public static final String TAG = "Tag";
 
     private BrickDataManager manager;
     private BrickTestHelper.TestAdapterDataObserver observer;
@@ -58,10 +60,9 @@ public class BrickDataManagerTest {
         manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.VERTICAL, false, parentView);
         brickTestHelper = new BrickTestHelper(context);
 
-        manager.addLast(brickTestHelper.generateBrick());
-        manager.addLast(brickTestHelper.generateBrick());
-        manager.addLast(brickTestHelper.generateBrick());
-        manager.addLast(brickTestHelper.generateBrick());
+        for (int i = 0; i < STARTING_BRICKS; i++) {
+            manager.addLast(brickTestHelper.generateBrick());
+        }
 
         footerBehavior = mock(StickyFooterBehavior.class);
         manager.addBehavior(footerBehavior);
@@ -135,6 +136,22 @@ public class BrickDataManagerTest {
 
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(0, observer.getItemRangeChangedItemCount());
+
+        verify(headerBehavior).onDataSetChanged();
+    }
+
+    @Test
+    public void testUpdateBricks() {
+        LinkedList<BaseBrick> bricks = new LinkedList<>(manager.getDataManagerItems());
+
+        bricks.addLast(brickTestHelper.generateBrick());
+        bricks.add(1, brickTestHelper.generateBrick());
+        bricks.add(3, brickTestHelper.generateBrick());
+
+        manager.updateBricks(bricks);
+
+        assertEquals(7, manager.getRecyclerViewItems().size());
+        assertEquals(7, manager.getDataManagerItems().size());
 
         verify(headerBehavior).onDataSetChanged();
     }
@@ -1274,5 +1291,89 @@ public class BrickDataManagerTest {
         assertTrue(manager.getRecyclerView().getLayoutManager() instanceof StaggeredGridLayoutManager);
         assertFalse(manager.getRecyclerView().getLayoutManager().isItemPrefetchEnabled());
         assertFalse(manager.getRecyclerView().getLayoutManager().supportsPredictiveItemAnimations());
+    }
+
+    @Test
+    public void testAddToTagCache() {
+        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        baseBrick.setTag(TAG);
+        manager.addLast(baseBrick);
+
+        assertEquals(1, manager.getBricksByTag(TAG).size());
+    }
+
+    @Test
+    public void testAddMultipleToTagCache() {
+        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        baseBrick.setTag(TAG);
+        manager.addLast(baseBrick);
+
+        BaseBrick baseBrick2 = brickTestHelper.generateBrick();
+        baseBrick.setTag(TAG);
+        manager.addLast(baseBrick2);
+
+        assertEquals(2, manager.getBricksByTag(TAG).size());
+    }
+
+    @Test
+    public void testAddNullToTagCache() {
+        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        baseBrick.setTag(TAG);
+        manager.addLast(baseBrick);
+        baseBrick.setTag(null);
+
+        assertNull(manager.getBricksByTag(TAG));
+    }
+
+    @Test
+    public void testRemoveFromTagCache() {
+        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        baseBrick.setTag(TAG);
+        manager.addLast(baseBrick);
+
+        assertEquals(1, manager.getBricksByTag(TAG).size());
+
+        manager.removeAllByTag(TAG);
+
+        assertNull(manager.getBricksByTag(TAG));
+    }
+
+    @Test
+    public void testAddToLayoutIdCache() {
+        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        manager.addLast(baseBrick);
+
+        assertEquals(STARTING_BRICKS + 1, manager.getBricksByLayoutId(baseBrick.getLayout()).size());
+    }
+
+    @Test
+    public void testAddMultipleToLayoutIdCache() {
+        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        manager.addLast(baseBrick);
+
+        BaseBrick baseBrick2 = brickTestHelper.generateBrick();
+        manager.addLast(baseBrick2);
+
+        assertEquals(STARTING_BRICKS + 2, manager.getBricksByLayoutId(baseBrick.getLayout()).size());
+    }
+
+    @Test
+    public void testAddNullToLayoutIdCache() {
+        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        manager.addLast(baseBrick);
+
+        assertNull(manager.getBricksByLayoutId(-1));
+    }
+
+    @Test
+    public void testRemoveFromLayoutIdCache() {
+        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        manager.addLast(baseBrick);
+
+        assertEquals(STARTING_BRICKS + 1, manager.getBricksByLayoutId(baseBrick.getLayout()).size());
+
+        manager.removeAllByLayoutId(baseBrick.getLayout());
+
+        assertNull(manager.getBricksByLayoutId(baseBrick.getLayout()));
     }
 }

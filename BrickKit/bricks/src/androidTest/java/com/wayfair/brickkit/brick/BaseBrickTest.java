@@ -6,6 +6,7 @@ package com.wayfair.brickkit.brick;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
@@ -155,7 +156,7 @@ public class BaseBrickTest {
     public void testDismissed() {
         TestBaseBrick brick = new TestBaseBrick(context, brickSize);
 
-        brick.dismissed();
+        brick.dismissed(ItemTouchHelper.UP);
 
         // nothing to verify
     }
