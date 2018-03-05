@@ -2,6 +2,7 @@ package com.wayfair.brickkit.brick;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.util.ArraySet;
 
 import java.io.Serializable;
@@ -13,7 +14,20 @@ import java.util.Set;
  * when {@link #notifyChange()} is called.
  */
 public abstract class DataModel implements Serializable {
-    protected final transient Set<DataModelUpdateListener> updateListeners = new ArraySet<>();
+    private transient Set<DataModelUpdateListener> updateListeners;
+
+    /**
+     * Get the {@link DataModelUpdateListener}. This is required in order to protect from a NPE.
+     *
+     * @return the set of {@link DataModelUpdateListener}
+     */
+    protected @NonNull Set<DataModelUpdateListener> getUpdateListeners() {
+        if (updateListeners == null) {
+            updateListeners = new ArraySet<>();
+        }
+
+        return updateListeners;
+    }
 
     /**
      * Add an {@link DataModelUpdateListener} to the list of listeners.
@@ -21,7 +35,7 @@ public abstract class DataModel implements Serializable {
      * @param updateListener the listener to add
      */
     public void addUpdateListener(DataModelUpdateListener updateListener) {
-        updateListeners.add(updateListener);
+        getUpdateListeners().add(updateListener);
     }
 
     /**
@@ -30,14 +44,14 @@ public abstract class DataModel implements Serializable {
      * @param updateListener the listener to remove
      */
     public void removeUpdateListener(DataModelUpdateListener updateListener) {
-        updateListeners.remove(updateListener);
+        getUpdateListeners().remove(updateListener);
     }
 
     /**
      * This function is called when you are ready to notify listeners that the data has changed.
      */
     public void notifyChange() {
-        for (final DataModelUpdateListener updateListener : updateListeners) {
+        for (final DataModelUpdateListener updateListener : getUpdateListeners()) {
             new Handler(Looper.getMainLooper()).post(
                     new Runnable() {
                         @Override
