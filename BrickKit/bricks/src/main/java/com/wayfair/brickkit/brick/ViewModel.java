@@ -2,8 +2,9 @@ package com.wayfair.brickkit.brick;
 
 import android.databinding.BaseObservable;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArraySet;
 
-import java.util.HashSet;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -11,9 +12,17 @@ import java.util.Set;
  *
  * @param <DM> the {@link DataModel} type that drives this
  */
-public abstract class ViewModel<DM extends DataModel> extends BaseObservable implements DataModel.DataModelUpdateListener {
+public abstract class ViewModel<DM extends DataModel> extends BaseObservable implements DataModel.DataModelUpdateListener, Serializable {
     protected DM dataModel;
-    protected final transient Set<ViewModelUpdateListener> updateListeners = new HashSet<>();
+    private transient Set<ViewModelUpdateListener> updateListeners;
+
+    protected Set<ViewModelUpdateListener> getUpdateListeners() {
+        if (updateListeners == null) {
+            updateListeners = new ArraySet<>();
+        }
+
+        return updateListeners;
+    }
 
     /**
      * Constructor. Automatically gets tied to the {@link DataModel} as
@@ -31,12 +40,12 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
      * @param updateListener the object that is watching
      */
     public void addUpdateListener(ViewModelUpdateListener updateListener) {
-        updateListeners.add(updateListener);
+        getUpdateListeners().add(updateListener);
     }
 
     @Override
     public void notifyChange() {
-        for (ViewModelUpdateListener updateListener : updateListeners) {
+        for (ViewModelUpdateListener updateListener : getUpdateListeners()) {
             updateListener.onChange();
         }
     }
