@@ -2,6 +2,7 @@ package com.wayfair.brickkit.brick;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.util.ArraySet;
 
 import java.io.Serializable;
@@ -15,7 +16,12 @@ import java.util.Set;
 public abstract class DataModel implements Serializable {
     private transient Set<DataModelUpdateListener> updateListeners;
 
-    protected Set<DataModelUpdateListener> getUpdateListeners() {
+    /**
+     * Get the {@link DataModelUpdateListener}. This is required in order to protect from a NPE.
+     *
+     * @return the set of {@link DataModelUpdateListener}
+     */
+    protected @NonNull Set<DataModelUpdateListener> getUpdateListeners() {
         if (updateListeners == null) {
             updateListeners = new ArraySet<>();
         }

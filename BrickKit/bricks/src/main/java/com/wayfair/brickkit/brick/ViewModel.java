@@ -1,6 +1,7 @@
 package com.wayfair.brickkit.brick;
 
 import android.databinding.BaseObservable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArraySet;
 
@@ -16,7 +17,12 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
     protected DM dataModel;
     private transient Set<ViewModelUpdateListener> updateListeners;
 
-    protected Set<ViewModelUpdateListener> getUpdateListeners() {
+    /**
+     * Get the {@link ViewModelUpdateListener}. This is required in order to protect from a NPE.
+     *
+     * @return the set of {@link ViewModelUpdateListener}
+     */
+    protected @NonNull Set<ViewModelUpdateListener> getUpdateListeners() {
         if (updateListeners == null) {
             updateListeners = new ArraySet<>();
         }
