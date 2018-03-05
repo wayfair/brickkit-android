@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public abstract class ViewModel<DM extends DataModel> extends BaseObservable implements DataModel.DataModelUpdateListener {
     protected DM dataModel;
-    protected transient final Set<ViewModelUpdateListener> updateListeners = new HashSet<>();
+    protected final transient Set<ViewModelUpdateListener> updateListeners = new HashSet<>();
 
     /**
      * Constructor. Automatically gets tied to the {@link DataModel} as

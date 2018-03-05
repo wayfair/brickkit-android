@@ -13,7 +13,7 @@ import java.util.Set;
  * when {@link #notifyChange()} is called.
  */
 public abstract class DataModel implements Serializable {
-    protected transient final Set<DataModelUpdateListener> updateListeners = new ArraySet<>();
+    protected final transient Set<DataModelUpdateListener> updateListeners = new ArraySet<>();
 
     /**
      * Add an {@link DataModelUpdateListener} to the list of listeners.
