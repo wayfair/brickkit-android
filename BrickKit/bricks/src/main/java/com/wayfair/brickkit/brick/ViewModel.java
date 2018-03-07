@@ -51,6 +51,7 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
 
     @Override
     public void notifyChange() {
+        super.notifyChange();
         for (ViewModelUpdateListener updateListener : getUpdateListeners()) {
             updateListener.onChange();
         }
