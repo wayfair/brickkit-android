@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.wayfair.brickkit.BR;
+import com.wayfair.brickkit.BrickViewHolder;
 import com.wayfair.brickkit.R;
 import com.wayfair.brickkit.models.TextDataModel;
 import com.wayfair.brickkit.models.TextViewModel;
@@ -28,6 +29,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class ViewModelBrickTest {
@@ -263,5 +265,55 @@ public class ViewModelBrickTest {
         viewModelBrick.setViewModels(viewModelSparseArray);
 
         Assert.assertEquals(1, viewModelBrick.getViewModels().size());
+    }
+
+    @Test
+    public void ViewModelBrick_Placeholder() {
+        TextDataModel textDataModel = new TextDataModel(TEXT);
+        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
+        when(textViewModel.isDataModelReady()).thenReturn(false);
+
+        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                .addViewModel(BIND_ID, textViewModel)
+                .setPlaceholder(
+                        R.layout.text_brick_vm_placeholder,
+                        new PlaceholderBinder() {
+                            @Override
+                            public void onBindPlaceholder(BrickViewHolder holder) {
+
+                            }
+                        }
+                )
+                .build();
+
+
+        LinearLayout parent = new LinearLayout(context);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
+
+        ViewModelBrick.ViewModelBrickViewHolder holder = (ViewModelBrick.ViewModelBrickViewHolder) viewModelBrick.createViewHolder(itemView);
+        viewModelBrick.onBindPlaceholder(holder);
+
+        Assert.assertEquals(R.layout.text_brick_vm_placeholder, viewModelBrick.getPlaceholderLayout());
+    }
+
+    @Test
+    public void ViewModelBrick_Placeholder_BinderIsNull() {
+        TextDataModel textDataModel = new TextDataModel(TEXT);
+        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
+        when(textViewModel.isDataModelReady()).thenReturn(false);
+
+        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+                .addViewModel(BIND_ID, textViewModel)
+                .setPlaceholder(R.layout.text_brick_vm_placeholder, null)
+                .build();
+
+
+        LinearLayout parent = new LinearLayout(context);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
+
+        ViewModelBrick.ViewModelBrickViewHolder holder = (ViewModelBrick.ViewModelBrickViewHolder) viewModelBrick.createViewHolder(itemView);
+        viewModelBrick.onBindPlaceholder(holder);
+
+        Assert.assertEquals(R.layout.text_brick_vm_placeholder, viewModelBrick.getPlaceholderLayout());
     }
 }
