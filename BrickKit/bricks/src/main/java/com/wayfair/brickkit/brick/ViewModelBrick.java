@@ -17,6 +17,9 @@ import com.wayfair.brickkit.size.BrickSize;
 public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpdateListener {
     @LayoutRes
     private final int layoutId;
+    @LayoutRes
+    private final int placeholderLayoutId;
+    private PlaceholderBinder placeholderBinder;
     protected final SparseArray<ViewModel> viewModels;
 
     protected SwipeListener onDismiss;
@@ -30,6 +33,8 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         super(builder.spanSize, builder.padding);
 
         this.layoutId = builder.layoutId;
+        this.placeholderLayoutId = builder.placeholderLayoutId;
+        this.placeholderBinder = builder.placeholderBinder;
         this.onDismiss = builder.onDismiss;
         this.viewModels = builder.viewModels;
 
@@ -64,7 +69,9 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
      * @param viewModel the view model
      */
     public void addViewModel(int bindingId, ViewModel viewModel) {
+        viewModel.addUpdateListener(this);
         this.viewModels.put(bindingId, viewModel);
+        onChange();
     }
 
     /**
@@ -75,8 +82,10 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
     public void setViewModels(SparseArray<ViewModel> viewModels) {
         this.viewModels.clear();
         for (int i = 0; i < viewModels.size(); i++) {
+            viewModels.valueAt(i).addUpdateListener(this);
             this.viewModels.put(viewModels.keyAt(i), viewModels.valueAt(i));
         }
+        onChange();
     }
 
     /**
@@ -97,8 +106,26 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
      * {@inheritDoc}
      */
     @Override
+    public void onBindPlaceholder(BrickViewHolder holder) {
+        if (placeholderBinder != null) {
+            placeholderBinder.onBindPlaceholder(holder);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getLayout() {
         return layoutId;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getPlaceholderLayout() {
+        return placeholderLayoutId;
     }
 
     /**
@@ -192,6 +219,9 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
     public static class Builder {
         @LayoutRes
         int layoutId;
+        @LayoutRes
+        int placeholderLayoutId;
+        PlaceholderBinder placeholderBinder = null;
         SparseArray<ViewModel> viewModels = new SparseArray<>();
         BrickSize spanSize = getDefaultSize();
         BrickPadding padding = getDefaultPadding();
@@ -204,6 +234,19 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
          */
         public Builder(@LayoutRes int layoutId) {
             this.layoutId = layoutId;
+        }
+
+        /**
+         * Set the placeholder for this brick.
+         *
+         * @param placeholderLayoutId the placeholder layout id to be used
+         * @param placeholderBinder the object that helps bind the place holder
+         * @return the builder
+         */
+        public Builder setPlaceholder(@LayoutRes int placeholderLayoutId, PlaceholderBinder placeholderBinder) {
+            this.placeholderLayoutId = placeholderLayoutId;
+            this.placeholderBinder = placeholderBinder;
+            return this;
         }
 
         /**
