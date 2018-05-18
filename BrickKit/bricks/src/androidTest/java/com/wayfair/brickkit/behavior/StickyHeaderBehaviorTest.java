@@ -109,6 +109,7 @@ public class StickyHeaderBehaviorTest {
 
     @Test
     public void testGetStickyViewPosition() {
+        when(adapter.getItemCount()).thenReturn(ADAPTER_COUNT);
         when(adapter.getRecyclerView().getChildCount() - 1).thenReturn(ADAPTER_COUNT);
         when(adapter.getRecyclerView().getChildAt(ADAPTER_COUNT)).thenReturn(view);
         when(adapter.getRecyclerView().getChildAdapterPosition(view)).thenReturn(HEADER_INDEX);
@@ -128,6 +129,7 @@ public class StickyHeaderBehaviorTest {
 
     @Test
     public void testStickyViewFadeTranslate() {
+        when(adapter.getItemCount()).thenReturn(ADAPTER_COUNT);
         BaseBrick header = mock(BaseBrick.class);
         when(adapter.getSectionHeader(HEADER_INDEX)).thenReturn(header);
         when(header.getStickyScrollMode()).thenReturn(StickyScrollMode.SHOW_ON_SCROLL_UP);
