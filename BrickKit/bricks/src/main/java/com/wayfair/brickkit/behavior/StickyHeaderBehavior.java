@@ -45,17 +45,18 @@ public class StickyHeaderBehavior extends StickyViewBehavior {
         if (adapterPosHere == RecyclerView.NO_POSITION) {
             View firstChild = adapter.getRecyclerView().getChildAt(0);
             adapterPosHere = adapter.getRecyclerView().getChildAdapterPosition(firstChild);
-
-            // Following condition happens only when removing items and having sticky header behavior.
-            // The child at position 0, which is the first VISIBLE view is one of the views that just got removed.
-            // For some reason that view is still alive within the recyclerView(probably computing layout).
-            // When getSectionHeader is trying to access that position within the recyclerViewItems, that position
-            // won't exist since data manager recyclerViewItems linked list just removed it. That will follow up
-            // with an indexOfBoundsException and crash the app.
-            if (adapterPosHere >= adapter.getItemCount()) {
-                return RecyclerView.NO_POSITION;
-            }
         }
+        
+        // Following condition happens only when removing items and having sticky header behavior.
+        // The child at position 0, which is the first VISIBLE view is one of the views that just got removed.
+        // For some reason that view is still alive within the recyclerView(probably computing layout).
+        // When getSectionHeader is trying to access that position within the recyclerViewItems, that position
+        // won't exist since data manager recyclerViewItems linked list just removed it. That will follow up
+        // with an indexOfBoundsException and crash the app.
+        if (adapterPosHere >= adapter.getItemCount()) {
+            return RecyclerView.NO_POSITION;
+        }
+        
         BaseBrick header = adapter.getSectionHeader(adapterPosHere);
         //Header cannot be sticky if it's also an Expandable in collapsed status, RV will raise an exception
         if (header == null) {
