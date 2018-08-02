@@ -34,6 +34,7 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
 
 deploy:
+  skip_cleanup: true
   provider: bintray
   file: "BrickKit/bricks/build/bintray.descriptor"
   user: "thusson13"
