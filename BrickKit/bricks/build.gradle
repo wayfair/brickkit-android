@@ -4,13 +4,12 @@ apply plugin: 'maven'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '26.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -20,12 +19,6 @@ android {
     }
 
     buildTypes {
-
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
         debug {
             testCoverageEnabled true
         }
@@ -39,27 +32,22 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:support-compat:27.1.1'
+    implementation 'com.android.support:support-core-utils:27.1.1'
+    implementation 'com.android.support:support-core-ui:27.1.1'
+    implementation 'com.android.support:support-fragment:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testImplementation 'junit:junit:4.12'                        \
+
+    androidTestImplementation 'org.mockito:mockito-core:1.9.5 '
+    androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'
+    androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    androidTestCompile 'org.mockito:mockito-core:1.9.5 '
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-
-    compile 'com.android.support:support-v4:27.1.0'
-    compile 'com.android.support:support-v13:27.1.0'
-    compile 'com.android.support:support-compat:27.1.0'
-    compile 'com.android.support:support-core-utils:27.1.0'
-    compile 'com.android.support:support-core-ui:27.1.0'
-    compile 'com.android.support:support-fragment:27.1.0'
-    compile 'com.android.support:appcompat-v7:27.1.0'
-    compile 'com.android.support:recyclerview-v7:27.1.0'
-    compile 'com.android.support:design:27.1.0'
-
-    testCompile 'junit:junit:4.12'
+    }
 }
 
 check.dependsOn("checkstyle")

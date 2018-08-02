@@ -1,11 +1,12 @@
 language: android
 jdk: oraclejdk8
+
 android:
   components:
     - tools
     - tools
     - platform-tools
-    - build-tools-26.0.3
+    - build-tools-27.0.3
     - android-24
     - android-25
     - android-26
@@ -14,6 +15,11 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-24
+
+before_install:
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
+
 before_script:
   - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
   - emulator -avd test -no-window &
