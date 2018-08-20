@@ -376,7 +376,7 @@ public class MyBrick extends BaseBrick {
 >- Pass in or hard-code the padding you want this brick instance to have.
 
 
-## Manager your bricks with BrickDataManager
+## Manage your bricks with BrickDataManager
 
 The 'BrickDataManager' manages the RecyclerView's adapter and manipulates the bricks. You could add/remove 'bricks' at different positions, get/replace 'bricks' at certain positions.
 
