@@ -238,6 +238,12 @@ public class BrickDataManager implements Serializable {
     public void updateBricks(LinkedList<BaseBrick> bricks) {
         LinkedList<BaseBrick> newVisibleBricks = new LinkedList<>();
 
+        for (BaseBrick item : bricks) {
+            addToIdCache(item);
+            addToTagCache(item);
+            item.setDataManager(this);
+        }
+
         for (BaseBrick brick : bricks) {
             if (!brick.isHidden()) {
                 newVisibleBricks.add(brick);
