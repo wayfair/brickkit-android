@@ -59,6 +59,11 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
 
     @Override
     public void onBindData(final BrickViewHolder viewHolder) {
+
+    }
+
+    @Override
+    public void onBindSubsequentLayout(final BrickViewHolder viewHolder) {
         UsedBrickHolder holder = (UsedBrickHolder) viewHolder;
         holder.textView.setText(text);
         if (isEnabled()) {
@@ -67,18 +72,13 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
     }
 
     @Override
-    public void onBindPlaceholder(BrickViewHolder holder) {
-        // Here we would modify placeholder views dimensions if necessary
-    }
-
-    @Override
     public int getLayout() {
-        return R.layout.used_brick;
+        return R.layout.used_brick_placeholder;
     }
 
     @Override
-    public int getPlaceholderLayout() {
-        return R.layout.used_brick_placeholder;
+    public int getSubsequentLayout() {
+        return R.layout.used_brick;
     }
 
     @Override

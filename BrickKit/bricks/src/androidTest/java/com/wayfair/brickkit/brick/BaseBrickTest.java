@@ -230,7 +230,7 @@ public class BaseBrickTest {
         }
 
         @Override
-        public int getPlaceholderLayout() {
+        public int getSubsequentLayout() {
             return 0;
         }
 

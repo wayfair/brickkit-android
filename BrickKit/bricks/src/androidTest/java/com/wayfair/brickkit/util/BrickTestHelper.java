@@ -95,7 +95,7 @@ public class BrickTestHelper {
         }
 
         @Override
-        public int getPlaceholderLayout() {
+        public int getSubsequentLayout() {
             return placeholderLayoutId;
         }
 

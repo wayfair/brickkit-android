@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.wayfair.brickkit.BR;
-import com.wayfair.brickkit.BrickViewHolder;
 import com.wayfair.brickkit.R;
 import com.wayfair.brickkit.models.TextDataModel;
 import com.wayfair.brickkit.models.TextViewModel;
@@ -37,8 +36,10 @@ public class ViewModelBrickTest {
     private final String TEXT_2 = "Not Test Text...";
     private final String APPENDING_TEXT = " DONE";
     private final int LAYOUT_ID = R.layout.text_brick_vm;
+    private final int PLACEHOLDER_LAYOUT_ID = R.layout.text_brick_vm_placeholder;
     private final int BIND_ID = BR.textViewModel;
     private final int BIND_ID_2 = BR.text;
+    private final int INVALID_LAYOUT = -1;
 
     private Context context;
     private BrickSize brickSize;
@@ -268,52 +269,51 @@ public class ViewModelBrickTest {
     }
 
     @Test
-    public void ViewModelBrick_Placeholder() {
+    public void ViewModelBrick_LayoutIsSet() {
         TextDataModel textDataModel = new TextDataModel(TEXT);
         TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
         when(textViewModel.isDataModelReady()).thenReturn(false);
 
-        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(PLACEHOLDER_LAYOUT_ID)
                 .addViewModel(BIND_ID, textViewModel)
-                .setPlaceholder(
-                        R.layout.text_brick_vm_placeholder,
-                        new PlaceholderBinder() {
-                            @Override
-                            public void onBindPlaceholder(BrickViewHolder holder) {
-
-                            }
-                        }
-                )
+                .setOnDataReadyLayout(LAYOUT_ID)
                 .build();
 
+        Assert.assertEquals(PLACEHOLDER_LAYOUT_ID, viewModelBrick.getLayout());
 
-        LinearLayout parent = new LinearLayout(context);
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
-
-        ViewModelBrick.ViewModelBrickViewHolder holder = (ViewModelBrick.ViewModelBrickViewHolder) viewModelBrick.createViewHolder(itemView);
-        viewModelBrick.onBindPlaceholder(holder);
-
-        Assert.assertEquals(R.layout.text_brick_vm_placeholder, viewModelBrick.getPlaceholderLayout());
     }
 
     @Test
-    public void ViewModelBrick_Placeholder_BinderIsNull() {
+    public void ViewModelBrick_SubsequentLayoutIsSet() {
         TextDataModel textDataModel = new TextDataModel(TEXT);
         TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
         when(textViewModel.isDataModelReady()).thenReturn(false);
 
-        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
+        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(PLACEHOLDER_LAYOUT_ID)
                 .addViewModel(BIND_ID, textViewModel)
-                .setPlaceholder(R.layout.text_brick_vm_placeholder, null)
+                .setOnDataReadyLayout(LAYOUT_ID)
                 .build();
 
+        Assert.assertEquals(LAYOUT_ID, viewModelBrick.getSubsequentLayout());
+    }
 
-        LinearLayout parent = new LinearLayout(context);
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
+    @Test
+    public void ViewModelBrick_LayoutsAreReplaceable() {
+        TextDataModel textDataModel = new TextDataModel(TEXT);
+        final TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
+        when(textViewModel.isDataModelReady()).thenReturn(false);
 
-        ViewModelBrick.ViewModelBrickViewHolder holder = (ViewModelBrick.ViewModelBrickViewHolder) viewModelBrick.createViewHolder(itemView);
-        viewModelBrick.onBindPlaceholder(holder);
+        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(PLACEHOLDER_LAYOUT_ID)
+                .addViewModel(BIND_ID, textViewModel)
+                .build();
 
-        Assert.assertEquals(R.layout.text_brick_vm_placeholder, viewModelBrick.getPlaceholderLayout());
+        Assert.assertEquals(PLACEHOLDER_LAYOUT_ID, viewModelBrick.getLayout());
+        Assert.assertEquals(INVALID_LAYOUT, viewModelBrick.getSubsequentLayout());
+
+        viewModelBrick.replaceLayoutWith(LAYOUT_ID, new SparseArray<ViewModel>() {{
+            append(BIND_ID, textViewModel);
+        }});
+
+        Assert.assertEquals(LAYOUT_ID, viewModelBrick.getSubsequentLayout());
     }
 }

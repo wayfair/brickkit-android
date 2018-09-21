@@ -20,6 +20,7 @@ import com.wayfair.brickkit.size.SimpleBrickSize;
  */
 public abstract class BaseBrick {
     public static final int DEFAULT_MAX_SPAN_COUNT = 240;
+    public static final int INVALID_LAYOUT = -1;
 
     public static final BrickSize DEFAULT_SIZE_FULL_WIDTH = new SimpleBrickSize(DEFAULT_MAX_SPAN_COUNT) {
         @Override
@@ -75,7 +76,7 @@ public abstract class BaseBrick {
     /**
      * Constructor which uses the default padding.
      *
-     * @param padding  padding for this brick
+     * @param padding padding for this brick
      */
     public BaseBrick(BrickPadding padding) {
         this(DEFAULT_SIZE_FULL_WIDTH, padding);
@@ -94,9 +95,7 @@ public abstract class BaseBrick {
      *
      * @param holder BrickViewHolder which should be updated.
      */
-    public void onBindPlaceholder(BrickViewHolder holder) {
-        throw new UnsupportedOperationException(getClass().getSimpleName()
-                + " onBindPlaceholder(BrickViewHolder holder) method must be overridden within brick extending BaseBrick");
+    public void onBindSubsequentLayout(BrickViewHolder holder) {
     }
 
     /**
@@ -123,9 +122,8 @@ public abstract class BaseBrick {
      * @return The layout resource id for this brick's placeholder
      */
     @LayoutRes
-    public int getPlaceholderLayout() {
-        throw new UnsupportedOperationException(getClass().getSimpleName()
-                + " getPlaceholderLayout() method must be overridden within brick extending BaseBrick");
+    public int getSubsequentLayout() {
+        return INVALID_LAYOUT;
     }
 
     /**
@@ -366,13 +364,13 @@ public abstract class BaseBrick {
      * @param direction one of {@link ItemTouchHelper.UP}, {@link ItemTouchHelper.RIGHT},
      *                  {@link ItemTouchHelper.DOWN}, {@link ItemTouchHelper.LEFT},
      *                  {@link ItemTouchHelper.START}, {@link ItemTouchHelper.END}
-     *
      */
     public void dismissed(int direction) {
     }
 
     /**
      * Set the current DataManager this brick is connected to.
+     *
      * @param dataManager The current DataManager for this brick
      */
     public void setDataManager(BrickDataManager dataManager) {

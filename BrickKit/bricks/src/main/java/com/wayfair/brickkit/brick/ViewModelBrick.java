@@ -15,14 +15,14 @@ import com.wayfair.brickkit.size.BrickSize;
  * insert information from a {@link ViewModel}.
  */
 public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewModelUpdateListener {
+    protected final SparseArray<ViewModel> viewModels;
     @LayoutRes
     private final int layoutId;
-    @LayoutRes
-    private final int placeholderLayoutId;
-    private PlaceholderBinder placeholderBinder;
-    protected final SparseArray<ViewModel> viewModels;
-
     protected SwipeListener onDismiss;
+    @LayoutRes
+    private int subsequentLayoutId;
+    private LayoutBinder layoutBinder;
+    private LayoutBinder subsequentLayoutBinder;
 
     /**
      * Private constructor that the {@link Builder} class uses.
@@ -33,8 +33,8 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         super(builder.spanSize, builder.padding);
 
         this.layoutId = builder.layoutId;
-        this.placeholderLayoutId = builder.placeholderLayoutId;
-        this.placeholderBinder = builder.placeholderBinder;
+        this.subsequentLayoutId = builder.subsequentLayoutId;
+        this.layoutBinder = builder.layoutBinder;
         this.onDismiss = builder.onDismiss;
         this.viewModels = builder.viewModels;
 
@@ -63,18 +63,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
     }
 
     /**
-     * Add a view model to the Brick.
-     *
-     * @param bindingId the binding ID of the view model
-     * @param viewModel the view model
-     */
-    public void addViewModel(int bindingId, ViewModel viewModel) {
-        viewModel.addUpdateListener(this);
-        this.viewModels.put(bindingId, viewModel);
-        onChange();
-    }
-
-    /**
      * Replace all the view models with these.
      *
      * @param viewModels the view models to replace existing view models
@@ -89,16 +77,26 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
     }
 
     /**
-     * {@inheritDoc}
+     * Add a view model to the Brick.
+     *
+     * @param bindingId the binding ID of the view model
+     * @param viewModel the view model
      */
-    @Override
-    public void onBindData(BrickViewHolder holder) {
-        ViewModelBrickViewHolder viewModelBrickViewHolder = (ViewModelBrickViewHolder) holder;
+    public void addViewModel(int bindingId, ViewModel viewModel) {
+        viewModel.addUpdateListener(this);
+        this.viewModels.put(bindingId, viewModel);
+        onChange();
+    }
 
+    /**
+     * Binds the viewModels which are currently in the ViewModelBrick to the current layout.
+     *
+     * @param viewModelBrickViewHolder The viewHolder we're currently on in the recyclerView.
+     */
+    private void bindViewModels(ViewModelBrickViewHolder viewModelBrickViewHolder) {
         for (int i = 0; i < viewModels.size(); i++) {
             viewModelBrickViewHolder.bind(viewModels.keyAt(i), viewModels.valueAt(i));
         }
-
         viewModelBrickViewHolder.getViewDataBinding().executePendingBindings();
     }
 
@@ -106,10 +104,68 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
      * {@inheritDoc}
      */
     @Override
-    public void onBindPlaceholder(BrickViewHolder holder) {
-        if (placeholderBinder != null) {
-            placeholderBinder.onBindPlaceholder(holder);
+    public void onBindData(BrickViewHolder holder) {
+        ViewModelBrickViewHolder viewModelBrickViewHolder = (ViewModelBrickViewHolder) holder;
+        bindViewModels(viewModelBrickViewHolder);
+        if (layoutBinder != null) {
+            layoutBinder.onBindLayout(holder);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onBindSubsequentLayout(BrickViewHolder holder) {
+        ViewModelBrickViewHolder viewModelBrickViewHolder = (ViewModelBrickViewHolder) holder;
+        bindViewModels(viewModelBrickViewHolder);
+        if (subsequentLayoutBinder != null) {
+            subsequentLayoutBinder.onBindLayout(holder);
+        }
+    }
+
+    /**
+     * Allows us to bind a ViewModelBrick to a new layout, and perform an action while doing so.
+     *
+     * @param subsequentLayoutId     The new layout that we are binding to.
+     * @param subsequentLayoutBinder The action that we should take as part of binding.
+     */
+    public void replaceLayoutWith(@LayoutRes int subsequentLayoutId, LayoutBinder subsequentLayoutBinder) {
+        this.subsequentLayoutId = subsequentLayoutId;
+        this.subsequentLayoutBinder = subsequentLayoutBinder;
+        onChange();
+    }
+
+    /**
+     * Allows for a ViewModelBrick to be rebound.
+     *
+     * @param subsequentLayoutId   The new layout that we should bind to
+     * @param viewModelSparseArray The ViewModels that we should use to bind to the layout.
+     */
+    public void replaceLayoutWith(@LayoutRes int subsequentLayoutId,
+                                  SparseArray<ViewModel> viewModelSparseArray) {
+        replaceLayoutWith(subsequentLayoutId, viewModelSparseArray, new LayoutBinder() {
+            @Override
+            public void onBindLayout(BrickViewHolder holder) {
+
+            }
+        });
+    }
+
+    /**
+     * Allows a for a ViewModelBrick to be rebound, and specify an action that is should take as
+     * part of rebinding.
+     *
+     * @param subsequentLayoutId     The new layout that we should bind to
+     * @param viewModelSparseArray   The ViewModels that we should use to bind to the layout.
+     * @param subsequentLayoutBinder The action that we should take as part of binding.
+     */
+    public void replaceLayoutWith(@LayoutRes int subsequentLayoutId,
+                                  SparseArray<ViewModel> viewModelSparseArray,
+                                  LayoutBinder subsequentLayoutBinder) {
+        this.subsequentLayoutId = subsequentLayoutId;
+        this.subsequentLayoutBinder = subsequentLayoutBinder;
+        setViewModels(viewModelSparseArray);
     }
 
     /**
@@ -124,8 +180,8 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
      * {@inheritDoc}
      */
     @Override
-    public int getPlaceholderLayout() {
-        return placeholderLayoutId;
+    public int getSubsequentLayout() {
+        return subsequentLayoutId;
     }
 
     /**
@@ -166,8 +222,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
      */
     @Override
     public void onChange() {
-        setHidden(!isDataReady());
-
         refreshItem();
     }
 
@@ -220,8 +274,8 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         @LayoutRes
         int layoutId;
         @LayoutRes
-        int placeholderLayoutId;
-        PlaceholderBinder placeholderBinder = null;
+        int subsequentLayoutId = INVALID_LAYOUT;
+        LayoutBinder layoutBinder = null;
         SparseArray<ViewModel> viewModels = new SparseArray<>();
         BrickSize spanSize = getDefaultSize();
         BrickPadding padding = getDefaultPadding();
@@ -239,13 +293,22 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         /**
          * Set the placeholder for this brick.
          *
-         * @param placeholderLayoutId the placeholder layout id to be used
-         * @param placeholderBinder the object that helps bind the place holder
+         * @param layout the layout that we will be binding to if the brick becomes ready.
          * @return the builder
          */
-        public Builder setPlaceholder(@LayoutRes int placeholderLayoutId, PlaceholderBinder placeholderBinder) {
-            this.placeholderLayoutId = placeholderLayoutId;
-            this.placeholderBinder = placeholderBinder;
+        public Builder setOnDataReadyLayout(@LayoutRes int layout) {
+            this.subsequentLayoutId = layout;
+            return this;
+        }
+
+        /**
+         * Performs an action while binding the layout.
+         *
+         * @param layoutBinder the object that helps bind the place holder
+         * @return the builder
+         */
+        public Builder setCustomBinding(LayoutBinder layoutBinder) {
+            this.layoutBinder = layoutBinder;
             return this;
         }
 
@@ -357,7 +420,7 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         /**
          * Sets the {@link ViewModel} to be bound for the given id.
          *
-         * @param bindId the id
+         * @param bindId    the id
          * @param viewModel the {@link ViewModel}
          */
         void bind(int bindId, ViewModel viewModel) {

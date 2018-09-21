@@ -31,7 +31,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * Constructor.
      *
      * @param brickDataManager {@link BrickDataManager} for this adapter
-     * @param recyclerView {@link RecyclerView} for this adapter
+     * @param recyclerView     {@link RecyclerView} for this adapter
      */
     public BrickRecyclerAdapter(BrickDataManager brickDataManager, RecyclerView recyclerView) {
         if (recyclerView == null) {
@@ -66,7 +66,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * Safe version of {@link RecyclerView.Adapter#notifyItemChanged(int, Object)}.
      *
      * @param position Position of the item that has changed
-     * @param payload Optional parameter, use null to identify a "full" update
+     * @param payload  Optional parameter, use null to identify a "full" update
      */
     public void safeNotifyItemChanged(final int position, final Object payload) {
         if (recyclerView.isComputingLayout()) {
@@ -77,7 +77,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
     }
 
     /**
-     *  Safe version of {@link RecyclerView.Adapter#notifyItemChanged(int)}.
+     * Safe version of {@link RecyclerView.Adapter#notifyItemChanged(int)}.
      *
      * @param position Position of the item that has changed
      */
@@ -93,7 +93,6 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * Safe version of {@link RecyclerView.Adapter#notifyItemInserted(int)}.
      *
      * @param position Position of the newly inserted item in the data set
-
      */
     public void safeNotifyItemInserted(final int position) {
         if (recyclerView.isComputingLayout()) {
@@ -107,7 +106,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * Safe version of {@link RecyclerView.Adapter#notifyItemMoved(int, int)}.
      *
      * @param fromPosition Previous position of the item.
-     * @param toPosition New position of the item.
+     * @param toPosition   New position of the item.
      */
     public void safeNotifyItemMoved(final int fromPosition, final int toPosition) {
         if (recyclerView.isComputingLayout()) {
@@ -121,8 +120,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * Safe version of {@link RecyclerView.Adapter#notifyItemRangeChanged(int, int, Object)}.
      *
      * @param positionStart Position of the first item that has changed
-     * @param itemCount Number of items that have changed
-     * @param payload  Optional parameter, use null to identify a "full" update
+     * @param itemCount     Number of items that have changed
+     * @param payload       Optional parameter, use null to identify a "full" update
      */
     public void safeNotifyItemRangeChanged(final int positionStart, final int itemCount, final Object payload) {
         if (recyclerView.isComputingLayout()) {
@@ -136,7 +135,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * Safe version of {@link RecyclerView.Adapter#notifyItemRangeChanged(int, int)}.
      *
      * @param positionStart Position of the first item that has changed
-     * @param itemCount Number of items that have changed
+     * @param itemCount     Number of items that have changed
      */
     public void safeNotifyItemRangeChanged(final int positionStart, final int itemCount) {
         if (recyclerView.isComputingLayout()) {
@@ -150,7 +149,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * Safe version of {@link RecyclerView.Adapter#notifyItemRangeInserted(int, int)}.
      *
      * @param positionStart Position of the first item that was inserted
-     * @param itemCount Number of items inserted
+     * @param itemCount     Number of items inserted
      */
     public void safeNotifyItemRangeInserted(final int positionStart, final int itemCount) {
         if (recyclerView.isComputingLayout()) {
@@ -164,7 +163,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * Safe version of {@link RecyclerView.Adapter#notifyItemRangeRemoved(int, int)}.
      *
      * @param positionStart Previous position of the first item that was removed
-     * @param itemCount Number of items removed from the data set
+     * @param itemCount     Number of items removed from the data set
      */
     public void safeNotifyItemRangeRemoved(final int positionStart, final int itemCount) {
         if (recyclerView.isComputingLayout()) {
@@ -206,15 +205,27 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
                 }
             }
 
-            if (baseBrick.isDataReady()) {
-                baseBrick.onBindData(holder);
+            if (shouldUseSubsequentLayout(baseBrick)) {
+                baseBrick.onBindSubsequentLayout(holder);
             } else {
-                baseBrick.onBindPlaceholder(holder);
+                baseBrick.onBindData(holder);
             }
+
             if (onReachedItemAtPosition != null) {
                 onReachedItemAtPosition.bindingItemAtPosition(position);
             }
         }
+    }
+
+    /**
+     * Determines if we should bind on the original layout or the subsequent layout.
+     *
+     * @param baseBrick The brick which we are attempting to bind
+     * @return True if we should be binding the subsequent layout, and false otherwise.
+     */
+    private boolean shouldUseSubsequentLayout(BaseBrick baseBrick) {
+        return baseBrick.isDataReady()
+                && baseBrick.getSubsequentLayout() != BaseBrick.INVALID_LAYOUT;
     }
 
     @Override
@@ -240,8 +251,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
             return 0;
         }
 
-        if (!brick.isDataReady()) {
-            return brick.getPlaceholderLayout();
+        if (shouldUseSubsequentLayout(brick)) {
+            return brick.getSubsequentLayout();
         }
 
         return brick.getLayout();
@@ -259,6 +270,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
 
     /**
      * Get the index of the given brick.
+     *
      * @param brick brick to get the index of
      * @return index of the given brick
      */
@@ -268,6 +280,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
 
     /**
      * Get the first header before the given position.
+     *
      * @param position position before which to find the next header
      * @return the first header before the given position.
      */
@@ -293,6 +306,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
 
     /**
      * Get the first footer after the given position unless the given position is the last element.
+     *
      * @param position position after which to find the next footer
      * @return the first footer after the given position.
      */
@@ -327,6 +341,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
 
     /**
      * Get the {@link RecyclerView} for this adapter.
+     *
      * @return the {@link RecyclerView} for this adapter
      */
     public RecyclerView getRecyclerView() {
@@ -365,9 +380,9 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         /**
          * Constructor.
          *
-         * @param adapter {@link BrickRecyclerAdapter} to notify
+         * @param adapter  {@link BrickRecyclerAdapter} to notify
          * @param position Position of the item that has changed
-         * @param payload Optional parameter, use null to identify a "full" update
+         * @param payload  Optional parameter, use null to identify a "full" update
          */
         NotifyItemChangedWithPayloadRunnable(BrickRecyclerAdapter adapter, final int position, final Object payload) {
             this.adapter = adapter;
@@ -391,7 +406,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         /**
          * Constructor.
          *
-         * @param adapter {@link BrickRecyclerAdapter} to notify
+         * @param adapter  {@link BrickRecyclerAdapter} to notify
          * @param position Position of the item that has changed
          */
         NotifyItemChangedRunnable(BrickRecyclerAdapter adapter, final int position) {
@@ -415,7 +430,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         /**
          * Constructor.
          *
-         * @param adapter {@link BrickRecyclerAdapter} to notify
+         * @param adapter  {@link BrickRecyclerAdapter} to notify
          * @param position Position of the newly inserted item in the data set
          */
         NotifyItemInsertedRunnable(BrickRecyclerAdapter adapter, final int position) {
@@ -440,9 +455,9 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         /**
          * Constructor.
          *
-         * @param adapter {@link BrickRecyclerAdapter} to notify
+         * @param adapter      {@link BrickRecyclerAdapter} to notify
          * @param fromPosition Previous position of the item.
-         * @param toPosition New position of the item.
+         * @param toPosition   New position of the item.
          */
         NotifyItemMovedRunnable(BrickRecyclerAdapter adapter, final int fromPosition, final int toPosition) {
             this.adapter = adapter;
@@ -469,10 +484,10 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         /**
          * Constructor.
          *
-         * @param adapter {@link BrickRecyclerAdapter} to notify
+         * @param adapter       {@link BrickRecyclerAdapter} to notify
          * @param positionStart Position of the first item that has changed
-         * @param itemCount Number of items that have changed
-         * @param payload  Optional parameter, use null to identify a "full" update
+         * @param itemCount     Number of items that have changed
+         * @param payload       Optional parameter, use null to identify a "full" update
          */
         NotifyItemRangeChangedWithPayloadRunnable(BrickRecyclerAdapter adapter, final int positionStart, final int itemCount, final Object payload) {
             this.adapter = adapter;
@@ -498,9 +513,9 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         /**
          * Constructor.
          *
-         * @param adapter {@link BrickRecyclerAdapter} to notify
+         * @param adapter       {@link BrickRecyclerAdapter} to notify
          * @param positionStart Position of the first item that has changed
-         * @param itemCount Number of items that have changed
+         * @param itemCount     Number of items that have changed
          */
         NotifyItemRangeChangedRunnable(BrickRecyclerAdapter adapter, final int positionStart, final int itemCount) {
             this.adapter = adapter;
@@ -525,9 +540,9 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         /**
          * Constructor.
          *
-         * @param adapter {@link BrickRecyclerAdapter} to notify
+         * @param adapter       {@link BrickRecyclerAdapter} to notify
          * @param positionStart Position of the first item that has inserted
-         * @param itemCount Number of items that have inserted
+         * @param itemCount     Number of items that have inserted
          */
         NotifyItemRangeInsertedRunnable(BrickRecyclerAdapter adapter, final int positionStart, final int itemCount) {
             this.adapter = adapter;
@@ -552,9 +567,9 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         /**
          * Constructor.
          *
-         * @param adapter {@link BrickRecyclerAdapter} to notify
+         * @param adapter       {@link BrickRecyclerAdapter} to notify
          * @param positionStart Previous position of the first item that was removed
-         * @param itemCount Number of items removed from the data set
+         * @param itemCount     Number of items removed from the data set
          */
         NotifyItemRangeRemovedRunnable(BrickRecyclerAdapter adapter, final int positionStart, final int itemCount) {
             this.adapter = adapter;
@@ -578,7 +593,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         /**
          * Constructor.
          *
-         * @param adapter {@link BrickRecyclerAdapter} to notify
+         * @param adapter  {@link BrickRecyclerAdapter} to notify
          * @param position Position of the item that has now been removed
          */
         NotifyItemRemovedRunnable(BrickRecyclerAdapter adapter, final int position) {

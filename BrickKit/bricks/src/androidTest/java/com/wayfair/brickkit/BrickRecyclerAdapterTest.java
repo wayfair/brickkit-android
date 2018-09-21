@@ -28,7 +28,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -399,7 +398,7 @@ public class BrickRecyclerAdapterTest {
 
         adapter.onBindViewHolder(holder, 0);
 
-        verify(brick).onBindPlaceholder(holder);
+        verify(brick).onBindSubsequentLayout(holder);
     }
 
     @Test
@@ -416,7 +415,7 @@ public class BrickRecyclerAdapterTest {
 
         adapter.onBindViewHolder(holder, 0);
 
-        verify(brick).onBindPlaceholder(holder);
+        verify(brick).onBindSubsequentLayout(holder);
         verify(listener).bindingItemAtPosition(0);
     }
 
@@ -479,7 +478,7 @@ public class BrickRecyclerAdapterTest {
     @Test
     public void testGetItemViewTypeWhenDataIsNotReady() {
         BaseBrick brick = mock(BaseBrick.class);
-        when(brick.getPlaceholderLayout()).thenReturn(PLACEHOLDER_LAYOUT);
+        when(brick.getSubsequentLayout()).thenReturn(PLACEHOLDER_LAYOUT);
         when(brick.isDataReady()).thenReturn(false);
 
         when(dataManager.brickAtPosition(0)).thenReturn(brick);

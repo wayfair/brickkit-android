@@ -29,7 +29,7 @@ import java.util.ListIterator;
  * Class which maintains a collection of bricks and manages how they are laid out in an provided RecyclerView.
  * <p>
  * This class maintains the bricks and handles notifying the underlying adapter when items are updated.
- *
+ * <p>
  * Copyright © 2017 Wayfair. All rights reserved.
  */
 public class BrickDataManager implements Serializable {
@@ -1135,14 +1135,13 @@ public class BrickDataManager implements Serializable {
     /**
      * Retrieves a brick who's associated placeholder layout resource ID matches that of the parameter.
      *
-     * @param placeholderLayoutResId Placeholder Layout resource ID
+     * @param layoutId Placeholder Layout resource ID
      * @return An instance of BaseBrick or null
      */
-    public BaseBrick brickWithPlaceholderLayout(@LayoutRes int placeholderLayoutResId) {
+    public BaseBrick brickWithPlaceholderLayout(@LayoutRes int layoutId) {
         List<BaseBrick> visibleItems = getRecyclerViewItems();
         for (int i = 0; i < visibleItems.size(); i++) {
-            if (!visibleItems.get(i).isDataReady() && visibleItems.get(i).getPlaceholderLayout()
-                    == placeholderLayoutResId) {
+            if (visibleItems.get(i).getSubsequentLayout() == layoutId) {
                 return visibleItems.get(i);
             }
         }
@@ -1171,7 +1170,7 @@ public class BrickDataManager implements Serializable {
         /**
          * Constructor for the NpaStaggeredGridLayoutManager.
          *
-         * @param spanCount the number of columns to use in the StaggeredGridLayoutManager.
+         * @param spanCount   the number of columns to use in the StaggeredGridLayoutManager.
          * @param orientation the orientation of the StaggeredGridLayoutManager.
          */
         NpaStaggeredGridLayoutManager(int spanCount, int orientation) {
@@ -1207,10 +1206,10 @@ public class BrickDataManager implements Serializable {
         /**
          * Constructor for the WFGridLayoutManager.
          *
-         * @param context            {@link Context} to use
-         * @param spanCount          the number of columns to which the bricks will conform
-         * @param orientation        Layout orientation. Should be {@link GridLayoutManager#HORIZONTAL} or {@link GridLayoutManager#VERTICAL}.
-         * @param reverseLayout      When set to true, layouts from end to start.
+         * @param context       {@link Context} to use
+         * @param spanCount     the number of columns to which the bricks will conform
+         * @param orientation   Layout orientation. Should be {@link GridLayoutManager#HORIZONTAL} or {@link GridLayoutManager#VERTICAL}.
+         * @param reverseLayout When set to true, layouts from end to start.
          */
         WFGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
             super(context, spanCount, orientation, reverseLayout);
