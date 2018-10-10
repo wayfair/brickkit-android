@@ -66,7 +66,6 @@ class BrickRecyclerItemDecoration extends RecyclerView.ItemDecoration {
         if (brick.getSpanSize().getSpans(context) == brickDataManager.getMaxSpanCount()) {
             // Single column
             setOutRect(outRect, brick, innerPaddingTop, innerPaddingBottom, outerPaddingLeft, outerPaddingTop, outerPaddingRight, outerPaddingBottom);
-
         } else {
             // Multi-column
             if (brick.isOnLeftWall()) {
