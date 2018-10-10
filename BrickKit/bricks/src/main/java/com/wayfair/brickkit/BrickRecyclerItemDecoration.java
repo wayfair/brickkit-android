@@ -65,57 +65,25 @@ class BrickRecyclerItemDecoration extends RecyclerView.ItemDecoration {
         // Apply padding
         if (brick.getSpanSize().getSpans(context) == brickDataManager.getMaxSpanCount()) {
             // Single column
-            if (brick.isInFirstRow()) {
-                if (brick.isInLastRow()) {
-                    outRect.set(outerPaddingLeft, outerPaddingTop, outerPaddingRight, outerPaddingBottom);
-                } else {
-                    outRect.set(outerPaddingLeft, outerPaddingTop, outerPaddingRight, innerPaddingBottom);
-                }
-            } else if (brick.isInLastRow()) {
-                outRect.set(outerPaddingLeft, innerPaddingTop, outerPaddingRight, outerPaddingBottom);
-            } else {
-                outRect.set(outerPaddingLeft, innerPaddingTop, outerPaddingRight, innerPaddingBottom);
-            }
+            setOutRect(outRect, brick, innerPaddingTop, innerPaddingBottom, outerPaddingLeft, outerPaddingTop, outerPaddingRight, outerPaddingBottom);
 
         } else {
             // Multi-column
             if (brick.isOnLeftWall()) {
-                if (brick.isInFirstRow()) {
-                    if (brick.isInLastRow()) {
-                        outRect.set(outerPaddingLeft, outerPaddingTop, innerPaddingRight, outerPaddingBottom);
-                    } else {
-                        outRect.set(outerPaddingLeft, outerPaddingTop, innerPaddingRight, innerPaddingBottom);
-                    }
-                } else if (brick.isInLastRow()) {
-                    outRect.set(outerPaddingLeft, innerPaddingTop, innerPaddingRight, outerPaddingBottom);
-                } else {
-                    outRect.set(outerPaddingLeft, innerPaddingTop, innerPaddingRight, innerPaddingBottom);
-                }
+                setOutRect(outRect, brick, innerPaddingTop, innerPaddingBottom, outerPaddingLeft, outerPaddingTop, innerPaddingRight, outerPaddingBottom);
             } else if (brick.isOnRightWall()) {
-                if (brick.isInFirstRow()) {
-                    if (brick.isInLastRow()) {
-                        outRect.set(innerPaddingLeft, outerPaddingTop, outerPaddingRight, outerPaddingBottom);
-                    } else {
-                        outRect.set(innerPaddingLeft, outerPaddingTop, outerPaddingRight, innerPaddingBottom);
-                    }
-                } else if (brick.isInLastRow()) {
-                    outRect.set(innerPaddingLeft, innerPaddingTop, outerPaddingRight, outerPaddingBottom);
-                } else {
-                    outRect.set(innerPaddingLeft, innerPaddingTop, outerPaddingRight, innerPaddingBottom);
-                }
+                setOutRect(outRect, brick, innerPaddingTop, innerPaddingBottom, innerPaddingLeft, outerPaddingTop, outerPaddingRight, outerPaddingBottom);
             } else {
-                if (brick.isInFirstRow()) {
-                    if (brick.isInLastRow()) {
-                        outRect.set(innerPaddingLeft, outerPaddingTop, innerPaddingRight, outerPaddingBottom);
-                    } else {
-                        outRect.set(innerPaddingLeft, outerPaddingTop, innerPaddingRight, innerPaddingBottom);
-                    }
-                } else if (brick.isInLastRow()) {
-                    outRect.set(innerPaddingLeft, innerPaddingTop, innerPaddingRight, outerPaddingBottom);
-                } else {
-                    outRect.set(innerPaddingLeft, innerPaddingTop, innerPaddingRight, innerPaddingBottom);
-                }
+                setOutRect(outRect, brick, innerPaddingTop, innerPaddingBottom, innerPaddingLeft, outerPaddingTop, innerPaddingRight, outerPaddingBottom);
             }
+        }
+    }
+
+    private void setOutRect(Rect outRect, BaseBrick brick, int innerPaddingTop, int innerPaddingBottom, int outerPaddingLeft, int outerPaddingTop, int outerPaddingRight, int outerPaddingBottom) {
+        if (brick.isInFirstRow()) {
+            outRect.set(outerPaddingLeft, outerPaddingTop, outerPaddingRight, brick.isInLastRow() ? outerPaddingBottom : innerPaddingBottom);
+        } else {
+            outRect.set(outerPaddingLeft, innerPaddingTop, outerPaddingRight, brick.isInLastRow() ? outerPaddingBottom : innerPaddingBottom);
         }
     }
 }
