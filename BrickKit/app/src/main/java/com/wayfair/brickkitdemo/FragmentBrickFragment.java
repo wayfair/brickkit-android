@@ -23,8 +23,9 @@ public class FragmentBrickFragment extends BrickFragment {
         colors[1] = getResources().getColor(R.color.colorPrimary);
         colors[2] = getResources().getColor(R.color.colorPrimaryDark);
 
+        FragmentBrick brick;
         for (int i = 0; i < colors.length; i++) {
-            FragmentBrick brick = new FragmentBrick(
+            brick = new FragmentBrick(
                     getContext(),
                     new SimpleBrickSize(maxSpans()) {
                         @Override

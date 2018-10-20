@@ -53,8 +53,9 @@ public class SimpleBrickFragment extends BrickFragment {
 
         bricks = new LinkedList<>();
 
+        ViewModelBrick brick;
         for (int i = 0; i < numberOfBricks; i++) {
-            ViewModelBrick brick = genBrick(i);
+            brick = genBrick(i);
 
             bricks.add(brick);
             dataManager.addLast(brick);

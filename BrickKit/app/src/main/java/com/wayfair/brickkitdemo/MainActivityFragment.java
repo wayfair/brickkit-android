@@ -211,9 +211,9 @@ public class MainActivityFragment extends BrickFragment {
                 )
         );
 
+        SimpleBrickSize first, last;
+        UnusedBrick unusedBrick, unusedBrick1, unusedBrick2;
         for (int i = 0; i < usedBricks.size() + 2; i++) {
-            SimpleBrickSize first;
-            SimpleBrickSize last;
 
             if (i % 2 == 0) {
                 first =
@@ -247,11 +247,11 @@ public class MainActivityFragment extends BrickFragment {
                         };
             }
 
-            UnusedBrick unusedBrick1 = new UnusedBrick(first, padding);
+            unusedBrick1 = new UnusedBrick(first, padding);
             dataManager.addLast(unusedBrick1);
 
             if (i == 0 || i == usedBricks.size() + 1) {
-                UnusedBrick unusedBrick = new UnusedBrick(
+                unusedBrick = new UnusedBrick(
                         new SimpleBrickSize(maxSpans()) {
                             @Override
                             protected int size() {
@@ -265,9 +265,8 @@ public class MainActivityFragment extends BrickFragment {
                 dataManager.addLast(usedBricks.get(i - 1));
             }
 
-            UnusedBrick unusedBrick2 = new UnusedBrick(last, padding);
+            unusedBrick2 = new UnusedBrick(last, padding);
             dataManager.addLast(unusedBrick2);
-
         }
 
     }

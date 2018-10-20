@@ -25,8 +25,9 @@ public class FooterBrickFragment extends BrickFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        TextBrick unusedBrick2;
         for (int i = 0; i < 100; i++) {
-            TextBrick unusedBrick2 = new TextBrick(
+            unusedBrick2 = new TextBrick(
                     new SimpleBrickSize(maxSpans()) {
                         @Override
                         protected int size() {

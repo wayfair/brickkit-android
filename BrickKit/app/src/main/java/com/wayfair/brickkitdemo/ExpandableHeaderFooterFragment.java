@@ -67,8 +67,9 @@ public class ExpandableHeaderFooterFragment extends BrickFragment {
             @Override
             public void onClick(View view) {
                 if (isAdd) {
+                    TextBrick newBrick;
                     for (int j = 0; j < 8; j++) {
-                        TextBrick newBrick = new TextBrick(
+                        newBrick = new TextBrick(
                                 new SimpleBrickSize(maxSpans()) {
                                     @Override
                                     protected int size() {

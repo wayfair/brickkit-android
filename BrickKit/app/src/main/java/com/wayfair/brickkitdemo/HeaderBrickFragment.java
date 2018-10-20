@@ -25,8 +25,9 @@ public class HeaderBrickFragment extends BrickFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        TextBrick unusedBrick2;
         for (int i = 0; i < 100; i++) {
-            TextBrick unusedBrick2 = new TextBrick(
+            unusedBrick2 = new TextBrick(
                     new OrientationBrickSize(maxSpans()) {
                         @Override
                         protected int portrait() {

@@ -79,8 +79,9 @@ public class StickyHeaderBehavior extends StickyViewBehavior {
         int headerOffsetX = 0, headerOffsetY = 0;
 
         //Search for the position where the next header item is found and take the new offset
+        View nextChild;
         for (int i = 1; i > 0; i--) {
-            final View nextChild = adapter.getRecyclerView().getChildAt(i);
+            nextChild = adapter.getRecyclerView().getChildAt(i);
             if (nextChild != null) {
                 int adapterPos = adapter.getRecyclerView().getChildAdapterPosition(nextChild);
                 int nextHeaderPosition = getStickyViewPosition(adapterPos);

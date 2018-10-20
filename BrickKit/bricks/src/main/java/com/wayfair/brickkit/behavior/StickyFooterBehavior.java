@@ -88,8 +88,9 @@ public class StickyFooterBehavior extends StickyViewBehavior {
         int footerOffsetX = 0, footerOffsetY = 0;
 
         //Search for the position where the next footer item is found and take the new offset
+        View nextChild;
         for (int i = adapter.getRecyclerView().getChildCount() - 2; i < adapter.getItemCount(); i++) {
-            final View nextChild = adapter.getRecyclerView().getChildAt(i);
+            nextChild = adapter.getRecyclerView().getChildAt(i);
             if (nextChild != null) {
                 int adapterPos = adapter.getRecyclerView().getChildAdapterPosition(nextChild);
                 int nextFooterPosition = getStickyViewPosition(adapterPos);
