@@ -795,6 +795,18 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
+     * Refresh a brick and the behaviors is the item has a behavior.
+     *
+     * @param item the brick to refresh
+     */
+    public void refreshItemAndBehaviors(BaseBrick item) {
+        refreshItem(item);
+        if (item.isHeader() || item.isFooter()) {
+            updateBrickBehaviors();
+        }
+    }
+
+    /**
      * Update the visibility of the brick and set it invisible.
      *
      * @param item the brick to be hided
@@ -837,9 +849,7 @@ public class BrickDataManager implements Serializable {
      */
     private void dataHasChanged() {
         dataHasChanged = true;
-        for (BrickBehavior behavior : behaviors) {
-            behavior.onDataSetChanged();
-        }
+        updateBrickBehaviors();
     }
 
     /**
@@ -1095,6 +1105,15 @@ public class BrickDataManager implements Serializable {
     public void removeBehavior(BrickBehavior behavior) {
         behaviors.remove(behavior);
         behavior.detachFromRecyclerView(getRecyclerView());
+    }
+
+    /**
+     * Updates the current brick behaviors that have been added.
+     */
+    private void updateBrickBehaviors() {
+        for (BrickBehavior behavior : behaviors) {
+            behavior.onDataSetChanged();
+        }
     }
 
     /**
