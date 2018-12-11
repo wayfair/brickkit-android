@@ -1186,6 +1186,20 @@ public class BrickDataManagerTest {
     }
 
     @Test
+    public void testRefreshItem_noNotifyDataSetChanged() {
+        manager.refreshItem(brickTestHelper.generateBrick());
+
+        verify(headerBehavior, never()).onDataSetChanged();
+    }
+
+    @Test
+    public void testRefreshItemAndData_notifyDataSetChanged() {
+        manager.refreshItemAndData(brickTestHelper.generateBrick());
+
+        verify(headerBehavior).onDataSetChanged();
+    }
+
+    @Test
     public void testOnDestroy() {
         manager.onDestroyView();
 

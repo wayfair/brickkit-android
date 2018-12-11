@@ -795,6 +795,16 @@ public class BrickDataManager implements Serializable {
     }
 
     /**
+     * Refresh a brick and the data within the brick.
+     *
+     * @param item the brick to refresh
+     */
+    public void refreshItemAndData(BaseBrick item) {
+        refreshItem(item);
+        dataHasChanged();
+    }
+
+    /**
      * Update the visibility of the brick and set it invisible.
      *
      * @param item the brick to be hided
