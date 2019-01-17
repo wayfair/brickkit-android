@@ -4,8 +4,6 @@
 package com.wayfair.brickkit;
 
 import android.os.Handler;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +12,11 @@ import com.wayfair.brickkit.brick.BaseBrick;
 
 import java.util.ListIterator;
 
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 /**
- * Extension of {@link android.support.v7.widget.RecyclerView.Adapter} which combines a given
+ * Extension of {@link androidx.recyclerview.widget.RecyclerView.Adapter} which combines a given
  * {@link BrickDataManager} to a given {@link RecyclerView}.
  */
 public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> {

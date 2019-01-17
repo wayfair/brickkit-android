@@ -1,10 +1,10 @@
 package com.wayfair.brickkit;
 
-import android.support.v7.util.DiffUtil;
-
 import com.wayfair.brickkit.brick.BaseBrick;
 
 import java.util.LinkedList;
+
+import androidx.recyclerview.widget.DiffUtil;
 
 /**
  * A DiffUtil for Bricks.

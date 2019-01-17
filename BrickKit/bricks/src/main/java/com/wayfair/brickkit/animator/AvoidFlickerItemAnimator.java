@@ -1,7 +1,7 @@
 package com.wayfair.brickkit.animator;
 
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Item animator which overrides

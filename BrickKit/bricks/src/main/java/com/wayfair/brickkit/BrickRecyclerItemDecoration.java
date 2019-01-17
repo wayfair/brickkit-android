@@ -5,14 +5,15 @@ package com.wayfair.brickkit;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.padding.BrickPadding;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
- * {@link android.support.v7.widget.RecyclerView.ItemDecoration} which applies padding to bricks
+ * {@link androidx.recyclerview.widget.RecyclerView.ItemDecoration} which applies padding to bricks
  * based off of their given {@link BrickPadding} and location in on the screen.
  */
 class BrickRecyclerItemDecoration extends RecyclerView.ItemDecoration {

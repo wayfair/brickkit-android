@@ -1,10 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
-ext.androidSupportVersion = '27.1.1'
-
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId 'com.wayfair.brickkitdemo'
@@ -12,7 +10,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -29,23 +27,19 @@ android {
 }
 
 dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0') {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    }
 
-    compile "com.android.support:support-v4:${androidSupportVersion}"
-    compile "com.android.support:support-v13:${androidSupportVersion}"
-    compile "com.android.support:support-compat:${androidSupportVersion}"
-    compile "com.android.support:support-core-utils:${androidSupportVersion}"
-    compile "com.android.support:support-core-ui:${androidSupportVersion}"
-    compile "com.android.support:support-fragment:${androidSupportVersion}"
-    compile "com.android.support:appcompat-v7:${androidSupportVersion}"
-    compile "com.android.support:recyclerview-v7:${androidSupportVersion}"
-    compile "com.android.support:design:${androidSupportVersion}"
-    compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    implementation "androidx.core:core:1.0.1"
+    implementation "androidx.fragment:fragment:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation "com.google.android.material:material:1.0.0"
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 
-    testCompile 'junit:junit:4.12'
-    compile project(path: ':bricks')
+    testImplementation 'junit:junit:4.12'
+    implementation project(path: ':bricks')
 }
 
 check.dependsOn("checkstyle")

@@ -2,11 +2,12 @@ package com.wayfair.brickkit.brick;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.v4.util.ArraySet;
 
 import java.io.Serializable;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.collection.ArraySet;
 
 /**
  * An abstract class that all Data Models should be based on. This is use tightly

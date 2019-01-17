@@ -1,12 +1,12 @@
 package com.wayfair.brickkit.brick;
 
-import android.databinding.BaseObservable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.ArraySet;
-
 import java.io.Serializable;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
+import androidx.databinding.BaseObservable;
 
 /**
  * The object used to bind information in a {@link ViewModelBrick}.
