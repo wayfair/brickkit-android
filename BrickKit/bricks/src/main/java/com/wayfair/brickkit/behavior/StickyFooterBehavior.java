@@ -3,16 +3,17 @@
  */
 package com.wayfair.brickkit.behavior;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickRecyclerAdapter;
+import com.wayfair.brickkit.R;
 import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.BrickDataManager;
-import com.wayfair.brickkit.R;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * {@link BrickBehavior} that will provide a sticky footer view. Sticky footer views will remain

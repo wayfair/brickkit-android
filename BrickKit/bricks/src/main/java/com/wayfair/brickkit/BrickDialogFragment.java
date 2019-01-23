@@ -5,15 +5,16 @@ package com.wayfair.brickkit;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.ColorInt;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.ColorInt;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * DialogFragment which provides a simple interface for adding bricks / behaviors.
@@ -90,7 +91,8 @@ public abstract class BrickDialogFragment extends DialogFragment {
      *
      * @return The color int used for the bg of the Recycler View
      */
-    @ColorInt public int getRecyclerViewBackground() {
+    @ColorInt
+    public int getRecyclerViewBackground() {
         return recyclerViewBackground;
     }
 }

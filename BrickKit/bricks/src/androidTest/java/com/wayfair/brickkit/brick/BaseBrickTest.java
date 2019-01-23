@@ -4,9 +4,6 @@
 package com.wayfair.brickkit.brick;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
@@ -22,6 +19,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
+
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

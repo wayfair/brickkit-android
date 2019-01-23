@@ -4,18 +4,19 @@
 package com.wayfair.brickkitdemo.bricks;
 
 import android.content.Context;
-import android.support.annotation.ColorInt;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.wayfair.brickkit.BrickViewHolder;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.size.BrickSize;
-import com.wayfair.brickkit.BrickViewHolder;
 import com.wayfair.brickkitdemo.R;
+
+import androidx.annotation.ColorInt;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * Brick whose content is a fragment.
@@ -36,7 +37,7 @@ public class FragmentBrick extends BaseBrick {
      * @param spanSize size information for this brick
      * @param fragmentManager fragmentManager to add the fragment to
      * @param fragment fragment to display in this brick
-     * @param tag tag to use in {@link android.support.v4.app.FragmentTransaction}'s on the fragment
+     * @param tag tag to use in {@link androidx.fragment.app.FragmentTransaction}'s on the fragment
      */
     public FragmentBrick(
             Context context, BrickSize spanSize, FragmentManager fragmentManager, Fragment fragment, String tag

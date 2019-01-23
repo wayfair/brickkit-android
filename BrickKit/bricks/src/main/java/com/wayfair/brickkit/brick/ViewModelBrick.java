@@ -1,14 +1,15 @@
 package com.wayfair.brickkit.brick;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.LayoutRes;
 import android.util.SparseArray;
 import android.view.View;
 
 import com.wayfair.brickkit.BrickViewHolder;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
+
+import androidx.annotation.LayoutRes;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 
 /**
  * This class is used as a Generic Brick that can take in any XML Layout and use DataBinding to
@@ -139,10 +140,10 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
     /**
      * Run the {@link SwipeListener} when a swipe happens on this brick.
      *
-     * @param direction one of {@link android.support.v7.widget.helper.ItemTouchHelper.UP},
-     *                  {@link android.support.v7.widget.helper.ItemTouchHelper.RIGHT},
-     *                  {@link android.support.v7.widget.helper.ItemTouchHelper.DOWN},
-     *                  {@link android.support.v7.widget.helper.ItemTouchHelper.LEFT}
+     * @param direction one of {@link androidx.recyclerview.widget.ItemTouchHelper.UP},
+     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.RIGHT},
+     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.DOWN},
+     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.LEFT}
      */
     @SuppressWarnings("JavadocReference")
     @Override
@@ -203,7 +204,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
                         }
                     }
                 }
-
             }
         } else {
             areContentsTheSame = false;
@@ -240,7 +240,7 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
          * Set the placeholder for this brick.
          *
          * @param placeholderLayoutId the placeholder layout id to be used
-         * @param placeholderBinder the object that helps bind the place holder
+         * @param placeholderBinder   the object that helps bind the place holder
          * @return the builder
          */
         public Builder setPlaceholder(@LayoutRes int placeholderLayoutId, PlaceholderBinder placeholderBinder) {
@@ -357,7 +357,7 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         /**
          * Sets the {@link ViewModel} to be bound for the given id.
          *
-         * @param bindId the id
+         * @param bindId    the id
          * @param viewModel the {@link ViewModel}
          */
         void bind(int bindId, ViewModel viewModel) {

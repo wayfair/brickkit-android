@@ -5,8 +5,6 @@ package com.wayfair.brickkit;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.wayfair.brickkit.brick.BaseBrick;
@@ -18,6 +16,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;

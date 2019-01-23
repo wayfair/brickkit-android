@@ -8,12 +8,12 @@ public interface SwipeListener {
     /**
      * Called when an item is swiped-to-dismiss.
      *
-     * @param direction one of {@link android.support.v7.widget.helper.ItemTouchHelper.UP},
-     *                  {@link android.support.v7.widget.helper.ItemTouchHelper.RIGHT},
-     *                  {@link android.support.v7.widget.helper.ItemTouchHelper.DOWN},
-     *                  {@link android.support.v7.widget.helper.ItemTouchHelper.LEFT},
-     *                  {@link android.support.v7.widget.helper.ItemTouchHelper.START},
-     *                  {@link android.support.v7.widget.helper.ItemTouchHelper.END}
+     * @param direction one of {@link androidx.recyclerview.widget.ItemTouchHelper.UP},
+     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.RIGHT},
+     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.DOWN},
+     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.LEFT},
+     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.START},
+     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.END}
      *
      */
     void swiped(int direction);

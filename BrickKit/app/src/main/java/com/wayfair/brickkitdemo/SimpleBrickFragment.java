@@ -1,12 +1,11 @@
 package com.wayfair.brickkitdemo;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.SwipeListener;
@@ -19,6 +18,8 @@ import com.wayfair.brickkit.size.OrientationBrickSize;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import androidx.recyclerview.widget.ItemTouchHelper;
 
 /**
  * Example fragment which shows text bricks.

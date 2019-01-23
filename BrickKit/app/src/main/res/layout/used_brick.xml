@@ -8,7 +8,7 @@
     android:background="@android:color/holo_blue_light"
     android:padding="@dimen/default_brick_content_padding">
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="60dp"

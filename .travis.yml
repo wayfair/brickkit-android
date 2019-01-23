@@ -4,29 +4,45 @@ jdk: oraclejdk8
 android:
   components:
     - tools
-    - tools
+    - build-tools-28.0.3
     - platform-tools
-    - build-tools-27.0.3
-    - android-24
-    - android-25
-    - android-26
-    - android-27
-    - extra-android-support
-    - extra-google-m2repository
-    - extra-android-m2repository
-    - sys-img-armeabi-v7a-android-24
+    - tools
+
+env:
+  global:
+    - API=24
+    - TAG=default
+    - ABI=armeabi-v7a
+    - ADB_INSTALL_TIMEOUT=10 # minutes (2 minutes by default)
 
 before_install:
   - mkdir "$ANDROID_HOME/licenses" || true
   - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - export EMULATOR="system-images;android-${API};${TAG};${ABI}" # Used to install/create emulator
+
+install:
+  - echo yes | sdkmanager "tools" > /dev/null
+  - echo yes | sdkmanager "platforms;android-28" > /dev/null
+  - echo yes | sdkmanager "extras;android;m2repository" > /dev/null
+  - echo yes | sdkmanager "extras;google;m2repository" > /dev/null
+  - echo yes | sdkmanager "$EMULATOR" > /dev/null # Install emulator system image
+  - echo no | avdmanager create avd -n test -k "$EMULATOR" -f --abi "$ABI" --tag "$TAG"
+  - emulator -list-avds
+  - cd "$ANDROID_HOME/tools" # Bug in the current emulator release
+  - emulator -avd test -no-window &
+  # Start adbd, wait for device connected and show android serial
+  - adb wait-for-device get-serialno
 
 before_script:
-  - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
-  - emulator -avd test -no-window &
   - android-wait-for-emulator
+  - adb shell settings put global window_animation_scale 0 &
+  - adb shell settings put global transition_animation_scale 0 &
+  - adb shell settings put global animator_duration_scale 0 &
+  - sleep 30
   - adb shell input keyevent 82 &
+
 script:
-  - cd BrickKit
+  - cd ${TRAVIS_BUILD_DIR}/BrickKit
   - ./gradlew build connectedCheck createPom createBintrayDescriptor
   - cd ..
 

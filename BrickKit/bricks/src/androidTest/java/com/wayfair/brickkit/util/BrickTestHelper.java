@@ -4,7 +4,6 @@
 package com.wayfair.brickkit.util;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.wayfair.brickkit.BrickViewHolder;
@@ -14,12 +13,13 @@ import com.wayfair.brickkit.padding.SimpleBrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
 import com.wayfair.brickkit.size.SimpleBrickSize;
 
-import static android.support.test.espresso.core.deps.guava.base.Ascii.MAX;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class BrickTestHelper {
 
     private static final int HALF_SPAN = 4;
     private static final int PADDING = 2;
+    private static final char MAX = '\u007f';
     private static final int MAX_SPANS = 8;
 
     private Context context;
