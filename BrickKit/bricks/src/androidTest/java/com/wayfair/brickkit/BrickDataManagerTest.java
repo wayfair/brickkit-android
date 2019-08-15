@@ -1190,7 +1190,7 @@ public class BrickDataManagerTest {
     public void testOnDestroy() {
         manager.onDestroyView();
 
-        verify(headerBehavior).detachFromRecyclerView(manager.getRecyclerView());
+        assertNull(manager.getRecyclerView());
     }
 
     @Test

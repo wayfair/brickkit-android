@@ -239,12 +239,18 @@ public class BrickDataManager implements Serializable {
     public void updateBricks(LinkedList<BaseBrick> bricks) {
         LinkedList<BaseBrick> newVisibleBricks = new LinkedList<>();
 
+        // clean caches and the DataManager reference on each brick
+        idCache.clear();
+        tagCache.clear();
+        for (BaseBrick item : items) {
+            item.setDataManager(null);
+        }
+
         for (BaseBrick item : bricks) {
             addToIdCache(item);
             addToTagCache(item);
             item.setDataManager(this);
         }
-
         for (BaseBrick brick : bricks) {
             if (!brick.isHidden()) {
                 newVisibleBricks.add(brick);
@@ -1114,6 +1120,9 @@ public class BrickDataManager implements Serializable {
         for (BrickBehavior behavior : behaviors) {
             behavior.detachFromRecyclerView(getRecyclerView());
         }
+        recyclerViewParent = null;
+        recyclerView = null;
+        context = null;
     }
 
     /**

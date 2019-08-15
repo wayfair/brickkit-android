@@ -275,6 +275,7 @@ abstract class StickyViewBehavior extends BrickBehavior {
 
         if (stickyHolderContainer != null) {
             stickyHolderContainer.setVisibility(View.INVISIBLE);
+            stickyHolderContainer = null;
         }
     }
 
