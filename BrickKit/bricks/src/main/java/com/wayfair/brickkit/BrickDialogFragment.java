@@ -41,8 +41,8 @@ public abstract class BrickDialogFragment extends DialogFragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         dataManager.onDestroyView();
+        super.onDestroyView();
     }
 
     /**

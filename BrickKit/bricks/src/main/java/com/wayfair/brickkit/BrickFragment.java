@@ -46,8 +46,8 @@ public abstract class BrickFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         dataManager.onDestroyView();
+        super.onDestroyView();
     }
 
     /**
