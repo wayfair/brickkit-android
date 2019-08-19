@@ -1120,6 +1120,11 @@ public class BrickDataManager implements Serializable {
         for (BrickBehavior behavior : behaviors) {
             behavior.detachFromRecyclerView(getRecyclerView());
         }
+        behaviors.clear();
+        if (recyclerView != null) {
+            recyclerView.setAdapter(null);
+        }
+        brickRecyclerAdapter = null;
         recyclerViewParent = null;
         recyclerView = null;
         context = null;
