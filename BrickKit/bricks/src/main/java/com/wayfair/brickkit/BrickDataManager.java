@@ -915,9 +915,11 @@ public class BrickDataManager implements Serializable {
      * @param item brick to smooth scroll to
      */
     public void smoothScrollToBrick(BaseBrick item) {
-        int index = getBrickRecyclerAdapter().indexOf(item);
-        if (index != -1) {
-            recyclerView.smoothScrollToPosition(index);
+        if (getBrickRecyclerAdapter() !=  null) {
+            int index = getBrickRecyclerAdapter().indexOf(item);
+            if (index != -1) {
+                recyclerView.smoothScrollToPosition(index);
+            }
         }
     }
 
