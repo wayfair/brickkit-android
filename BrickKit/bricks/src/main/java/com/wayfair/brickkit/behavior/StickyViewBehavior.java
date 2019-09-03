@@ -135,11 +135,7 @@ abstract class StickyViewBehavior extends BrickBehavior {
     protected boolean attach(RecyclerView recyclerView) {
         if (recyclerView != null) {
             recyclerView.addOnScrollListener(this);
-            recyclerView.post(() -> {
-                if (StickyViewBehavior.this != null) {
-                    onScroll();
-                }
-            });
+            recyclerView.post(() -> onScroll());
         }
 
         return true;
