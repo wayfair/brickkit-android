@@ -3,18 +3,18 @@
  */
 package com.wayfair.brickkitdemo.bricks;
 
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 
-import com.wayfair.brickkitdemo.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.wayfair.brickkit.BrickViewHolder;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
-import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkitdemo.R;
 
 /**
  * Brick that provides add / remove click events and maintains an integer value.

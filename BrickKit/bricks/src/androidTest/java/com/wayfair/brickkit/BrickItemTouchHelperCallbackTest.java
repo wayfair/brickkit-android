@@ -4,11 +4,6 @@
 package com.wayfair.brickkit;
 
 import android.content.Context;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.size.BrickSize;
@@ -16,6 +11,12 @@ import com.wayfair.brickkit.size.BrickSize;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

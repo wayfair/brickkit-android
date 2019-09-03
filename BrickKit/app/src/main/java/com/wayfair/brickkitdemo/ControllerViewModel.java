@@ -1,10 +1,11 @@
 package com.wayfair.brickkitdemo;
 
-import android.databinding.Bindable;
 import android.text.Editable;
 import android.text.TextWatcher;
 
 import com.wayfair.brickkit.brick.ViewModel;
+
+import androidx.databinding.Bindable;
 
 /**
  * A sample brick.

@@ -1,7 +1,8 @@
 package com.wayfair.brickkitdemo;
 
-import android.databinding.BindingAdapter;
-import android.support.design.widget.TextInputEditText;
+import com.google.android.material.textfield.TextInputEditText;
+
+import androidx.databinding.BindingAdapter;
 
 /**
  * Binding adapters for {@link TextInputEditText}.

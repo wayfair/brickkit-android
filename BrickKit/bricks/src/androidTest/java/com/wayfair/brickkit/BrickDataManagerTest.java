@@ -5,12 +5,6 @@ package com.wayfair.brickkit;
 
 import android.content.Context;
 import android.os.Looper;
-import android.support.annotation.LayoutRes;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.wayfair.brickkit.behavior.BrickBehavior;
@@ -26,6 +20,13 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.annotation.LayoutRes;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -1189,7 +1190,7 @@ public class BrickDataManagerTest {
     public void testOnDestroy() {
         manager.onDestroyView();
 
-        verify(headerBehavior).detachFromRecyclerView(manager.getRecyclerView());
+        assertNull(manager.getRecyclerView());
     }
 
     @Test

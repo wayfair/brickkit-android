@@ -5,7 +5,6 @@ package com.wayfair.brickkitdemo;
  */
 
 import android.os.Bundle;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.TextBrick;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
 import com.wayfair.brickkit.size.SimpleBrickSize;
+
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 /**
  * Example fragment which loads more bricks when scrolling to the bottom.

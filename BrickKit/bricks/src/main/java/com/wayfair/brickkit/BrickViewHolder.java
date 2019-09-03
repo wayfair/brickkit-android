@@ -3,11 +3,12 @@
  */
 package com.wayfair.brickkit;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
- * Base ViewHolder for bricks. It extends {@link android.support.v7.widget.RecyclerView.ViewHolder} with
+ * Base ViewHolder for bricks. It extends {@link androidx.recyclerview.widget.RecyclerView.ViewHolder} with
  * one additional method that is called when the view holder is detached from the {@link RecyclerView} so
  * that views can be released.
  */

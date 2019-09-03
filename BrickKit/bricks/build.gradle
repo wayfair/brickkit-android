@@ -3,7 +3,7 @@ apply plugin: 'checkstyle'
 apply plugin: 'maven'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 14
@@ -11,7 +11,7 @@ android {
         versionName "1.0"
         multiDexEnabled true
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     dataBinding {
@@ -32,21 +32,22 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:support-compat:27.1.1'
-    implementation 'com.android.support:support-core-utils:27.1.1'
-    implementation 'com.android.support:support-core-ui:27.1.1'
-    implementation 'com.android.support:support-fragment:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
+    implementation 'androidx.core:core:1.0.1'
+    implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
+    implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
 
     testImplementation 'junit:junit:4.12'                        \
 
     androidTestImplementation 'org.mockito:mockito-core:1.9.5 '
     androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'
     androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2') {
-        exclude group: 'com.android.support', module: 'support-annotations'
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0') {
+        exclude group: 'androidx.annotation', module: 'annotation'
     }
 }
 
@@ -94,7 +95,7 @@ task createBintrayDescriptor {
     }
 
     File outputFile = new File("bricks/build/bintray.descriptor")
-    Date date = new Date();
+    Date date = new Date()
 
     outputFile.text =
             '''{

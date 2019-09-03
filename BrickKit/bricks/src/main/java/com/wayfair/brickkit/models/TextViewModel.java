@@ -1,8 +1,8 @@
 package com.wayfair.brickkit.models;
 
-import android.databinding.Bindable;
-
 import com.wayfair.brickkit.brick.ViewModel;
+
+import androidx.databinding.Bindable;
 
 /**
  * A view model for a text brick.

@@ -4,7 +4,6 @@
 package com.wayfair.brickkit.brick;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
@@ -14,6 +13,8 @@ import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.padding.SimpleBrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
 import com.wayfair.brickkit.size.SimpleBrickSize;
+
+import androidx.annotation.LayoutRes;
 
 /**
  * Abstract class which defines Bricks.

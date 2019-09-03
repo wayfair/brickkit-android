@@ -6,14 +6,15 @@ package com.wayfair.brickkit.size;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.test.runner.AndroidJUnit4;
 
-import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.R;
+import com.wayfair.brickkit.brick.BaseBrick;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;

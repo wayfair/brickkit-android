@@ -4,9 +4,6 @@
 package com.wayfair.brickkit.behavior;
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +18,10 @@ import com.wayfair.brickkit.BrickViewHolder;
 import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.padding.BrickPadding;
+
+import androidx.annotation.ColorInt;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Abstract parent for {@link StickyHeaderBehavior} and {@link StickyFooterBehavior}. This class contains
@@ -274,6 +275,7 @@ abstract class StickyViewBehavior extends BrickBehavior {
 
         if (stickyHolderContainer != null) {
             stickyHolderContainer.setVisibility(View.INVISIBLE);
+            stickyHolderContainer = null;
         }
     }
 

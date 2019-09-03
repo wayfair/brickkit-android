@@ -3,9 +3,9 @@
  */
 package com.wayfair.brickkit.behavior;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.wayfair.brickkit.BrickRecyclerAdapter;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Abstract class to extend if you want to implement behaviors which work on

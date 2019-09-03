@@ -4,12 +4,13 @@
 package com.wayfair.brickkit;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
 
 import com.wayfair.brickkit.brick.BaseBrick;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+
 /**
- * {@link android.support.v7.widget.GridLayoutManager.SpanSizeLookup} which grabs the span size
+ * {@link androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup} which grabs the span size
  * from the brick at the given position.
  */
 class BrickSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {

@@ -4,8 +4,6 @@
 package com.wayfair.brickkit;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.size.BrickSize;
@@ -15,6 +13,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
