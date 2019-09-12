@@ -685,21 +685,23 @@ public class BrickDataManager implements Serializable {
      * @param items the bricks to remove
      */
     public void removeItems(Collection<? extends BaseBrick> items) {
-        this.items.removeAll(items);
-        for (BaseBrick item : items) {
-            removeFromIdCache(item);
-            removeFromTagCache(item);
-            item.setDataManager(null);
-        }
-        int visibleCount = getVisibleCount(items);
-        if (visibleCount > 0) {
-            dataHasChanged();
-            if (brickRecyclerAdapter != null) {
-                if (getRecyclerViewItems().size() > 0) {
-                    computePaddingPosition(getRecyclerViewItems().getFirst());
-                }
+        if (items != null) {
+            this.items.removeAll(items);
+            for (BaseBrick item : items) {
+                removeFromIdCache(item);
+                removeFromTagCache(item);
+                item.setDataManager(null);
+            }
+            int visibleCount = getVisibleCount(items);
+            if (visibleCount > 0) {
+                dataHasChanged();
+                if (brickRecyclerAdapter != null) {
+                    if (getRecyclerViewItems().size() > 0) {
+                        computePaddingPosition(getRecyclerViewItems().getFirst());
+                    }
 
-                brickRecyclerAdapter.safeNotifyDataSetChanged();
+                    brickRecyclerAdapter.safeNotifyDataSetChanged();
+                }
             }
         }
     }
