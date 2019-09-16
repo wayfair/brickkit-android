@@ -443,7 +443,7 @@ public abstract class BaseBrick {
 
 
     /**
-     * Determine if the brick should get recycled
+     * Determine if the brick should get recycled.
      *
      * @return Whether the brick should get recycled
      */

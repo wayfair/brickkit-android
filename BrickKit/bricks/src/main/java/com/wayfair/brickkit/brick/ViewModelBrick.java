@@ -310,7 +310,7 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
 
 
         /**
-         * Sets if the brick will be recyclable
+         * Sets if the brick will be recyclable.
          *
          * @param recyclable the ability to recycle the brick
          * @return the builder
