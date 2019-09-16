@@ -200,6 +200,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
     public void onBindViewHolder(BrickViewHolder holder, int position) {
         BaseBrick baseBrick = dataManager.brickAtPosition(position);
         if (baseBrick != null) {
+
+            // if the brick is not recyclable set the view holder to reflect that
+            if (!baseBrick.isRecyclable()) {
+                holder.setIsRecyclable(false);
+            }
+
             if (recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
                 if (holder.itemView.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams) {
                     ((StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams()).setFullSpan(

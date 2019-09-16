@@ -31,7 +31,7 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
      * @param builder the builder
      */
     private ViewModelBrick(Builder builder) {
-        super(builder.spanSize, builder.padding);
+        super(builder.spanSize, builder.padding, builder.isRecyclable);
 
         this.layoutId = builder.layoutId;
         this.placeholderLayoutId = builder.placeholderLayoutId;
@@ -226,6 +226,7 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         BrickSize spanSize = getDefaultSize();
         BrickPadding padding = getDefaultPadding();
         SwipeListener onDismiss = null;
+        boolean isRecyclable = true;
 
         /**
          * Builder constructor, requires only a {@link LayoutRes} to work.
@@ -304,6 +305,18 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
          */
         public Builder setOnDismiss(SwipeListener onDismiss) {
             this.onDismiss = onDismiss;
+            return this;
+        }
+
+
+        /**
+         * Sets if the brick will be recyclable
+         *
+         * @param recyclable the ability to recycle the brick
+         * @return the builder
+         */
+        public Builder setIsRecyclable(boolean recyclable) {
+            this.isRecyclable = recyclable;
             return this;
         }
 

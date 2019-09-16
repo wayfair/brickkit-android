@@ -44,6 +44,7 @@ public abstract class BaseBrick {
     @StickyScrollMode
     private int stickyScrollMode = StickyScrollMode.SHOW_ON_SCROLL;
     private BrickDataManager dataManager;
+    private boolean isRecyclable = true;
 
     /**
      * Constructor.
@@ -62,6 +63,20 @@ public abstract class BaseBrick {
         this.spanSize = spanSize;
         this.spanSize.setBaseBrick(this);
         this.padding = padding;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param spanSize     size information for this brick
+     * @param padding      padding for this brick
+     * @param isRecyclable If the brick should get recycled (default is true)
+     */
+    public BaseBrick(BrickSize spanSize, BrickPadding padding, Boolean isRecyclable) {
+        this.spanSize = spanSize;
+        this.spanSize.setBaseBrick(this);
+        this.padding = padding;
+        this.isRecyclable = isRecyclable;
     }
 
     /**
@@ -424,5 +439,15 @@ public abstract class BaseBrick {
         sb.append("--");
 
         return sb.toString();
+    }
+
+
+    /**
+     * Determine if the brick should get recycled
+     *
+     * @return Whether the brick should get recycled
+     */
+    public Boolean isRecyclable() {
+        return this.isRecyclable;
     }
 }
