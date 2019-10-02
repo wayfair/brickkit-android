@@ -1,6 +1,9 @@
-apply plugin: 'com.android.library'
-apply plugin: 'checkstyle'
-apply plugin: 'maven'
+plugins {
+    id 'com.android.library'
+    id 'checkstyle'
+    id 'maven'
+    id 'maven-publish' // We should switch from the maven plugin to this one
+}
 
 android {
     compileSdkVersion 28
@@ -43,7 +46,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'                        \
 
-    androidTestImplementation 'org.mockito:mockito-core:1.9.5 '
+    androidTestImplementation 'org.mockito:mockito-core:1.9.5'
     androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'
     androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0') {
@@ -133,4 +136,19 @@ task createBintrayDescriptor {
     "publish": true
 }
 '''
+}
+
+// For local development, use publishToMavenLocal task and mavenLocal() in the consuming app's repositories
+project.afterEvaluate {
+    publishing {
+        publications {
+            library(MavenPublication) {
+                groupId 'com.wayfair'
+                artifactId 'brickkit-android'
+                version = getCurrentVersion() // or hard-code this to be certain which version you're consuming
+
+                artifact bundleReleaseAar
+            }
+        }
+    }
 }
