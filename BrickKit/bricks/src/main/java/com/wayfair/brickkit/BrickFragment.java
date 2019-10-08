@@ -23,30 +23,38 @@ import androidx.recyclerview.widget.RecyclerView;
  * Fragment which provides a simple interface for adding bricks / behaviors.
  */
 public abstract class BrickFragment extends Fragment {
+
     public BrickDataManager dataManager = new BrickDataManager(maxSpans());
     @ColorInt
     private int recyclerViewBackground = Color.TRANSPARENT;
+    private boolean useBricks = true;
 
     @Override
     @CallSuper
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view;
-        if (orientation() == OrientationHelper.VERTICAL) {
-            view = inflater.inflate(R.layout.vertical_fragment_brick, container, false);
-        } else {
-            view = inflater.inflate(R.layout.horizontal_fragment_brick, container, false);
-        }
+        if (useBricks) {
+            View view;
+            if (orientation() == OrientationHelper.VERTICAL) {
+                view = inflater.inflate(R.layout.vertical_fragment_brick, container, false);
+            } else {
+                view = inflater.inflate(R.layout.horizontal_fragment_brick, container, false);
+            }
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setBackgroundColor(recyclerViewBackground);
-        ((DefaultItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        dataManager.setRecyclerView(getContext(), recyclerView, orientation(), reverse(), view);
-        return view;
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+            recyclerView.setBackgroundColor(recyclerViewBackground);
+            ((DefaultItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+            dataManager.setRecyclerView(getContext(), recyclerView, orientation(), reverse(), view);
+            return view;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void onDestroyView() {
-        dataManager.onDestroyView();
+        if (useBricks) {
+            dataManager.onDestroyView();
+        }
         super.onDestroyView();
     }
 
@@ -99,5 +107,9 @@ public abstract class BrickFragment extends Fragment {
     @ColorInt
     public int getRecyclerViewBackground() {
         return recyclerViewBackground;
+    }
+
+    public void setUseBricks(boolean useBricks) {
+        this.useBricks = useBricks;
     }
 }
