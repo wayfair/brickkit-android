@@ -109,6 +109,11 @@ public abstract class BrickFragment extends Fragment {
         return recyclerViewBackground;
     }
 
+    /**
+     * Set useBricks to false to not use bricks. This will not setup the recyclerview for the layout
+     * and you're able to inflate a fragment without using any Brickkit functionality
+     * @param useBricks
+     */
     public void setUseBricks(boolean useBricks) {
         this.useBricks = useBricks;
     }
