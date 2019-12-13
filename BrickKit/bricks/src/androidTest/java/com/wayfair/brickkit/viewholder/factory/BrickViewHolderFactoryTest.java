@@ -23,6 +23,8 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the {@link BrickViewHolderFactory}'s functionality.
+ * <p>
+ * Copyright © 2017 Wayfair. All rights reserved.
  */
 @RunWith(AndroidJUnit4.class)
 public class BrickViewHolderFactoryTest {
