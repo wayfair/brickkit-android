@@ -59,7 +59,7 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
 
     @Override
     public void onBindData(final BrickViewHolder viewHolder) {
-        if(viewHolder instanceof UsedBrickHolder) {
+        if (viewHolder instanceof UsedBrickHolder) {
             UsedBrickHolder holder = (UsedBrickHolder) viewHolder;
             holder.textView.setText(text);
             if (isEnabled()) {
