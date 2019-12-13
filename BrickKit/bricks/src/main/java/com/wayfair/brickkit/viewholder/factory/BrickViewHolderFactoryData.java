@@ -72,4 +72,14 @@ public class BrickViewHolderFactoryData {
     BrickProvider getBrickProvider() {
         return brickProvider;
     }
+
+    @Override
+    public String toString() {
+        return "BrickViewHolderFactoryData{" +
+                "logTag='" + logTag + '\'' +
+                ", parent=" + parent +
+                ", viewType=" + viewType +
+                ", brickProvider=" + brickProvider +
+                '}';
+    }
 }

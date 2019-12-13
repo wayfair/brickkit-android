@@ -30,19 +30,20 @@ public class BrickViewHolderFactory {
     /**
      * Creates {@link BrickViewHolder} objects based on the {@param #data}.
      *
-     * @param data - used for instantiation of {@link BrickViewHolder} objects.
+     * @param viewHolderFactoryData - used for instantiation of {@link BrickViewHolder} objects.
      * @return the created {@link BrickViewHolder}
      */
-    public BrickViewHolder createBrickViewHolder(@NonNull BrickViewHolderFactoryData data) {
+    public BrickViewHolder createBrickViewHolder(
+            @NonNull BrickViewHolderFactoryData viewHolderFactoryData) {
 
-        Context context = data.getParent().getContext();
+        Context context = viewHolderFactoryData.getParent().getContext();
         BrickViewHolder viewHolder = null;
         try {
             // The following creates the correct view holder, based on the layout res id.  The
             // strategy is for view types of the default value / zero, an empty brick view holder
             // is created, providing for it to be returned by the Recycler View adapter instead and
             // for avoiding app crashes.
-            if (BaseBrick.DEFAULT_LAYOUT_RES_ID == data.getViewType()) {
+            if (BaseBrick.DEFAULT_LAYOUT_RES_ID >= viewHolderFactoryData.getViewType()) {
                 // By creating and using an empty brick view holder, the view holder can be in
                 // place in scenarios.  i.e. when bricks are null and a view holder cannot be
                 // created.
@@ -50,17 +51,20 @@ public class BrickViewHolderFactory {
             } else {
                 // Since the view type (layout id) is set, create a standard brick view holder.
                 viewHolder = createViewHolderWithViewType(
-                        data.getParent(),
-                        data.getViewType(),
-                        data.getBrickProvider());
+                        viewHolderFactoryData.getParent(),
+                        viewHolderFactoryData.getViewType(),
+                        viewHolderFactoryData.getBrickProvider());
             }
         } catch (AssertionError ae) {
             // This shouldn't happen
-            Log.wtf(data.getLogTag(), "Unable to get the layout inflater. ");
+            Log.wtf(viewHolderFactoryData.getLogTag(), "Unable to get the layout inflater. " +
+                    viewHolderFactoryData);
         } catch (Resources.NotFoundException nfe) {
-            Log.w(data.getLogTag(), "Unable to find the resource. ", nfe);
+            Log.w(viewHolderFactoryData.getLogTag(), "Unable to find the resource. " +
+                    viewHolderFactoryData, nfe);
         } catch (NullPointerException npe) {
-            Log.w(data.getLogTag(), "A brick or the context is null and shouldn't be.");
+            Log.w(viewHolderFactoryData.getLogTag(), "The brick is null and shouldn't be." +
+                    viewHolderFactoryData);
         }
 
         // Since the view holder could be null, if it is, create an empty version and return
@@ -88,7 +92,8 @@ public class BrickViewHolderFactory {
      * @param provider provides bricks, based on resource id
      * @return a newly created {@link BrickViewHolder}
      * @throws AssertionError              thrown when the layout inflater can't be created
-     * @throws Resources.NotFoundException when the view type is zero or the resource cannot be located
+     * @throws Resources.NotFoundException when the view type is zero or the resource cannot be
+     *                                     located
      * @throws NullPointerException        in cases, such as brick creation. (Just a fail safe)
      */
     /* private package */
@@ -105,10 +110,8 @@ public class BrickViewHolderFactory {
 
         // Since the brick could be null, if it is, create an empty brick view holder and
         // return its reference to avoid null pointer exceptions being thrown.
-        @SuppressWarnings("UnnecessaryLocalVariable") // set for debugging w/ breakpoints
-                BrickViewHolder viewHolder = null == brick ?
+        return null == brick ?
                 createEmptyBrickViewHolder(context) :
                 brick.createViewHolder(itemView);
-        return viewHolder;
     }
 }
