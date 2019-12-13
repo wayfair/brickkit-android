@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 
 import androidx.test.runner.AndroidJUnit4;
 
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
+
 import static org.mockito.Mockito.mock;
 
 @RunWith(AndroidJUnit4.class)

@@ -2,8 +2,6 @@ package com.wayfair.brickkit.viewholder;
 
 import android.view.View;
 
-import com.wayfair.brickkit.BrickViewHolder;
-
 /**
  * A empty versions of a {@link BrickViewHolder}, for use in scenarios, such as when a brick
  * object reference is null and a {@link BrickViewHolder} instance can't be created.

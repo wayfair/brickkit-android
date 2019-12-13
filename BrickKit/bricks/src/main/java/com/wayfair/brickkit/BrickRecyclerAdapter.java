@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.ViewGroup;
 
 import com.wayfair.brickkit.brick.BaseBrick;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactory;
 import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactoryData;
 
