@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * one additional method that is called when the view holder is detached from the {@link RecyclerView} so
  * that views can be released.
  */
+//TODO: migrate this class to the view holder package
 public class BrickViewHolder extends RecyclerView.ViewHolder {
     /**
      * Constructor.

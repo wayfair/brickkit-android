@@ -59,10 +59,12 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
 
     @Override
     public void onBindData(final BrickViewHolder viewHolder) {
-        UsedBrickHolder holder = (UsedBrickHolder) viewHolder;
-        holder.textView.setText(text);
-        if (isEnabled()) {
-            holder.itemView.setOnClickListener(onTouch());
+        if(viewHolder instanceof UsedBrickHolder) {
+            UsedBrickHolder holder = (UsedBrickHolder) viewHolder;
+            holder.textView.setText(text);
+            if (isEnabled()) {
+                holder.itemView.setOnClickListener(onTouch());
+            }
         }
     }
 

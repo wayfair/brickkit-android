@@ -1,0 +1,75 @@
+package com.wayfair.brickkit.viewholder.factory;
+
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+
+import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.brick.BrickProvider;
+
+/**
+ * A data model class, used by the {@link BrickViewHolderFactory} with creation of
+ * {@link BrickViewHolder} objects.
+ * <p>
+ * Note: Object references of this class should not be held onto since member "parent" has a
+ * context.  The references should be able to be collected by the GC.
+ * <p>
+ * Copyright © 2017 Wayfair. All rights reserved.
+ */
+public class BrickViewHolderFactoryData {
+    private String logTag;
+    private ViewGroup parent;
+    private int viewType;
+    private BrickProvider brickProvider;
+
+    /**
+     * @param logTag   for the calling class
+     * @param parent   of the view, passed into the {@link BrickViewHolder}'s constructor.
+     * @param viewType of the view to create.  It can be a @LayoutRes id.
+     * @param provider provides bricks, based on resource id
+     */
+    public BrickViewHolderFactoryData(@NonNull String logTag,
+                                      @NonNull ViewGroup parent,
+                                      int viewType,
+                                      @NonNull BrickProvider provider) {
+        this.logTag = logTag;
+        this.parent = parent;
+        this.viewType = viewType;
+        brickProvider = provider;
+    }
+
+    /**
+     * @return the tag, used with logging
+     */
+    /* private package */
+    @NonNull
+    String getLogTag() {
+        return logTag;
+    }
+
+    /**
+     * @return the parent, used for creating item views for view holders
+     */
+    /* private package */
+    @NonNull
+    ViewGroup getParent() {
+        return parent;
+    }
+
+    /**
+     * @return the view type int (a layout id), used to create view holders
+     */
+    /* private package */
+    int getViewType() {
+        return viewType;
+    }
+
+    /**
+     * @return the provider, which returns bricks based on layout ids
+     */
+    /* private package */
+    @NonNull
+    BrickProvider getBrickProvider() {
+        return brickProvider;
+    }
+}

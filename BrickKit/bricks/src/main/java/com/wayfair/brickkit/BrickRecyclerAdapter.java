@@ -4,14 +4,15 @@
 package com.wayfair.brickkit;
 
 import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.wayfair.brickkit.brick.BaseBrick;
+import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactory;
+import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactoryData;
 
 import java.util.ListIterator;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -20,7 +21,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
  * {@link BrickDataManager} to a given {@link RecyclerView}.
  */
 public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> {
-
     private static final String TAG = BrickRecyclerAdapter.class.getName();
 
     private final BrickDataManager dataManager;
@@ -188,12 +188,14 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         }
     }
 
+    @NonNull
     @Override
-    public BrickViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        BaseBrick brick = dataManager.brickWithLayout(viewType);
-        brick = brick == null ? dataManager.brickWithPlaceholderLayout(viewType) : brick;
-        return brick.createViewHolder(itemView);
+    public BrickViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // With there being multiple view holder types, a factory is used to create them.
+        BrickViewHolderFactoryData data =
+                new BrickViewHolderFactoryData(TAG, parent, viewType, dataManager);
+        BrickViewHolderFactory factory = new BrickViewHolderFactory();
+        return factory.createBrickViewHolder(data);
     }
 
     @Override
@@ -238,7 +240,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
         BaseBrick brick = dataManager.brickAtPosition(position);
 
         if (brick == null) {
-            return 0;
+            return BaseBrick.DEFAULT_LAYOUT_RES_ID;
         }
 
         if (!brick.isDataReady()) {
