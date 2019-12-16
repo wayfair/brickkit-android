@@ -58,13 +58,13 @@ public class BrickViewHolderFactory {
         } catch (AssertionError ae) {
             // This shouldn't happen
             Log.wtf(viewHolderFactoryData.getLogTag(), "Unable to get the layout inflater. " +
-                    viewHolderFactoryData);
+                    viewHolderFactoryData, ae);
         } catch (Resources.NotFoundException nfe) {
             Log.w(viewHolderFactoryData.getLogTag(), "Unable to find the resource. " +
                     viewHolderFactoryData, nfe);
         } catch (NullPointerException npe) {
-            Log.w(viewHolderFactoryData.getLogTag(), "The brick is null and shouldn't be." +
-                    viewHolderFactoryData);
+            Log.w(viewHolderFactoryData.getLogTag(), "The brick is null and shouldn't be. " +
+                    viewHolderFactoryData, npe);
         }
 
         // Since the view holder could be null, if it is, create an empty version and return
