@@ -29,7 +29,7 @@ install:
   - echo no | avdmanager create avd -n test -k "$EMULATOR" -f --abi "$ABI" --tag "$TAG"
   - emulator -list-avds
   - cd "$ANDROID_HOME/tools" # Bug in the current emulator release
-  - emulator -avd test -no-window &
+  - emulator-headless -avd test -headless -no-snapshot -no-accel &
   # Start adbd, wait for device connected and show android serial
   - adb wait-for-device get-serialno
 
