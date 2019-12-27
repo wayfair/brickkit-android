@@ -100,6 +100,10 @@ abstract class StickyViewBehavior extends BrickBehavior {
 
     @Override
     public void onScroll() {
+        if (brickDataManager == null || brickDataManager.getBrickRecyclerAdapter() == null) {
+            Log.w(this.getClass().getSimpleName(), "Behavior attached or onScroll called but the Manager or Adapter is null");
+            return;
+        }
         BrickRecyclerAdapter adapter = brickDataManager.getBrickRecyclerAdapter();
         if (stickyHolderContainer == null && adapter.getRecyclerView() != null && brickDataManager.getRecyclerViewParent() != null) {
             stickyHolderContainer = (ViewGroup) (brickDataManager.getRecyclerViewParent()).findViewById(stickyViewContainerId);
