@@ -12,8 +12,11 @@ env:
   global:
     - API=24
     - TAG=default
-    - ABI=armeabi-v7a
+    - ABI=x86_64 # no need for armeabi-v7a any more! :-)
     - ADB_INSTALL_TIMEOUT=10 # minutes (2 minutes by default)
+    - ANDROID_HOME=/usr/local/android-sdk
+    - TOOLS=${ANDROID_HOME}/tools
+    - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
 
 before_install:
   - mkdir "$ANDROID_HOME/licenses" || true
@@ -21,15 +24,18 @@ before_install:
   - export EMULATOR="system-images;android-${API};${TAG};${ABI}" # Used to install/create emulator
 
 install:
+  - echo yes | sdkmanager "platform-tools" > /dev/null
   - echo yes | sdkmanager "tools" > /dev/null
+  - echo yes | sdkmanager "platforms;android-$API" >/dev/null
   - echo yes | sdkmanager "platforms;android-28" > /dev/null
   - echo yes | sdkmanager "extras;android;m2repository" > /dev/null
   - echo yes | sdkmanager "extras;google;m2repository" > /dev/null
-  - echo yes | sdkmanager "$EMULATOR" > /dev/null # Install emulator system image
-  - echo no | avdmanager create avd -n test -k "$EMULATOR" -f --abi "$ABI" --tag "$TAG"
+  - echo yes | sdkmanager --channel=4 "$EMULATOR" > /dev/null # Install emulator system image
+  - echo yes | sdkmanager "system-images;android-$API;$TAG;$ABI"
+  - echo no | avdmanager create avd --force -n test -k "$EMULATOR" -f --abi "$ABI" --tag "$TAG"
   - emulator -list-avds
   - cd "$ANDROID_HOME/tools" # Bug in the current emulator release
-  - emulator -avd test -no-window &
+  - emulator -avd test -no-window -no-snapshot -no-accel -no-audio -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
   # Start adbd, wait for device connected and show android serial
   - adb wait-for-device get-serialno
 
