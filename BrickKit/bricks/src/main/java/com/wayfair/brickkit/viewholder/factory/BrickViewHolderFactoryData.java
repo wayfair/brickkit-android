@@ -41,45 +41,46 @@ public class BrickViewHolderFactoryData {
     /**
      * @return the tag, used with logging
      */
-    /* private package */
     @NonNull
-    String getLogTag() {
+    /* private package */ String getLogTag() {
         return logTag;
     }
 
     /**
      * @return the parent, used for creating item views for view holders
      */
-    /* private package */
     @NonNull
-    ViewGroup getParent() {
+    /* private package */ ViewGroup getParent() {
         return parent;
     }
 
     /**
      * @return the view type int (a layout id), used to create view holders
      */
-    /* private package */
-    int getViewType() {
+    /* private package */ int getViewType() {
         return viewType;
     }
 
     /**
      * @return the provider, which returns bricks based on layout ids
      */
-    /* private package */
     @NonNull
-    BrickProvider getBrickProvider() {
+    /* private package */ BrickProvider getBrickProvider() {
         return brickProvider;
     }
 
     @Override
     public String toString() {
-        return "BrickViewHolderFactoryData{" +
-                "logTag='" + logTag + '\'' +
-                ", parent=" + parent +
-                ", viewType=" + viewType +
-                ", brickProvider=" + brickProvider +
-                '}';
+        return "BrickViewHolderFactoryData{"
+                + "logTag='"
+                + logTag
+                + '\''
+                + ", parent="
+                + parent
+                + ", viewType="
+                + viewType
+                + ", brickProvider="
+                + brickProvider
+                + '}';
     }
 }

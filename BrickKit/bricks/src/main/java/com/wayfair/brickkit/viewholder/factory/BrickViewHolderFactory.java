@@ -57,14 +57,14 @@ public class BrickViewHolderFactory {
             }
         } catch (AssertionError ae) {
             // This shouldn't happen
-            Log.wtf(viewHolderFactoryData.getLogTag(), "Unable to get the layout inflater. " +
-                    viewHolderFactoryData, ae);
+            Log.wtf(viewHolderFactoryData.getLogTag(), "Unable to get the layout inflater. "
+                    + viewHolderFactoryData, ae);
         } catch (Resources.NotFoundException nfe) {
-            Log.w(viewHolderFactoryData.getLogTag(), "Unable to find the resource. " +
-                    viewHolderFactoryData, nfe);
+            Log.w(viewHolderFactoryData.getLogTag(), "Unable to find the resource. "
+                    + viewHolderFactoryData, nfe);
         } catch (NullPointerException npe) {
-            Log.w(viewHolderFactoryData.getLogTag(), "The brick is null and shouldn't be. " +
-                    viewHolderFactoryData, npe);
+            Log.w(viewHolderFactoryData.getLogTag(), "The brick is null and shouldn't be. "
+                    + viewHolderFactoryData, npe);
         }
 
         // Since the view holder could be null, if it is, create an empty version and return
@@ -73,13 +73,12 @@ public class BrickViewHolderFactory {
     }
 
     /**
-     * Creates an {@link com.wayfair.brickkit.viewholder.EmptyBrickViewHolder }
+     * Creates an {@link com.wayfair.brickkit.viewholder.EmptyBrickViewHolder }.
      *
      * @param context used to create the {@link EmptyBrickView}
      * @return the newly created EmptyBrickViewHolder
      */
-    /* private package */
-    BrickViewHolder createEmptyBrickViewHolder(@NonNull Context context) {
+    /* private package */ BrickViewHolder createEmptyBrickViewHolder(@NonNull Context context) {
         EmptyBrickView emptyBrickView = new EmptyBrickView(context);
         return new EmptyBrickViewHolder(emptyBrickView);
     }
@@ -96,10 +95,8 @@ public class BrickViewHolderFactory {
      *                                     located
      * @throws NullPointerException        in cases, such as brick creation. (Just a fail safe)
      */
-    /* private package */
-    BrickViewHolder createViewHolderWithViewType(@NonNull ViewGroup parent,
-                                                 int viewType,
-                                                 @NonNull BrickProvider provider)
+    /* private package */ BrickViewHolder createViewHolderWithViewType(
+            @NonNull ViewGroup parent, int viewType, @NonNull BrickProvider provider)
             throws AssertionError, Resources.NotFoundException, NullPointerException {
 
         Context context = parent.getContext();
@@ -110,8 +107,8 @@ public class BrickViewHolderFactory {
 
         // Since the brick could be null, if it is, create an empty brick view holder and
         // return its reference to avoid null pointer exceptions being thrown.
-        return null == brick ?
-                createEmptyBrickViewHolder(context) :
-                brick.createViewHolder(itemView);
+        return null == brick
+                ? createEmptyBrickViewHolder(context)
+                : brick.createViewHolder(itemView);
     }
 }
