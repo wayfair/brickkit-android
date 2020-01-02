@@ -3,7 +3,7 @@ package com.wayfair.brickkit.brick;
 import android.util.SparseArray;
 import android.view.View;
 
-import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
 

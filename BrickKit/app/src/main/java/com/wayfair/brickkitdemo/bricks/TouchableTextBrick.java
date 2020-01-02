@@ -2,7 +2,7 @@ package com.wayfair.brickkitdemo.bricks;
 
 import android.view.View;
 
-import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.brick.TextBrick;
 import com.wayfair.brickkit.brick.TouchableBrick;
 import com.wayfair.brickkit.padding.BrickPadding;

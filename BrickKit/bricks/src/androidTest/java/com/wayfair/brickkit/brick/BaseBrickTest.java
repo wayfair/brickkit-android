@@ -7,7 +7,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
-import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;

@@ -1,6 +1,6 @@
 package com.wayfair.brickkit.brick;
 
-import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 
 /**
  * An object that will help bind the holder to the place holder view.

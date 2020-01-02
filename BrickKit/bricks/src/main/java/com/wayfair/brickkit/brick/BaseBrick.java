@@ -7,7 +7,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
-import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.padding.SimpleBrickPadding;
@@ -20,6 +20,7 @@ import androidx.annotation.LayoutRes;
  * Abstract class which defines Bricks.
  */
 public abstract class BaseBrick {
+    public static final int DEFAULT_LAYOUT_RES_ID = 0;
     public static final int DEFAULT_MAX_SPAN_COUNT = 240;
 
     public static final BrickSize DEFAULT_SIZE_FULL_WIDTH = new SimpleBrickSize(DEFAULT_MAX_SPAN_COUNT) {

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
-import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.R;
 
 /**

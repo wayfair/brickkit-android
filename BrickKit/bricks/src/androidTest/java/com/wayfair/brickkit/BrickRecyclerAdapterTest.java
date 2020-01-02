@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.util.BrickTestHelper;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 
 import org.junit.Before;
 import org.junit.Test;

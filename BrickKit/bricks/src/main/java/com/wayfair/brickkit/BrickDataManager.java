@@ -8,6 +8,7 @@ import android.widget.GridLayout;
 import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator;
 import com.wayfair.brickkit.behavior.BrickBehavior;
 import com.wayfair.brickkit.brick.BaseBrick;
+import com.wayfair.brickkit.brick.BrickProvider;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.ListIterator;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -33,7 +35,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
  * <p>
  * Copyright © 2017 Wayfair. All rights reserved.
  */
-public class BrickDataManager implements Serializable {
+public class BrickDataManager implements Serializable, BrickProvider {
     private ArrayList<BrickBehavior> behaviors;
     private BrickRecyclerAdapter brickRecyclerAdapter;
     private final int maxSpanCount;
@@ -1141,6 +1143,7 @@ public class BrickDataManager implements Serializable {
      * @param layoutResId Layout resource ID
      * @return An instance of BaseBrick or null
      */
+    @Nullable
     public BaseBrick brickWithLayout(@LayoutRes int layoutResId) {
         List<BaseBrick> visibleItems = getRecyclerViewItems();
         for (int i = 0; i < visibleItems.size(); i++) {
@@ -1158,6 +1161,7 @@ public class BrickDataManager implements Serializable {
      * @param placeholderLayoutResId Placeholder Layout resource ID
      * @return An instance of BaseBrick or null
      */
+    @Nullable
     public BaseBrick brickWithPlaceholderLayout(@LayoutRes int placeholderLayoutResId) {
         List<BaseBrick> visibleItems = getRecyclerViewItems();
         for (int i = 0; i < visibleItems.size(); i++) {

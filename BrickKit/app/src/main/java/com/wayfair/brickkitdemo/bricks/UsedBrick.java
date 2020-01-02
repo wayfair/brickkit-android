@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.TouchableBrick;
 import com.wayfair.brickkit.padding.BrickPadding;
@@ -59,10 +59,12 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
 
     @Override
     public void onBindData(final BrickViewHolder viewHolder) {
-        UsedBrickHolder holder = (UsedBrickHolder) viewHolder;
-        holder.textView.setText(text);
-        if (isEnabled()) {
-            holder.itemView.setOnClickListener(onTouch());
+        if (viewHolder instanceof UsedBrickHolder) {
+            UsedBrickHolder holder = (UsedBrickHolder) viewHolder;
+            holder.textView.setText(text);
+            holder.itemView.setOnClickListener(isEnabled() ? onTouch() : null);
+        } else {
+            viewHolder.itemView.setOnClickListener(null);
         }
     }
 

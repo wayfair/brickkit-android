@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.wayfair.brickkit.BR;
-import com.wayfair.brickkit.BrickViewHolder;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.R;
 import com.wayfair.brickkit.models.TextDataModel;
 import com.wayfair.brickkit.models.TextViewModel;
