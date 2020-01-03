@@ -1,7 +1,7 @@
 # Change Log
 
 **Merged pull requests:**
-## [0.9.44] https://github.com/wayfair/brickkit-android/tree/0.9.44 (2020-02-02)
+## [0.9.44](https://github.com/wayfair/brickkit-android/tree/0.9.44) (2020-02-02)
 [Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.43...0.9.44)
 
 **Merged pull requests:**
