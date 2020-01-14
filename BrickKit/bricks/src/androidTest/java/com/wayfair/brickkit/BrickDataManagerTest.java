@@ -30,6 +30,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -1376,5 +1377,113 @@ public class BrickDataManagerTest {
         manager.removeAllByLayoutId(baseBrick.getLayout());
 
         assertNull(manager.getBricksByLayoutId(baseBrick.getLayout()));
+    }
+
+    @Test
+    public void testMethodGetPaddingOrDefaultResultsInPaddingResultsInPassedInValue() {
+        // Given
+        int maxSpanCount = 1;
+        BrickDataManager dataManager = new BrickDataManager(maxSpanCount);
+        int expectedPaddingPosition = 2;
+
+        // When
+        int paddingPosition = dataManager.getPaddingPositionOrDefault(expectedPaddingPosition);
+
+        // Verify
+        assertNotEquals(BrickDataManager.DEFAULT_BRICK_POSITION, paddingPosition);
+        assertEquals(expectedPaddingPosition, paddingPosition);
+    }
+
+    @Test
+    public void testMethodGetPaddingOrDefault_with_NO_PADDING_POSITION_forPosition_resultsInDefault() {
+        // Given
+        int maxSpanCount = 1;
+        BrickDataManager dataManager = new BrickDataManager(maxSpanCount);
+
+        // When
+        int expectedPaddingPosition = BrickDataManager.NO_PADDING_POSITION;
+        int paddingPosition = dataManager.getPaddingPositionOrDefault(expectedPaddingPosition);
+
+        // Verify
+        assertEquals(BrickDataManager.DEFAULT_BRICK_POSITION, paddingPosition);
+    }
+
+    @Test
+    public void testComputePaddingPositionSafelyForFirstItem_withZeroItems_resultsIn_NO_PADDING_POSITION_Value() {
+        // Given
+        int maxSpanCount = 1;
+        BrickDataManager dataManager = new BrickDataManager(maxSpanCount);
+
+        // When
+        int paddingPosition = dataManager.computePaddingPositionSafelyForFirstItem();
+
+        // Verify
+        assertEquals(BrickDataManager.NO_PADDING_POSITION, paddingPosition);
+    }
+
+    @Test
+    public void testComputePaddingPositionSafelyForFirstItem_withMultipleItems_resultsInAccuratePosition() {
+        // Given
+        int maxSpanCount = 1;
+        BrickDataManager dataManager = new BrickDataManager(maxSpanCount);
+
+        // When
+        List<BaseBrick> newItems = new LinkedList<>();
+
+        BaseBrick brick1 = brickTestHelper.generateBrick();
+        brick1.setHidden(false);
+        newItems.add(brick1);
+
+        BaseBrick brick2 = brickTestHelper.generateBrick();
+        brick2.setHidden(false);
+        newItems.add(brick1);
+
+        dataManager.setItems(newItems);
+        dataManager.dataHasChanged();
+        int paddingPosition = dataManager.computePaddingPositionSafelyForFirstItem();
+
+        // Verify
+        assertNotEquals(BrickDataManager.NO_PADDING_POSITION, paddingPosition);
+    }
+
+    @Test
+    public void testSafeNotifyItemInserted() {
+        // Given
+        List<BaseBrick> items = new LinkedList<>();
+        for (int i = 0; i < 5; i++) {
+            items.add(brickTestHelper.generateBrick());
+        }
+
+        // When
+        manager.setItems(items);
+
+
+        // Verify
+        assertEquals(0, observer.getItemRangeInsertedPositionStart());
+        assertEquals(5, observer.getItemRangeInsertedItemCount());
+
+        // When
+        manager.safeNotifyItemInserted(items.get(1));
+
+        // Verifiy
+        assertEquals(1, observer.getItemRangeInsertedPositionStart());
+        assertEquals(1, observer.getItemRangeInsertedItemCount());
+    }
+
+    @Test
+    public void testSafeNotifyItemRangeInserted() {
+        // Given
+        List<BaseBrick> items = new LinkedList<>();
+        for (int i = 0; i < 5; i++) {
+            items.add(brickTestHelper.generateBrick());
+        }
+
+        // When
+        manager.setItems(items);
+        manager.safeNotifyItemRangeInserted(items.get(3), 3);
+
+        // Verify
+        assertEquals(3, observer.getItemRangeInsertedPositionStart());
+        assertEquals(3, observer.getItemRangeInsertedItemCount());
     }
 }

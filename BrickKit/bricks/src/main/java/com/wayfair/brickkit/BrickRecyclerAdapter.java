@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.ViewGroup;
 
 import com.wayfair.brickkit.brick.BaseBrick;
+import com.wayfair.brickkit.util.CollectionUtil;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactory;
 import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactoryData;
@@ -14,6 +15,7 @@ import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactoryData;
 import java.util.ListIterator;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -70,11 +72,13 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param position Position of the item that has changed
      * @param payload Optional parameter, use null to identify a "full" update
      */
-    public void safeNotifyItemChanged(final int position, final Object payload) {
-        if (recyclerView.isComputingLayout()) {
-            handler.post(new NotifyItemChangedWithPayloadRunnable(this, position, payload));
-        } else {
-            notifyItemChanged(position, payload);
+    public void safeNotifyItemChanged(final int position, @Nullable final Object payload) {
+        if(position >= 0) {
+            if (recyclerView.isComputingLayout()) {
+                handler.post(new NotifyItemChangedWithPayloadRunnable(this, position, payload));
+            } else {
+                notifyItemChanged(position, payload);
+            }
         }
     }
 
@@ -84,10 +88,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param position Position of the item that has changed
      */
     public void safeNotifyItemChanged(final int position) {
-        if (recyclerView.isComputingLayout()) {
-            handler.post(new NotifyItemChangedRunnable(this, position));
-        } else {
-            notifyItemChanged(position);
+        if(position >= 0) {
+            if (recyclerView.isComputingLayout()) {
+                handler.post(new NotifyItemChangedRunnable(this, position));
+            } else {
+                notifyItemChanged(position);
+            }
         }
     }
 
@@ -98,10 +104,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
 
      */
     public void safeNotifyItemInserted(final int position) {
-        if (recyclerView.isComputingLayout()) {
-            handler.post(new NotifyItemInsertedRunnable(this, position));
-        } else {
-            notifyItemInserted(position);
+        if(position >= 0) {
+            if (recyclerView.isComputingLayout()) {
+                handler.post(new NotifyItemInsertedRunnable(this, position));
+            } else {
+                notifyItemInserted(position);
+            }
         }
     }
 
@@ -112,10 +120,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param toPosition New position of the item.
      */
     public void safeNotifyItemMoved(final int fromPosition, final int toPosition) {
-        if (recyclerView.isComputingLayout()) {
-            handler.post(new NotifyItemMovedRunnable(this, fromPosition, toPosition));
-        } else {
-            notifyItemMoved(fromPosition, toPosition);
+        if (fromPosition >= 0 && toPosition >= 0) {
+            if (recyclerView.isComputingLayout()) {
+                handler.post(new NotifyItemMovedRunnable(this, fromPosition, toPosition));
+            } else {
+                notifyItemMoved(fromPosition, toPosition);
+            }
         }
     }
 
@@ -127,10 +137,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param payload  Optional parameter, use null to identify a "full" update
      */
     public void safeNotifyItemRangeChanged(final int positionStart, final int itemCount, final Object payload) {
-        if (recyclerView.isComputingLayout()) {
-            handler.post(new NotifyItemRangeChangedWithPayloadRunnable(this, positionStart, itemCount, payload));
-        } else {
-            notifyItemRangeChanged(positionStart, itemCount, payload);
+        if (positionStart >= 0 && itemCount >= 0) {
+            if (recyclerView.isComputingLayout()) {
+                handler.post(new NotifyItemRangeChangedWithPayloadRunnable(this, positionStart, itemCount, payload));
+            } else {
+                notifyItemRangeChanged(positionStart, itemCount, payload);
+            }
         }
     }
 
@@ -141,10 +153,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param itemCount Number of items that have changed
      */
     public void safeNotifyItemRangeChanged(final int positionStart, final int itemCount) {
-        if (recyclerView.isComputingLayout()) {
-            handler.post(new NotifyItemRangeChangedRunnable(this, positionStart, itemCount));
-        } else {
-            notifyItemRangeChanged(positionStart, itemCount);
+        if (positionStart >= 0 && itemCount >= 0) {
+            if (recyclerView.isComputingLayout()) {
+                handler.post(new NotifyItemRangeChangedRunnable(this, positionStart, itemCount));
+            } else {
+                notifyItemRangeChanged(positionStart, itemCount);
+            }
         }
     }
 
@@ -155,10 +169,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param itemCount Number of items inserted
      */
     public void safeNotifyItemRangeInserted(final int positionStart, final int itemCount) {
-        if (recyclerView.isComputingLayout()) {
-            handler.post(new NotifyItemRangeInsertedRunnable(this, positionStart, itemCount));
-        } else {
-            notifyItemRangeInserted(positionStart, itemCount);
+        if (positionStart >= 0 && itemCount >= 0) {
+            if (recyclerView.isComputingLayout()) {
+                handler.post(new NotifyItemRangeInsertedRunnable(this, positionStart, itemCount));
+            } else {
+                notifyItemRangeInserted(positionStart, itemCount);
+            }
         }
     }
 
@@ -169,10 +185,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param itemCount Number of items removed from the data set
      */
     public void safeNotifyItemRangeRemoved(final int positionStart, final int itemCount) {
-        if (recyclerView.isComputingLayout()) {
-            handler.post(new NotifyItemRangeRemovedRunnable(this, positionStart, itemCount));
-        } else {
-            notifyItemRangeRemoved(positionStart, itemCount);
+        if (positionStart >= 0 && itemCount >= 0) {
+            if (recyclerView.isComputingLayout()) {
+                handler.post(new NotifyItemRangeRemovedRunnable(this, positionStart, itemCount));
+            } else {
+                notifyItemRangeRemoved(positionStart, itemCount);
+            }
         }
     }
 
@@ -182,10 +200,12 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param position Position of the item that has now been removed
      */
     public void safeNotifyItemRemoved(final int position) {
-        if (recyclerView.isComputingLayout()) {
-            handler.post(new NotifyItemRemovedRunnable(this, position));
-        } else {
-            notifyItemRemoved(position);
+        if (position >= 0) {
+            if (recyclerView.isComputingLayout()) {
+                handler.post(new NotifyItemRemovedRunnable(this, position));
+            } else {
+                notifyItemRemoved(position);
+            }
         }
     }
 
