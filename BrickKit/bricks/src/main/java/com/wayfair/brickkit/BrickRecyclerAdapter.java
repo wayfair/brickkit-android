@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.view.ViewGroup;
 
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.util.CollectionUtil;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactory;
 import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactoryData;
@@ -73,7 +72,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param payload Optional parameter, use null to identify a "full" update
      */
     public void safeNotifyItemChanged(final int position, @Nullable final Object payload) {
-        if(position >= 0) {
+        if (position >= 0) {
             if (recyclerView.isComputingLayout()) {
                 handler.post(new NotifyItemChangedWithPayloadRunnable(this, position, payload));
             } else {
@@ -88,7 +87,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      * @param position Position of the item that has changed
      */
     public void safeNotifyItemChanged(final int position) {
-        if(position >= 0) {
+        if (position >= 0) {
             if (recyclerView.isComputingLayout()) {
                 handler.post(new NotifyItemChangedRunnable(this, position));
             } else {
@@ -104,7 +103,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
 
      */
     public void safeNotifyItemInserted(final int position) {
-        if(position >= 0) {
+        if (position >= 0) {
             if (recyclerView.isComputingLayout()) {
                 handler.post(new NotifyItemInsertedRunnable(this, position));
             } else {

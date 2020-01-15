@@ -7,7 +7,13 @@ import java.util.Collection;
 /**
  * This util class contains utility functions for the {@link Collection} classes.
  */
-public class CollectionUtil {
+public final class CollectionUtil {
+
+    /**
+     * Required private constructor.
+     */
+    private CollectionUtil() {
+    }
 
     /**
      * Verifies whether or not an index is within the bounds of a collection.

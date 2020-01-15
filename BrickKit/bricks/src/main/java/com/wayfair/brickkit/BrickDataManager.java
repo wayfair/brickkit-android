@@ -480,6 +480,13 @@ public class BrickDataManager implements Serializable, BrickProvider {
         }
     }
 
+    /**
+     * Deterimines if either the passed in param "paddingPosition" or the default value,
+     * {@link #DEFAULT_BRICK_POSITION}, should be returned.
+     *
+     * @param paddingPosition used to compare with {@link #NO_PADDING_POSITION}
+     * @return either the "paddingPosition" value or {@link #DEFAULT_BRICK_POSITION}
+     */
     @SuppressWarnings("WeakerAccess")
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     int getPaddingPositionOrDefault(int paddingPosition) {
@@ -605,6 +612,11 @@ public class BrickDataManager implements Serializable, BrickProvider {
         }
     }
 
+    /**
+     * Safely notifies of a single item insertion.
+     *
+     * @param item which was just inserted.
+     */
     @SuppressWarnings("WeakerAccess")
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     void safeNotifyItemInserted(@Nullable BaseBrick item) {
@@ -614,6 +626,12 @@ public class BrickDataManager implements Serializable, BrickProvider {
         }
     }
 
+    /**
+     * Safely notifies of a range insertion.
+     *
+     * @param item         which was just inserted.
+     * @param visibleCount the item count for the range
+     */
     @SuppressWarnings("WeakerAccess")
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     void safeNotifyItemRangeInserted(@Nullable BaseBrick item, int visibleCount) {
@@ -671,7 +689,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
         if (anchorDataManagerIndex == -1) {
             this.items.addLast(item);
         } else {
-            this.items.add( anchorDataManagerIndex + 1, item);
+            this.items.add(anchorDataManagerIndex + 1, item);
         }
 
         addToIdCache(item);

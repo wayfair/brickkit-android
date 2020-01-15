@@ -8,7 +8,13 @@ import java.util.NoSuchElementException;
 /**
  * This util class contains utility functions for the {@link LinkedList} class.
  */
-public class LinkedListUtil {
+public final class LinkedListUtil {
+
+    /**
+     * Required private constructor.
+     */
+    private LinkedListUtil() {
+    }
 
     /**
      * Retrieves the first item from the {@link LinkedList}.  If it is not available, null is
