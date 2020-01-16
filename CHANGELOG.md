@@ -1,6 +1,12 @@
 # Change Log
 
 **Merged pull requests:**
+- Code hardening with index out of bounds exceptions in BrickKitDataManager.
+
+## [0.9.45](https://github.com/wayfair/brickkit-android/tree/0.9.45) (2020-02-02)
+[Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.44...0.9.45)
+
+**Merged pull requests:**
 ## [0.9.44](https://github.com/wayfair/brickkit-android/tree/0.9.44) (2020-02-02)
 [Full Changelog](https://github.com/wayfair/brickkit-android/compare/0.9.43...0.9.44)
 
