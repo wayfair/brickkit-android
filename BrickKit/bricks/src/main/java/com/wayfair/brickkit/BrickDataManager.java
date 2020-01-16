@@ -1,6 +1,7 @@
 package com.wayfair.brickkit;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.GridLayout;
@@ -40,6 +41,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
  * Copyright © 2017 Wayfair. All rights reserved.
  */
 public class BrickDataManager implements Serializable, BrickProvider {
+    private static String TAG = BrickDataManager.class.getSimpleName();
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     static final int NO_PADDING_POSITION = -1;
 
@@ -371,6 +374,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
             if (item.getTag() != null && this.tagCache.containsKey(item.getTag())) {
                 LinkedList<BaseBrick> list = this.tagCache.get(item.getTag());
                 if (null == list) {
+                    Log.w(TAG, "removeFromTagCache: The tag cache is null.");
                     return; // safety
                 }
 
@@ -390,6 +394,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void addLast(@Nullable BaseBrick item) {
         if (null == item) {
+            Log.w(TAG, "addLast: The item is null.");
             return; // safety
         }
 
@@ -421,6 +426,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void addFirst(@Nullable BaseBrick item) {
         if (null == item) {
+            Log.w(TAG, "addFirst: The item is null.");
             return; // safety
         }
 
@@ -449,6 +455,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void addLast(@Nullable Collection<? extends BaseBrick> items) {
         if (null == items) {
+            Log.w(TAG, "addLast(Collection): The items are null.");
             return; // safety
         }
 
@@ -504,6 +511,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void addFirst(@Nullable Collection<? extends BaseBrick> items) {
         if (null == items) {
+            Log.w(TAG, "addFirst(Collection): The items are null.");
             return; // safety
         }
 
@@ -847,6 +855,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
         int targetIndexInItems = items.indexOf(target);
 
         if (targetIndexInItems == NO_INDEX) {
+            Log.w(TAG, "replaceItem: the target index is NO_INDEX");
             return; // safety: avoid an index out of bounds exception
         }
 
@@ -1093,6 +1102,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     private int computePaddingPosition(@Nullable BaseBrick currentBrick) {
         if (null == currentBrick) {
+            Log.w(TAG, "computePaddingPosition: currentBrick is null");
             // When the brick is null, return the default position value to avoid potential issues
             // with consuming code.
             return NO_PADDING_POSITION;

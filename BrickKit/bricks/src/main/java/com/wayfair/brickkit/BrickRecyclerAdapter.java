@@ -4,6 +4,7 @@
 package com.wayfair.brickkit;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.wayfair.brickkit.brick.BaseBrick;
@@ -93,6 +94,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
             } else {
                 notifyItemChanged(position);
             }
+        } else {
+            Log.w(TAG, "safeNotifyItemChanged: position is negative");
         }
     }
 
@@ -109,6 +112,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
             } else {
                 notifyItemInserted(position);
             }
+        } else {
+            Log.w(TAG, "safeNotifyItemInserted: position is negative");
         }
     }
 
@@ -125,6 +130,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
             } else {
                 notifyItemMoved(fromPosition, toPosition);
             }
+        } else {
+            Log.w(TAG, "safeNotifyItemRangeChanged: fromPosition / toPosition is/are negative");
         }
     }
 
@@ -142,6 +149,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
             } else {
                 notifyItemRangeChanged(positionStart, itemCount, payload);
             }
+        } else {
+            Log.w(TAG, "safeNotifyItemRangeChanged: positionStart / itemStart is/are negative");
         }
     }
 
@@ -174,6 +183,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
             } else {
                 notifyItemRangeInserted(positionStart, itemCount);
             }
+        } else {
+            Log.w(TAG, "safeNotifyItemRangeInserted: positionStart / itemStart is/are negative");
         }
     }
 
@@ -190,6 +201,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
             } else {
                 notifyItemRangeRemoved(positionStart, itemCount);
             }
+        } else {
+            Log.w(TAG, "safeNotifyItemRangeRemoved: positionStart / itemStart is/are negative");
         }
     }
 
@@ -205,6 +218,8 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
             } else {
                 notifyItemRemoved(position);
             }
+        } else {
+            Log.w(TAG, "safeNotifyItemRemoved: positionStart / itemStart is/are negative");
         }
     }
 
