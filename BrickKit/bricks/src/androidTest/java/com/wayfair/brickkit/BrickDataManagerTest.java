@@ -1380,7 +1380,7 @@ public class BrickDataManagerTest {
     }
 
     @Test
-    public void testMethodGetPaddingOrDefaultResultsInPaddingResultsInPassedInValue() {
+    public void testMethodGetPaddingOrDefaults_resultsInPassedInValue() {
         // Given
         int maxSpanCount = 1;
         BrickDataManager dataManager = new BrickDataManager(maxSpanCount);
