@@ -93,11 +93,12 @@ task createPom {
 task createBintrayDescriptor {
     String currentVersion = getCurrentVersion();
 
-    if (!new File("bricks/build/").exists()) {
-        new File("bricks/build/").mkdir()
+    String buildDir = projectDir.toString() + "/build/"
+    if (!new File(buildDir).exists()) {
+        new File(buildDir).mkdir()
     }
 
-    File outputFile = new File("bricks/build/bintray.descriptor")
+    File outputFile = new File(buildDir + "bintray.descriptor")
     Date date = new Date()
 
     outputFile.text =
