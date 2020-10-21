@@ -66,6 +66,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     private RecyclerView recyclerView;
     private View recyclerViewParent;
     private RecyclerView.ItemDecoration itemDecoration;
+    private DataSetChangedListener dataSetChangedListener;
 
     /**
      * Constructor.
@@ -999,6 +1000,9 @@ public class BrickDataManager implements Serializable, BrickProvider {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     void dataHasChanged() {
         dataHasChanged = true;
+        if (dataSetChangedListener != null) {
+            dataSetChangedListener.onDataSetChanged();
+        }
         for (BrickBehavior behavior : behaviors) {
             behavior.onDataSetChanged();
         }
@@ -1358,6 +1362,15 @@ public class BrickDataManager implements Serializable, BrickProvider {
             return getRecyclerViewItems().get(position);
         }
         return null;
+    }
+
+    /**
+     * Allows the user to set a listener that will get called whenever the data set changes.
+     *
+     * @param listener listener which will be notified whenever the data set changes
+     */
+    public void setDataSetChangedListener(DataSetChangedListener listener) {
+        this.dataSetChangedListener = listener;
     }
 
     /**

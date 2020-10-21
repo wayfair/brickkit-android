@@ -1486,4 +1486,15 @@ public class BrickDataManagerTest {
         assertEquals(3, observer.getItemRangeInsertedPositionStart());
         assertEquals(3, observer.getItemRangeInsertedItemCount());
     }
+
+    @Test
+    public void testSetDataSetChangedListener() {
+        DataSetChangedListener listener = mock(DataSetChangedListener.class);
+
+        manager.setDataSetChangedListener(listener);
+
+        manager.clear();
+
+        verify(listener).onDataSetChanged();
+    }
 }
