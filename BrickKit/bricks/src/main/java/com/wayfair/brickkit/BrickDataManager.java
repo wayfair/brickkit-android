@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.GridLayout;
 
 import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator;
-import com.wayfair.brickkit.behavior.BrickBehavior;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.BrickProvider;
 import com.wayfair.brickkit.util.CollectionUtil;
@@ -51,7 +50,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
     private static final int NO_INDEX = -1;
 
-    private ArrayList<BrickBehavior> behaviors;
     private BrickRecyclerAdapter brickRecyclerAdapter;
     private final int maxSpanCount;
     private final SparseArray<LinkedList<BaseBrick>> idCache;
@@ -78,7 +76,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         this.items = new LinkedList<>();
         this.idCache = new SparseArray<>();
         this.tagCache = new HashMap<>();
-        this.behaviors = new ArrayList<>();
         this.currentlyVisibleItems = new LinkedList<>();
     }
 
@@ -137,10 +134,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         this.recyclerView.setItemAnimator(new AvoidFlickerItemAnimator());
 
         applyGridLayout(orientation, reverse);
-
-        for (BrickBehavior behavior : behaviors) {
-            behavior.attachToRecyclerView(recyclerView);
-        }
 
         LinkedList<BaseBrick> items = getRecyclerViewItems();
         int itemCount = items.size();
@@ -1003,9 +996,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         if (dataSetChangedListener != null) {
             dataSetChangedListener.onDataSetChanged();
         }
-        for (BrickBehavior behavior : behaviors) {
-            behavior.onDataSetChanged();
-        }
     }
 
     /**
@@ -1254,41 +1244,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
-     * Get the collection of behaviours currently in the BrickDataManager. Mostly for testing.
-     *
-     * @return The current behaviours attached tot he BrickDataManger
-     */
-    public Collection<BrickBehavior> getBehaviours() {
-        return behaviors;
-    }
-
-    /**
-     * Add a {@link BrickBehavior}.
-     *
-     * @param behavior {@link BrickBehavior} to add
-     */
-    public void addBehavior(BrickBehavior behavior) {
-        for (BrickBehavior brickBehavior : behaviors) {
-            if (brickBehavior.getClass().isInstance(behavior.getClass().getName())) {
-                return;
-            }
-        }
-
-        behaviors.add(behavior);
-        behavior.attachToRecyclerView(getRecyclerView());
-    }
-
-    /**
-     * Remove a {@link BrickBehavior}.
-     *
-     * @param behavior {@link BrickBehavior} to be removed
-     */
-    public void removeBehavior(BrickBehavior behavior) {
-        behaviors.remove(behavior);
-        behavior.detachFromRecyclerView(getRecyclerView());
-    }
-
-    /**
      * Get the {@link BrickRecyclerAdapter} for this instance.
      *
      * @return the {@link BrickRecyclerAdapter}.
@@ -1301,10 +1256,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
      * Method called to release any related resources.
      */
     public void onDestroyView() {
-        for (BrickBehavior behavior : behaviors) {
-            behavior.detachFromRecyclerView(getRecyclerView());
-        }
-        behaviors.clear();
         if (recyclerView != null) {
             recyclerView.setAdapter(null);
         }

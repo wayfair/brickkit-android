@@ -1,15 +1,9 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
- */
 package com.wayfair.brickkit;
 
 import android.content.Context;
 import android.os.Looper;
 import android.view.View;
 
-import com.wayfair.brickkit.behavior.BrickBehavior;
-import com.wayfair.brickkit.behavior.StickyFooterBehavior;
-import com.wayfair.brickkit.behavior.StickyHeaderBehavior;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.util.BrickTestHelper;
 
@@ -39,6 +33,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Copyright © 2017 Wayfair. All rights reserved.
+ */
 @RunWith(AndroidJUnit4.class)
 public class BrickDataManagerTest {
     private static final int STARTING_BRICKS = 4;
@@ -47,8 +44,7 @@ public class BrickDataManagerTest {
 
     private BrickDataManager manager;
     private BrickTestHelper.TestAdapterDataObserver observer;
-    private BrickBehavior footerBehavior;
-    private BrickBehavior headerBehavior;
+    private DataSetChangedListener dataSetChangedListener;
     private BrickTestHelper brickTestHelper;
 
     @Before
@@ -66,11 +62,8 @@ public class BrickDataManagerTest {
             manager.addLast(brickTestHelper.generateBrick());
         }
 
-        footerBehavior = mock(StickyFooterBehavior.class);
-        manager.addBehavior(footerBehavior);
-
-        headerBehavior = mock(StickyHeaderBehavior.class);
-        manager.addBehavior(headerBehavior);
+        dataSetChangedListener = mock(DataSetChangedListener.class);
+        manager.setDataSetChangedListener(dataSetChangedListener);
 
         observer = new BrickTestHelper.TestAdapterDataObserver();
         manager.getBrickRecyclerAdapter().registerAdapterDataObserver(observer);
@@ -123,7 +116,7 @@ public class BrickDataManagerTest {
         assertEquals(0, observer.getItemRangeInsertedPositionStart());
         assertEquals(3, observer.getItemRangeInsertedItemCount());
 
-        verify(headerBehavior, atLeastOnce()).onDataSetChanged();
+        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged();
     }
 
     @Test
@@ -139,7 +132,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(0, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -155,7 +148,7 @@ public class BrickDataManagerTest {
         assertEquals(7, manager.getRecyclerViewItems().size());
         assertEquals(7, manager.getDataManagerItems().size());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -178,7 +171,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     @Test
@@ -201,7 +194,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(0, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -224,7 +217,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     @Test
@@ -243,7 +236,7 @@ public class BrickDataManagerTest {
 
         assertEquals(newBrick, manager.getDataManagerItems().get(0));
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -254,8 +247,8 @@ public class BrickDataManagerTest {
         manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.HORIZONTAL, false, parentView);
         BrickTestHelper brickTestHelper = new BrickTestHelper(context);
 
-        StickyHeaderBehavior headerBehavior = mock(StickyHeaderBehavior.class);
-        manager.addBehavior(headerBehavior);
+        DataSetChangedListener dataSetChangedListener = mock(DataSetChangedListener.class);
+        manager.setDataSetChangedListener(dataSetChangedListener);
 
         manager.addLast(brickTestHelper.generateBrick());
         manager.addLast(brickTestHelper.generateBrick());
@@ -278,7 +271,7 @@ public class BrickDataManagerTest {
 
         assertEquals(newBrick, manager.getDataManagerItems().get(0));
 
-        verify(headerBehavior, atLeastOnce()).onDataSetChanged();
+        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged();
     }
 
     @Test
@@ -294,7 +287,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     @Test
@@ -317,7 +310,7 @@ public class BrickDataManagerTest {
         assertEquals(3, observer.getItemRangeChangedPositionStart());
         assertEquals(4, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -340,7 +333,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     @Test
@@ -356,7 +349,7 @@ public class BrickDataManagerTest {
         assertEquals(0, observer.getItemRangeChangedPositionStart());
         assertEquals(5, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -372,7 +365,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     @Test
@@ -391,7 +384,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -411,7 +404,7 @@ public class BrickDataManagerTest {
         assertEquals(1, observer.getItemRangeChangedPositionStart());
         assertEquals(4, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -431,7 +424,7 @@ public class BrickDataManagerTest {
         assertEquals(0, observer.getItemRangeChangedPositionStart());
         assertEquals(5, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -447,7 +440,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     @Test
@@ -466,7 +459,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -486,7 +479,7 @@ public class BrickDataManagerTest {
         assertEquals(1, observer.getItemRangeChangedPositionStart());
         assertEquals(4, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -506,7 +499,7 @@ public class BrickDataManagerTest {
         assertEquals(0, observer.getItemRangeChangedPositionStart());
         assertEquals(5, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -522,7 +515,7 @@ public class BrickDataManagerTest {
         assertEquals(3, observer.getItemRangeChangedPositionStart());
         assertEquals(2, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -538,7 +531,7 @@ public class BrickDataManagerTest {
         assertEquals(0, observer.getItemRangeChangedPositionStart());
         assertEquals(5, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -554,7 +547,7 @@ public class BrickDataManagerTest {
         assertEquals(1, observer.getItemRangeChangedPositionStart());
         assertEquals(4, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -570,7 +563,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -587,7 +580,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -603,7 +596,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -623,7 +616,7 @@ public class BrickDataManagerTest {
         assertEquals(3, observer.getItemRangeChangedPositionStart());
         assertEquals(1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -643,7 +636,7 @@ public class BrickDataManagerTest {
         assertEquals(3, observer.getItemRangeChangedPositionStart());
         assertEquals(1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -663,7 +656,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     @Test
@@ -683,7 +676,7 @@ public class BrickDataManagerTest {
         assertEquals(0, observer.getItemRangeChangedPositionStart());
         assertEquals(4, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -703,7 +696,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(0, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -723,7 +716,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(0, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -743,7 +736,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     @Test
@@ -763,7 +756,7 @@ public class BrickDataManagerTest {
         assertEquals(4, observer.getItemRangeChangedPositionStart());
         assertEquals(0, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -779,7 +772,7 @@ public class BrickDataManagerTest {
         assertEquals(0, observer.getItemRangeChangedPositionStart());
         assertEquals(3, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -795,7 +788,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -811,7 +804,7 @@ public class BrickDataManagerTest {
         assertEquals(1, observer.getItemRangeChangedPositionStart());
         assertEquals(2, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -833,7 +826,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeChangedPositionStart());
         assertEquals(-1, observer.getItemRangeChangedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -875,7 +868,7 @@ public class BrickDataManagerTest {
 
         assertTrue(observer.isChanged());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -893,7 +886,7 @@ public class BrickDataManagerTest {
 
         assertTrue(observer.isChanged());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -907,7 +900,7 @@ public class BrickDataManagerTest {
 
         assertTrue(observer.isChanged());
 
-        verify(headerBehavior, atLeastOnce()).onDataSetChanged();
+        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged();
     }
 
     @Test
@@ -927,7 +920,7 @@ public class BrickDataManagerTest {
 
         assertFalse(observer.isChanged());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -940,7 +933,7 @@ public class BrickDataManagerTest {
         assertEquals(0, observer.getItemRangeRemovedPositionStart());
         assertEquals(4, observer.getItemRangeRemovedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -967,7 +960,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeRemovedPositionStart());
         assertEquals(-1, observer.getItemRangeRemovedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     private void replaceItemBothVisible(int replaceCount) {
@@ -995,7 +988,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeRemovedPositionStart());
         assertEquals(-1, observer.getItemRangeRemovedItemCount());
 
-        verify(headerBehavior, atLeastOnce()).onDataSetChanged();
+        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged();
     }
 
     @Test
@@ -1032,7 +1025,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeRemovedPositionStart());
         assertEquals(-1, observer.getItemRangeRemovedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -1059,7 +1052,7 @@ public class BrickDataManagerTest {
         assertEquals(1, observer.getItemRangeRemovedPositionStart());
         assertEquals(1, observer.getItemRangeRemovedItemCount());
 
-        verify(headerBehavior, atLeastOnce()).onDataSetChanged();
+        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged();
     }
 
     @Test
@@ -1086,7 +1079,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeRemovedPositionStart());
         assertEquals(-1, observer.getItemRangeRemovedItemCount());
 
-        verify(headerBehavior, never()).onDataSetChanged();
+        verify(dataSetChangedListener, never()).onDataSetChanged();
     }
 
     @Test
@@ -1113,7 +1106,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeRemovedPositionStart());
         assertEquals(-1, observer.getItemRangeRemovedItemCount());
 
-        verify(headerBehavior).onDataSetChanged();
+        verify(dataSetChangedListener).onDataSetChanged();
     }
 
     @Test
@@ -1140,7 +1133,7 @@ public class BrickDataManagerTest {
         assertEquals(-1, observer.getItemRangeRemovedPositionStart());
         assertEquals(-1, observer.getItemRangeRemovedItemCount());
 
-        verify(headerBehavior, atLeastOnce()).onDataSetChanged();
+        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged();
     }
 
     @Test
@@ -1167,7 +1160,7 @@ public class BrickDataManagerTest {
         assertEquals(1, observer.getItemRangeRemovedPositionStart());
         assertEquals(1, observer.getItemRangeRemovedItemCount());
 
-        verify(headerBehavior, atLeastOnce()).onDataSetChanged();
+        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged();
     }
 
     @Test
@@ -1265,14 +1258,6 @@ public class BrickDataManagerTest {
         assertNotNull(manager.brickAtPosition(manager.getDataManagerItems().size() - 1));
         assertNull(manager.brickAtPosition(manager.getDataManagerItems().size()));
         assertNull(manager.brickAtPosition(-1));
-    }
-
-    @Test
-    public void testRemoveBehaviour() {
-        manager.removeBehavior(headerBehavior);
-        assertEquals(1, manager.getBehaviours().size());
-        manager.removeBehavior(footerBehavior);
-        assertEquals(0, manager.getBehaviours().size());
     }
 
     @Test

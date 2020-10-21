@@ -12,8 +12,6 @@ import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactory;
 import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactoryData;
 
-import java.util.ListIterator;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -302,56 +300,6 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
      */
     public int indexOf(BaseBrick brick) {
         return dataManager.getRecyclerViewItems().indexOf(brick);
-    }
-
-    /**
-     * Get the first header before the given position.
-     * @param position position before which to find the next header
-     * @return the first header before the given position.
-     */
-    public BaseBrick getSectionHeader(int position) {
-        if (position >= 0) {
-            BaseBrick brick = dataManager.getRecyclerViewItems().get(position);
-            if (brick != null && brick.isHeader()) {
-                return brick;
-            }
-
-            ListIterator<BaseBrick> iterator = dataManager.getRecyclerViewItems().listIterator(position);
-
-            while (iterator.hasPrevious()) {
-                brick = iterator.previous();
-                if (brick != null && brick.isHeader()) {
-                    return brick;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Get the first footer after the given position unless the given position is the last element.
-     * @param position position after which to find the next footer
-     * @return the first footer after the given position.
-     */
-    public BaseBrick getSectionFooter(int position) {
-        if (position >= 0 && dataManager.getRecyclerViewItems().size() - 1 > position) {
-            BaseBrick brick = dataManager.getRecyclerViewItems().get(position);
-            if (brick != null && brick.isFooter()) {
-                return brick;
-            }
-
-            ListIterator<BaseBrick> iterator = dataManager.getRecyclerViewItems().listIterator(position);
-
-            while (iterator.hasNext()) {
-                brick = iterator.next();
-                if (brick != null && brick.isFooter()) {
-                    return brick;
-                }
-            }
-        }
-
-        return null;
     }
 
     /**
