@@ -1,6 +1,3 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
- */
 package com.wayfair.brickkit.brick;
 
 import android.content.Context;
@@ -8,7 +5,6 @@ import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
-import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.padding.SimpleBrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
@@ -18,6 +14,8 @@ import androidx.annotation.LayoutRes;
 
 /**
  * Abstract class which defines Bricks.
+ *
+ *  Copyright © 2017 Wayfair. All rights reserved.
  */
 public abstract class BaseBrick {
     public static final int DEFAULT_LAYOUT_RES_ID = 0;
@@ -36,14 +34,10 @@ public abstract class BaseBrick {
 
     private Object tag;
     private boolean hidden = false;
-    private boolean header = false;
-    private boolean footer = false;
     private boolean isInFirstRow;
     private boolean isInLastRow;
     private boolean isOnLeftWall;
     private boolean isOnRightWall;
-    @StickyScrollMode
-    private int stickyScrollMode = StickyScrollMode.SHOW_ON_SCROLL;
     private BrickDataManager dataManager;
 
     /**
@@ -61,7 +55,6 @@ public abstract class BaseBrick {
      */
     public BaseBrick(BrickSize spanSize, BrickPadding padding) {
         this.spanSize = spanSize;
-        this.spanSize.setBaseBrick(this);
         this.padding = padding;
     }
 
@@ -225,61 +218,6 @@ public abstract class BaseBrick {
         if (dataManager != null) {
             dataManager.smoothScrollToBrick(this);
         }
-    }
-
-    /**
-     * Whether or not this brick should act as a header.
-     *
-     * @return true if brick should act as a header, false otherwise
-     */
-    public boolean isHeader() {
-        return header;
-    }
-
-    /**
-     * Set whether the brick should act as a header.
-     *
-     * @param header whether the brick should act as a header
-     */
-    public void setHeader(boolean header) {
-        this.header = header;
-    }
-
-    /**
-     * Whether or not this brick should act as a footer.
-     *
-     * @return true if brick should act as a footer, false otherwise
-     */
-    public boolean isFooter() {
-        return footer;
-    }
-
-    /**
-     * Set whether the brick should act as a footer.
-     *
-     * @param footer whether the brick should act as a footer
-     */
-    public void setFooter(boolean footer) {
-        this.footer = footer;
-    }
-
-    /**
-     * Set stickyScrollMode {@link com.wayfair.brickkit.StickyScrollMode}.
-     *
-     * @param stickyScrollMode whether the brick show header/footer on scrolling up/down
-     */
-    public void setStickyScrollMode(@StickyScrollMode int stickyScrollMode) {
-        this.stickyScrollMode = stickyScrollMode;
-    }
-
-    /**
-     * Get stickyScrollMode {@link com.wayfair.brickkit.StickyScrollMode}.
-     *
-     * @return stickyScrollMode whether the brick show header/footer on scrolling up/down
-     */
-    @StickyScrollMode
-    public int getStickyScrollMode() {
-        return stickyScrollMode;
     }
 
     /**

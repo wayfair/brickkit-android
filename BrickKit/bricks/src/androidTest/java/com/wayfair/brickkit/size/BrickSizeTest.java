@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 
 import com.wayfair.brickkit.R;
-import com.wayfair.brickkit.brick.BaseBrick;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +28,6 @@ public class BrickSizeTest {
     private static final int PORTRAIT_PHONE = 5;
 
     private Context context;
-    private BaseBrick brick;
     private TestBrickSize brickSize;
     private Resources resources;
     private Configuration configuration;
@@ -44,24 +42,7 @@ public class BrickSizeTest {
         context = mock(Context.class);
         when(context.getResources()).thenReturn(resources);
 
-        brick = mock(BaseBrick.class);
-
         brickSize = new TestBrickSize();
-        brickSize.setBaseBrick(brick);
-    }
-
-    @Test
-    public void testHeader() {
-        when(brick.isHeader()).thenReturn(true);
-
-        assertEquals(MAX_SPANS, brickSize.getSpans(context));
-    }
-
-    @Test
-    public void testFooter() {
-        when(brick.isFooter()).thenReturn(true);
-
-        assertEquals(MAX_SPANS, brickSize.getSpans(context));
     }
 
     @Test

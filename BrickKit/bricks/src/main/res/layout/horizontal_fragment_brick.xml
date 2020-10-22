@@ -13,8 +13,4 @@
         android:scrollbars="horizontal"
         tools:background="#F2F2F4" />
 
-    <include layout="@layout/horizontal_header" />
-
-    <include layout="@layout/horizontal_footer" />
-
 </RelativeLayout>

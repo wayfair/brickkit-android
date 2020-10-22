@@ -7,8 +7,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.wayfair.brickkit.BrickFragment;
-import com.wayfair.brickkit.behavior.StickyFooterBehavior;
-import com.wayfair.brickkit.behavior.StickyHeaderBehavior;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.TextBrick;
 import com.wayfair.brickkit.brick.ViewModelBrick;
@@ -103,9 +101,6 @@ public class AddRemoveBrickFragment extends BrickFragment {
                         )
                         .build();
 
-                viewModelBrick.setHeader(true);
-                viewModelBrick.setFooter(true);
-
                 dataManager.addLast(viewModelBrick);
             } else {
                 @SuppressLint("DefaultLocale") BaseBrick brick = new TextBrick(
@@ -122,8 +117,5 @@ public class AddRemoveBrickFragment extends BrickFragment {
                 dataManager.addLast(brick);
             }
         }
-
-        dataManager.addBehavior(new StickyHeaderBehavior(dataManager));
-        dataManager.addBehavior(new StickyFooterBehavior(dataManager));
     }
 }

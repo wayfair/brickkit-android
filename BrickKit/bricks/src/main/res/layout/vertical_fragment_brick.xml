@@ -13,8 +13,4 @@
         android:scrollbars="vertical"
         tools:background="#F2F2F4"/>
 
-    <include layout="@layout/vertical_header" />
-
-    <include layout="@layout/vertical_footer" />
-
 </RelativeLayout>

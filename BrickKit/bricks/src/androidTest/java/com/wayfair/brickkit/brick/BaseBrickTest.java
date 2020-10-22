@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
-import com.wayfair.brickkit.StickyScrollMode;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
@@ -70,38 +69,6 @@ public class BaseBrickTest {
 
         brick.setHidden(true);
         assertTrue(brick.isHidden());
-    }
-
-    @Test
-    public void testHeader() {
-        TestBaseBrick brick = new TestBaseBrick(context, brickSize);
-
-        assertFalse(brick.isHeader());
-
-        brick.setHeader(true);
-        assertTrue(brick.isHeader());
-    }
-
-    @Test
-    public void testFooter() {
-        TestBaseBrick brick = new TestBaseBrick(context, brickSize);
-
-        assertFalse(brick.isFooter());
-
-        brick.setFooter(true);
-        assertTrue(brick.isFooter());
-    }
-
-    @Test
-    public void testStickyScrollMode() {
-        TestBaseBrick brick = new TestBaseBrick(context, brickSize);
-
-        assertEquals(StickyScrollMode.SHOW_ON_SCROLL, brick.getStickyScrollMode());
-
-        brick.setStickyScrollMode(StickyScrollMode.SHOW_ON_SCROLL_DOWN);
-
-        assertEquals(StickyScrollMode.SHOW_ON_SCROLL_DOWN, brick.getStickyScrollMode());
-
     }
 
     @Test
