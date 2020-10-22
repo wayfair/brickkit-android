@@ -15,14 +15,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
 public class TextBrickTest {
@@ -60,20 +58,5 @@ public class TextBrickTest {
 
         assertEquals(TEXT, holder.textView.getText().toString());
         assertEquals(TEXT, brick.getText());
-    }
-
-    @Test
-    public void testDismissed() {
-        Runnable runnable = mock(Runnable.class);
-
-        TextBrick brick = new TextBrick(brickSize, TEXT);
-
-        brick.dismissed(ItemTouchHelper.START);
-
-        brick.setOnDismiss(runnable);
-
-        brick.dismissed(ItemTouchHelper.START);
-
-        verify(runnable).run();
     }
 }

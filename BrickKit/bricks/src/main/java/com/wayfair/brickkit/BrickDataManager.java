@@ -28,7 +28,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -58,8 +57,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     private LinkedList<BaseBrick> currentlyVisibleItems;
     private boolean dataHasChanged;
     private Context context;
-    private boolean dragAndDrop;
-    private boolean swipeToDismiss;
     private boolean vertical;
     private RecyclerView recyclerView;
     private View recyclerViewParent;
@@ -162,65 +159,12 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
-     * Toggle the ability to drag and drop bricks.
-     *
-     * @param dragAndDrop Toggle drag and drop for bricks.
-     */
-    public void setDragAndDrop(boolean dragAndDrop) {
-        this.dragAndDrop = dragAndDrop;
-
-        attachTouchHelper();
-    }
-
-    /**
      * Get the recycler view's parent.
      *
      * @return the attached recyclerview's parent, null if none has been attached
      */
     public View getRecyclerViewParent() {
         return recyclerViewParent;
-    }
-
-    /**
-     * Toggle the ability to swipe to dismiss bricks.
-     *
-     * @param swipeToDismiss Toggle swipe to dismiss for bricks.
-     */
-    public void setSwipeToDismiss(boolean swipeToDismiss) {
-        this.swipeToDismiss = swipeToDismiss;
-
-        attachTouchHelper();
-    }
-
-    /**
-     * Is drag and drop enabled.
-     *
-     * @return Is drag and drop enabled.
-     */
-    public boolean getDragAndDrop() {
-        return dragAndDrop;
-    }
-
-    /**
-     * Is swipe to dismiss enabled.
-     *
-     * @return Is swipe to dismiss enabled.
-     */
-    public boolean getSwipeToDismiss() {
-        return swipeToDismiss;
-    }
-
-    /**
-     * This attaches the touch helper to the recycler view if swipe or drag and drop are enabled.
-     */
-    private void attachTouchHelper() {
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new BrickItemTouchHelperCallback(this));
-
-        if ((dragAndDrop || swipeToDismiss) && brickRecyclerAdapter != null) {
-            itemTouchHelper.attachToRecyclerView(brickRecyclerAdapter.getRecyclerView());
-        } else {
-            itemTouchHelper.attachToRecyclerView(null);
-        }
     }
 
     /**

@@ -23,8 +23,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
     private PlaceholderBinder placeholderBinder;
     protected final SparseArray<ViewModel> viewModels;
 
-    protected SwipeListener onDismiss;
-
     /**
      * Private constructor that the {@link Builder} class uses.
      *
@@ -36,7 +34,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         this.layoutId = builder.layoutId;
         this.placeholderLayoutId = builder.placeholderLayoutId;
         this.placeholderBinder = builder.placeholderBinder;
-        this.onDismiss = builder.onDismiss;
         this.viewModels = builder.viewModels;
 
         for (int i = 0; i < viewModels.size(); i++) {
@@ -138,31 +135,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
     }
 
     /**
-     * Run the {@link SwipeListener} when a swipe happens on this brick.
-     *
-     * @param direction one of {@link androidx.recyclerview.widget.ItemTouchHelper.UP},
-     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.RIGHT},
-     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.DOWN},
-     *                  {@link androidx.recyclerview.widget.ItemTouchHelper.LEFT}
-     */
-    @SuppressWarnings("JavadocReference")
-    @Override
-    public void dismissed(int direction) {
-        if (onDismiss != null) {
-            onDismiss.swiped(direction);
-        }
-    }
-
-    /**
-     * Set the action for this brick being swiped.
-     *
-     * @param onDismiss the {@link SwipeListener} to be run on swipe
-     */
-    public void setOnDismiss(SwipeListener onDismiss) {
-        this.onDismiss = onDismiss;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -225,7 +197,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         SparseArray<ViewModel> viewModels = new SparseArray<>();
         BrickSize spanSize = getDefaultSize();
         BrickPadding padding = getDefaultPadding();
-        SwipeListener onDismiss = null;
 
         /**
          * Builder constructor, requires only a {@link LayoutRes} to work.
@@ -293,17 +264,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
          */
         public Builder setPadding(BrickPadding padding) {
             this.padding = padding;
-            return this;
-        }
-
-        /**
-         * Set the {@link SwipeListener}.
-         *
-         * @param onDismiss the {@link SwipeListener}
-         * @return the builder
-         */
-        public Builder setOnDismiss(SwipeListener onDismiss) {
-            this.onDismiss = onDismiss;
             return this;
         }
 
