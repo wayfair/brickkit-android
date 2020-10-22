@@ -293,25 +293,6 @@ public abstract class BaseBrick {
     }
 
     /**
-     * Called when the brick was moved via drag'n'drop.
-     *
-     * @param position The position the brick was moved to.
-     */
-    public void movedTo(final int position) {
-    }
-
-    /**
-     * Called when an item is swiped-to-dismiss.
-     *
-     * @param direction one of {@link ItemTouchHelper.UP}, {@link ItemTouchHelper.RIGHT},
-     *                  {@link ItemTouchHelper.DOWN}, {@link ItemTouchHelper.LEFT},
-     *                  {@link ItemTouchHelper.START}, {@link ItemTouchHelper.END}
-     *
-     */
-    public void dismissed(int direction) {
-    }
-
-    /**
      * Set the current DataManager this brick is connected to.
      * @param dataManager The current DataManager for this brick
      */

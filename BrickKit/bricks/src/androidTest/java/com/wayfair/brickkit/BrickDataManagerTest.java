@@ -70,28 +70,6 @@ public class BrickDataManagerTest {
     }
 
     @Test
-    public void testGetDragAndDrop() {
-        manager.setDragAndDrop(false);
-
-        assertFalse(manager.getDragAndDrop());
-
-        manager.setDragAndDrop(true);
-
-        assertTrue(manager.getDragAndDrop());
-    }
-
-    @Test
-    public void testGetSwipeToDismiss() {
-        manager.setSwipeToDismiss(false);
-
-        assertFalse(manager.getSwipeToDismiss());
-
-        manager.setSwipeToDismiss(true);
-
-        assertTrue(manager.getSwipeToDismiss());
-    }
-
-    @Test
     public void testGetMaxSpanCount() {
         assertEquals(MAX_SPANS, manager.getMaxSpanCount());
     }

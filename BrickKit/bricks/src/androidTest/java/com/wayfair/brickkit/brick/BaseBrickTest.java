@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
@@ -109,24 +108,6 @@ public class BaseBrickTest {
 
         brick.setOnRightWall(true);
         assertTrue(brick.isOnRightWall());
-    }
-
-    @Test
-    public void testMovedTo() {
-        TestBaseBrick brick = new TestBaseBrick(context, brickSize);
-
-        brick.movedTo(1);
-
-        // nothing to verify
-    }
-
-    @Test
-    public void testDismissed() {
-        TestBaseBrick brick = new TestBaseBrick(context, brickSize);
-
-        brick.dismissed(ItemTouchHelper.UP);
-
-        // nothing to verify
     }
 
     @Test

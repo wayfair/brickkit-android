@@ -22,12 +22,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -108,73 +106,6 @@ public class ViewModelBrickTest {
                         textDataModel.appendText(APPENDING_TEXT);
 
                         verify((TextViewModel) viewModelBrick.getViewModel(BIND_ID)).getText();
-                    }
-                }
-        );
-    }
-
-    @Test
-    public void ViewModelBrick_Dismissed_Test() {
-        new Handler(Looper.getMainLooper()).post(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        TextDataModel textDataModel = new TextDataModel(TEXT);
-                        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
-
-                        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
-                                .setSpanSize(brickSize)
-                                .setPadding(brickPadding)
-                                .addViewModel(BIND_ID, textViewModel)
-                                .build();
-
-                        SwipeListener swipeListener = mock(SwipeListener.class);
-
-                        viewModelBrick.setOnDismiss(swipeListener);
-
-                        LinearLayout parent = new LinearLayout(context);
-                        View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
-
-                        ViewModelBrick.ViewModelBrickViewHolder holder = (ViewModelBrick.ViewModelBrickViewHolder) viewModelBrick.createViewHolder(itemView);
-                        viewModelBrick.onBindData(holder);
-
-                        viewModelBrick.dismissed(ItemTouchHelper.RIGHT);
-
-                        verify(swipeListener).swiped(ItemTouchHelper.RIGHT);
-                    }
-                }
-        );
-    }
-
-    @Test
-    public void ViewModelBrick_Dismissed_NotSet_Test() {
-        new Handler(Looper.getMainLooper()).post(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        TextDataModel textDataModel = new TextDataModel(TEXT);
-                        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
-
-                        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
-                                .setSpanSize(brickSize)
-                                .setPadding(brickPadding)
-                                .addViewModel(BIND_ID, textViewModel)
-                                .build();
-
-                        SwipeListener swipeListener = mock(SwipeListener.class);
-
-                        viewModelBrick.setOnDismiss(swipeListener);
-                        viewModelBrick.setOnDismiss(null);
-
-                        LinearLayout parent = new LinearLayout(context);
-                        View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
-
-                        ViewModelBrick.ViewModelBrickViewHolder holder = (ViewModelBrick.ViewModelBrickViewHolder) viewModelBrick.createViewHolder(itemView);
-                        viewModelBrick.onBindData(holder);
-
-                        viewModelBrick.dismissed(ItemTouchHelper.RIGHT);
-
-                        verify(swipeListener, never()).swiped(ItemTouchHelper.RIGHT);
                     }
                 }
         );

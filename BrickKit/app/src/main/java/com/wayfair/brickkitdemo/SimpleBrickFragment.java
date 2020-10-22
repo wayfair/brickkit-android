@@ -1,14 +1,9 @@
 package com.wayfair.brickkitdemo;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.brick.SwipeListener;
 import com.wayfair.brickkit.brick.ViewModelBrick;
 import com.wayfair.brickkit.models.TextDataModel;
 import com.wayfair.brickkit.models.TextViewModel;
@@ -18,8 +13,6 @@ import com.wayfair.brickkit.size.OrientationBrickSize;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import androidx.recyclerview.widget.ItemTouchHelper;
 
 /**
  * Example fragment which shows text bricks.
@@ -62,15 +55,6 @@ public class SimpleBrickFragment extends BrickFragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        dataManager.setSwipeToDismiss(true);
-
-        return view;
-    }
-
     /**
      * Generate a brick.
      *
@@ -108,29 +92,6 @@ public class SimpleBrickFragment extends BrickFragment {
                         new TextViewModel(dataModel)
                 )
                 .build();
-
-        brick.setOnDismiss(
-                new SwipeListener() {
-                    @Override
-                    public void swiped(int direction) {
-                        if (direction == ItemTouchHelper.RIGHT
-                                || direction == ItemTouchHelper.END) {
-                            Snackbar.make(
-                                    dataManager.getBrickRecyclerAdapter().getRecyclerView(),
-                                    "Moved " + dataModel.getText(),
-                                    Snackbar.LENGTH_SHORT
-                            ).show();
-                        } else if (direction == ItemTouchHelper.LEFT
-                                || direction == ItemTouchHelper.START) {
-                            Snackbar.make(
-                                    dataManager.getBrickRecyclerAdapter().getRecyclerView(),
-                                    "Deleted " + dataModel.getText(),
-                                    Snackbar.LENGTH_SHORT
-                            ).show();
-                        }
-                    }
-                }
-        );
 
         return brick;
     }
