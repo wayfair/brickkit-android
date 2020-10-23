@@ -10,7 +10,6 @@ import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.BrickProvider;
 import com.wayfair.brickkit.util.CollectionUtil;
-import com.wayfair.brickkit.util.LinkedListUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -1026,9 +1025,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @SuppressWarnings("UnusedReturnValue")
     int computePaddingPositionSafelyForFirstItem() {
-        LinkedList<BaseBrick> items = getRecyclerViewItems();
-        BaseBrick firstBrick = LinkedListUtil.getFirstItemQuietly(items);
-        return computePaddingPosition(firstBrick);
+        return computePaddingPosition(getRecyclerViewItems().peek());
     }
 
     /**
