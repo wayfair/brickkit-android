@@ -5,6 +5,9 @@ plugins {
     id 'maven-publish' // We should switch from the maven plugin to this one
 }
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion 28
 
@@ -35,6 +38,9 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.core:core-ktx:1.0.1'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72'
+
     implementation 'androidx.core:core:1.0.1'
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
     implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
