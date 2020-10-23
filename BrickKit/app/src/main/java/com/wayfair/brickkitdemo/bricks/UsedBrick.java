@@ -9,16 +9,14 @@ import android.widget.TextView;
 
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.brick.TouchableBrick;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
 import com.wayfair.brickkitdemo.R;
 
 /**
- * {@link com.wayfair.brickkit.brick.TouchableBrick} used in {@link com.wayfair.brickkitdemo.MainActivityFragment} to
- * link to other fragments.
+ * Used in {@link com.wayfair.brickkitdemo.MainActivityFragment} to link to other fragments.
  */
-public class UsedBrick extends BaseBrick implements TouchableBrick {
+public class UsedBrick extends BaseBrick {
 
     private CharSequence text;
     private View.OnClickListener onTouch;
@@ -62,7 +60,7 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
         if (viewHolder instanceof UsedBrickHolder) {
             UsedBrickHolder holder = (UsedBrickHolder) viewHolder;
             holder.textView.setText(text);
-            holder.itemView.setOnClickListener(isEnabled() ? onTouch() : null);
+            holder.itemView.setOnClickListener(onTouch);
         } else {
             viewHolder.itemView.setOnClickListener(null);
         }
@@ -91,16 +89,6 @@ public class UsedBrick extends BaseBrick implements TouchableBrick {
     @Override
     public boolean isDataReady() {
         return !TextUtils.isEmpty(text);
-    }
-
-    @Override
-    public View.OnClickListener onTouch() {
-        return onTouch;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     /**
