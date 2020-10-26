@@ -67,11 +67,6 @@ public class UsedBrick extends BaseBrick {
     }
 
     @Override
-    public void onBindPlaceholder(BrickViewHolder holder) {
-        // Here we would modify placeholder views dimensions if necessary
-    }
-
-    @Override
     public int getLayout() {
         return R.layout.used_brick;
     }

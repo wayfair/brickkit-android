@@ -84,17 +84,6 @@ public abstract class BaseBrick {
     public abstract void onBindData(BrickViewHolder holder);
 
     /**
-     * Called by the BrickRecyclerAdapter to display the information in this brick placeholder to the specified
-     * ViewHolder.
-     *
-     * @param holder BrickViewHolder which should be updated.
-     */
-    public void onBindPlaceholder(BrickViewHolder holder) {
-        throw new UnsupportedOperationException(getClass().getSimpleName()
-                + " onBindPlaceholder(BrickViewHolder holder) method must be overridden within brick extending BaseBrick");
-    }
-
-    /**
      * Get layout resource id for this brick.
      *
      * @return the layout resource id for this brick

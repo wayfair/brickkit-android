@@ -200,55 +200,15 @@ public class ViewModelBrickTest {
 
     @Test
     public void ViewModelBrick_Placeholder() {
-        TextDataModel textDataModel = new TextDataModel(TEXT);
-        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
-        when(textViewModel.isDataModelReady()).thenReturn(false);
-
         ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
-                .addViewModel(BIND_ID, textViewModel)
-                .setPlaceholder(
-                        R.layout.text_brick_vm_placeholder,
-                        new PlaceholderBinder() {
-                            @Override
-                            public void onBindPlaceholder(BrickViewHolder holder) {
-
-                            }
-                        }
-                )
+                .addViewModel(BIND_ID, new TextViewModel(new TextDataModel("")))
+                .setPlaceholder(R.layout.text_brick_vm_placeholder)
                 .build();
-
-
-        LinearLayout parent = new LinearLayout(context);
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
-
-        ViewModelBrick.ViewModelBrickViewHolder holder = (ViewModelBrick.ViewModelBrickViewHolder) viewModelBrick.createViewHolder(itemView);
-        viewModelBrick.onBindPlaceholder(holder);
 
         Assert.assertEquals(R.layout.text_brick_vm_placeholder, viewModelBrick.getPlaceholderLayout());
     }
 
-    @Test
-    public void ViewModelBrick_Placeholder_BinderIsNull() {
-        TextDataModel textDataModel = new TextDataModel(TEXT);
-        TextViewModel textViewModel = spy(new TextViewModel(textDataModel));
-        when(textViewModel.isDataModelReady()).thenReturn(false);
-
-        ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(LAYOUT_ID)
-                .addViewModel(BIND_ID, textViewModel)
-                .setPlaceholder(R.layout.text_brick_vm_placeholder, null)
-                .build();
-
-
-        LinearLayout parent = new LinearLayout(context);
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(viewModelBrick.getLayout(), parent, false);
-
-        ViewModelBrick.ViewModelBrickViewHolder holder = (ViewModelBrick.ViewModelBrickViewHolder) viewModelBrick.createViewHolder(itemView);
-        viewModelBrick.onBindPlaceholder(holder);
-
-        Assert.assertEquals(R.layout.text_brick_vm_placeholder, viewModelBrick.getPlaceholderLayout());
-    }
-
-    public class TextViewModel extends ViewModel<TextDataModel> {
+    public static class TextViewModel extends ViewModel<TextDataModel> {
         public TextViewModel(TextDataModel dataModel) {
             super(dataModel);
         }
@@ -259,7 +219,7 @@ public class ViewModelBrickTest {
         }
     }
 
-    public class TextDataModel extends DataModel {
+    public static class TextDataModel extends DataModel {
         private String text;
 
         public TextDataModel(String text) {
@@ -269,6 +229,11 @@ public class ViewModelBrickTest {
         public void appendText(String newText) {
             this.text = text + newText;
             notifyChange();
+        }
+
+        @Override
+        public boolean isReady() {
+            return !text.isEmpty();
         }
     }
 }
