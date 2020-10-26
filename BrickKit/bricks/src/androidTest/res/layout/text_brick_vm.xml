@@ -6,7 +6,7 @@
     <data>
         <variable
             name="textViewModel"
-            type="com.wayfair.brickkit.models.TextViewModel"/>
+            type="com.wayfair.brickkit.brick.ViewModelBrickTest.TextViewModel"/>
     </data>
 
     <RelativeLayout

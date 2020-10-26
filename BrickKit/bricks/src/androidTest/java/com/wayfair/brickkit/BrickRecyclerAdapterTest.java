@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.wayfair.brickkit.brick.BaseBrick;
+import com.wayfair.brickkit.test.R;
 import com.wayfair.brickkit.util.BrickTestHelper;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 
@@ -352,7 +353,7 @@ public class BrickRecyclerAdapterTest {
     @Test
     public void testOnCreateViewHolder() {
         BaseBrick brick = mock(BaseBrick.class);
-        when(brick.getLayout()).thenReturn(R.layout.text_brick);
+        when(brick.getLayout()).thenReturn(R.layout.test_layout);
 
         when(dataManager.brickWithLayout(anyInt())).thenReturn(brick);
 

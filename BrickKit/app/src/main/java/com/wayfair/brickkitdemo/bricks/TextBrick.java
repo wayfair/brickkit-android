@@ -1,15 +1,16 @@
 /**
  * Copyright © 2017 Wayfair. All rights reserved.
  */
-package com.wayfair.brickkit.brick;
+package com.wayfair.brickkitdemo.bricks;
 
 import android.view.View;
 import android.widget.TextView;
 
+import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
-import com.wayfair.brickkit.R;
+import com.wayfair.brickkitdemo.R;
 
 /**
  * Simple Brick with a single text view.

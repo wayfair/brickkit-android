@@ -5,8 +5,8 @@ import android.os.Bundle;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.ViewModelBrick;
-import com.wayfair.brickkit.models.TextDataModel;
-import com.wayfair.brickkit.models.TextViewModel;
+import com.wayfair.brickkitdemo.datamodel.TextDataModel;
+import com.wayfair.brickkitdemo.viewmodel.TextViewModel;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
 import com.wayfair.brickkit.size.OrientationBrickSize;
 

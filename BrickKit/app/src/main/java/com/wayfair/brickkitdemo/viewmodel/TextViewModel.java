@@ -1,6 +1,7 @@
-package com.wayfair.brickkit.models;
+package com.wayfair.brickkitdemo.viewmodel;
 
 import com.wayfair.brickkit.brick.ViewModel;
+import com.wayfair.brickkitdemo.datamodel.TextDataModel;
 
 import androidx.databinding.Bindable;
 
