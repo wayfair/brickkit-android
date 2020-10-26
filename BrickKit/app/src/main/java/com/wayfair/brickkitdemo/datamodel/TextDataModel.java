@@ -1,4 +1,4 @@
-package com.wayfair.brickkit.models;
+package com.wayfair.brickkitdemo.datamodel;
 
 import com.wayfair.brickkit.brick.DataModel;
 

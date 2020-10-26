@@ -13,7 +13,7 @@ import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
 import com.wayfair.brickkit.OnReachedItemAtPosition;
 import com.wayfair.brickkit.size.OrientationBrickSize;
-import com.wayfair.brickkit.brick.TextBrick;
+import com.wayfair.brickkitdemo.bricks.TextBrick;
 
 import java.util.ArrayList;
 

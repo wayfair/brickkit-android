@@ -8,11 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.wayfair.brickkit.BR;
+import com.wayfair.brickkit.test.BR;
+import com.wayfair.brickkit.test.R;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
-import com.wayfair.brickkit.R;
-import com.wayfair.brickkit.models.TextDataModel;
-import com.wayfair.brickkit.models.TextViewModel;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
 
@@ -22,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.databinding.Bindable;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
@@ -247,5 +246,29 @@ public class ViewModelBrickTest {
         viewModelBrick.onBindPlaceholder(holder);
 
         Assert.assertEquals(R.layout.text_brick_vm_placeholder, viewModelBrick.getPlaceholderLayout());
+    }
+
+    public class TextViewModel extends ViewModel<TextDataModel> {
+        public TextViewModel(TextDataModel dataModel) {
+            super(dataModel);
+        }
+
+        @Bindable
+        public String getText() {
+            return dataModel.text;
+        }
+    }
+
+    public class TextDataModel extends DataModel {
+        private String text;
+
+        public TextDataModel(String text) {
+            this.text = text;
+        }
+
+        public void appendText(String newText) {
+            this.text = text + newText;
+            notifyChange();
+        }
     }
 }
