@@ -20,7 +20,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
     private final int layoutId;
     @LayoutRes
     private final int placeholderLayoutId;
-    private PlaceholderBinder placeholderBinder;
     protected final SparseArray<ViewModel> viewModels;
 
     /**
@@ -33,7 +32,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
 
         this.layoutId = builder.layoutId;
         this.placeholderLayoutId = builder.placeholderLayoutId;
-        this.placeholderBinder = builder.placeholderBinder;
         this.viewModels = builder.viewModels;
 
         for (int i = 0; i < viewModels.size(); i++) {
@@ -98,16 +96,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         }
 
         viewModelBrickViewHolder.getViewDataBinding().executePendingBindings();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onBindPlaceholder(BrickViewHolder holder) {
-        if (placeholderBinder != null) {
-            placeholderBinder.onBindPlaceholder(holder);
-        }
     }
 
     /**
@@ -193,7 +181,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         int layoutId;
         @LayoutRes
         int placeholderLayoutId;
-        PlaceholderBinder placeholderBinder = null;
         SparseArray<ViewModel> viewModels = new SparseArray<>();
         BrickSize spanSize = getDefaultSize();
         BrickPadding padding = getDefaultPadding();
@@ -211,12 +198,10 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
          * Set the placeholder for this brick.
          *
          * @param placeholderLayoutId the placeholder layout id to be used
-         * @param placeholderBinder   the object that helps bind the place holder
          * @return the builder
          */
-        public Builder setPlaceholder(@LayoutRes int placeholderLayoutId, PlaceholderBinder placeholderBinder) {
+        public Builder setPlaceholder(@LayoutRes int placeholderLayoutId) {
             this.placeholderLayoutId = placeholderLayoutId;
-            this.placeholderBinder = placeholderBinder;
             return this;
         }
 
