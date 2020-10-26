@@ -12,8 +12,6 @@ import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.test.R;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.BrickProvider;
-import com.wayfair.brickkit.view.empty.EmptyBrickView;
-import com.wayfair.brickkit.viewholder.EmptyBrickViewHolder;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -108,8 +106,8 @@ public class BrickViewHolderFactoryTest {
         BrickViewHolder viewHolder = factory.createBrickViewHolder(data);
 
         // Then
-        assertTrue(viewHolder instanceof EmptyBrickViewHolder);
-        assertTrue(viewHolder.itemView instanceof EmptyBrickView);
+        assertTrue(viewHolder instanceof BrickViewHolderFactory.EmptyBrickViewHolder);
+        assertTrue(viewHolder.itemView instanceof BrickViewHolderFactory.EmptyBrickView);
     }
 
     /**
@@ -133,8 +131,8 @@ public class BrickViewHolderFactoryTest {
         BrickViewHolder viewHolder = factory.createBrickViewHolder(data);
 
         // Then
-        assertFalse(viewHolder instanceof EmptyBrickViewHolder);
-        assertFalse(viewHolder.itemView instanceof EmptyBrickView);
+        assertFalse(viewHolder instanceof BrickViewHolderFactory.EmptyBrickViewHolder);
+        assertFalse(viewHolder.itemView instanceof BrickViewHolderFactory.EmptyBrickView);
     }
 
     /**
@@ -158,13 +156,13 @@ public class BrickViewHolderFactoryTest {
         BrickViewHolder viewHolder = factory.createBrickViewHolder(data);
 
         // Then
-        assertTrue(viewHolder instanceof EmptyBrickViewHolder);
-        assertTrue(viewHolder.itemView instanceof EmptyBrickView);
+        assertTrue(viewHolder instanceof BrickViewHolderFactory.EmptyBrickViewHolder);
+        assertTrue(viewHolder.itemView instanceof BrickViewHolderFactory.EmptyBrickView);
     }
 
     /**
      * Verify that the factory correctly produces an
-     * {@link com.wayfair.brickkit.viewholder.EmptyBrickViewHolder } with a call to
+     * {@link BrickViewHolderFactory.EmptyBrickViewHolder } with a call to
      * {@link BrickViewHolderFactory#createEmptyBrickViewHolder(Context)}.
      */
     @Test
@@ -177,8 +175,8 @@ public class BrickViewHolderFactoryTest {
         BrickViewHolder viewHolder = factory.createEmptyBrickViewHolder(context);
 
         // Then
-        assertTrue(viewHolder instanceof EmptyBrickViewHolder);
-        assertTrue(viewHolder.itemView instanceof EmptyBrickView);
+        assertTrue(viewHolder instanceof BrickViewHolderFactory.EmptyBrickViewHolder);
+        assertTrue(viewHolder.itemView instanceof BrickViewHolderFactory.EmptyBrickView);
     }
 
     /**
@@ -199,7 +197,7 @@ public class BrickViewHolderFactoryTest {
                 nonNullBrickProvider);
 
         // Then
-        assertFalse(viewHolder instanceof EmptyBrickViewHolder);
-        assertFalse(viewHolder.itemView instanceof EmptyBrickView);
+        assertFalse(viewHolder instanceof BrickViewHolderFactory.EmptyBrickViewHolder);
+        assertFalse(viewHolder.itemView instanceof BrickViewHolderFactory.EmptyBrickView);
     }
 }
