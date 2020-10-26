@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.BrickProvider;
-import com.wayfair.brickkit.view.empty.EmptyBrickView;
-import com.wayfair.brickkit.viewholder.EmptyBrickViewHolder;
 
 /**
  * A factory used to create various types of {@link BrickViewHolder} objects.
@@ -73,14 +71,13 @@ public class BrickViewHolderFactory {
     }
 
     /**
-     * Creates an {@link com.wayfair.brickkit.viewholder.EmptyBrickViewHolder }.
+     * Creates an {@link EmptyBrickViewHolder }.
      *
      * @param context used to create the {@link EmptyBrickView}
      * @return the newly created EmptyBrickViewHolder
      */
     /* private package */ BrickViewHolder createEmptyBrickViewHolder(@NonNull Context context) {
-        EmptyBrickView emptyBrickView = new EmptyBrickView(context);
-        return new EmptyBrickViewHolder(emptyBrickView);
+        return new EmptyBrickViewHolder(new EmptyBrickView(context));
     }
 
     /**
@@ -110,5 +107,32 @@ public class BrickViewHolderFactory {
         return null == brick
                 ? createEmptyBrickViewHolder(context)
                 : brick.createViewHolder(itemView);
+    }
+
+    /**
+     * An empty view used by a view holder when errors occur with not being able to location bricks.
+     */
+    static final class EmptyBrickView extends View {
+        /**
+         * @param context used by the view
+         */
+        private EmptyBrickView(Context context) {
+            super(context);
+        }
+    }
+
+    /**
+     * A empty versions of a {@link BrickViewHolder}, for use in scenarios, such as when a brick
+     * object reference is null and a {@link BrickViewHolder} instance can't be created.
+     */
+    static final class EmptyBrickViewHolder extends BrickViewHolder {
+        /**
+         * Constructor.
+         *
+         * @param itemView view used for binding
+         */
+        private EmptyBrickViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 }
