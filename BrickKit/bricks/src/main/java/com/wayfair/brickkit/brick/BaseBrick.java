@@ -1,6 +1,5 @@
 package com.wayfair.brickkit.brick;
 
-import android.content.Context;
 import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
@@ -210,6 +209,24 @@ public abstract class BaseBrick {
     }
 
     /**
+     * Adds this brick to the end of the supplied {@link BrickDataManager}.
+     *
+     * @param dataManager The {@link BrickDataManager} to add to
+     */
+    public void addLastTo(BrickDataManager dataManager) {
+        dataManager.addLast(this);
+    }
+
+    /**
+     * Adds this brick to the end of the supplied {@link BrickDataManager}.
+     *
+     * @param dataManager The {@link BrickDataManager} to add to
+     */
+    public void addFirstTo(BrickDataManager dataManager) {
+        dataManager.addFirst(this);
+    }
+
+    /**
      * Set whether the brick should act as it is in the first row.
      *
      * @return true if brick is in the first row, false otherwise
@@ -287,51 +304,5 @@ public abstract class BaseBrick {
      */
     public void setDataManager(BrickDataManager dataManager) {
         this.dataManager = dataManager;
-    }
-
-    /**
-     * Print out the brick's adapter position, width (in spans), and padding.
-     *
-     * @param context     The context to use to get this bricks spans
-     * @param dataManager The data manager the brick is in.
-     * @return A string representation of the brick.
-     */
-    public String toString(Context context, BrickDataManager dataManager) {
-        int position = dataManager.getRecyclerViewItems().indexOf(this);
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("--");
-        sb.append(isInFirstRow ? padding.getOuterTopPadding() : padding.getInnerTopPadding());
-        sb.append("--\n");
-
-        sb.append("|");
-        if (position < 100) {
-            sb.append(" ");
-        }
-        sb.append(position);
-        if (position < 10) {
-            sb.append(" ");
-        }
-        sb.append("|\n");
-
-        sb.append(isOnLeftWall ? padding.getOuterLeftPadding() : padding.getInnerLeftPadding());
-
-        int spans = spanSize.getSpans(context);
-        if (spans < 100) {
-            sb.append(" ");
-        }
-        sb.append(spans);
-        if (spans < 10) {
-            sb.append(" ");
-        }
-
-        sb.append(isOnRightWall ? padding.getOuterRightPadding() : padding.getInnerRightPadding());
-        sb.append("\n|   |\n");
-
-        sb.append("--");
-        sb.append(isInLastRow ? padding.getOuterBottomPadding() : padding.getInnerBottomPadding());
-        sb.append("--");
-
-        return sb.toString();
     }
 }
