@@ -1,14 +1,14 @@
-package com.wayfair.brickkitdemo;
-
-/**
+/*
  * Copyright © 2017 Wayfair. All rights reserved.
  */
+package com.wayfair.brickkitdemo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.OnReachedItemAtPosition;
 import com.wayfair.brickkit.brick.BaseBrick;
@@ -64,18 +64,18 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
             final int brickSpan;
             if (i % 19 == 0) {
                 textToAppend = "fullsize ";
-                brickSpan = dataManager.getMaxSpanCount();
+                brickSpan = BrickDataManager.SPAN_COUNT;
             } else if (i % 4 == 0) {
-                brickSpan = dataManager.getMaxSpanCount() / 2;
+                brickSpan = BrickDataManager.SPAN_COUNT / 2;
                 textToAppend = "multi\nline ";
             } else {
-                brickSpan = dataManager.getMaxSpanCount() / 2;
+                brickSpan = BrickDataManager.SPAN_COUNT / 2;
                 textToAppend = "";
             }
             textToAppend += String.valueOf(i);
 
             BaseBrick unusedBrick2 = new TextBrick(
-                    new SimpleBrickSize(maxSpans()) {
+                    new SimpleBrickSize() {
                         @Override
                         protected int size() {
                             return brickSpan;

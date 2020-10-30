@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit;
 
@@ -238,7 +238,7 @@ public class BrickRecyclerAdapter extends RecyclerView.Adapter<BrickViewHolder> 
             if (recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
                 if (holder.itemView.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams) {
                     ((StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams()).setFullSpan(
-                            baseBrick.getSpanSize().getSpans(recyclerView.getContext()) == dataManager.getMaxSpanCount());
+                            baseBrick.getSpanSize().getSpans(recyclerView.getContext()) == BrickDataManager.SPAN_COUNT);
                 }
             }
 

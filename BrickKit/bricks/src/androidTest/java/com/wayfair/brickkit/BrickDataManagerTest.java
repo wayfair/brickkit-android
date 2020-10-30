@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
+ */
 package com.wayfair.brickkit;
 
 import android.content.Context;
@@ -33,13 +36,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
- */
 @RunWith(AndroidJUnit4.class)
 public class BrickDataManagerTest {
     private static final int STARTING_BRICKS = 4;
-    private static final int MAX_SPANS = 8;
     public static final String TAG = "Tag";
 
     private BrickDataManager manager;
@@ -53,7 +52,7 @@ public class BrickDataManagerTest {
             Looper.prepare();
         }
         Context context = InstrumentationRegistry.getTargetContext();
-        manager = new BrickDataManager(MAX_SPANS);
+        manager = new BrickDataManager();
         View parentView = mock(View.class);
         manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.VERTICAL, false, parentView);
         brickTestHelper = new BrickTestHelper(context);
@@ -67,11 +66,6 @@ public class BrickDataManagerTest {
 
         observer = new BrickTestHelper.TestAdapterDataObserver();
         manager.getBrickRecyclerAdapter().registerAdapterDataObserver(observer);
-    }
-
-    @Test
-    public void testGetMaxSpanCount() {
-        assertEquals(MAX_SPANS, manager.getMaxSpanCount());
     }
 
     @Test
@@ -220,7 +214,7 @@ public class BrickDataManagerTest {
     @Test
     public void testAddFirstVisibleHorizontal() {
         Context context = InstrumentationRegistry.getTargetContext();
-        BrickDataManager manager = new BrickDataManager(MAX_SPANS);
+        BrickDataManager manager = new BrickDataManager();
         View parentView = mock(View.class);
         manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.HORIZONTAL, false, parentView);
         BrickTestHelper brickTestHelper = new BrickTestHelper(context);
@@ -1345,8 +1339,7 @@ public class BrickDataManagerTest {
     @Test
     public void testMethodGetPaddingOrDefaults_resultsInPassedInValue() {
         // Given
-        int maxSpanCount = 1;
-        BrickDataManager dataManager = new BrickDataManager(maxSpanCount);
+        BrickDataManager dataManager = new BrickDataManager();
         int expectedPaddingPosition = 2;
 
         // When
@@ -1360,8 +1353,7 @@ public class BrickDataManagerTest {
     @Test
     public void testMethodGetPaddingOrDefault_with_NO_PADDING_POSITION_forPosition_resultsInDefault() {
         // Given
-        int maxSpanCount = 1;
-        BrickDataManager dataManager = new BrickDataManager(maxSpanCount);
+        BrickDataManager dataManager = new BrickDataManager();
 
         // When
         int expectedPaddingPosition = BrickDataManager.NO_PADDING_POSITION;
@@ -1374,8 +1366,7 @@ public class BrickDataManagerTest {
     @Test
     public void testComputePaddingPositionSafelyForFirstItem_withZeroItems_resultsIn_NO_PADDING_POSITION_Value() {
         // Given
-        int maxSpanCount = 1;
-        BrickDataManager dataManager = new BrickDataManager(maxSpanCount);
+        BrickDataManager dataManager = new BrickDataManager();
 
         // When
         int paddingPosition = dataManager.computePaddingPositionSafelyForFirstItem();
@@ -1387,8 +1378,7 @@ public class BrickDataManagerTest {
     @Test
     public void testComputePaddingPositionSafelyForFirstItem_withMultipleItems_resultsInAccuratePosition() {
         // Given
-        int maxSpanCount = 1;
-        BrickDataManager dataManager = new BrickDataManager(maxSpanCount);
+        BrickDataManager dataManager = new BrickDataManager();
 
         // When
         List<BaseBrick> newItems = new LinkedList<>();

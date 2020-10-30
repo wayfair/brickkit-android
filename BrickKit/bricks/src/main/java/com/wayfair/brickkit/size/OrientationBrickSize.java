@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit.size;
 
@@ -7,15 +7,6 @@ package com.wayfair.brickkit.size;
  * Simple {@link BrickSize} which returns size based off of device orientation.
  */
 public abstract class OrientationBrickSize extends BrickSize {
-    /**
-     * Constructor.
-     *
-     * @param maxSpanCount span count to use
-     */
-    protected OrientationBrickSize(int maxSpanCount) {
-        super(maxSpanCount);
-    }
-
     @Override
     protected int landscapeTablet() {
         return landscape();

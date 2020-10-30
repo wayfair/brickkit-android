@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit;
 
@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.wayfair.brickkit.brick.BaseBrick;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
@@ -23,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Fragment which provides a simple interface for adding bricks / behaviors.
  */
 public abstract class BrickFragment extends Fragment {
-    public BrickDataManager dataManager = new BrickDataManager(maxSpans());
+    public BrickDataManager dataManager = new BrickDataManager();
     @ColorInt
     private int recyclerViewBackground = Color.TRANSPARENT;
 
@@ -48,15 +46,6 @@ public abstract class BrickFragment extends Fragment {
     public void onDestroyView() {
         dataManager.onDestroyView();
         super.onDestroyView();
-    }
-
-    /**
-     * Get the max spans for this fragment.
-     *
-     * @return the max spans for this fragment.
-     */
-    public int maxSpans() {
-        return BaseBrick.DEFAULT_MAX_SPAN_COUNT;
     }
 
     /**

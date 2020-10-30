@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit.size;
 
@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.util.Log;
 
+import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.R;
 
 /**
@@ -19,17 +20,6 @@ import com.wayfair.brickkit.R;
  * is 5. The brick would take 40% (2 / 5) of the screen width.
  */
 public abstract class BrickSize {
-    private int maxSpan;
-
-    /**
-     * Constructor.
-     *
-     * @param maxSpanCount span count to use
-     */
-    public BrickSize(int maxSpanCount) {
-        this.maxSpan = maxSpanCount;
-    }
-
     /**
      * Calculates the spans for this brick based off the device type and orientation.
      *
@@ -53,9 +43,9 @@ public abstract class BrickSize {
             }
         }
 
-        if (spans > maxSpan) {
-            Log.i(getClass().getSimpleName(), "Span needs to be less than or equal to: " + maxSpan);
-            spans = maxSpan;
+        if (spans > BrickDataManager.SPAN_COUNT) {
+            Log.i(getClass().getSimpleName(), "Span needs to be less than or equal to: " + BrickDataManager.SPAN_COUNT);
+            spans = BrickDataManager.SPAN_COUNT;
         }
 
         return spans;

@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkitdemo;
 
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * items are bound in the adapter.
  */
 public class InfiniteScrollBrickFragment extends BrickFragment {
-    private static final int HALF = 120;
+    private static final int HALF = BrickDataManager.SPAN_COUNT / 2;
 
     private int page = 0;
 
@@ -61,10 +62,10 @@ public class InfiniteScrollBrickFragment extends BrickFragment {
         ArrayList<BaseBrick> items = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             items.add(new TextBrick(
-                    new OrientationBrickSize(maxSpans()) {
+                    new OrientationBrickSize() {
                         @Override
                         protected int portrait() {
-                            return dataManager.getMaxSpanCount();
+                            return BrickDataManager.SPAN_COUNT;
                         }
 
                         @Override

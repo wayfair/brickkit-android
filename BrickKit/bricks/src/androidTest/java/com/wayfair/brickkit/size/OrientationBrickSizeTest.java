@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit.size;
 
@@ -13,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class OrientationBrickSizeTest {
-    private static final int MAX_SPAN_COUNT = 8;
     private static final int LANDSCAPE_SIZE = 7;
     private static final int PORTRAIT_SIZE = 3;
 
@@ -21,7 +20,7 @@ public class OrientationBrickSizeTest {
 
     @Before
     public void setup() {
-        brickSize = new TestOrientationBrickSize(MAX_SPAN_COUNT);
+        brickSize = new TestOrientationBrickSize();
     }
 
     @Test
@@ -45,10 +44,6 @@ public class OrientationBrickSizeTest {
     }
 
     private static final class TestOrientationBrickSize extends OrientationBrickSize {
-        private TestOrientationBrickSize(int maxSpanCount) {
-            super(maxSpanCount);
-        }
-
         @Override
         protected int landscape() {
             return LANDSCAPE_SIZE;

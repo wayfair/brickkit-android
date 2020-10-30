@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
+ */
 package com.wayfair.brickkit.brick;
 
 import android.view.View;
@@ -13,17 +16,14 @@ import androidx.annotation.LayoutRes;
 
 /**
  * Abstract class which defines Bricks.
- *
- *  Copyright © 2017 Wayfair. All rights reserved.
  */
 public abstract class BaseBrick {
     public static final int DEFAULT_LAYOUT_RES_ID = 0;
-    public static final int DEFAULT_MAX_SPAN_COUNT = 240;
 
-    public static final BrickSize DEFAULT_SIZE_FULL_WIDTH = new SimpleBrickSize(DEFAULT_MAX_SPAN_COUNT) {
+    public static final BrickSize DEFAULT_SIZE_FULL_WIDTH = new SimpleBrickSize() {
         @Override
         protected int size() {
-            return DEFAULT_MAX_SPAN_COUNT;
+            return BrickDataManager.SPAN_COUNT;
         }
     };
     public static final BrickPadding DEFAULT_PADDING_NONE = new SimpleBrickPadding(0);

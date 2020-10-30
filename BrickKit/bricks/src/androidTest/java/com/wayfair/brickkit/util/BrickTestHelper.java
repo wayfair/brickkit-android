@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit.util;
 
@@ -19,8 +19,6 @@ public class BrickTestHelper {
 
     private static final int HALF_SPAN = 4;
     private static final int PADDING = 2;
-    private static final char MAX = '\u007f';
-    private static final int MAX_SPANS = 8;
 
     private Context context;
 
@@ -118,7 +116,7 @@ public class BrickTestHelper {
     }
 
     public BaseBrick generateBrickWithLayoutId(int layoutId) {
-        return new TestBrick(context, new SimpleBrickSize(MAX) {
+        return new TestBrick(context, new SimpleBrickSize() {
             @Override
             public int getSpans(Context context) {
                 return HALF_SPAN;
@@ -133,7 +131,7 @@ public class BrickTestHelper {
     }
 
     public BaseBrick generateBrickWithPlaceholderLayoutId(int placeholderLayoutId, boolean isDataReady) {
-        return new TestPlaceholderBrick(context, new SimpleBrickSize(MAX) {
+        return new TestPlaceholderBrick(context, new SimpleBrickSize() {
             @Override
             public int getSpans(Context context) {
                 return HALF_SPAN;
@@ -148,7 +146,7 @@ public class BrickTestHelper {
     }
 
     public BaseBrick generateBrick() {
-        return new TestBrick(context, new SimpleBrickSize(MAX_SPANS) {
+        return new TestBrick(context, new SimpleBrickSize() {
             @Override
             public int getSpans(Context context) {
                 return HALF_SPAN;
@@ -163,7 +161,7 @@ public class BrickTestHelper {
     }
 
     public BaseBrick generateOtherBrick() {
-        return new TestBrick2(context, new SimpleBrickSize(MAX_SPANS) {
+        return new TestBrick2(context, new SimpleBrickSize() {
             @Override
             public int getSpans(Context context) {
                 return HALF_SPAN;

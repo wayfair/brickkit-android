@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkitdemo;
 
@@ -33,7 +33,7 @@ public class MainActivityFragment extends BrickFragment {
         ArrayList<BaseBrick> usedBricks = new ArrayList<>();
 
         final UsedBrick usedBrick = new UsedBrick(
-                new SimpleBrickSize(maxSpans()) {
+                new SimpleBrickSize() {
                     @Override
                     protected int size() {
                         return TWO_FIFTH;
@@ -62,7 +62,7 @@ public class MainActivityFragment extends BrickFragment {
         }, 2000);
         usedBricks.add(
                 new UsedBrick(
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
                                 return TWO_FIFTH;
@@ -83,7 +83,7 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
                                 return TWO_FIFTH;
@@ -104,7 +104,7 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
                                 return TWO_FIFTH;
@@ -125,7 +125,7 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
                                 return TWO_FIFTH;
@@ -151,14 +151,14 @@ public class MainActivityFragment extends BrickFragment {
 
             if (i % 2 == 0) {
                 first =
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
                                 return ONE_FIFTH;
                             }
                         };
                 last =
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
                                 return TWO_FIFTH;
@@ -166,14 +166,14 @@ public class MainActivityFragment extends BrickFragment {
                         };
             } else {
                 first =
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
                                 return TWO_FIFTH;
                             }
                         };
                 last =
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
                                 return ONE_FIFTH;
@@ -186,7 +186,7 @@ public class MainActivityFragment extends BrickFragment {
 
             if (i == 0 || i == usedBricks.size() + 1) {
                 UnusedBrick unusedBrick = new UnusedBrick(
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
                                 return TWO_FIFTH;

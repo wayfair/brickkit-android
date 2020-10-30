@@ -1,7 +1,11 @@
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
+ */
 package com.wayfair.brickkitdemo;
 
 import android.os.Bundle;
 
+import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.ViewModelBrick;
@@ -19,11 +23,9 @@ import java.util.TimerTask;
  * <p>
  * In portrait, the bricks are full width.
  * In landscape the bricks are half width.
- * <p>
- * Copyright © 2017 Wayfair. All rights reserved.
  */
 public class SimpleBrickFragment extends BrickFragment {
-    private static final int HALF = 120;
+    private static final int HALF = BrickDataManager.SPAN_COUNT / 2;
 
     private int numberOfBricks = 100;
 
@@ -75,10 +77,10 @@ public class SimpleBrickFragment extends BrickFragment {
         ViewModelBrick brick = new ViewModelBrick.Builder(R.layout.text_brick_vm)
                 .setPadding(new InnerOuterBrickPadding(5, 10))
                 .setSpanSize(
-                        new OrientationBrickSize(maxSpans()) {
+                        new OrientationBrickSize() {
                             @Override
                             protected int portrait() {
-                                return dataManager.getMaxSpanCount();
+                                return BrickDataManager.SPAN_COUNT;
                             }
 
                             @Override
