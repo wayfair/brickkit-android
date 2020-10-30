@@ -2,15 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId 'com.wayfair.brickkitdemo'
-        minSdkVersion 14
-        targetSdkVersion 26
+        minSdkVersion 23
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -19,26 +18,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-    }
-    dataBinding {
-        enabled = true
+
+    buildFeatures.dataBinding = true
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0') {
-        exclude group: 'androidx.annotation', module: 'annotation'
-    }
-
     implementation "androidx.core:core:1.0.1"
     implementation "androidx.fragment:fragment:1.0.0"
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation "com.google.android.material:material:1.0.0"
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
-
-    testImplementation 'junit:junit:4.12'
     implementation project(path: ':bricks')
 }
 

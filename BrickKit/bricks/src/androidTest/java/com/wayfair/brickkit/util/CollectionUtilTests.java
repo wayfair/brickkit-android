@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -12,23 +13,21 @@ import static org.junit.Assert.assertTrue;
 public class CollectionUtilTests {
     @Test
     public void testIfITheIndexIsWithinTheCollectionsBounds_withValidIndex_returnsTrue() {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         list.add("one");
         list.add("two");
         list.add("three");
 
-        boolean isInBounds = CollectionUtil.isTheIndexWithinTheCollectionsBounds(1, list);
-        assertTrue(isInBounds);
+        assertTrue(CollectionUtil.isTheIndexWithinTheCollectionsBounds(1, list));
     }
 
     @Test
     public void testIfITheIndexIsWithinTheCollectionsBounds_withInvalidIndex_returnsFalse() {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         list.add("one");
         list.add("two");
         list.add("three");
 
-        boolean isInBounds = CollectionUtil.isTheIndexWithinTheCollectionsBounds(1, list);
-        assertTrue(isInBounds);
+        assertFalse(CollectionUtil.isTheIndexWithinTheCollectionsBounds(4, list));
     }
 }

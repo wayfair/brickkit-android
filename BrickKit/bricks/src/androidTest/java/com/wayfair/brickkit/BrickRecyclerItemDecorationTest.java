@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit;
 
@@ -13,19 +13,19 @@ import com.wayfair.brickkit.size.BrickSize;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.LinkedList;
 
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(AndroidJUnit4.class)
 public class BrickRecyclerItemDecorationTest {
 
     private static final int INNER_LEFT = 1;
@@ -45,20 +45,20 @@ public class BrickRecyclerItemDecorationTest {
     private Rect outRect;
     private View view;
     private RecyclerView.State state;
-    private LinkedList bricks;
+    @Mock
+    private LinkedList<BaseBrick> bricks;
     private BaseBrick brick;
     private BrickSize brickSize;
 
     @Before
     public void setup() {
+        MockitoAnnotations.openMocks(this);
         view = mock(View.class);
 
         state = mock(RecyclerView.State.class);
 
         parent = mock(RecyclerView.class);
         when(parent.getChildAdapterPosition(any(View.class))).thenReturn(0);
-
-        bricks = mock(LinkedList.class);
 
         BrickDataManager brickDataManager = mock(BrickDataManager.class);
         when(brickDataManager.getRecyclerViewItems()).thenReturn(bricks);
@@ -117,7 +117,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testSingleColumnFirstRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(SINGLE_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(SINGLE_COLUMN);
         when(brick.isInFirstRow()).thenReturn(true);
         when(brick.isInLastRow()).thenReturn(false);
 
@@ -131,7 +131,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testSingleColumnLastRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(SINGLE_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(SINGLE_COLUMN);
         when(brick.isInFirstRow()).thenReturn(false);
         when(brick.isInLastRow()).thenReturn(true);
 
@@ -145,7 +145,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testSingleColumnFirstRowLastRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(SINGLE_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(SINGLE_COLUMN);
         when(brick.isInFirstRow()).thenReturn(true);
         when(brick.isInLastRow()).thenReturn(true);
 
@@ -159,7 +159,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testSingleColumn() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(SINGLE_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(SINGLE_COLUMN);
         when(brick.isInFirstRow()).thenReturn(false);
         when(brick.isInLastRow()).thenReturn(false);
 
@@ -173,7 +173,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnLeftColumnFirstRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(true);
         when(brick.isInLastRow()).thenReturn(false);
         when(brick.isOnLeftWall()).thenReturn(true);
@@ -189,7 +189,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnMiddleColumnFirstRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(true);
         when(brick.isInLastRow()).thenReturn(false);
         when(brick.isOnLeftWall()).thenReturn(false);
@@ -205,7 +205,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnRightColumnFirstRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(true);
         when(brick.isInLastRow()).thenReturn(false);
         when(brick.isOnLeftWall()).thenReturn(false);
@@ -221,7 +221,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnLeftColumnLastRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(false);
         when(brick.isInLastRow()).thenReturn(true);
         when(brick.isOnLeftWall()).thenReturn(true);
@@ -237,7 +237,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnMiddleColumnLastRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(false);
         when(brick.isInLastRow()).thenReturn(true);
         when(brick.isOnLeftWall()).thenReturn(false);
@@ -253,7 +253,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnRightColumnLastRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(false);
         when(brick.isInLastRow()).thenReturn(true);
         when(brick.isOnLeftWall()).thenReturn(false);
@@ -269,7 +269,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnLeftColumnFirstRowLastRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(true);
         when(brick.isInLastRow()).thenReturn(true);
         when(brick.isOnLeftWall()).thenReturn(true);
@@ -285,7 +285,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnMiddleColumnFirstRowLastRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(true);
         when(brick.isInLastRow()).thenReturn(true);
         when(brick.isOnLeftWall()).thenReturn(false);
@@ -301,7 +301,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnRightColumnFirstRowLastRow() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(true);
         when(brick.isInLastRow()).thenReturn(true);
         when(brick.isOnLeftWall()).thenReturn(false);
@@ -317,7 +317,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnLeftColumn() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(false);
         when(brick.isInLastRow()).thenReturn(false);
         when(brick.isOnLeftWall()).thenReturn(true);
@@ -333,7 +333,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnMiddleColumn() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(false);
         when(brick.isInLastRow()).thenReturn(false);
         when(brick.isOnLeftWall()).thenReturn(false);
@@ -349,7 +349,7 @@ public class BrickRecyclerItemDecorationTest {
 
     @Test
     public void testMultiColumnRightColumn() {
-        when(brickSize.getSpans(any(Context.class))).thenReturn(MULTI_COLUMN);
+        when(brickSize.getSpans(nullable(Context.class))).thenReturn(MULTI_COLUMN);
         when(brick.isInFirstRow()).thenReturn(false);
         when(brick.isInLastRow()).thenReturn(false);
         when(brick.isOnLeftWall()).thenReturn(false);
