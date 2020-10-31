@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit;
 
@@ -64,7 +64,7 @@ class BrickRecyclerItemDecoration extends RecyclerView.ItemDecoration {
         int outerPaddingBottom = brick.getPadding().getOuterBottomPadding();
 
         // Apply padding
-        if (brick.getSpanSize().getSpans(context) == brickDataManager.getMaxSpanCount()) {
+        if (brick.getSpanSize().getSpans(context) == BrickDataManager.SPAN_COUNT) {
             // Single column
             if (brick.isInFirstRow()) {
                 if (brick.isInLastRow()) {

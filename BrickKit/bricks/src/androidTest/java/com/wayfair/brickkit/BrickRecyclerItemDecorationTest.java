@@ -36,9 +36,8 @@ public class BrickRecyclerItemDecorationTest {
     private static final int OUTER_TOP = 6;
     private static final int OUTER_RIGHT = 7;
     private static final int OUTER_BOTTOM = 8;
-    private static final int MAX_SPANS = 9;
-    private static final int SINGLE_COLUMN = MAX_SPANS;
-    private static final int MULTI_COLUMN = MAX_SPANS - 1;
+    private static final int SINGLE_COLUMN = BrickDataManager.SPAN_COUNT;
+    private static final int MULTI_COLUMN = BrickDataManager.SPAN_COUNT - 1;
 
     private BrickRecyclerItemDecoration itemDecoration;
     private RecyclerView parent;
@@ -62,7 +61,6 @@ public class BrickRecyclerItemDecorationTest {
 
         BrickDataManager brickDataManager = mock(BrickDataManager.class);
         when(brickDataManager.getRecyclerViewItems()).thenReturn(bricks);
-        when(brickDataManager.getMaxSpanCount()).thenReturn(MAX_SPANS);
 
         BrickRecyclerAdapter adapter = mock(BrickRecyclerAdapter.class);
         when(parent.getAdapter()).thenReturn(adapter);

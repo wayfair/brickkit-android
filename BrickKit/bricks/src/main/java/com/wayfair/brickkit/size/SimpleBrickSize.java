@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit.size;
 
@@ -7,15 +7,6 @@ package com.wayfair.brickkit.size;
  * {@link BrickSize} which returns the result of size() for all cases.
  */
 public abstract class SimpleBrickSize extends BrickSize {
-    /**
-     * Constructor.
-     *
-     * @param maxSpanCount span count to use
-     */
-    protected SimpleBrickSize(int maxSpanCount) {
-        super(maxSpanCount);
-    }
-
     @Override
     protected int landscapeTablet() {
         return size();

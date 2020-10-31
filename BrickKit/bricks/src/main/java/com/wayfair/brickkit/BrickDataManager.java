@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
+ */
 package com.wayfair.brickkit;
 
 import android.content.Context;
@@ -34,11 +37,10 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
  * Class which maintains a collection of bricks and manages how they are laid out in an provided RecyclerView.
  * <p>
  * This class maintains the bricks and handles notifying the underlying adapter when items are updated.
- * <p>
- * Copyright © 2017 Wayfair. All rights reserved.
  */
 public class BrickDataManager implements Serializable, BrickProvider {
-    private static String TAG = BrickDataManager.class.getSimpleName();
+    private static final String TAG = BrickDataManager.class.getSimpleName();
+    public static final int SPAN_COUNT = 240;
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     static final int NO_PADDING_POSITION = -1;
@@ -49,7 +51,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     private static final int NO_INDEX = -1;
 
     private BrickRecyclerAdapter brickRecyclerAdapter;
-    private final int maxSpanCount;
     private final SparseArray<LinkedList<BaseBrick>> idCache;
     private final HashMap<Object, LinkedList<BaseBrick>> tagCache;
     private LinkedList<BaseBrick> items;
@@ -64,11 +65,8 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
     /**
      * Constructor.
-     *
-     * @param maxSpanCount max spans used when laying out bricks
      */
-    public BrickDataManager(int maxSpanCount) {
-        this.maxSpanCount = maxSpanCount;
+    public BrickDataManager() {
         this.items = new LinkedList<>();
         this.idCache = new SparseArray<>();
         this.tagCache = new HashMap<>();
@@ -83,7 +81,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void applyGridLayout(int orientation, boolean reverse) {
         if (recyclerView != null) {
-            GridLayoutManager gridLayoutManager = new WFGridLayoutManager(context, maxSpanCount, orientation, reverse);
+            GridLayoutManager gridLayoutManager = new WFGridLayoutManager(context, orientation, reverse);
             gridLayoutManager.setSpanSizeLookup(new BrickSpanSizeLookup(context, this));
             recyclerView.setLayoutManager(gridLayoutManager);
         }
@@ -1077,7 +1075,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
         currentRow += currentBrick.getSpanSize().getSpans(context);
 
-        if (currentRow == maxSpanCount) {
+        if (currentRow == SPAN_COUNT) {
             if (vertical) {
                 currentBrick.setOnRightWall(true);
             } else {
@@ -1114,13 +1112,13 @@ public class BrickDataManager implements Serializable, BrickProvider {
                 topRow = false;
             }
 
-            if (currentRow > maxSpanCount) {
+            if (currentRow > SPAN_COUNT) {
                 currentRow = 0;
             }
 
             currentRow += currentBrick.getSpanSize().getSpans(context);
 
-            if (currentRow > maxSpanCount) {
+            if (currentRow > SPAN_COUNT) {
                 if (vertical) {
                     currentBrick.setOnLeftWall(true);
                 } else {
@@ -1130,7 +1128,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
                 topRow = false;
             }
 
-            if (currentRow == maxSpanCount) {
+            if (currentRow == SPAN_COUNT) {
                 if (vertical) {
                     currentBrick.setOnRightWall(true);
                 } else {
@@ -1173,15 +1171,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
                 break;
             }
         }
-    }
-
-    /**
-     * Get the max span count.
-     *
-     * @return the max span count
-     */
-    public int getMaxSpanCount() {
-        return maxSpanCount;
     }
 
     /**
@@ -1310,12 +1299,11 @@ public class BrickDataManager implements Serializable, BrickProvider {
          * Constructor for the WFGridLayoutManager.
          *
          * @param context       {@link Context} to use
-         * @param spanCount     the number of columns to which the bricks will conform
          * @param orientation   Layout orientation. Should be {@link GridLayoutManager#HORIZONTAL} or {@link GridLayoutManager#VERTICAL}.
          * @param reverseLayout When set to true, layouts from end to start.
          */
-        WFGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
-            super(context, spanCount, orientation, reverseLayout);
+        WFGridLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, BrickDataManager.SPAN_COUNT, orientation, reverseLayout);
         }
 
         @Override

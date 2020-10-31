@@ -1,11 +1,12 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkitdemo;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkitdemo.bricks.TextBrick;
@@ -34,10 +35,10 @@ public class AddRemoveBrickFragment extends BrickFragment {
 
                 ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(R.layout.controller_brick_vm)
                         .setSpanSize(
-                                new SimpleBrickSize(maxSpans()) {
+                                new SimpleBrickSize() {
                                     @Override
                                     protected int size() {
-                                        return dataManager.getMaxSpanCount();
+                                        return BrickDataManager.SPAN_COUNT;
                                     }
                                 }
                         )
@@ -68,10 +69,10 @@ public class AddRemoveBrickFragment extends BrickFragment {
                                                 if (dataModel.getValue() == dataManager.getRecyclerViewItems().size()) {
                                                     dataManager.addLast(
                                                             new TextBrick(
-                                                                    new SimpleBrickSize(maxSpans()) {
+                                                                    new SimpleBrickSize() {
                                                                         @Override
                                                                         protected int size() {
-                                                                            return dataManager.getMaxSpanCount();
+                                                                            return BrickDataManager.SPAN_COUNT;
                                                                         }
                                                                     },
                                                                     new InnerOuterBrickPadding(5, 10),
@@ -82,10 +83,10 @@ public class AddRemoveBrickFragment extends BrickFragment {
                                                     dataManager.addBeforeItem(
                                                             dataManager.getRecyclerViewItems().get(dataModel.getValue()),
                                                             new TextBrick(
-                                                                    new SimpleBrickSize(maxSpans()) {
+                                                                    new SimpleBrickSize() {
                                                                         @Override
                                                                         protected int size() {
-                                                                            return dataManager.getMaxSpanCount();
+                                                                            return BrickDataManager.SPAN_COUNT;
                                                                         }
                                                                     },
                                                                     new InnerOuterBrickPadding(5, 10),
@@ -104,10 +105,10 @@ public class AddRemoveBrickFragment extends BrickFragment {
                 dataManager.addLast(viewModelBrick);
             } else {
                 @SuppressLint("DefaultLocale") BaseBrick brick = new TextBrick(
-                        new SimpleBrickSize(maxSpans()) {
+                        new SimpleBrickSize() {
                             @Override
                             protected int size() {
-                                return dataManager.getMaxSpanCount();
+                                return BrickDataManager.SPAN_COUNT;
                             }
                         },
                         new InnerOuterBrickPadding(5, 10),

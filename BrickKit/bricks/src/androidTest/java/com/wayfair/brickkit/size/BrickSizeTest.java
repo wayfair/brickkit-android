@@ -1,5 +1,5 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit.size;
 
@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
+import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.R;
 
 import org.junit.Before;
@@ -21,11 +22,10 @@ import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class BrickSizeTest {
-    private static final int MAX_SPANS = 4;
-    private static final int LANDSCAPE_TABLET = 1;
-    private static final int PORTRAIT_TABLET = 2;
-    private static final int LANDSCAPE_PHONE = 3;
-    private static final int PORTRAIT_PHONE = 5;
+    private static final int LANDSCAPE_TABLET = 60;
+    private static final int PORTRAIT_TABLET = 120;
+    private static final int LANDSCAPE_PHONE = 180;
+    private static final int PORTRAIT_PHONE = 250;
 
     private Context context;
     private TestBrickSize brickSize;
@@ -74,14 +74,10 @@ public class BrickSizeTest {
         when(resources.getBoolean(R.bool.tablet)).thenReturn(false);
         configuration.orientation = Configuration.ORIENTATION_PORTRAIT;
 
-        assertEquals(MAX_SPANS, brickSize.getSpans(context));
+        assertEquals(BrickDataManager.SPAN_COUNT, brickSize.getSpans(context));
     }
 
     private static final class TestBrickSize extends BrickSize {
-        private TestBrickSize() {
-            super(MAX_SPANS);
-        }
-
         @Override
         protected int landscapeTablet() {
             return LANDSCAPE_TABLET;

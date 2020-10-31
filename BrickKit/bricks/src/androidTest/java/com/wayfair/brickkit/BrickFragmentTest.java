@@ -99,18 +99,8 @@ public class BrickFragmentTest {
         }
 
         @Override
-        public int maxSpans() {
-            return super.maxSpans();
-        }
-
-        @Override
         public int orientation() {
             return orientation;
-        }
-
-        @Override
-        public boolean reverse() {
-            return super.reverse();
         }
 
         public int getDefaultOrientation() {
@@ -122,21 +112,6 @@ public class BrickFragmentTest {
             super.onCreate(savedInstanceState);
 
             onCreateCalled = true;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return super.onCreateView(inflater, container, savedInstanceState);
-        }
-
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-        }
-
-        @Override
-        public void onDestroy() {
-            super.onDestroy();
         }
     }
 }
