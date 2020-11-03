@@ -6,11 +6,11 @@ package com.wayfair.brickkit.brick;
 import android.view.View;
 
 import com.wayfair.brickkit.BrickDataManager;
+import com.wayfair.brickkit.padding.ZeroBrickPadding;
+import com.wayfair.brickkit.size.FullWidthBrickSize;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.padding.BrickPadding;
-import com.wayfair.brickkit.padding.SimpleBrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
-import com.wayfair.brickkit.size.SimpleBrickSize;
 
 import androidx.annotation.LayoutRes;
 
@@ -19,14 +19,6 @@ import androidx.annotation.LayoutRes;
  */
 public abstract class BaseBrick {
     public static final int DEFAULT_LAYOUT_RES_ID = 0;
-
-    public static final BrickSize DEFAULT_SIZE_FULL_WIDTH = new SimpleBrickSize() {
-        @Override
-        protected int size() {
-            return BrickDataManager.SPAN_COUNT;
-        }
-    };
-    public static final BrickPadding DEFAULT_PADDING_NONE = new SimpleBrickPadding(0);
 
     private final BrickPadding padding;
     private final BrickSize spanSize;
@@ -43,7 +35,7 @@ public abstract class BaseBrick {
      * Constructor.
      */
     public BaseBrick() {
-        this(DEFAULT_SIZE_FULL_WIDTH, DEFAULT_PADDING_NONE);
+        this(new FullWidthBrickSize(), new ZeroBrickPadding());
     }
 
     /**
@@ -63,7 +55,7 @@ public abstract class BaseBrick {
      * @param spanSize size information for this brick
      */
     public BaseBrick(BrickSize spanSize) {
-        this(spanSize, DEFAULT_PADDING_NONE);
+        this(spanSize, new ZeroBrickPadding());
     }
 
     /**
@@ -72,7 +64,7 @@ public abstract class BaseBrick {
      * @param padding  padding for this brick
      */
     public BaseBrick(BrickPadding padding) {
-        this(DEFAULT_SIZE_FULL_WIDTH, padding);
+        this(new FullWidthBrickSize(), padding);
     }
 
     /**

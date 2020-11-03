@@ -3,6 +3,8 @@ package com.wayfair.brickkit.brick;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.wayfair.brickkit.padding.ZeroBrickPadding;
+import com.wayfair.brickkit.size.FullWidthBrickSize;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.size.BrickSize;
@@ -182,8 +184,8 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
         @LayoutRes
         int placeholderLayoutId;
         SparseArray<ViewModel> viewModels = new SparseArray<>();
-        BrickSize spanSize = getDefaultSize();
-        BrickPadding padding = getDefaultPadding();
+        BrickSize spanSize = new FullWidthBrickSize();
+        BrickPadding padding = new ZeroBrickPadding();
 
         /**
          * Builder constructor, requires only a {@link LayoutRes} to work.
@@ -259,24 +261,6 @@ public final class ViewModelBrick extends BaseBrick implements ViewModel.ViewMod
          */
         public ViewModelBrick build() {
             return new ViewModelBrick(this);
-        }
-
-        /**
-         * Get the default size.
-         *
-         * @return the default {@link BrickSize}
-         */
-        protected BrickSize getDefaultSize() {
-            return DEFAULT_SIZE_FULL_WIDTH;
-        }
-
-        /**
-         * Get the default padding.
-         *
-         * @return the default {@link BrickPadding}
-         */
-        protected BrickPadding getDefaultPadding() {
-            return DEFAULT_PADDING_NONE;
         }
     }
 

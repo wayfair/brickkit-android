@@ -8,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.BrickFragment;
-import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
+import com.wayfair.brickkit.padding.BrickPaddingFactory;
 import com.wayfair.brickkit.OnReachedItemAtPosition;
-import com.wayfair.brickkit.size.OrientationBrickSize;
+import com.wayfair.brickkit.size.FullPhoneFullHalfTabletBrickSize;
 import com.wayfair.brickkitdemo.bricks.TextBrick;
 
 import java.util.ArrayList;
@@ -25,15 +24,13 @@ import java.util.ArrayList;
  * items are bound in the adapter.
  */
 public class InfiniteScrollBrickFragment extends BrickFragment {
-    private static final int HALF = BrickDataManager.SPAN_COUNT / 2;
-
     private int page = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addNewBricks();
+        addNewBricks(new BrickPaddingFactory(getResources()));
     }
 
     @Override
@@ -46,7 +43,7 @@ public class InfiniteScrollBrickFragment extends BrickFragment {
                     public void bindingItemAtPosition(int position) {
                         if (position == dataManager.getRecyclerViewItems().size() - 1) {
                             page++;
-                            addNewBricks();
+                            addNewBricks(new BrickPaddingFactory(getResources()));
                         }
                     }
                 }
@@ -57,23 +54,15 @@ public class InfiniteScrollBrickFragment extends BrickFragment {
 
     /**
      * Method to add 100 new text bricks to the data manager.
+     *
+     * @param brickPaddingFactory {@link BrickPaddingFactory} to generate padding with
      */
-    private void addNewBricks() {
+    private void addNewBricks(BrickPaddingFactory brickPaddingFactory) {
         ArrayList<BaseBrick> items = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             items.add(new TextBrick(
-                    new OrientationBrickSize() {
-                        @Override
-                        protected int portrait() {
-                            return BrickDataManager.SPAN_COUNT;
-                        }
-
-                        @Override
-                        protected int landscape() {
-                            return HALF;
-                        }
-                    },
-                    new InnerOuterBrickPadding(5, 10),
+                    new FullPhoneFullHalfTabletBrickSize(),
+                    brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
                     "Brick: " + page + " " + i
             ));
         }

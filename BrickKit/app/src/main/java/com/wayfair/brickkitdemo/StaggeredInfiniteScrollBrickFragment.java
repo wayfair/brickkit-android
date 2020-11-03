@@ -8,13 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.OnReachedItemAtPosition;
 import com.wayfair.brickkit.brick.BaseBrick;
+import com.wayfair.brickkit.padding.BrickPaddingFactory;
+import com.wayfair.brickkit.size.BrickSize;
+import com.wayfair.brickkit.size.FullWidthBrickSize;
+import com.wayfair.brickkit.size.HalfWidthBrickSize;
 import com.wayfair.brickkitdemo.bricks.TextBrick;
-import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
-import com.wayfair.brickkit.size.SimpleBrickSize;
 
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -31,7 +32,7 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addNewBricks();
+        addNewBricks(new BrickPaddingFactory(getResources()));
     }
 
     @Override
@@ -44,7 +45,7 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
                     public void bindingItemAtPosition(int position) {
                         if (position == dataManager.getRecyclerViewItems().size() - 1) {
                             page++;
-                            addNewBricks();
+                            addNewBricks(new BrickPaddingFactory(getResources()));
                         }
                     }
                 }
@@ -55,33 +56,30 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
 
     /**
      * Method to add 100 new text bricks to the data manager.
+     *
+     * @param brickPaddingFactory {@link BrickPaddingFactory} to generate padding with
      */
-    private void addNewBricks() {
+    private void addNewBricks(BrickPaddingFactory brickPaddingFactory) {
         String text = "Brick: " + page + " ";
         String textToAppend;
 
         for (int i = 0; i < 100; i++) {
-            final int brickSpan;
+            final BrickSize brickSize;
             if (i % 19 == 0) {
                 textToAppend = "fullsize ";
-                brickSpan = BrickDataManager.SPAN_COUNT;
+                brickSize = new FullWidthBrickSize();
             } else if (i % 4 == 0) {
-                brickSpan = BrickDataManager.SPAN_COUNT / 2;
+                brickSize = new HalfWidthBrickSize();
                 textToAppend = "multi\nline ";
             } else {
-                brickSpan = BrickDataManager.SPAN_COUNT / 2;
+                brickSize = new HalfWidthBrickSize();
                 textToAppend = "";
             }
             textToAppend += String.valueOf(i);
 
             BaseBrick unusedBrick2 = new TextBrick(
-                    new SimpleBrickSize() {
-                        @Override
-                        protected int size() {
-                            return brickSpan;
-                        }
-                    },
-                    new InnerOuterBrickPadding(5, 5),
+                    brickSize,
+                    brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
                     text + textToAppend
             );
 

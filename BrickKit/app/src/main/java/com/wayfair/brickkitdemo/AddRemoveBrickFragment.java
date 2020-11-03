@@ -3,16 +3,14 @@
  */
 package com.wayfair.brickkitdemo;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.brick.BaseBrick;
+import com.wayfair.brickkit.padding.BrickPaddingFactory;
+import com.wayfair.brickkit.size.FullWidthBrickSize;
 import com.wayfair.brickkitdemo.bricks.TextBrick;
 import com.wayfair.brickkit.brick.ViewModelBrick;
-import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
-import com.wayfair.brickkit.size.SimpleBrickSize;
 
 import java.util.Locale;
 
@@ -27,6 +25,7 @@ public class AddRemoveBrickFragment extends BrickFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BrickPaddingFactory brickPaddingFactory = new BrickPaddingFactory(getResources());
 
         for (int i = 0; i < NUMBER_OF_BRICKS; i++) {
 
@@ -34,17 +33,8 @@ public class AddRemoveBrickFragment extends BrickFragment {
                 dataModel = new ControllerDataModel(NUMBER_OF_BRICKS);
 
                 ViewModelBrick viewModelBrick = new ViewModelBrick.Builder(R.layout.controller_brick_vm)
-                        .setSpanSize(
-                                new SimpleBrickSize() {
-                                    @Override
-                                    protected int size() {
-                                        return BrickDataManager.SPAN_COUNT;
-                                    }
-                                }
-                        )
-                        .setPadding(
-                                new InnerOuterBrickPadding(5, 10)
-                        )
+                        .setSpanSize(new FullWidthBrickSize())
+                        .setPadding(brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp))
                         .addViewModel(
                                 BR.controllerViewModel,
                                 new ControllerViewModel(
@@ -69,13 +59,8 @@ public class AddRemoveBrickFragment extends BrickFragment {
                                                 if (dataModel.getValue() == dataManager.getRecyclerViewItems().size()) {
                                                     dataManager.addLast(
                                                             new TextBrick(
-                                                                    new SimpleBrickSize() {
-                                                                        @Override
-                                                                        protected int size() {
-                                                                            return BrickDataManager.SPAN_COUNT;
-                                                                        }
-                                                                    },
-                                                                    new InnerOuterBrickPadding(5, 10),
+                                                                    new FullWidthBrickSize(),
+                                                                    brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
                                                                     String.format(Locale.getDefault(), FORMAT, dataModel.getValue())
                                                             )
                                                     );
@@ -83,13 +68,8 @@ public class AddRemoveBrickFragment extends BrickFragment {
                                                     dataManager.addBeforeItem(
                                                             dataManager.getRecyclerViewItems().get(dataModel.getValue()),
                                                             new TextBrick(
-                                                                    new SimpleBrickSize() {
-                                                                        @Override
-                                                                        protected int size() {
-                                                                            return BrickDataManager.SPAN_COUNT;
-                                                                        }
-                                                                    },
-                                                                    new InnerOuterBrickPadding(5, 10),
+                                                                    new FullWidthBrickSize(),
+                                                                    brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
                                                                     String.format(Locale.getDefault(), FORMAT, dataModel.getValue())
                                                             )
                                                     );
@@ -104,15 +84,10 @@ public class AddRemoveBrickFragment extends BrickFragment {
 
                 dataManager.addLast(viewModelBrick);
             } else {
-                @SuppressLint("DefaultLocale") BaseBrick brick = new TextBrick(
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return BrickDataManager.SPAN_COUNT;
-                            }
-                        },
-                        new InnerOuterBrickPadding(5, 10),
-                        String.format(FORMAT, i)
+                BaseBrick brick = new TextBrick(
+                        new FullWidthBrickSize(),
+                        brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
+                        String.format(Locale.getDefault(), FORMAT, i)
                 );
 
                 dataManager.addLast(brick);
