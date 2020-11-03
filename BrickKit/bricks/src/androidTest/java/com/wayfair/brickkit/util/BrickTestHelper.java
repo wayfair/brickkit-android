@@ -3,34 +3,21 @@
  */
 package com.wayfair.brickkit.util;
 
-import android.content.Context;
 import android.view.View;
 
+import com.wayfair.brickkit.padding.ZeroBrickPadding;
+import com.wayfair.brickkit.size.HalfWidthBrickSize;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.padding.BrickPadding;
-import com.wayfair.brickkit.padding.SimpleBrickPadding;
-import com.wayfair.brickkit.size.BrickSize;
-import com.wayfair.brickkit.size.SimpleBrickSize;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BrickTestHelper {
-
-    private static final int HALF_SPAN = 4;
-    private static final int PADDING = 2;
-
-    private Context context;
-
-    public BrickTestHelper(Context context) {
-        this.context = context;
-    }
-
     public static final class TestBrick extends BaseBrick {
         private final int layoutId;
 
-        private TestBrick(Context context, BrickSize spanSize, BrickPadding padding, int layoutId) {
-            super(spanSize, padding);
+        private TestBrick(int layoutId) {
+            super(new HalfWidthBrickSize(), new ZeroBrickPadding());
             this.layoutId = layoutId;
         }
 
@@ -52,8 +39,8 @@ public class BrickTestHelper {
 
     private static final class TestBrick2 extends BaseBrick {
 
-        private TestBrick2(Context context, BrickSize spanSize, BrickPadding padding) {
-            super(spanSize, padding);
+        private TestBrick2() {
+            super(new HalfWidthBrickSize(), new ZeroBrickPadding());
         }
 
         @Override
@@ -76,8 +63,8 @@ public class BrickTestHelper {
         private final int placeholderLayoutId;
         private final boolean isDataReady;
 
-        private TestPlaceholderBrick(Context context, BrickSize spanSize, BrickPadding padding, int placeholderLayoutId, boolean isDataReady) {
-            super(spanSize, padding);
+        private TestPlaceholderBrick(int placeholderLayoutId, boolean isDataReady) {
+            super(new HalfWidthBrickSize(), new ZeroBrickPadding());
             this.placeholderLayoutId = placeholderLayoutId;
             this.isDataReady = isDataReady;
         }
@@ -116,62 +103,19 @@ public class BrickTestHelper {
     }
 
     public BaseBrick generateBrickWithLayoutId(int layoutId) {
-        return new TestBrick(context, new SimpleBrickSize() {
-            @Override
-            public int getSpans(Context context) {
-                return HALF_SPAN;
-            }
-
-            @Override
-            protected int size() {
-                return HALF_SPAN;
-            }
-
-        }, new SimpleBrickPadding(PADDING), layoutId);
+        return new TestBrick(layoutId);
     }
 
     public BaseBrick generateBrickWithPlaceholderLayoutId(int placeholderLayoutId, boolean isDataReady) {
-        return new TestPlaceholderBrick(context, new SimpleBrickSize() {
-            @Override
-            public int getSpans(Context context) {
-                return HALF_SPAN;
-            }
-
-            @Override
-            protected int size() {
-                return HALF_SPAN;
-            }
-
-        }, new SimpleBrickPadding(PADDING), placeholderLayoutId, isDataReady);
+        return new TestPlaceholderBrick(placeholderLayoutId, isDataReady);
     }
 
     public BaseBrick generateBrick() {
-        return new TestBrick(context, new SimpleBrickSize() {
-            @Override
-            public int getSpans(Context context) {
-                return HALF_SPAN;
-            }
-
-            @Override
-            protected int size() {
-                return HALF_SPAN;
-            }
-
-        }, new SimpleBrickPadding(PADDING), 0);
+        return new TestBrick(0);
     }
 
     public BaseBrick generateOtherBrick() {
-        return new TestBrick2(context, new SimpleBrickSize() {
-            @Override
-            public int getSpans(Context context) {
-                return HALF_SPAN;
-            }
-
-            @Override
-            protected int size() {
-                return HALF_SPAN;
-            }
-        }, new SimpleBrickPadding(PADDING));
+        return new TestBrick2();
     }
 
     public static class TestAdapterDataObserver extends RecyclerView.AdapterDataObserver {

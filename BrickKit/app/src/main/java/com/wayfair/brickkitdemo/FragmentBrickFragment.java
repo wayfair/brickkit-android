@@ -5,9 +5,8 @@ package com.wayfair.brickkitdemo;
 
 import android.os.Bundle;
 
-import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickFragment;
-import com.wayfair.brickkit.size.SimpleBrickSize;
+import com.wayfair.brickkit.size.HalfWidthBrickSize;
 import com.wayfair.brickkitdemo.bricks.FragmentBrick;
 
 /**
@@ -27,12 +26,7 @@ public class FragmentBrickFragment extends BrickFragment {
         for (int i = 0; i < colors.length; i++) {
             FragmentBrick brick = new FragmentBrick(
                     getContext(),
-                    new SimpleBrickSize() {
-                        @Override
-                        protected int size() {
-                            return BrickDataManager.SPAN_COUNT / 2;
-                        }
-                    },
+                    new HalfWidthBrickSize(),
                     getChildFragmentManager(),
                     SimpleBrickFragment.newInstance(i + 1),
                     "simple" + i

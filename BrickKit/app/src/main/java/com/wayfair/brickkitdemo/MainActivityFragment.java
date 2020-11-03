@@ -10,8 +10,10 @@ import android.view.View;
 
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.BrickFragment;
-import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
-import com.wayfair.brickkit.size.SimpleBrickSize;
+import com.wayfair.brickkit.padding.BrickPadding;
+import com.wayfair.brickkit.padding.BrickPaddingFactory;
+import com.wayfair.brickkit.size.BrickSize;
+import com.wayfair.brickkit.size.PercentageBrickSize;
 import com.wayfair.brickkitdemo.bricks.UnusedBrick;
 import com.wayfair.brickkitdemo.bricks.UsedBrick;
 
@@ -21,24 +23,19 @@ import java.util.ArrayList;
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends BrickFragment {
-    private static final int ONE_FIFTH = 48;
-    private static final int TWO_FIFTH = 96;
+    private static final BrickSize ONE_FIFTH = new PercentageBrickSize(.2f);
+    private static final BrickSize TWO_FIFTH = new PercentageBrickSize(.4f);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        InnerOuterBrickPadding padding = new InnerOuterBrickPadding(8, 0);
+        BrickPadding padding = new BrickPaddingFactory(getResources()).getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.no_dp);
 
         ArrayList<BaseBrick> usedBricks = new ArrayList<>();
 
         final UsedBrick usedBrick = new UsedBrick(
-                new SimpleBrickSize() {
-                    @Override
-                    protected int size() {
-                        return TWO_FIFTH;
-                    }
-                },
+                TWO_FIFTH,
                 padding,
                 new View.OnClickListener() {
                     @Override
@@ -62,12 +59,7 @@ public class MainActivityFragment extends BrickFragment {
         }, 2000);
         usedBricks.add(
                 new UsedBrick(
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return TWO_FIFTH;
-                            }
-                        },
+                        TWO_FIFTH,
                         padding,
                         "Add/Remove Brick View",
                         new View.OnClickListener() {
@@ -83,12 +75,7 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return TWO_FIFTH;
-                            }
-                        },
+                        TWO_FIFTH,
                         padding,
                         "Infinite Scroll Brick View",
                         new View.OnClickListener() {
@@ -104,12 +91,7 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return TWO_FIFTH;
-                            }
-                        },
+                        TWO_FIFTH,
                         padding,
                         "Staggered Infinite Scroll Brick View",
                         new View.OnClickListener() {
@@ -125,12 +107,7 @@ public class MainActivityFragment extends BrickFragment {
         );
         usedBricks.add(
                 new UsedBrick(
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return TWO_FIFTH;
-                            }
-                        },
+                        TWO_FIFTH,
                         padding,
                         "Fragment Brick View",
                         new View.OnClickListener() {
@@ -146,39 +123,15 @@ public class MainActivityFragment extends BrickFragment {
         );
 
         for (int i = 0; i < usedBricks.size() + 2; i++) {
-            SimpleBrickSize first;
-            SimpleBrickSize last;
+            BrickSize first;
+            BrickSize last;
 
             if (i % 2 == 0) {
-                first =
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return ONE_FIFTH;
-                            }
-                        };
-                last =
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return TWO_FIFTH;
-                            }
-                        };
+                first = ONE_FIFTH;
+                last = TWO_FIFTH;
             } else {
-                first =
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return TWO_FIFTH;
-                            }
-                        };
-                last =
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return ONE_FIFTH;
-                            }
-                        };
+                first = TWO_FIFTH;
+                last = ONE_FIFTH;
             }
 
             UnusedBrick unusedBrick1 = new UnusedBrick(first, padding);
@@ -186,12 +139,7 @@ public class MainActivityFragment extends BrickFragment {
 
             if (i == 0 || i == usedBricks.size() + 1) {
                 UnusedBrick unusedBrick = new UnusedBrick(
-                        new SimpleBrickSize() {
-                            @Override
-                            protected int size() {
-                                return TWO_FIFTH;
-                            }
-                        },
+                        TWO_FIFTH,
                         padding
                 );
                 dataManager.addLast(unusedBrick);

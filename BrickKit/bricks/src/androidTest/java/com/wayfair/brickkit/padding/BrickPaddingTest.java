@@ -1,19 +1,12 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2020 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit.padding;
 
-import android.graphics.Rect;
-
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import androidx.test.runner.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
 public class BrickPaddingTest {
     private static final int INNER_LEFT = 1;
     private static final int INNER_TOP = 2;
@@ -24,15 +17,16 @@ public class BrickPaddingTest {
     private static final int OUTER_RIGHT = 7;
     private static final int OUTER_BOTTOM = 8;
 
-    private BrickPadding brickPadding;
-
-    @Before
-    public void setup() {
-        brickPadding = new BrickPadding(
-                new Rect(INNER_LEFT, INNER_TOP, INNER_RIGHT, INNER_BOTTOM),
-                new Rect(OUTER_LEFT, OUTER_TOP, OUTER_RIGHT, OUTER_BOTTOM)
-        );
-    }
+    private final BrickPadding brickPadding = new BrickPadding(
+            INNER_LEFT,
+            INNER_TOP,
+            INNER_RIGHT,
+            INNER_BOTTOM,
+            OUTER_LEFT,
+            OUTER_TOP,
+            OUTER_RIGHT,
+            OUTER_BOTTOM
+    );
 
     @Test
     public void testGetInnerLeftPadding() {

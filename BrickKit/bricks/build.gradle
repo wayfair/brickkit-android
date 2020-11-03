@@ -8,6 +8,8 @@ plugins {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-allopen'
+
 
 android {
     compileSdkVersion 29
@@ -70,6 +72,10 @@ check.dependsOn("checkstyle")
 
 gradle.projectsEvaluated {
     createDebugAndroidTestCoverageReport.dependsOn("connectedDebugAndroidTest")
+}
+
+allOpen {
+    annotation 'com.wayfair.brickkit.OpenForTesting'
 }
 
 task checkstyle(type: Checkstyle) {

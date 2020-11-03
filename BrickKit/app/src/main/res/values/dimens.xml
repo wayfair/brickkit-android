@@ -1,8 +1,6 @@
-<!-- Copyright © 2017 Wayfair. All rights reserved. -->
+<!-- Copyright © 2017-2020 Wayfair. All rights reserved. -->
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="bg_text_height">14dp</dimen>
+    <dimen name="four_dp">4dp</dimen>
+    <dimen name="eight_dp">8dp</dimen>
 </resources>

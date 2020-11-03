@@ -55,7 +55,7 @@ public class BrickDataManagerTest {
         manager = new BrickDataManager();
         View parentView = mock(View.class);
         manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.VERTICAL, false, parentView);
-        brickTestHelper = new BrickTestHelper(context);
+        brickTestHelper = new BrickTestHelper();
 
         for (int i = 0; i < STARTING_BRICKS; i++) {
             manager.addLast(brickTestHelper.generateBrick());
@@ -217,7 +217,7 @@ public class BrickDataManagerTest {
         BrickDataManager manager = new BrickDataManager();
         View parentView = mock(View.class);
         manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.HORIZONTAL, false, parentView);
-        BrickTestHelper brickTestHelper = new BrickTestHelper(context);
+        BrickTestHelper brickTestHelper = new BrickTestHelper();
 
         DataSetChangedListener dataSetChangedListener = mock(DataSetChangedListener.class);
         manager.setDataSetChangedListener(dataSetChangedListener);
@@ -1379,6 +1379,8 @@ public class BrickDataManagerTest {
     public void testComputePaddingPositionSafelyForFirstItem_withMultipleItems_resultsInAccuratePosition() {
         // Given
         BrickDataManager dataManager = new BrickDataManager();
+        Context context = InstrumentationRegistry.getTargetContext();
+        dataManager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.HORIZONTAL, false, mock(View.class));
 
         // When
         List<BaseBrick> newItems = new LinkedList<>();

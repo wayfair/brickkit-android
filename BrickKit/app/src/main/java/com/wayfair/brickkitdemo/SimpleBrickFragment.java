@@ -5,14 +5,13 @@ package com.wayfair.brickkitdemo;
 
 import android.os.Bundle;
 
-import com.wayfair.brickkit.BrickDataManager;
 import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.brick.ViewModelBrick;
+import com.wayfair.brickkit.padding.BrickPaddingFactory;
+import com.wayfair.brickkit.size.FullPhoneFullHalfTabletBrickSize;
 import com.wayfair.brickkitdemo.datamodel.TextDataModel;
 import com.wayfair.brickkitdemo.viewmodel.TextViewModel;
-import com.wayfair.brickkit.padding.InnerOuterBrickPadding;
-import com.wayfair.brickkit.size.OrientationBrickSize;
 
 import java.util.LinkedList;
 import java.util.Timer;
@@ -25,8 +24,6 @@ import java.util.TimerTask;
  * In landscape the bricks are half width.
  */
 public class SimpleBrickFragment extends BrickFragment {
-    private static final int HALF = BrickDataManager.SPAN_COUNT / 2;
-
     private int numberOfBricks = 100;
 
     LinkedList<BaseBrick> bricks;
@@ -47,10 +44,11 @@ public class SimpleBrickFragment extends BrickFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        BrickPaddingFactory brickPaddingFactory = new BrickPaddingFactory(getResources());
         bricks = new LinkedList<>();
 
         for (int i = 0; i < numberOfBricks; i++) {
-            ViewModelBrick brick = genBrick(i);
+            ViewModelBrick brick = genBrick(i, brickPaddingFactory);
 
             bricks.add(brick);
             dataManager.addLast(brick);
@@ -61,9 +59,10 @@ public class SimpleBrickFragment extends BrickFragment {
      * Generate a brick.
      *
      * @param i the index of that brick, also uses in the text of the brick
+     * @param brickPaddingFactory {@link BrickPaddingFactory} to generate padding with
      * @return the brick
      */
-    public ViewModelBrick genBrick(int i) {
+    public ViewModelBrick genBrick(int i, BrickPaddingFactory brickPaddingFactory) {
         final TextDataModel dataModel = new TextDataModel("Brick: " + i);
 
         new Timer().schedule(new TimerTask() {
@@ -74,27 +73,13 @@ public class SimpleBrickFragment extends BrickFragment {
 
         }, 0, 1000);
 
-        ViewModelBrick brick = new ViewModelBrick.Builder(R.layout.text_brick_vm)
-                .setPadding(new InnerOuterBrickPadding(5, 10))
-                .setSpanSize(
-                        new OrientationBrickSize() {
-                            @Override
-                            protected int portrait() {
-                                return BrickDataManager.SPAN_COUNT;
-                            }
-
-                            @Override
-                            protected int landscape() {
-                                return HALF;
-                            }
-                        }
-                )
+        return new ViewModelBrick.Builder(R.layout.text_brick_vm)
+                .setPadding(brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp))
+                .setSpanSize(new FullPhoneFullHalfTabletBrickSize())
                 .addViewModel(
                         BR.textViewModel,
                         new TextViewModel(dataModel)
                 )
                 .build();
-
-        return brick;
     }
 }
