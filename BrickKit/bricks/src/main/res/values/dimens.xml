@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        ++++++++++++++++++++++++++++++++++++++++
+            Standard Margins by Function
+        ++++++++++++++++++++++++++++++++++++++++
+    -->
+    <!-- Guides the spacing between components on the same page.
+     Used specifically for inner margins, which will be visually doubled. -->
+    <dimen name="standard_margin_named_default_half">8dp</dimen>
+    <!-- Guides the spacing between views and the edge of the device-->
+    <dimen name="standard_margin_named_view_inset">16dp</dimen>
+</resources>
