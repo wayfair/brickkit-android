@@ -62,7 +62,7 @@ public class InfiniteScrollBrickFragment extends BrickFragment {
         for (int i = 0; i < 100; i++) {
             items.add(new TextBrick(
                     new FullPhoneFullHalfTabletBrickSize(),
-                    brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
+                    brickPaddingFactory.getViewInsetPadding(),
                     "Brick: " + page + " " + i
             ));
         }

@@ -26,7 +26,10 @@ class BrickPaddingFactoryTest {
         whenever(resources.getDimension(SIX_DP)).thenReturn(6f)
         whenever(resources.getDimension(SEVEN_DP)).thenReturn(7f)
         whenever(resources.getDimension(EIGHT_DP)).thenReturn(8f)
-
+        whenever(resources.getDimension(R.dimen.standard_margin_named_default_half))
+                .thenReturn(11f)
+        whenever(resources.getDimension(R.dimen.standard_margin_named_view_inset))
+                .thenReturn(12f)
         brickPaddingFactory = BrickPaddingFactory(resources)
     }
 
@@ -115,8 +118,17 @@ class BrickPaddingFactoryTest {
     }
 
     @Test
-    fun testGetInnerOuterRectBrickPaddinh() {
-        brickPaddingFactory.getInnerOuterRectBrickPadding(ONE_DP, TWO_DP, THREE_DP, FOUR_DP, FIVE_DP, SIX_DP, SEVEN_DP, EIGHT_DP).apply {
+    fun testGetInnerOuterRectBrickPadding() {
+        brickPaddingFactory.getInnerOuterRectBrickPadding(
+                ONE_DP,
+                TWO_DP,
+                THREE_DP,
+                FOUR_DP,
+                FIVE_DP,
+                SIX_DP,
+                SEVEN_DP,
+                EIGHT_DP
+        ).apply {
             assertEquals(1, innerLeftPadding)
             assertEquals(2, innerTopPadding)
             assertEquals(3, innerRightPadding)
@@ -125,6 +137,39 @@ class BrickPaddingFactoryTest {
             assertEquals(6, outerTopPadding)
             assertEquals(7, outerRightPadding)
             assertEquals(8, outerBottomPadding)
+        }
+    }
+
+    @Test
+    fun testViewInsetBrickPadding() {
+        brickPaddingFactory.getViewInsetPadding(
+                ONE_DP,
+                TWO_DP,
+                THREE_DP,
+                FOUR_DP
+        ).apply {
+            assertEquals(1, innerLeftPadding)
+            assertEquals(2, innerTopPadding)
+            assertEquals(3, innerRightPadding)
+            assertEquals(4, innerBottomPadding)
+            assertEquals(12, outerLeftPadding)
+            assertEquals(12, outerTopPadding)
+            assertEquals(12, outerRightPadding)
+            assertEquals(12, outerBottomPadding)
+        }
+    }
+
+    @Test
+    fun testViewInsetBrickPaddingDefault() {
+        brickPaddingFactory.getViewInsetPadding().apply {
+            assertEquals(11, innerLeftPadding)
+            assertEquals(11, innerTopPadding)
+            assertEquals(11, innerRightPadding)
+            assertEquals(11, innerBottomPadding)
+            assertEquals(12, outerLeftPadding)
+            assertEquals(12, outerTopPadding)
+            assertEquals(12, outerRightPadding)
+            assertEquals(12, outerBottomPadding)
         }
     }
 

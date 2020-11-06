@@ -22,7 +22,16 @@ class BrickPaddingFactory(private val resources: Resources) {
     ): BrickPadding {
         val innerPadding = resources.getDimension(innerPaddingDimensionRes).toInt()
         val outerPadding = resources.getDimension(outerPaddingDimensionRes).toInt()
-        return BrickPadding(innerPadding, innerPadding, innerPadding, innerPadding, outerPadding, outerPadding, outerPadding, outerPadding)
+        return BrickPadding(
+                innerPadding,
+                innerPadding,
+                innerPadding,
+                innerPadding,
+                outerPadding,
+                outerPadding,
+                outerPadding,
+                outerPadding
+        )
     }
 
     fun getRectBrickPadding(
@@ -35,7 +44,16 @@ class BrickPaddingFactory(private val resources: Resources) {
         val topPadding = resources.getDimension(top).toInt()
         val rightPadding = resources.getDimension(right).toInt()
         val bottomPadding = resources.getDimension(bottom).toInt()
-        return BrickPadding(leftPadding, topPadding, rightPadding, bottomPadding, leftPadding, topPadding, rightPadding, bottomPadding)
+        return BrickPadding(
+                leftPadding,
+                topPadding,
+                rightPadding,
+                bottomPadding,
+                leftPadding,
+                topPadding,
+                rightPadding,
+                bottomPadding
+        )
     }
 
     fun getInnerOuterRectBrickPadding(
@@ -59,4 +77,26 @@ class BrickPaddingFactory(private val resources: Resources) {
             resources.getDimension(outerBottom).toInt()
         )
     }
+
+    /**
+     * Applies the "standard" view inset padding as the outerPadding.
+     * The dimens that are passed in will be used as the innerPadding.
+     * Recommended as the default brick padding.
+     */
+    @JvmOverloads
+    fun getViewInsetPadding(
+            @DimenRes paddingLeft: Int = R.dimen.standard_margin_named_default_half,
+            @DimenRes paddingTop: Int = R.dimen.standard_margin_named_default_half,
+            @DimenRes paddingRight: Int = R.dimen.standard_margin_named_default_half,
+            @DimenRes paddingBottom: Int = R.dimen.standard_margin_named_default_half
+    ) = getInnerOuterRectBrickPadding(
+            paddingLeft,
+            paddingTop,
+            paddingRight,
+            paddingBottom,
+            R.dimen.standard_margin_named_view_inset,
+            R.dimen.standard_margin_named_view_inset,
+            R.dimen.standard_margin_named_view_inset,
+            R.dimen.standard_margin_named_view_inset
+    )
 }
