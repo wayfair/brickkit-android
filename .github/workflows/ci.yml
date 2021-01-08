@@ -21,8 +21,9 @@ jobs:
       - name: Build
         run: bash ./gradlew build connectedCheck createPom createBintrayDescriptor
 
-      - name: Run Tests
+      - name: Setup Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-      script: run: bash ./gradlew connectedCheck
+      - name: Run Tests
+        run: bash ./gradlew connectedCheck
