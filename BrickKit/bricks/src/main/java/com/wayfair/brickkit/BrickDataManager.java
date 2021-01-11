@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2020 Wayfair. All rights reserved.
+ * Copyright © 2017-2021 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit;
 
