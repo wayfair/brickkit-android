@@ -17,7 +17,6 @@ import com.wayfair.brickkit.size.FullWidthBrickSize;
 import com.wayfair.brickkit.size.HalfWidthBrickSize;
 import com.wayfair.brickkitdemo.bricks.TextBrick;
 
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 /**
@@ -39,7 +38,7 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new NpaStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         staggeredGridLayoutManager.setItemPrefetchEnabled(false);
         dataManager.getRecyclerView().setLayoutManager(staggeredGridLayoutManager);
 
@@ -85,38 +84,6 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
             );
 
             dataManager.addLast(unusedBrick2);
-        }
-    }
-
-    private static class NpaStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
-        /**
-         * Constructor for the NpaStaggeredGridLayoutManager.
-         *
-         * @param spanCount   the number of columns to use in the StaggeredGridLayoutManager.
-         * @param orientation the orientation of the StaggeredGridLayoutManager.
-         */
-        NpaStaggeredGridLayoutManager(int spanCount, int orientation) {
-            super(spanCount, orientation);
-        }
-
-        /**
-         * There is a bug in recyclerviews (March 2017) which causes them to load animations for views which don't yet exist.
-         * For us this is a race condition, it currently only occurs on the infinite brick pages.
-         *
-         * @return false
-         */
-        @Override
-        public boolean supportsPredictiveItemAnimations() {
-            return false;
-        }
-
-        @Override
-        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-            try {
-                super.onLayoutChildren(recycler, state);
-            } catch (IndexOutOfBoundsException e) {
-                e.printStackTrace();
-            }
         }
     }
 }
