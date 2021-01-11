@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017 Wayfair. All rights reserved.
+ * Copyright © 2017-2021 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkitdemo;
 
@@ -38,15 +38,15 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        dataManager.applyStaggeredGridLayout(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        staggeredGridLayoutManager.setItemPrefetchEnabled(false);
+        dataManager.getRecyclerView().setLayoutManager(staggeredGridLayoutManager);
+
         dataManager.getBrickRecyclerAdapter().setOnReachedItemAtPosition(
-                new OnReachedItemAtPosition() {
-                    @Override
-                    public void bindingItemAtPosition(int position) {
-                        if (position == dataManager.getRecyclerViewItems().size() - 1) {
-                            page++;
-                            addNewBricks(new BrickPaddingFactory(getResources()));
-                        }
+                position -> {
+                    if (position == dataManager.getRecyclerViewItems().size() - 1) {
+                        page++;
+                        addNewBricks(new BrickPaddingFactory(getResources()));
                     }
                 }
         );

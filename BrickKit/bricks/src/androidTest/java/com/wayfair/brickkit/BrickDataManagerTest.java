@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2020 Wayfair. All rights reserved.
+ * Copyright © 2017-2021 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit;
 
@@ -21,7 +21,6 @@ import java.util.List;
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
@@ -1242,14 +1241,6 @@ public class BrickDataManagerTest {
     public void testApplyGridLayout() {
         manager.applyGridLayout(GridLayoutManager.VERTICAL, true);
         assertTrue(manager.getRecyclerView().getLayoutManager() instanceof GridLayoutManager);
-    }
-
-    @Test
-    public void testApplyStaggeredGridLayout() {
-        manager.applyStaggeredGridLayout(2, StaggeredGridLayoutManager.VERTICAL);
-        assertTrue(manager.getRecyclerView().getLayoutManager() instanceof StaggeredGridLayoutManager);
-        assertFalse(manager.getRecyclerView().getLayoutManager().isItemPrefetchEnabled());
-        assertFalse(manager.getRecyclerView().getLayoutManager().supportsPredictiveItemAnimations());
     }
 
     @Test
