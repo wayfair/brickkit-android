@@ -21,7 +21,4 @@ jobs:
 
       - name: Publish Library
         working-directory: ./BrickKit
-        env:
-          bintrayUser: ${{ secrets.BINTRAY_USER }}
-          bintrayApiKey: ${{ secrets.BINTRAY_API_KEY }}
-        run: ./gradlew :bricks:assemble bintrayUpload
+        run: ./gradlew -PbintrayUser=${{ secrets.BINTRAY_USER }} -PbintrayApiKey=${{ secrets.BINTRAY_API_KEY }} :bricks:assembleRelease bintrayUpload
