@@ -1,15 +1,14 @@
 plugins {
     id 'com.android.library'
     id 'checkstyle'
-    id 'maven'
-    id 'maven-publish' // We should switch from the maven plugin to this one
+    id 'maven-publish'
 }
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
-
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 29
@@ -86,92 +85,54 @@ task checkstyle(type: Checkstyle) {
     classpath = files() as FileCollection
 }
 
-def getCurrentVersion() {
+static def getCurrentVersion() {
     return "git describe --abbrev=0 --tag".execute().text.trim();
 }
 
-task createPom {
-    doLast {
-        pom {
-            project {
-                groupId 'com.wayfair'
-                artifactId 'brickkit-android'
-                version getCurrentVersion()
-                packaging 'aar'
+// This is mandatory
+group = 'com.wayfair'
 
+publishing {
+    publications {
+        library(MavenPublication) {
+            groupId 'com.wayfair'
+            artifactId 'brickkit-android'
+            version = currentVersion
+            pom {
                 licenses {
                     license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
                     }
                 }
             }
-        }.writeTo("build/brickkit-android-" + getCurrentVersion() + ".pom")
-    }
-}
 
-
-task createBintrayDescriptor {
-    String currentVersion = getCurrentVersion();
-
-    String buildDir = projectDir.toString() + "/build/"
-    if (!new File(buildDir).exists()) {
-        new File(buildDir).mkdir()
-    }
-
-    File outputFile = new File(buildDir + "bintray.descriptor")
-    Date date = new Date()
-
-    outputFile.text =
-            '''{
-    "package": {
-        "name": "brickkit-android",
-        "repo": "brickkit-android",
-        "subject": "wayfair",
-        "desc": "RecyclerView wrapper library",
-        "website_url": "http://engineering.wayfair.com/",
-        "issue_tracker_url": "https://github.com/wayfair/brickkit-android/issues",
-        "vcs_url": "https://github.com/wayfair/brickkit-android.git",
-        "github_use_tag_release_notes": true,
-        "github_release_notes_file": "LICENSE",
-        "licenses": ["Apache License, Version 2.0"],
-        "labels": [],
-        "public_download_numbers": false,
-        "public_stats": false,
-        "attributes": []
-    },
-
-    "version": {
-        "name": "''' + currentVersion + '''",
-        "desc": "Initial Release of brickkit-android",
-        "released": "''' + date.format('yyyy-MM-dd') + '''",
-        "vcs_tag": "''' + currentVersion + '''",
-        "attributes": [],
-        "gpgSign": false
-    },
-
-    "files":
-        [
-        {"includePattern": "BrickKit/bricks/build/outputs/aar/bricks-release.aar", "uploadPattern":"com/wayfair/brickkit-android/''' + currentVersion + '''/brickkit-android-''' + currentVersion + '''.aar"},
-        {"includePattern": "BrickKit/bricks/build/brickkit-android-''' + currentVersion + '''.pom", "uploadPattern":"com/wayfair/brickkit-android/''' + currentVersion + '''/brickkit-android-''' + currentVersion + '''.pom"}
-        ],
-    "publish": true
-}
-'''
-}
-
-// For local development, use publishToMavenLocal task and mavenLocal() in the consuming app's repositories
-project.afterEvaluate {
-    publishing {
-        publications {
-            library(MavenPublication) {
-                groupId 'com.wayfair'
-                artifactId 'brickkit-android'
-                version = getCurrentVersion() // or hard-code this to be certain which version you're consuming
-
+            afterEvaluate {
                 artifact bundleReleaseAar
             }
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_API_KEY')
+
+    publications = ['library']
+    pkg {
+        userOrg = 'wayfair'
+        repo = 'brickkit-android'
+        name = 'brickkit-android'
+
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/wayfair/brickkit-android.git'
+        publicDownloadNumbers = false
+        version {
+            name = currentVersion
+            desc = 'Feature Release of brickkit-android'
+            vcsTag = currentVersion
+            released = new Date()
         }
     }
 }
