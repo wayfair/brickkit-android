@@ -8,6 +8,7 @@ jobs:
   publish:
     name: Build And Publish
     runs-on: ubuntu-latest
+    environment: publishing-environment
 
     steps:
       - name: Checkout
@@ -20,7 +21,6 @@ jobs:
 
       - name: Publish Library
         working-directory: ./BrickKit
-        environment: publishing-environment
         env:
           bintrayUser: ${{ secrets.BINTRAY_USER }}
           bintrayApiKey: ${{ secrets.BINTRAY_API_KEY }}
