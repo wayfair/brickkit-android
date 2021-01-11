@@ -41,3 +41,6 @@ jobs:
         with:
           api-level: 29
           script: cd BrickKit && ./gradlew connectedCheck
+
+      - name: Upload to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
