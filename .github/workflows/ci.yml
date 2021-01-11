@@ -3,7 +3,7 @@
 name: CI
 
 on:
-  pr:
+  pull_request:
     branches:
       - '*'
 jobs:
