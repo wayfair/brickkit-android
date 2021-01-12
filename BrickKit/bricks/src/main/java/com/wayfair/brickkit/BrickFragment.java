@@ -13,8 +13,6 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -28,17 +26,11 @@ public abstract class BrickFragment extends Fragment {
     @Override
     @CallSuper
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view;
-        if (orientation() == OrientationHelper.VERTICAL) {
-            view = inflater.inflate(R.layout.vertical_fragment_brick, container, false);
-        } else {
-            view = inflater.inflate(R.layout.horizontal_fragment_brick, container, false);
-        }
-
+        View view = inflater.inflate(R.layout.vertical_fragment_brick, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setBackgroundColor(recyclerViewBackground);
         ((DefaultItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        dataManager.setRecyclerView(getContext(), recyclerView, orientation(), reverse(), view);
+        dataManager.setRecyclerView(recyclerView);
         return view;
     }
 
@@ -46,24 +38,6 @@ public abstract class BrickFragment extends Fragment {
     public void onDestroyView() {
         dataManager.onDestroyView();
         super.onDestroyView();
-    }
-
-    /**
-     * Get the orientation to lay out this fragment.
-     *
-     * @return the orientation to lay out this fragment.
-     */
-    public int orientation() {
-        return GridLayoutManager.VERTICAL;
-    }
-
-    /**
-     * Whether or not to reverse the layout of this fragment.
-     *
-     * @return true if this fragment should be laid out in reverse
-     */
-    public boolean reverse() {
-        return false;
     }
 
     /**
