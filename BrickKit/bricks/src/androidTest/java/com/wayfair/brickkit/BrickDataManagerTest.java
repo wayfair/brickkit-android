@@ -5,7 +5,6 @@ package com.wayfair.brickkit;
 
 import android.content.Context;
 import android.os.Looper;
-import android.view.View;
 
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.util.BrickTestHelper;
@@ -19,7 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import androidx.annotation.LayoutRes;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
@@ -52,8 +50,7 @@ public class BrickDataManagerTest {
         }
         Context context = InstrumentationRegistry.getTargetContext();
         manager = new BrickDataManager();
-        View parentView = mock(View.class);
-        manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.VERTICAL, false, parentView);
+        manager.setRecyclerView(new RecyclerView(context));
         brickTestHelper = new BrickTestHelper();
 
         for (int i = 0; i < STARTING_BRICKS; i++) {
@@ -214,8 +211,7 @@ public class BrickDataManagerTest {
     public void testAddFirstVisibleHorizontal() {
         Context context = InstrumentationRegistry.getTargetContext();
         BrickDataManager manager = new BrickDataManager();
-        View parentView = mock(View.class);
-        manager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.HORIZONTAL, false, parentView);
+        manager.setHorizontalRecyclerView(new RecyclerView(context));
         BrickTestHelper brickTestHelper = new BrickTestHelper();
 
         DataSetChangedListener dataSetChangedListener = mock(DataSetChangedListener.class);
@@ -1238,12 +1234,6 @@ public class BrickDataManagerTest {
     }
 
     @Test
-    public void testApplyGridLayout() {
-        manager.applyGridLayout(GridLayoutManager.VERTICAL, true);
-        assertTrue(manager.getRecyclerView().getLayoutManager() instanceof GridLayoutManager);
-    }
-
-    @Test
     public void testAddToTagCache() {
         BaseBrick baseBrick = brickTestHelper.generateBrick();
         baseBrick.setTag(TAG);
@@ -1371,7 +1361,7 @@ public class BrickDataManagerTest {
         // Given
         BrickDataManager dataManager = new BrickDataManager();
         Context context = InstrumentationRegistry.getTargetContext();
-        dataManager.setRecyclerView(context, new RecyclerView(context), GridLayoutManager.HORIZONTAL, false, mock(View.class));
+        dataManager.setHorizontalRecyclerView(new RecyclerView(context));
 
         // When
         List<BaseBrick> newItems = new LinkedList<>();

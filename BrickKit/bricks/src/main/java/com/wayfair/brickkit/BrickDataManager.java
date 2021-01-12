@@ -6,7 +6,6 @@ package com.wayfair.brickkit;
 import android.content.Context;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.View;
 import android.widget.GridLayout;
 
 import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator;
@@ -55,10 +54,8 @@ public class BrickDataManager implements Serializable, BrickProvider {
     private LinkedList<BaseBrick> items;
     private LinkedList<BaseBrick> currentlyVisibleItems;
     private boolean dataHasChanged;
-    private Context context;
     private boolean vertical;
     private RecyclerView recyclerView;
-    private View recyclerViewParent;
     private RecyclerView.ItemDecoration itemDecoration;
     private DataSetChangedListener dataSetChangedListener;
 
@@ -73,33 +70,28 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
-     * Sets the layout for the recycler view to be a GridLayout.
+     * Set the recycler view for this BrickDataManager, this will setup the underlying adapter and begin
+     * displaying any bricks Use setHorizontalRecyclerView instead if you want a horizontal RecyclerView.
      *
-     * @param orientation the orientation of the layout
-     * @param reverse     whether the layout should make items appear in reverse order
+     * @param recyclerView {@link RecyclerView} to put views in
      */
-    public void applyGridLayout(int orientation, boolean reverse) {
-        if (recyclerView != null) {
-            GridLayoutManager gridLayoutManager = new WFGridLayoutManager(context, orientation, reverse);
-            gridLayoutManager.setSpanSizeLookup(new BrickSpanSizeLookup(context, this));
-            recyclerView.setLayoutManager(gridLayoutManager);
-        }
+    public void setRecyclerView(@NonNull RecyclerView recyclerView) {
+        setRecyclerView(recyclerView, RecyclerView.VERTICAL);
     }
 
     /**
-     * Set the recycler view for this BrickDataManager, this will setup the underlying adapter and begin displaying any bricks.
+     * Set the recycler view for this BrickDataManager for a horizontal RecyclerView, this will setup the
+     * underlying adapter and begin displaying any bricks.
      *
-     * @param context            {@link Context} to use
-     * @param recyclerView       {@link RecyclerView} to put views in
-     * @param orientation        Layout orientation. Should be {@link GridLayoutManager#HORIZONTAL} or {@link GridLayoutManager#VERTICAL}.
-     * @param reverse            When set to true, layouts from end to start.
-     * @param recyclerViewParent View RecyclerView's parent view
+     * @param recyclerView {@link RecyclerView} to put views in
      */
-    public void setRecyclerView(Context context, RecyclerView recyclerView, int orientation, boolean reverse, View recyclerViewParent) {
-        this.context = context;
+    public void setHorizontalRecyclerView(@NonNull RecyclerView recyclerView) {
+        setRecyclerView(recyclerView, RecyclerView.HORIZONTAL);
+    }
+
+    private void setRecyclerView(@NonNull RecyclerView recyclerView, int orientation) {
         this.brickRecyclerAdapter = new BrickRecyclerAdapter(this, recyclerView);
         this.vertical = orientation == GridLayout.VERTICAL;
-        this.recyclerViewParent = recyclerViewParent;
 
         this.recyclerView = recyclerView;
         this.recyclerView.setAdapter(brickRecyclerAdapter);
@@ -110,7 +102,9 @@ public class BrickDataManager implements Serializable, BrickProvider {
         this.recyclerView.addItemDecoration(itemDecoration);
         this.recyclerView.setItemAnimator(new AvoidFlickerItemAnimator());
 
-        applyGridLayout(orientation, reverse);
+        GridLayoutManager gridLayoutManager = new WFGridLayoutManager(recyclerView.getContext(), orientation);
+        gridLayoutManager.setSpanSizeLookup(new BrickSpanSizeLookup(recyclerView.getContext(), this));
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         LinkedList<BaseBrick> items = getRecyclerViewItems();
         int itemCount = items.size();
@@ -121,30 +115,12 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
-     * Get the context.
-     *
-     * @return the context from getContext()
-     */
-    public Context getContext() {
-        return context;
-    }
-
-    /**
      * Get the recycler view if available.
      *
      * @return the attached recycler view, null if none has been attached
      */
     public RecyclerView getRecyclerView() {
         return recyclerView;
-    }
-
-    /**
-     * Get the recycler view's parent.
-     *
-     * @return the attached recyclerview's parent, null if none has been attached
-     */
-    public View getRecyclerViewParent() {
-        return recyclerViewParent;
     }
 
     /**
@@ -1024,6 +1000,11 @@ public class BrickDataManager implements Serializable, BrickProvider {
             return NO_PADDING_POSITION;
         }
 
+        if (recyclerView == null) {
+            return NO_PADDING_POSITION;
+        }
+        Context context = recyclerView.getContext();
+
         int currentRow = 0;
         int startingBrickIndex = getRecyclerViewItems().indexOf(currentBrick);
 
@@ -1173,9 +1154,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
             recyclerView.setAdapter(null);
         }
         brickRecyclerAdapter = null;
-        recyclerViewParent = null;
         recyclerView = null;
-        context = null;
     }
 
     /**
@@ -1247,10 +1226,9 @@ public class BrickDataManager implements Serializable, BrickProvider {
          *
          * @param context       {@link Context} to use
          * @param orientation   Layout orientation. Should be {@link GridLayoutManager#HORIZONTAL} or {@link GridLayoutManager#VERTICAL}.
-         * @param reverseLayout When set to true, layouts from end to start.
          */
-        WFGridLayoutManager(Context context, int orientation, boolean reverseLayout) {
-            super(context, BrickDataManager.SPAN_COUNT, orientation, reverseLayout);
+        WFGridLayoutManager(Context context, int orientation) {
+            super(context, BrickDataManager.SPAN_COUNT, orientation, false);
         }
 
         @Override
