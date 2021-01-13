@@ -15,7 +15,6 @@
         android:textColor="@android:color/white"
         android:gravity="center_vertical"
         android:drawableEnd="@drawable/ic_arrow_forward"
-        android:drawableRight="@drawable/ic_arrow_forward"
         android:drawableTint="@android:color/white"
         tools:text="Sample"
         tools:ignore="UnusedAttribute,UselessLeaf" />
