@@ -1,7 +1,6 @@
 <!-- Copyright © 2017 Wayfair. All rights reserved. -->
 <resources>
     <string name="app_name">BrickKit</string>
-    <string name="action_settings">Settings</string>
     <string name="remove">-</string>
     <string name="add">+</string>
 </resources>

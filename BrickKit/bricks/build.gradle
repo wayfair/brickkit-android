@@ -33,7 +33,6 @@ android {
     lintOptions {
         warningsAsErrors true
         abortOnError true
-        disable 'ObsoleteLintCustomCheck'
     }
 
     compileOptions {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright © 2017 Wayfair. All rights reserved. -->
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="controllerViewModel"
@@ -9,7 +9,6 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
@@ -41,14 +40,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/text_input_layout"
             android:layout_toStartOf="@+id/text_input_layout"
             android:background="@android:color/transparent"
             android:text="@string/remove"
             android:textColor="@color/colorAccent"
             android:onClick="@{() -> controllerViewModel.remove()}"
             app:srcCompat="@drawable/arrow_down_black"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription,RelativeOverlap" />
 
         <Button
             android:id="@+id/up_button"
@@ -56,7 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/text_input_layout"
-            android:layout_toRightOf="@+id/text_input_layout"
             android:background="@android:color/transparent"
             android:text="@string/add"
             android:textColor="@color/colorAccent"
