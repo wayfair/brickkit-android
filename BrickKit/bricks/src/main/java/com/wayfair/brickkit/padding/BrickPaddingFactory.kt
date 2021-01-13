@@ -13,7 +13,7 @@ class BrickPaddingFactory(private val resources: Resources) {
 
     fun getSimpleBrickPadding(@DimenRes dimen: Int): BrickPadding {
         val padding = resources.getDimension(dimen).toInt()
-        return BrickPadding(padding, padding, padding, padding,padding, padding, padding, padding)
+        return BrickPadding(padding, padding, padding, padding, padding, padding, padding, padding)
     }
 
     fun getInnerOuterBrickPadding(
@@ -23,14 +23,14 @@ class BrickPaddingFactory(private val resources: Resources) {
         val innerPadding = resources.getDimension(innerPaddingDimensionRes).toInt()
         val outerPadding = resources.getDimension(outerPaddingDimensionRes).toInt()
         return BrickPadding(
-                innerPadding,
-                innerPadding,
-                innerPadding,
-                innerPadding,
-                outerPadding,
-                outerPadding,
-                outerPadding,
-                outerPadding
+            innerPadding,
+            innerPadding,
+            innerPadding,
+            innerPadding,
+            outerPadding,
+            outerPadding,
+            outerPadding,
+            outerPadding
         )
     }
 
@@ -45,14 +45,14 @@ class BrickPaddingFactory(private val resources: Resources) {
         val rightPadding = resources.getDimension(right).toInt()
         val bottomPadding = resources.getDimension(bottom).toInt()
         return BrickPadding(
-                leftPadding,
-                topPadding,
-                rightPadding,
-                bottomPadding,
-                leftPadding,
-                topPadding,
-                rightPadding,
-                bottomPadding
+            leftPadding,
+            topPadding,
+            rightPadding,
+            bottomPadding,
+            leftPadding,
+            topPadding,
+            rightPadding,
+            bottomPadding
         )
     }
 
@@ -85,18 +85,18 @@ class BrickPaddingFactory(private val resources: Resources) {
      */
     @JvmOverloads
     fun getViewInsetPadding(
-            @DimenRes paddingLeft: Int = R.dimen.standard_margin_named_default_half,
-            @DimenRes paddingTop: Int = R.dimen.standard_margin_named_default_half,
-            @DimenRes paddingRight: Int = R.dimen.standard_margin_named_default_half,
-            @DimenRes paddingBottom: Int = R.dimen.standard_margin_named_default_half
+        @DimenRes paddingLeft: Int = R.dimen.standard_margin_named_default_half,
+        @DimenRes paddingTop: Int = R.dimen.standard_margin_named_default_half,
+        @DimenRes paddingRight: Int = R.dimen.standard_margin_named_default_half,
+        @DimenRes paddingBottom: Int = R.dimen.standard_margin_named_default_half
     ) = getInnerOuterRectBrickPadding(
-            paddingLeft,
-            paddingTop,
-            paddingRight,
-            paddingBottom,
-            R.dimen.standard_margin_named_view_inset,
-            R.dimen.standard_margin_named_view_inset,
-            R.dimen.standard_margin_named_view_inset,
-            R.dimen.standard_margin_named_view_inset
+        paddingLeft,
+        paddingTop,
+        paddingRight,
+        paddingBottom,
+        R.dimen.standard_margin_named_view_inset,
+        R.dimen.standard_margin_named_view_inset,
+        R.dimen.standard_margin_named_view_inset,
+        R.dimen.standard_margin_named_view_inset
     )
 }

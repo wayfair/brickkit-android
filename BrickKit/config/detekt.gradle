@@ -1,0 +1,32 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.13.1"
+    }
+}
+
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+detekt {
+    toolVersion = "1.11.2"
+
+    config = files(configFile('quality/detekt/detekt-config.yml'))
+    baseline = file('detekt-baseline.xml')
+
+    reports {
+        xml {
+            enabled = true
+            destination = file("build/reports/detekt/detekt.xml")
+        }
+        html {
+            enabled = true
+            destination = file("build/reports/detekt/detekt.html")
+        }
+        txt.enabled = false
+    }
+}
