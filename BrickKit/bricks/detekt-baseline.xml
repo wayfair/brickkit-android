@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongParameterList:BrickPadding.kt$BrickPadding$( val innerLeftPadding: Int, val innerTopPadding: Int, val innerRightPadding: Int, val innerBottomPadding: Int, val outerLeftPadding: Int, val outerTopPadding: Int, val outerRightPadding: Int, val outerBottomPadding: Int )</ID>
+  </CurrentIssues>
+</SmellBaseline>

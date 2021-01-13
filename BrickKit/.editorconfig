@@ -1,0 +1,5 @@
+
+# ktlint configuration
+[*.{kt,kts}]
+max_line_length=150
+disabled_rules=import-ordering

@@ -23,9 +23,9 @@ import com.wayfair.brickkit.util.BrickTestHelper.TestAdapterDataObserver
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -467,9 +467,7 @@ class BrickRecyclerAdapterTest {
         whenever(brick.isDataReady).thenReturn(true)
 
         val layoutParams = mock<StaggeredGridLayoutManager.LayoutParams>()
-        val holder = BrickViewHolder(View(ApplicationProvider.getApplicationContext()).apply {
-            this.layoutParams = layoutParams
-        })
+        val holder = BrickViewHolder(View(ApplicationProvider.getApplicationContext()).apply { this.layoutParams = layoutParams })
         adapter.onBindViewHolder(holder, 0)
 
         verify(brick).onBindData(holder)
@@ -491,9 +489,11 @@ class BrickRecyclerAdapterTest {
         whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
         whenever(brick.isDataReady).thenReturn(true)
 
-        val holder = BrickViewHolder(View(ApplicationProvider.getApplicationContext()).apply {
-            this.layoutParams = mock<GridLayoutManager.LayoutParams>()
-        })
+        val holder = BrickViewHolder(
+            View(ApplicationProvider.getApplicationContext()).apply {
+                this.layoutParams = mock<GridLayoutManager.LayoutParams>()
+            }
+        )
 
         adapter.onBindViewHolder(holder, 0)
 

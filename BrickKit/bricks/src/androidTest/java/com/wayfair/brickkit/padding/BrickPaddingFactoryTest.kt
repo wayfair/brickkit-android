@@ -26,10 +26,8 @@ class BrickPaddingFactoryTest {
         whenever(resources.getDimension(SIX_DP)).thenReturn(6f)
         whenever(resources.getDimension(SEVEN_DP)).thenReturn(7f)
         whenever(resources.getDimension(EIGHT_DP)).thenReturn(8f)
-        whenever(resources.getDimension(R.dimen.standard_margin_named_default_half))
-                .thenReturn(11f)
-        whenever(resources.getDimension(R.dimen.standard_margin_named_view_inset))
-                .thenReturn(12f)
+        whenever(resources.getDimension(R.dimen.standard_margin_named_default_half)).thenReturn(11f)
+        whenever(resources.getDimension(R.dimen.standard_margin_named_view_inset)).thenReturn(12f)
         brickPaddingFactory = BrickPaddingFactory(resources)
     }
 
@@ -120,14 +118,14 @@ class BrickPaddingFactoryTest {
     @Test
     fun testGetInnerOuterRectBrickPadding() {
         brickPaddingFactory.getInnerOuterRectBrickPadding(
-                ONE_DP,
-                TWO_DP,
-                THREE_DP,
-                FOUR_DP,
-                FIVE_DP,
-                SIX_DP,
-                SEVEN_DP,
-                EIGHT_DP
+            ONE_DP,
+            TWO_DP,
+            THREE_DP,
+            FOUR_DP,
+            FIVE_DP,
+            SIX_DP,
+            SEVEN_DP,
+            EIGHT_DP
         ).apply {
             assertEquals(1, innerLeftPadding)
             assertEquals(2, innerTopPadding)
@@ -143,10 +141,10 @@ class BrickPaddingFactoryTest {
     @Test
     fun testViewInsetBrickPadding() {
         brickPaddingFactory.getViewInsetPadding(
-                ONE_DP,
-                TWO_DP,
-                THREE_DP,
-                FOUR_DP
+            ONE_DP,
+            TWO_DP,
+            THREE_DP,
+            FOUR_DP
         ).apply {
             assertEquals(1, innerLeftPadding)
             assertEquals(2, innerTopPadding)
@@ -182,6 +180,5 @@ class BrickPaddingFactoryTest {
         private const val SIX_DP = 6666
         private const val SEVEN_DP = 7777
         private const val EIGHT_DP = 8888
-
     }
 }
