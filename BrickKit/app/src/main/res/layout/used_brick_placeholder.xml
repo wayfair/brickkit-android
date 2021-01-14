@@ -6,8 +6,8 @@
     android:background="@android:color/holo_blue_light"
     android:paddingTop="24dp"
     android:paddingBottom="24dp"
-    android:paddingStart="@dimen/default_brick_content_padding"
-    android:paddingEnd="@dimen/default_brick_content_padding"
+    android:paddingStart="@dimen/eight_dp"
+    android:paddingEnd="@dimen/eight_dp"
     app:intensity="0.2"
     app:auto_start="true">
 
@@ -36,7 +36,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/bg_text_height"
-            android:layout_marginTop="@dimen/default_brick_content_padding"
+            android:layout_marginTop="@dimen/eight_dp"
             android:orientation="horizontal">
 
             <View

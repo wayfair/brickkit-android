@@ -5,6 +5,7 @@
             Standard Margins by Function
         ++++++++++++++++++++++++++++++++++++++++
     -->
+    <dimen name="no_dp">0dp</dimen>
     <!-- Guides the spacing between components on the same page.
      Used specifically for inner margins, which will be visually doubled. -->
     <dimen name="standard_margin_named_default_half">8dp</dimen>

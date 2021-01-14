@@ -9,7 +9,6 @@ import android.os.Looper;
 import android.view.View;
 
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.padding.BrickPadding;
 import com.wayfair.brickkit.padding.BrickPaddingFactory;
 import com.wayfair.brickkit.size.BrickSize;

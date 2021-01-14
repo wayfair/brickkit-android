@@ -5,7 +5,6 @@ package com.wayfair.brickkitdemo;
 
 import android.os.Bundle;
 
-import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.size.HalfWidthBrickSize;
 import com.wayfair.brickkitdemo.bricks.FragmentBrick;
 
