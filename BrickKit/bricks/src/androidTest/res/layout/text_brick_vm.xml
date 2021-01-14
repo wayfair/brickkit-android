@@ -20,7 +20,7 @@
             android:textColor="@android:color/black"
             android:textSize="31sp"
             android:background="@android:color/white"
-            android:padding="@dimen/default_brick_content_padding"
+            android:padding="8dp"
             android:text="@{textViewModel.text}"
             tools:text="Some text. Some text. Some text. Some text. Some text. Some text. Some text. Some text. " />
 

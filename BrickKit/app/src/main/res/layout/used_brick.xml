@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/holo_blue_light"
-    android:padding="@dimen/default_brick_content_padding">
+    android:padding="@dimen/eight_dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/label"

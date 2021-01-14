@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wayfair.brickkit.BrickFragment;
 import com.wayfair.brickkit.OnReachedItemAtPosition;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.padding.BrickPaddingFactory;

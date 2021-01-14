@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="center"
-        android:padding="@dimen/default_brick_content_padding">
+        android:padding="@dimen/eight_dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout"
