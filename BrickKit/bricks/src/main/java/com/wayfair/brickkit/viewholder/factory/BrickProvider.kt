@@ -1,6 +1,7 @@
-package com.wayfair.brickkit.brick
+package com.wayfair.brickkit.viewholder.factory
 
 import androidx.annotation.LayoutRes
+import com.wayfair.brickkit.brick.BaseBrick
 
 /**
  * Provides [BaseBrick]s based on resource ids.

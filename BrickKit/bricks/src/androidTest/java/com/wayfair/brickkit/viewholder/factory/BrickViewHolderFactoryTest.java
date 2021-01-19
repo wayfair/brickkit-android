@@ -11,7 +11,6 @@ import androidx.test.runner.AndroidJUnit4;
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.test.R;
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.brick.BrickProvider;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

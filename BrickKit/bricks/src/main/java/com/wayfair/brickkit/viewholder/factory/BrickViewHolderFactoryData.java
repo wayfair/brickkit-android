@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
-import com.wayfair.brickkit.brick.BrickProvider;
 
 /**
  * A data model class, used by the {@link BrickViewHolderFactory} with creation of

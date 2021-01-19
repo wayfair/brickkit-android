@@ -10,7 +10,7 @@ import android.widget.GridLayout;
 
 import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator;
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.brick.BrickProvider;
+import com.wayfair.brickkit.viewholder.factory.BrickProvider;
 import com.wayfair.brickkit.util.CollectionUtil;
 
 import java.io.Serializable;
