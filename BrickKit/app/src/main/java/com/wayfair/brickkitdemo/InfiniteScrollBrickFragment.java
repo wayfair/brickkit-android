@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2020 Wayfair. All rights reserved.
+ * Copyright © 2017-2021 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkitdemo;
 
@@ -36,14 +36,11 @@ public class InfiniteScrollBrickFragment extends BrickFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        dataManager.getBrickRecyclerAdapter().setOnReachedItemAtPosition(
-                new OnReachedItemAtPosition() {
-                    @Override
-                    public void bindingItemAtPosition(int position) {
-                        if (position == dataManager.getRecyclerViewItems().size() - 1) {
-                            page++;
-                            addNewBricks(new BrickPaddingFactory(getResources()));
-                        }
+        dataManager.setOnReachedItemAtPosition(
+                position -> {
+                    if (position == dataManager.getRecyclerViewItems().size() - 1) {
+                        page++;
+                        addNewBricks(new BrickPaddingFactory(getResources()));
                     }
                 }
         );

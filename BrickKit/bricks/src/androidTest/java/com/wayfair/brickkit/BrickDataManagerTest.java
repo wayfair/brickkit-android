@@ -3,7 +3,6 @@
  */
 package com.wayfair.brickkit;
 
-import android.content.Context;
 import android.os.Looper;
 
 import com.wayfair.brickkit.brick.BaseBrick;
@@ -19,8 +18,8 @@ import java.util.List;
 
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.InstrumentationRegistry;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -48,9 +47,8 @@ public class BrickDataManagerTest {
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
-        Context context = InstrumentationRegistry.getTargetContext();
         manager = new BrickDataManager();
-        manager.setRecyclerView(new RecyclerView(context));
+        manager.setRecyclerView(new RecyclerView(ApplicationProvider.getApplicationContext()));
         brickTestHelper = new BrickTestHelper();
 
         for (int i = 0; i < STARTING_BRICKS; i++) {
@@ -61,7 +59,7 @@ public class BrickDataManagerTest {
         manager.setDataSetChangedListener(dataSetChangedListener);
 
         observer = new BrickTestHelper.TestAdapterDataObserver();
-        manager.getBrickRecyclerAdapter().registerAdapterDataObserver(observer);
+        manager.getRecyclerView().getAdapter().registerAdapterDataObserver(observer);
     }
 
     @Test
@@ -209,9 +207,8 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddFirstVisibleHorizontal() {
-        Context context = InstrumentationRegistry.getTargetContext();
         BrickDataManager manager = new BrickDataManager();
-        manager.setHorizontalRecyclerView(new RecyclerView(context));
+        manager.setHorizontalRecyclerView(new RecyclerView(ApplicationProvider.getApplicationContext()));
         BrickTestHelper brickTestHelper = new BrickTestHelper();
 
         DataSetChangedListener dataSetChangedListener = mock(DataSetChangedListener.class);
@@ -223,7 +220,7 @@ public class BrickDataManagerTest {
         manager.addLast(brickTestHelper.generateBrick());
 
         BrickTestHelper.TestAdapterDataObserver observer = new BrickTestHelper.TestAdapterDataObserver();
-        manager.getBrickRecyclerAdapter().registerAdapterDataObserver(observer);
+        manager.getRecyclerView().getAdapter().registerAdapterDataObserver(observer);
 
         BaseBrick newBrick = brickTestHelper.generateBrick();
         manager.addFirst(newBrick);
@@ -1360,8 +1357,7 @@ public class BrickDataManagerTest {
     public void testComputePaddingPositionSafelyForFirstItem_withMultipleItems_resultsInAccuratePosition() {
         // Given
         BrickDataManager dataManager = new BrickDataManager();
-        Context context = InstrumentationRegistry.getTargetContext();
-        dataManager.setHorizontalRecyclerView(new RecyclerView(context));
+        dataManager.setHorizontalRecyclerView(new RecyclerView(ApplicationProvider.getApplicationContext()));
 
         // When
         List<BaseBrick> newItems = new LinkedList<>();

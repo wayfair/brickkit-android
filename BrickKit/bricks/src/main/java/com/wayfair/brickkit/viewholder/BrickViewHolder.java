@@ -1,13 +1,11 @@
-/**
- * Copyright © 2017 Wayfair. All rights reserved.
+/*
+ * Copyright © 2017-2021 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit.viewholder;
 
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.wayfair.brickkit.BrickRecyclerAdapter;
 
 /**
  * Base ViewHolder for bricks. It extends {@link androidx.recyclerview.widget.RecyclerView.ViewHolder} with
@@ -25,8 +23,7 @@ public class BrickViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * Called when {@link BrickRecyclerAdapter#onViewAttachedToWindow(BrickViewHolder)}
-     * is invoked.
+     * Called when {@link RecyclerView.Adapter#onViewAttachedToWindow(RecyclerView.ViewHolder)} is invoked.
      */
     public void onViewAttachedToWindow() {
     }

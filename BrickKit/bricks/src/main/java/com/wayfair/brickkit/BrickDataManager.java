@@ -1137,15 +1137,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
-     * Get the {@link BrickRecyclerAdapter} for this instance.
-     *
-     * @return the {@link BrickRecyclerAdapter}.
-     */
-    public BrickRecyclerAdapter getBrickRecyclerAdapter() {
-        return brickRecyclerAdapter;
-    }
-
-    /**
      * Method called to release any related resources.
      */
     public void onDestroyView() {
@@ -1213,6 +1204,17 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void setDataSetChangedListener(DataSetChangedListener listener) {
         this.dataSetChangedListener = listener;
+    }
+
+    /**
+     * Set an [OnReachedItemAtPosition].
+     *
+     * @param onReachedItemAtPosition [OnReachedItemAtPosition] to set
+     */
+    public void setOnReachedItemAtPosition(@Nullable OnReachedItemAtPosition onReachedItemAtPosition) {
+        if (brickRecyclerAdapter != null) {
+            brickRecyclerAdapter.setOnReachedItemAtPosition(onReachedItemAtPosition);
+        }
     }
 
     /**
