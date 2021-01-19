@@ -68,7 +68,7 @@ public abstract class BaseBrick {
     }
 
     /**
-     * Called by the BrickRecyclerAdapter to display the information in this brick to the specified ViewHolder.
+     * Called to display the information in this brick to the specified ViewHolder.
      *
      * @param holder BrickViewHolder which should be updated.
      */
@@ -83,7 +83,7 @@ public abstract class BaseBrick {
     public abstract int getLayout();
 
     /**
-     * Current brick must implement this method in order for the BrickRecyclerAdapter to inflate
+     * Current brick must implement this method in order for the adapter to inflate
      * either placeholder or brick layout. If method is not overridden we always assume data is ready.
      *
      * @return True if data is ready

@@ -41,7 +41,7 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
         staggeredGridLayoutManager.setItemPrefetchEnabled(false);
         dataManager.getRecyclerView().setLayoutManager(staggeredGridLayoutManager);
 
-        dataManager.getBrickRecyclerAdapter().setOnReachedItemAtPosition(
+        dataManager.setOnReachedItemAtPosition(
                 position -> {
                     if (position == dataManager.getRecyclerViewItems().size() - 1) {
                         page++;
