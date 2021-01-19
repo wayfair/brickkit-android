@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 
 import com.wayfair.brickkit.viewholder.BrickViewHolder;
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.brick.BrickProvider;
 
 /**
  * A factory used to create various types of {@link BrickViewHolder} objects.
