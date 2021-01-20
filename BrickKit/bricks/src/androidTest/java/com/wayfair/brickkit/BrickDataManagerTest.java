@@ -63,29 +63,6 @@ public class BrickDataManagerTest {
     }
 
     @Test
-    public void testSetItems() {
-        List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateBrick());
-
-        manager.setItems(newItems);
-
-        assertEquals(3, manager.getRecyclerViewItems().size());
-        assertEquals(5, manager.getDataManagerItems().size());
-
-        assertEquals(0, observer.getItemRangeRemovedPositionStart());
-        assertEquals(4, observer.getItemRangeRemovedItemCount());
-
-        assertEquals(0, observer.getItemRangeInsertedPositionStart());
-        assertEquals(3, observer.getItemRangeInsertedItemCount());
-
-        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged();
-    }
-
-    @Test
     public void testAddLastVisible() {
         manager.addLast(brickTestHelper.generateBrick());
 
@@ -115,13 +92,6 @@ public class BrickDataManagerTest {
         assertEquals(7, manager.getDataManagerItems().size());
 
         verify(dataSetChangedListener).onDataSetChanged();
-    }
-
-    @Test
-    public void testItemExist() {
-        assertTrue(manager.hasInstanceOf(BaseBrick.class));
-        manager.clear();
-        assertFalse(manager.hasInstanceOf(BaseBrick.class));
     }
 
     @Test
@@ -244,52 +214,6 @@ public class BrickDataManagerTest {
 
         assertEquals(4, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
-
-        assertEquals(-1, observer.getItemRangeInsertedPositionStart());
-        assertEquals(-1, observer.getItemRangeInsertedItemCount());
-
-        assertEquals(-1, observer.getItemRangeChangedPositionStart());
-        assertEquals(-1, observer.getItemRangeChangedItemCount());
-
-        verify(dataSetChangedListener, never()).onDataSetChanged();
-    }
-
-    @Test
-    public void testAddFirstCollection() {
-        List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateBrick());
-
-        manager.addFirst(newItems);
-
-        assertEquals(7, manager.getRecyclerViewItems().size());
-        assertEquals(9, manager.getDataManagerItems().size());
-
-        assertEquals(0, observer.getItemRangeInsertedPositionStart());
-        assertEquals(3, observer.getItemRangeInsertedItemCount());
-
-        assertEquals(3, observer.getItemRangeChangedPositionStart());
-        assertEquals(4, observer.getItemRangeChangedItemCount());
-
-        verify(dataSetChangedListener).onDataSetChanged();
-    }
-
-    @Test
-    public void testAddFirstCollectionAllHidden() {
-        List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-
-        manager.addFirst(newItems);
-
-        assertEquals(4, manager.getRecyclerViewItems().size());
-        assertEquals(9, manager.getDataManagerItems().size());
 
         assertEquals(-1, observer.getItemRangeInsertedPositionStart());
         assertEquals(-1, observer.getItemRangeInsertedItemCount());
@@ -794,32 +718,6 @@ public class BrickDataManagerTest {
     }
 
     @Test
-    public void testMoveThirdItemToBeginning() {
-        BaseBrick toMove = manager.getRecyclerViewItems().get(2);
-        BaseBrick positionBrick = manager.getRecyclerViewItems().get(0);
-        manager.moveItem(toMove, positionBrick);
-
-        assertEquals(0, observer.getItemRangeChangedPositionStart());
-        assertEquals(4, observer.getItemRangeChangedItemCount());
-
-        assertEquals(0, manager.getRecyclerViewItems().indexOf(toMove));
-        assertEquals(1, manager.getRecyclerViewItems().indexOf(positionBrick));
-    }
-
-    @Test
-    public void testMoveFirstItemToEnd() {
-        BaseBrick toMove = manager.getRecyclerViewItems().get(0);
-        BaseBrick positionBrick = manager.getRecyclerViewItems().get(3);
-        manager.moveItem(toMove, positionBrick);
-
-        assertEquals(0, observer.getItemRangeChangedPositionStart());
-        assertEquals(4, observer.getItemRangeChangedItemCount());
-
-        assertEquals(3, manager.getRecyclerViewItems().indexOf(toMove));
-        assertEquals(2, manager.getRecyclerViewItems().indexOf(positionBrick));
-    }
-
-    @Test
     public void testRemoveSomeItems() {
         List<BaseBrick> itemsToRemove = new LinkedList<>();
         itemsToRemove.add(manager.getRecyclerViewItems().get(1));
@@ -1156,7 +1054,7 @@ public class BrickDataManagerTest {
         List<BaseBrick> newItems = new LinkedList<>();
         newItems.add(brickTestHelper.generateBrickWithLayoutId(1));
 
-        manager.setItems(newItems);
+        manager.addLast(newItems);
 
         @LayoutRes int layoutRes = 1;
         assertNotNull(manager.brickWithLayout(layoutRes));
@@ -1167,7 +1065,7 @@ public class BrickDataManagerTest {
         List<BaseBrick> newItems = new LinkedList<>();
         newItems.add(brickTestHelper.generateBrickWithLayoutId(1));
 
-        manager.setItems(newItems);
+        manager.addLast(newItems);
 
         @LayoutRes int layoutRes = 2;
         assertNull(manager.brickWithLayout(layoutRes));
@@ -1178,7 +1076,7 @@ public class BrickDataManagerTest {
         List<BaseBrick> newItems = new LinkedList<>();
         newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, true));
 
-        manager.setItems(newItems);
+        manager.addLast(newItems);
 
         @LayoutRes int layoutRes = 1;
         assertNull(manager.brickWithPlaceholderLayout(layoutRes));
@@ -1189,7 +1087,7 @@ public class BrickDataManagerTest {
         List<BaseBrick> newItems = new LinkedList<>();
         newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, false));
 
-        manager.setItems(newItems);
+        manager.addLast(newItems);
 
         @LayoutRes int layoutRes = 1;
         assertNotNull(manager.brickWithPlaceholderLayout(layoutRes));
@@ -1200,7 +1098,7 @@ public class BrickDataManagerTest {
         List<BaseBrick> newItems = new LinkedList<>();
         newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, false));
 
-        manager.setItems(newItems);
+        manager.addLast(newItems);
 
         @LayoutRes int layoutRes = 2;
         assertNull(manager.brickWithPlaceholderLayout(layoutRes));
@@ -1211,7 +1109,7 @@ public class BrickDataManagerTest {
         List<BaseBrick> newItems = new LinkedList<>();
         newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, true));
 
-        manager.setItems(newItems);
+        manager.addLast(newItems);
 
         @LayoutRes int layoutRes = 2;
         assertNull(manager.brickWithPlaceholderLayout(layoutRes));
@@ -1370,7 +1268,7 @@ public class BrickDataManagerTest {
         brick2.setHidden(false);
         newItems.add(brick1);
 
-        dataManager.setItems(newItems);
+        dataManager.addLast(newItems);
         dataManager.dataHasChanged();
         int paddingPosition = dataManager.computePaddingPositionSafelyForFirstItem();
 
@@ -1387,7 +1285,8 @@ public class BrickDataManagerTest {
         }
 
         // When
-        manager.setItems(items);
+        manager.clear();
+        manager.addLast(items);
 
 
         // Verify
@@ -1411,7 +1310,8 @@ public class BrickDataManagerTest {
         }
 
         // When
-        manager.setItems(items);
+        manager.clear();
+        manager.addLast(items);
         manager.safeNotifyItemRangeInserted(items.get(3), 3);
 
         // Verify

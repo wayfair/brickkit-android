@@ -16,7 +16,6 @@ import com.wayfair.brickkit.util.CollectionUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -184,24 +183,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public LinkedList<BaseBrick> getDataManagerItems() {
         return items;
-    }
-
-    /**
-     * Replace current items with new {@link Collection} of bricks.
-     *
-     * @param items new bricks to be added.
-     */
-    public void setItems(Collection<? extends BaseBrick> items) {
-        clear();
-
-        this.items = new LinkedList<>(items);
-        dataHasChanged();
-
-        if (brickRecyclerAdapter != null) {
-            computePaddingPositionSafelyForFirstItem();
-            int itemCount = getRecyclerViewItems().size();
-            brickRecyclerAdapter.safeNotifyItemRangeInserted(0, itemCount);
-        }
     }
 
     /**
@@ -395,37 +376,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         return NO_PADDING_POSITION == paddingPosition
                 ? DEFAULT_BRICK_POSITION
                 : paddingPosition;
-    }
-
-
-    /**
-     * Inserts collection of bricks before all other bricks.
-     *
-     * @param items the bricks to add
-     */
-    public void addFirst(@Nullable Collection<? extends BaseBrick> items) {
-        if (null == items) {
-            Log.w(TAG, "addFirst(Collection): The items are null.");
-            return; // safety
-        }
-
-        this.items.addAll(0, items);
-        for (BaseBrick item : items) {
-            addToIdCache(item);
-            addToTagCache(item);
-            item.setDataManager(this);
-        }
-
-        int visibleCount = getVisibleCount(items);
-        if (visibleCount > 0) {
-            dataHasChanged();
-
-            if (brickRecyclerAdapter != null) {
-                computePaddingPositionSafelyForFirstItem();
-                brickRecyclerAdapter.safeNotifyItemRangeInserted(0, visibleCount);
-                safeNotifyItemRangeChange(visibleCount);
-            }
-        }
     }
 
     /**
@@ -665,37 +615,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
                     safeNotifyItemRangeChange(refreshStartIndex);
                 }
             }
-        }
-    }
-
-    /**
-     * Moves an item from one location to the location of the other.
-     *
-     * @param fromBrick The brick to move
-     * @param toBrick   The brick to move fromBrick to
-     */
-    public void moveItem(BaseBrick fromBrick, BaseBrick toBrick) {
-        int fromPosition = this.items.indexOf(fromBrick);
-        int toPosition = this.items.indexOf(toBrick);
-        int startPosition = Math.min(fromPosition, toPosition);
-
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(this.items, i, i + 1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(this.items, i, i - 1);
-            }
-        }
-
-        dataHasChanged();
-
-        if (brickRecyclerAdapter != null) {
-            brickRecyclerAdapter.safeNotifyItemMoved(fromPosition, toPosition);
-            BaseBrick brick = getRecyclerViewItems().get(startPosition);
-            int refreshStartIndex = getRefreshStartIndexForBrick(brick);
-            safeNotifyItemRangeChange(refreshStartIndex);
         }
     }
 
@@ -941,21 +860,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void removeAllByLayoutId(@LayoutRes int layoutId) {
         removeItems(getBricksByLayoutId(layoutId));
-    }
-
-    /**
-     * If all items have instance of clazz.
-     *
-     * @param clazz class to be found
-     * @return whether the clazz is in the all items
-     */
-    public boolean hasInstanceOf(Class clazz) {
-        for (BaseBrick item : this.items) {
-            if (clazz.isInstance(item)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

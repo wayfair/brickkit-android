@@ -386,7 +386,7 @@ The 'BrickDataManager' manages the RecyclerView's adapter and manipulates the br
 | getRecyclerViewItems |  Gets all 'visible' bricks in the 'BaseDataManager'.
 | getDataManagerItems |  Gets all bricks in the 'BaseDataManager'.
 | addLast |  Inserts brick/Collection of bricks after all other bricks.
-| addFirst |   Inserts brick/Collection of bricks before all other bricks.
+| addFirst |   Inserts brick  before all other bricks.
 | addBefore | Inserts a brick/collection of bricks before the given anchor brick.
 | addAfter | Inserts a brick/collection of bricks after the given anchor brick.
 | removeItem(s) |  Remove a brick/collection of bricks.
@@ -394,10 +394,8 @@ The 'BrickDataManager' manages the RecyclerView's adapter and manipulates the br
 | refreshItem | Refreshes the content of that brick.
 | hideItem | Makes the brick invisible to the RecyclerView, but keeps it in the `DataManager`.
 | showItem | Makes the brick visible to the RecyclerView.
-| moveItem | Relocates the brick from one position to another.
 | replaceItem | Swaps the target brick for the new one you are passing in.
 | clear | Removes all bricks.
-| setItems | Completely removes all existing bricks and inserts the collection of bricks you pass in.
 | brickWithLayout |  Retrieves a brick who's associated layout resource ID matches.
 | brickAtPosition |  Retrieves a brick at a specific position.
 
