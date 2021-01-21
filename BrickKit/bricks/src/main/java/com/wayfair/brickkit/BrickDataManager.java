@@ -39,10 +39,10 @@ public class BrickDataManager implements Serializable, BrickProvider {
     private static final String TAG = BrickDataManager.class.getSimpleName();
     public static final int SPAN_COUNT = 240;
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     static final int NO_PADDING_POSITION = -1;
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     static final int DEFAULT_BRICK_POSITION = 0;
 
     private static final int NO_INDEX = -1;
@@ -55,7 +55,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     private boolean dataHasChanged;
     private boolean vertical;
     private RecyclerView recyclerView;
-    private RecyclerView.ItemDecoration itemDecoration;
     private DataSetChangedListener dataSetChangedListener;
 
     /**
@@ -94,21 +93,20 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
         this.recyclerView = recyclerView;
         this.recyclerView.setAdapter(brickRecyclerAdapter);
-        if (itemDecoration != null) {
-            this.recyclerView.removeItemDecoration(itemDecoration);
+        while (recyclerView.getItemDecorationCount() > 0) {
+            recyclerView.removeItemDecorationAt(0);
         }
-        this.itemDecoration = new BrickRecyclerItemDecoration(this);
-        this.recyclerView.addItemDecoration(itemDecoration);
+        this.recyclerView.addItemDecoration(new BrickRecyclerItemDecoration(this));
         this.recyclerView.setItemAnimator(new AvoidFlickerItemAnimator());
 
         GridLayoutManager gridLayoutManager = new WFGridLayoutManager(recyclerView.getContext(), orientation);
         gridLayoutManager.setSpanSizeLookup(new BrickSpanSizeLookup(recyclerView.getContext(), this));
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        LinkedList<BaseBrick> items = getRecyclerViewItems();
-        int itemCount = items.size();
+        List<BaseBrick> recyclerViewItems = getRecyclerViewItems();
+        int itemCount = recyclerViewItems.size();
         if (itemCount > 0) {
-            computePaddingPosition(items.get(0));
+            computePaddingPosition(recyclerViewItems.get(0));
             brickRecyclerAdapter.notifyItemRangeInserted(0, itemCount);
         }
     }
@@ -150,7 +148,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      * @param bricks the new list of bricks.
      */
     public void updateBricks(LinkedList<BaseBrick> bricks) {
-        LinkedList<BaseBrick> newVisibleBricks = new LinkedList<>();
+        List<BaseBrick> newVisibleBricks = new LinkedList<>();
 
         // clean caches and the DataManager reference on each brick
         idCache.clear();
@@ -229,10 +227,10 @@ public class BrickDataManager implements Serializable, BrickProvider {
     private void removeFromIdCache(@NonNull BaseBrick item) {
         synchronized (this.idCache) {
             if (this.idCache.get(item.getLayout()) != null) {
-                LinkedList<BaseBrick> list = this.idCache.get(item.getLayout());
+                List<BaseBrick> list = this.idCache.get(item.getLayout());
                 list.remove(item);
 
-                if (list.size() == 0) {
+                if (list.isEmpty()) {
                     this.idCache.remove(item.getLayout());
                 }
             }
@@ -247,7 +245,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     public void removeFromTagCache(@NonNull BaseBrick item) {
         synchronized (this.tagCache) {
             if (item.getTag() != null && this.tagCache.containsKey(item.getTag())) {
-                LinkedList<BaseBrick> list = this.tagCache.get(item.getTag());
+                List<BaseBrick> list = this.tagCache.get(item.getTag());
                 if (null == list) {
                     Log.w(TAG, "removeFromTagCache: The tag cache is null.");
                     return; // safety
@@ -255,7 +253,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
                 list.remove(item);
 
-                if (list.size() == 0) {
+                if (list.isEmpty()) {
                     this.tagCache.remove(item.getTag());
                 }
             }
@@ -347,7 +345,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
         if (visibleCount > 0) {
             dataHasChanged();
 
-            LinkedList<BaseBrick> brickItems = getRecyclerViewItems();
+            List<BaseBrick> brickItems = getRecyclerViewItems();
             boolean isTheIndexWithinTheCollectionBounds =
                     CollectionUtil.isTheIndexWithinTheCollectionsBounds(index, brickItems);
 
@@ -370,8 +368,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      * @param paddingPosition used to compare with {@link #NO_PADDING_POSITION}
      * @return either the "paddingPosition" value or {@link #DEFAULT_BRICK_POSITION}
      */
-    @SuppressWarnings("WeakerAccess")
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     int getPaddingPositionOrDefault(int paddingPosition) {
         return NO_PADDING_POSITION == paddingPosition
                 ? DEFAULT_BRICK_POSITION
@@ -465,8 +462,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      *
      * @param item which was just inserted.
      */
-    @SuppressWarnings("WeakerAccess")
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     void safeNotifyItemInserted(@Nullable BaseBrick item) {
         int adapterIndex = adapterIndex(item);
         if (adapterIndex != NO_INDEX) {
@@ -480,8 +476,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      * @param item         which was just inserted.
      * @param visibleCount the item count for the range
      */
-    @SuppressWarnings("WeakerAccess")
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     void safeNotifyItemRangeInserted(@Nullable BaseBrick item, int visibleCount) {
         int adapterIndex = adapterIndex(item);
         if (adapterIndex != NO_INDEX) {
@@ -500,10 +495,8 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
         if (index == NO_INDEX) {
             index = 0;
-            this.items.addAll(index, items);
-        } else {
-            this.items.addAll(index, items);
         }
+        this.items.addAll(index, items);
         for (BaseBrick item : items) {
             addToIdCache(item);
             addToTagCache(item);
@@ -565,11 +558,10 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
         if (index == -1) {
             index = getRecyclerViewItems().size();
-            this.items.addAll(index, items);
         } else {
             index++;
-            this.items.addAll(index, items);
         }
+        this.items.addAll(index, items);
         for (BaseBrick item : items) {
             addToIdCache(item);
             addToTagCache(item);
@@ -608,10 +600,10 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
             if (brickRecyclerAdapter != null) {
                 brickRecyclerAdapter.safeNotifyItemRemoved(index);
-                LinkedList<BaseBrick> items = getRecyclerViewItems();
+                List<BaseBrick> recyclerViewItems = getRecyclerViewItems();
 
-                if (CollectionUtil.isTheIndexWithinTheCollectionsBounds(index, items)) {
-                    int refreshStartIndex = getRefreshStartIndexForBrick(items.get(index));
+                if (CollectionUtil.isTheIndexWithinTheCollectionsBounds(index, recyclerViewItems)) {
+                    int refreshStartIndex = getRefreshStartIndexForBrick(recyclerViewItems.get(index));
                     safeNotifyItemRangeChange(refreshStartIndex);
                 }
             }
@@ -634,7 +626,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
         if (visibleCount > 0) {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
-                if (getRecyclerViewItems().size() > 0) {
+                if (!getRecyclerViewItems().isEmpty()) {
                     computePaddingPosition(getRecyclerViewItems().getFirst());
                 }
 
@@ -663,7 +655,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
      * @param target      brick to replace
      * @param replacement the brick being added
      */
-    @SuppressWarnings("WeakerAccess")
     public synchronized void replaceItem(BaseBrick target, BaseBrick replacement) {
         int targetIndexInItems = items.indexOf(target);
 
@@ -760,10 +751,8 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void refreshItem(BaseBrick item) {
         int index = adapterIndex(item);
-        if (items.indexOf(item) != -1 && index != -1 && !item.isHidden()) {
-            if (brickRecyclerAdapter != null) {
-                brickRecyclerAdapter.safeNotifyItemChanged(index);
-            }
+        if (items.contains(item) && index != -1 && !item.isHidden() && brickRecyclerAdapter != null) {
+            brickRecyclerAdapter.safeNotifyItemChanged(index);
         }
     }
 
@@ -775,7 +764,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     public void hideItem(BaseBrick item) {
         item.setHidden(true);
         int index = adapterIndex(item);
-        if (items.indexOf(item) != -1 && index != -1) {
+        if (items.contains(item) && index != -1) {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
                 brickRecyclerAdapter.safeNotifyItemRemoved(index);
@@ -795,7 +784,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void showItem(BaseBrick item) {
         item.setHidden(false);
-        if (items.indexOf(item) != -1 && adapterIndex(item) == -1) {
+        if (items.contains(item) && adapterIndex(item) == -1) {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
                 int index = adapterIndex(item);
@@ -809,7 +798,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     /**
      * Helper method to tell manager to update the items returned from getRecyclerViewItems().
      */
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     void dataHasChanged() {
         dataHasChanged = true;
         if (dataSetChangedListener != null) {
@@ -832,7 +821,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      *
      * @param clazz class to remove all instances of
      */
-    public void removeAll(Class clazz) {
+    public void removeAll(Class<?> clazz) {
         ArrayList<BaseBrick> itemToRemove = new ArrayList<>();
 
         for (BaseBrick item : this.items) {
@@ -882,7 +871,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      * @return index of first modified, non-null item or {@link #NO_PADDING_POSITION} for a null
      * brick.
      */
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @SuppressWarnings("UnusedReturnValue")
     int computePaddingPositionSafelyForFirstItem() {
         return computePaddingPosition(getRecyclerViewItems().peek());
@@ -959,7 +948,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
         }
 
         if (iterator.hasNext()) {
-            currentBrick = iterator.next();
+            iterator.next();
         }
 
         while (iterator.hasNext()) {
