@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,7 +20,6 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.wayfair.brickkit.brick.BaseBrick
 import com.wayfair.brickkit.size.BrickSize
 import com.wayfair.brickkit.test.R
-import com.wayfair.brickkit.util.BrickTestHelper.TestAdapterDataObserver
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -561,5 +561,50 @@ class BrickRecyclerAdapterTest {
         private const val BRICK_COUNT = 3
         private const val LAYOUT = 7
         private const val PLACEHOLDER_LAYOUT = 8
+    }
+
+    private class TestAdapterDataObserver : AdapterDataObserver() {
+        var isChanged = false
+        var itemRangeChangedPositionStart = -1
+        var itemRangeChangedItemCount = -1
+        var itemRangeChangedPayload: Any? = null
+        var itemRangeInsertedPositionStart = -1
+        var itemRangeInsertedItemCount = -1
+        var itemRangeRemovedPositionStart = -1
+        var itemRangeRemovedItemCount = -1
+        var itemRangeMovedFromPosition = -1
+        var itemRangeMovedToPosition = -1
+        var itemRangeMovedItemCount = -1
+
+        override fun onChanged() {
+            isChanged = true
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+            itemRangeChangedPositionStart = positionStart
+            itemRangeChangedItemCount = itemCount
+            itemRangeChangedPayload = payload
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+            itemRangeChangedPositionStart = positionStart
+            itemRangeChangedItemCount = itemCount
+        }
+
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            itemRangeInsertedPositionStart = positionStart
+            itemRangeInsertedItemCount = itemCount
+        }
+
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            itemRangeRemovedPositionStart = positionStart
+            itemRangeRemovedItemCount = itemCount
+        }
+
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+            itemRangeMovedFromPosition = fromPosition
+            itemRangeMovedToPosition = toPosition
+            itemRangeMovedItemCount = itemCount
+        }
     }
 }
