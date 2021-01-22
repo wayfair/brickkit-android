@@ -149,7 +149,22 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void updateBricks(LinkedList<BaseBrick> bricks) {
         List<BaseBrick> newVisibleBricks = new LinkedList<>();
+        for (BaseBrick brick : bricks) {
+            if (!brick.isHidden()) {
+                newVisibleBricks.add(brick);
+            }
+        }
 
+        updateBricks(bricks, new BrickDiffUtilCallback(currentlyVisibleItems, newVisibleBricks));
+    }
+
+    /**
+     * Use DiffUtils to update the recycler view.
+     *
+     * @param bricks the new list of bricks.
+     * @param diffUtilCallback {@link DiffUtil.Callback} to use
+     */
+    public void updateBricks(List<BaseBrick> bricks, DiffUtil.Callback diffUtilCallback) {
         // clean caches and the DataManager reference on each brick
         idCache.clear();
         tagCache.clear();
@@ -162,12 +177,8 @@ public class BrickDataManager implements Serializable, BrickProvider {
             addToTagCache(item);
             item.setDataManager(this);
         }
-        for (BaseBrick brick : bricks) {
-            if (!brick.isHidden()) {
-                newVisibleBricks.add(brick);
-            }
-        }
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new BrickDiffUtilCallback(currentlyVisibleItems, newVisibleBricks));
+
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback);
         items.clear();
         items.addAll(bricks);
         dataHasChanged();
