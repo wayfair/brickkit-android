@@ -4,9 +4,12 @@
 package com.wayfair.brickkit;
 
 import android.os.Looper;
+import android.view.View;
 
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.util.BrickTestHelper;
+import com.wayfair.brickkit.padding.ZeroBrickPadding;
+import com.wayfair.brickkit.size.HalfWidthBrickSize;
+import com.wayfair.brickkit.viewholder.BrickViewHolder;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,9 +41,8 @@ public class BrickDataManagerTest {
     public static final String TAG = "Tag";
 
     private BrickDataManager manager;
-    private BrickTestHelper.TestAdapterDataObserver observer;
+    private TestAdapterDataObserver observer;
     private DataSetChangedListener dataSetChangedListener;
-    private BrickTestHelper brickTestHelper;
 
     @Before
     public void setup() {
@@ -49,22 +51,21 @@ public class BrickDataManagerTest {
         }
         manager = new BrickDataManager();
         manager.setRecyclerView(new RecyclerView(ApplicationProvider.getApplicationContext()));
-        brickTestHelper = new BrickTestHelper();
 
         for (int i = 0; i < STARTING_BRICKS; i++) {
-            manager.addLast(brickTestHelper.generateBrick());
+            manager.addLast(generateBrick());
         }
 
         dataSetChangedListener = mock(DataSetChangedListener.class);
         manager.setDataSetChangedListener(dataSetChangedListener);
 
-        observer = new BrickTestHelper.TestAdapterDataObserver();
+        observer = new TestAdapterDataObserver();
         manager.getRecyclerView().getAdapter().registerAdapterDataObserver(observer);
     }
 
     @Test
     public void testAddLastVisible() {
-        manager.addLast(brickTestHelper.generateBrick());
+        manager.addLast(generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -82,9 +83,9 @@ public class BrickDataManagerTest {
     public void testUpdateBricks() {
         LinkedList<BaseBrick> bricks = new LinkedList<>(manager.getDataManagerItems());
 
-        bricks.addLast(brickTestHelper.generateBrick());
-        bricks.add(1, brickTestHelper.generateBrick());
-        bricks.add(3, brickTestHelper.generateBrick());
+        bricks.addLast(generateBrick());
+        bricks.add(1, generateBrick());
+        bricks.add(3, generateBrick());
 
         manager.updateBricks(bricks);
 
@@ -96,7 +97,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddLastHidden() {
-        manager.addLast(brickTestHelper.generateHiddenBrick());
+        manager.addLast(generateHiddenBrick());
 
         assertEquals(4, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -113,11 +114,11 @@ public class BrickDataManagerTest {
     @Test
     public void testAddLastCollection() {
         List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateBrick());
+        newItems.add(generateBrick());
+        newItems.add(generateHiddenBrick());
+        newItems.add(generateBrick());
+        newItems.add(generateHiddenBrick());
+        newItems.add(generateBrick());
 
         manager.addLast(newItems);
 
@@ -136,11 +137,11 @@ public class BrickDataManagerTest {
     @Test
     public void testAddLastCollectionAllHidden() {
         List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
-        newItems.add(brickTestHelper.generateHiddenBrick());
+        newItems.add(generateHiddenBrick());
+        newItems.add(generateHiddenBrick());
+        newItems.add(generateHiddenBrick());
+        newItems.add(generateHiddenBrick());
+        newItems.add(generateHiddenBrick());
 
         manager.addLast(newItems);
 
@@ -158,7 +159,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddFirstVisible() {
-        BaseBrick newBrick = brickTestHelper.generateBrick();
+        BaseBrick newBrick = generateBrick();
         manager.addFirst(newBrick);
 
         assertEquals(5, manager.getRecyclerViewItems().size());
@@ -179,20 +180,19 @@ public class BrickDataManagerTest {
     public void testAddFirstVisibleHorizontal() {
         BrickDataManager manager = new BrickDataManager();
         manager.setHorizontalRecyclerView(new RecyclerView(ApplicationProvider.getApplicationContext()));
-        BrickTestHelper brickTestHelper = new BrickTestHelper();
 
         DataSetChangedListener dataSetChangedListener = mock(DataSetChangedListener.class);
         manager.setDataSetChangedListener(dataSetChangedListener);
 
-        manager.addLast(brickTestHelper.generateBrick());
-        manager.addLast(brickTestHelper.generateBrick());
-        manager.addLast(brickTestHelper.generateBrick());
-        manager.addLast(brickTestHelper.generateBrick());
+        manager.addLast(generateBrick());
+        manager.addLast(generateBrick());
+        manager.addLast(generateBrick());
+        manager.addLast(generateBrick());
 
-        BrickTestHelper.TestAdapterDataObserver observer = new BrickTestHelper.TestAdapterDataObserver();
+        TestAdapterDataObserver observer = new TestAdapterDataObserver();
         manager.getRecyclerView().getAdapter().registerAdapterDataObserver(observer);
 
-        BaseBrick newBrick = brickTestHelper.generateBrick();
+        BaseBrick newBrick = generateBrick();
         manager.addFirst(newBrick);
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -210,7 +210,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddFirstHidden() {
-        manager.addFirst(brickTestHelper.generateHiddenBrick());
+        manager.addFirst(generateHiddenBrick());
 
         assertEquals(4, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -226,7 +226,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddBeforeFirstItem() {
-        manager.addBeforeItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateBrick());
+        manager.addBeforeItem(manager.getRecyclerViewItems().get(0), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -242,7 +242,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddBeforeWithHiddenItem() {
-        manager.addBeforeItem(manager.getRecyclerViewItems().get(1), brickTestHelper.generateHiddenBrick());
+        manager.addBeforeItem(manager.getRecyclerViewItems().get(1), generateHiddenBrick());
 
         assertEquals(4, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -258,10 +258,10 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddBeforeHiddenItemsAtEnd() {
-        manager.addLast(brickTestHelper.generateHiddenBrick());
-        BaseBrick lastHiddenBrick = brickTestHelper.generateHiddenBrick();
+        manager.addLast(generateHiddenBrick());
+        BaseBrick lastHiddenBrick = generateHiddenBrick();
         manager.addLast(lastHiddenBrick);
-        manager.addBeforeItem(lastHiddenBrick, brickTestHelper.generateBrick());
+        manager.addBeforeItem(lastHiddenBrick, generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(7, manager.getDataManagerItems().size());
@@ -277,11 +277,11 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddBeforeHiddenItemsInMiddle() {
-        manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateHiddenBrick());
-        manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateHiddenBrick());
-        manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateHiddenBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(0), generateHiddenBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(0), generateHiddenBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(0), generateHiddenBrick());
 
-        manager.addBeforeItem(manager.getDataManagerItems().get(3), brickTestHelper.generateBrick());
+        manager.addBeforeItem(manager.getDataManagerItems().get(3), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(8, manager.getDataManagerItems().size());
@@ -297,11 +297,11 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddBeforeHiddenItemsAtBeginning() {
-        manager.addFirst(brickTestHelper.generateHiddenBrick());
-        manager.addFirst(brickTestHelper.generateHiddenBrick());
-        manager.addFirst(brickTestHelper.generateHiddenBrick());
+        manager.addFirst(generateHiddenBrick());
+        manager.addFirst(generateHiddenBrick());
+        manager.addFirst(generateHiddenBrick());
 
-        manager.addBeforeItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateBrick());
+        manager.addBeforeItem(manager.getRecyclerViewItems().get(0), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(8, manager.getDataManagerItems().size());
@@ -317,7 +317,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddAfterWithHiddenItem() {
-        manager.addAfterItem(manager.getRecyclerViewItems().get(1), brickTestHelper.generateHiddenBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(1), generateHiddenBrick());
 
         assertEquals(4, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -333,10 +333,10 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddAfterHiddenItemsAtEnd() {
-        manager.addLast(brickTestHelper.generateHiddenBrick());
-        BaseBrick lastHiddenBrick = brickTestHelper.generateHiddenBrick();
+        manager.addLast(generateHiddenBrick());
+        BaseBrick lastHiddenBrick = generateHiddenBrick();
         manager.addLast(lastHiddenBrick);
-        manager.addAfterItem(lastHiddenBrick, brickTestHelper.generateBrick());
+        manager.addAfterItem(lastHiddenBrick, generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(7, manager.getDataManagerItems().size());
@@ -352,11 +352,11 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddAfterHiddenItemsInMiddle() {
-        manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateHiddenBrick());
-        manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateHiddenBrick());
-        manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateHiddenBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(0), generateHiddenBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(0), generateHiddenBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(0), generateHiddenBrick());
 
-        manager.addAfterItem(manager.getDataManagerItems().get(3), brickTestHelper.generateBrick());
+        manager.addAfterItem(manager.getDataManagerItems().get(3), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(8, manager.getDataManagerItems().size());
@@ -372,11 +372,11 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddAfterHiddenItemsAtBeginning() {
-        manager.addFirst(brickTestHelper.generateHiddenBrick());
-        manager.addFirst(brickTestHelper.generateHiddenBrick());
-        manager.addFirst(brickTestHelper.generateHiddenBrick());
+        manager.addFirst(generateHiddenBrick());
+        manager.addFirst(generateHiddenBrick());
+        manager.addFirst(generateHiddenBrick());
 
-        manager.addBeforeItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateBrick());
+        manager.addBeforeItem(manager.getRecyclerViewItems().get(0), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(8, manager.getDataManagerItems().size());
@@ -392,7 +392,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddBeforeLastItem() {
-        manager.addBeforeItem(manager.getRecyclerViewItems().get(3), brickTestHelper.generateBrick());
+        manager.addBeforeItem(manager.getRecyclerViewItems().get(3), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -408,7 +408,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddBeforeInvalidItem() {
-        manager.addBeforeItem(brickTestHelper.generateBrick(), brickTestHelper.generateBrick());
+        manager.addBeforeItem(generateBrick(), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -424,7 +424,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddAfterFirstItem() {
-        manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickTestHelper.generateBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(0), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -440,7 +440,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddAfterLastItem() {
-        manager.addAfterItem(manager.getRecyclerViewItems().get(3), brickTestHelper.generateBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(3), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -456,8 +456,8 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddAfterLastHiddenItem() {
-        manager.addLast(brickTestHelper.generateHiddenBrick());
-        manager.addAfterItem(manager.getRecyclerViewItems().get(3), brickTestHelper.generateBrick());
+        manager.addLast(generateHiddenBrick());
+        manager.addAfterItem(manager.getRecyclerViewItems().get(3), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(6, manager.getDataManagerItems().size());
@@ -473,7 +473,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddAfterInvalidItem() {
-        manager.addAfterItem(brickTestHelper.generateBrick(), brickTestHelper.generateBrick());
+        manager.addAfterItem(generateBrick(), generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -490,9 +490,9 @@ public class BrickDataManagerTest {
     @Test
     public void testAddItemsBeforeLastItem() {
         ArrayList<BaseBrick> items = new ArrayList<>();
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateBrick());
+        items.add(generateBrick());
+        items.add(generateBrick());
+        items.add(generateBrick());
         manager.addBeforeItem(manager.getRecyclerViewItems().get(3), items);
 
         assertEquals(7, manager.getRecyclerViewItems().size());
@@ -510,9 +510,9 @@ public class BrickDataManagerTest {
     @Test
     public void testAddItemsWithOneHiddenBeforeLastItem() {
         ArrayList<BaseBrick> items = new ArrayList<>();
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateHiddenBrick());
-        items.add(brickTestHelper.generateBrick());
+        items.add(generateBrick());
+        items.add(generateHiddenBrick());
+        items.add(generateBrick());
         manager.addBeforeItem(manager.getRecyclerViewItems().get(3), items);
 
         assertEquals(6, manager.getRecyclerViewItems().size());
@@ -530,9 +530,9 @@ public class BrickDataManagerTest {
     @Test
     public void testAddItemsWithAllHiddenBeforeLastItem() {
         ArrayList<BaseBrick> items = new ArrayList<>();
-        items.add(brickTestHelper.generateHiddenBrick());
-        items.add(brickTestHelper.generateHiddenBrick());
-        items.add(brickTestHelper.generateHiddenBrick());
+        items.add(generateHiddenBrick());
+        items.add(generateHiddenBrick());
+        items.add(generateHiddenBrick());
         manager.addBeforeItem(manager.getRecyclerViewItems().get(3), items);
 
         assertEquals(4, manager.getRecyclerViewItems().size());
@@ -550,10 +550,10 @@ public class BrickDataManagerTest {
     @Test
     public void testAddItemsBeforeMissingItem() {
         ArrayList<BaseBrick> items = new ArrayList<>();
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateBrick());
-        manager.addBeforeItem(brickTestHelper.generateBrick(), items);
+        items.add(generateBrick());
+        items.add(generateBrick());
+        items.add(generateBrick());
+        manager.addBeforeItem(generateBrick(), items);
 
         assertEquals(7, manager.getRecyclerViewItems().size());
         assertEquals(7, manager.getDataManagerItems().size());
@@ -570,9 +570,9 @@ public class BrickDataManagerTest {
     @Test
     public void testAddItemsAfterLastItem() {
         ArrayList<BaseBrick> items = new ArrayList<>();
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateBrick());
+        items.add(generateBrick());
+        items.add(generateBrick());
+        items.add(generateBrick());
         manager.addAfterItem(manager.getRecyclerViewItems().get(3), items);
 
         assertEquals(7, manager.getRecyclerViewItems().size());
@@ -590,9 +590,9 @@ public class BrickDataManagerTest {
     @Test
     public void testAddItemsWithOneHiddenAfterLastItem() {
         ArrayList<BaseBrick> items = new ArrayList<>();
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateHiddenBrick());
-        items.add(brickTestHelper.generateBrick());
+        items.add(generateBrick());
+        items.add(generateHiddenBrick());
+        items.add(generateBrick());
         manager.addAfterItem(manager.getRecyclerViewItems().get(3), items);
 
         assertEquals(6, manager.getRecyclerViewItems().size());
@@ -610,9 +610,9 @@ public class BrickDataManagerTest {
     @Test
     public void testAddItemsWithAllHiddenAfterLastItem() {
         ArrayList<BaseBrick> items = new ArrayList<>();
-        items.add(brickTestHelper.generateHiddenBrick());
-        items.add(brickTestHelper.generateHiddenBrick());
-        items.add(brickTestHelper.generateHiddenBrick());
+        items.add(generateHiddenBrick());
+        items.add(generateHiddenBrick());
+        items.add(generateHiddenBrick());
         manager.addAfterItem(manager.getRecyclerViewItems().get(3), items);
 
         assertEquals(4, manager.getRecyclerViewItems().size());
@@ -630,10 +630,10 @@ public class BrickDataManagerTest {
     @Test
     public void testAddItemsAfterMissingItem() {
         ArrayList<BaseBrick> items = new ArrayList<>();
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateBrick());
-        items.add(brickTestHelper.generateBrick());
-        manager.addAfterItem(brickTestHelper.generateBrick(), items);
+        items.add(generateBrick());
+        items.add(generateBrick());
+        items.add(generateBrick());
+        manager.addAfterItem(generateBrick(), items);
 
         assertEquals(7, manager.getRecyclerViewItems().size());
         assertEquals(7, manager.getDataManagerItems().size());
@@ -697,8 +697,8 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRemoveHiddenItem() {
-        manager.addLast(brickTestHelper.generateHiddenBrick());
-        manager.addLast(brickTestHelper.generateBrick());
+        manager.addLast(generateHiddenBrick());
+        manager.addLast(generateBrick());
 
         observer.setItemRangeChangedPositionStart(-1);
         observer.setItemRangeChangedItemCount(-1);
@@ -753,9 +753,9 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRemoveAllTestBrick() {
-        manager.addLast(brickTestHelper.generateOtherBrick());
+        manager.addLast(generateOtherBrick());
 
-        manager.removeAll(BrickTestHelper.TestBrick.class);
+        manager.removeAll(TestBrick.class);
 
         assertEquals(1, manager.getRecyclerViewItems().size());
         assertEquals(1, manager.getDataManagerItems().size());
@@ -767,9 +767,9 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRemoveHiddenItems() {
-        manager.addLast(brickTestHelper.generateHiddenBrick());
-        manager.addLast(brickTestHelper.generateHiddenBrick());
-        manager.addLast(brickTestHelper.generateBrick());
+        manager.addLast(generateHiddenBrick());
+        manager.addLast(generateHiddenBrick());
+        manager.addLast(generateBrick());
 
         List<BaseBrick> itemsToRemove = new LinkedList<>();
         itemsToRemove.add(manager.getDataManagerItems().get(4));
@@ -800,7 +800,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testReplaceItemBothHidden() {
-        BaseBrick brickToReplace = brickTestHelper.generateHiddenBrick();
+        BaseBrick brickToReplace = generateHiddenBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToReplace);
 
         observer.setItemRangeInsertedPositionStart(-1);
@@ -808,7 +808,7 @@ public class BrickDataManagerTest {
         observer.setItemRangeChangedPositionStart(-1);
         observer.setItemRangeChangedItemCount(-1);
 
-        manager.replaceItem(brickToReplace, brickTestHelper.generateHiddenBrick());
+        manager.replaceItem(brickToReplace, generateHiddenBrick());
 
         assertEquals(4, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -826,7 +826,7 @@ public class BrickDataManagerTest {
     }
 
     private void replaceItemBothVisible(int replaceCount) {
-        BaseBrick brickToReplace = brickTestHelper.generateBrick();
+        BaseBrick brickToReplace = generateBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToReplace);
 
         observer.setItemRangeInsertedPositionStart(-1);
@@ -835,7 +835,7 @@ public class BrickDataManagerTest {
         observer.setItemRangeChangedItemCount(-1);
 
         for (int i = 0; i < replaceCount; i++) {
-            manager.replaceItem(brickToReplace, brickTestHelper.generateBrick());
+            manager.replaceItem(brickToReplace, generateBrick());
         }
 
         assertEquals(5, manager.getRecyclerViewItems().size());
@@ -865,7 +865,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testReplaceHiddenItemWithVisibleItem() {
-        BaseBrick brickToReplace = brickTestHelper.generateHiddenBrick();
+        BaseBrick brickToReplace = generateHiddenBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToReplace);
 
         observer.setItemRangeInsertedPositionStart(-1);
@@ -873,7 +873,7 @@ public class BrickDataManagerTest {
         observer.setItemRangeChangedPositionStart(-1);
         observer.setItemRangeChangedItemCount(-1);
 
-        manager.replaceItem(brickToReplace, brickTestHelper.generateBrick());
+        manager.replaceItem(brickToReplace, generateBrick());
 
         assertEquals(5, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -892,7 +892,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testReplaceVisibleItemWithHiddenItem() {
-        BaseBrick brickToReplace = brickTestHelper.generateBrick();
+        BaseBrick brickToReplace = generateBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToReplace);
 
         observer.setItemRangeInsertedPositionStart(-1);
@@ -900,7 +900,7 @@ public class BrickDataManagerTest {
         observer.setItemRangeChangedPositionStart(-1);
         observer.setItemRangeChangedItemCount(-1);
 
-        manager.replaceItem(brickToReplace, brickTestHelper.generateHiddenBrick());
+        manager.replaceItem(brickToReplace, generateHiddenBrick());
 
         assertEquals(4, manager.getRecyclerViewItems().size());
         assertEquals(5, manager.getDataManagerItems().size());
@@ -919,7 +919,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRefreshItemBothHidden() {
-        BaseBrick brickToRefresh = brickTestHelper.generateHiddenBrick();
+        BaseBrick brickToRefresh = generateHiddenBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToRefresh);
 
         observer.setItemRangeInsertedPositionStart(-1);
@@ -946,7 +946,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRefreshItemBothVisible() {
-        BaseBrick brickToRefresh = brickTestHelper.generateBrick();
+        BaseBrick brickToRefresh = generateBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToRefresh);
 
         observer.setItemRangeInsertedPositionStart(-1);
@@ -973,7 +973,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRefreshHiddenItemWithVisibleItem() {
-        BaseBrick brickToRefresh = brickTestHelper.generateHiddenBrick();
+        BaseBrick brickToRefresh = generateHiddenBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToRefresh);
 
         observer.setItemRangeInsertedPositionStart(-1);
@@ -1000,7 +1000,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRefreshVisibleItemWithHiddenItem() {
-        BaseBrick brickToRefresh = brickTestHelper.generateBrick();
+        BaseBrick brickToRefresh = generateBrick();
         manager.addAfterItem(manager.getRecyclerViewItems().get(0), brickToRefresh);
 
         observer.setItemRangeInsertedPositionStart(-1);
@@ -1027,7 +1027,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRefreshInvalidItem() {
-        manager.refreshItem(brickTestHelper.generateBrick());
+        manager.refreshItem(generateBrick());
 
         assertEquals(4, manager.getRecyclerViewItems().size());
         assertEquals(4, manager.getDataManagerItems().size());
@@ -1052,7 +1052,7 @@ public class BrickDataManagerTest {
     @Test
     public void testBrickWithLayout() {
         List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateBrickWithLayoutId(1));
+        newItems.add(generateBrickWithLayoutId(1));
 
         manager.addLast(newItems);
 
@@ -1063,7 +1063,7 @@ public class BrickDataManagerTest {
     @Test
     public void testBrickWithLayoutInvalidLayout() {
         List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateBrickWithLayoutId(1));
+        newItems.add(generateBrickWithLayoutId(1));
 
         manager.addLast(newItems);
 
@@ -1074,7 +1074,7 @@ public class BrickDataManagerTest {
     @Test
     public void testBrickWithPlaceholderLayoutWhenDataIsReady() {
         List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, true));
+        newItems.add(generateBrickWithPlaceholderLayoutId(1, true));
 
         manager.addLast(newItems);
 
@@ -1085,7 +1085,7 @@ public class BrickDataManagerTest {
     @Test
     public void testBrickWithPlaceholderLayoutWhenDataIsNotReady() {
         List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, false));
+        newItems.add(generateBrickWithPlaceholderLayoutId(1, false));
 
         manager.addLast(newItems);
 
@@ -1096,7 +1096,7 @@ public class BrickDataManagerTest {
     @Test
     public void testBrickWithPlaceholderLayoutInvalidLayoutWhenDataIsNotReady() {
         List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, false));
+        newItems.add(generateBrickWithPlaceholderLayoutId(1, false));
 
         manager.addLast(newItems);
 
@@ -1107,7 +1107,7 @@ public class BrickDataManagerTest {
     @Test
     public void testBrickWithPlaceholderLayoutInvalidLayoutWhenDataIsReady() {
         List<BaseBrick> newItems = new LinkedList<>();
-        newItems.add(brickTestHelper.generateBrickWithPlaceholderLayoutId(1, true));
+        newItems.add(generateBrickWithPlaceholderLayoutId(1, true));
 
         manager.addLast(newItems);
 
@@ -1125,12 +1125,12 @@ public class BrickDataManagerTest {
     @Test
     public void testSmoothScrollToBrick() {
         manager.smoothScrollToBrick(manager.brickAtPosition(manager.getRecyclerViewItems().size() - 1));
-        manager.smoothScrollToBrick(brickTestHelper.generateBrick());
+        manager.smoothScrollToBrick(generateBrick());
     }
 
     @Test
     public void testAddToTagCache() {
-        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        BaseBrick baseBrick = generateBrick();
         baseBrick.setTag(TAG);
         manager.addLast(baseBrick);
 
@@ -1139,11 +1139,11 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddMultipleToTagCache() {
-        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        BaseBrick baseBrick = generateBrick();
         baseBrick.setTag(TAG);
         manager.addLast(baseBrick);
 
-        BaseBrick baseBrick2 = brickTestHelper.generateBrick();
+        BaseBrick baseBrick2 = generateBrick();
         baseBrick.setTag(TAG);
         manager.addLast(baseBrick2);
 
@@ -1152,7 +1152,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddNullToTagCache() {
-        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        BaseBrick baseBrick = generateBrick();
         baseBrick.setTag(TAG);
         manager.addLast(baseBrick);
         baseBrick.setTag(null);
@@ -1162,7 +1162,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRemoveFromTagCache() {
-        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        BaseBrick baseBrick = generateBrick();
         baseBrick.setTag(TAG);
         manager.addLast(baseBrick);
 
@@ -1175,7 +1175,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddToLayoutIdCache() {
-        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        BaseBrick baseBrick = generateBrick();
         manager.addLast(baseBrick);
 
         assertEquals(STARTING_BRICKS + 1, manager.getBricksByLayoutId(baseBrick.getLayout()).size());
@@ -1183,10 +1183,10 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddMultipleToLayoutIdCache() {
-        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        BaseBrick baseBrick = generateBrick();
         manager.addLast(baseBrick);
 
-        BaseBrick baseBrick2 = brickTestHelper.generateBrick();
+        BaseBrick baseBrick2 = generateBrick();
         manager.addLast(baseBrick2);
 
         assertEquals(STARTING_BRICKS + 2, manager.getBricksByLayoutId(baseBrick.getLayout()).size());
@@ -1194,7 +1194,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testAddNullToLayoutIdCache() {
-        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        BaseBrick baseBrick = generateBrick();
         manager.addLast(baseBrick);
 
         assertNull(manager.getBricksByLayoutId(-1));
@@ -1202,7 +1202,7 @@ public class BrickDataManagerTest {
 
     @Test
     public void testRemoveFromLayoutIdCache() {
-        BaseBrick baseBrick = brickTestHelper.generateBrick();
+        BaseBrick baseBrick = generateBrick();
         manager.addLast(baseBrick);
 
         assertEquals(STARTING_BRICKS + 1, manager.getBricksByLayoutId(baseBrick.getLayout()).size());
@@ -1260,11 +1260,11 @@ public class BrickDataManagerTest {
         // When
         List<BaseBrick> newItems = new LinkedList<>();
 
-        BaseBrick brick1 = brickTestHelper.generateBrick();
+        BaseBrick brick1 = generateBrick();
         brick1.setHidden(false);
         newItems.add(brick1);
 
-        BaseBrick brick2 = brickTestHelper.generateBrick();
+        BaseBrick brick2 = generateBrick();
         brick2.setHidden(false);
         newItems.add(brick1);
 
@@ -1281,7 +1281,7 @@ public class BrickDataManagerTest {
         // Given
         List<BaseBrick> items = new LinkedList<>();
         for (int i = 0; i < 5; i++) {
-            items.add(brickTestHelper.generateBrick());
+            items.add(generateBrick());
         }
 
         // When
@@ -1306,7 +1306,7 @@ public class BrickDataManagerTest {
         // Given
         List<BaseBrick> items = new LinkedList<>();
         for (int i = 0; i < 5; i++) {
-            items.add(brickTestHelper.generateBrick());
+            items.add(generateBrick());
         }
 
         // When
@@ -1328,5 +1328,193 @@ public class BrickDataManagerTest {
         manager.clear();
 
         verify(listener).onDataSetChanged();
+    }
+
+    public BaseBrick generateBrick() {
+        return new TestBrick(0);
+    }
+
+    public BaseBrick generateBrickWithLayoutId(int layoutId) {
+        return new TestBrick(layoutId);
+    }
+
+    public BaseBrick generateHiddenBrick() {
+        BaseBrick brick = generateBrick();
+        brick.setHidden(true);
+
+        return brick;
+    }
+
+    public BaseBrick generateBrickWithPlaceholderLayoutId(int placeholderLayoutId, boolean isDataReady) {
+        return new TestPlaceholderBrick(placeholderLayoutId, isDataReady);
+    }
+
+    public BaseBrick generateOtherBrick() {
+        return new TestBrick2();
+    }
+
+    public static final class TestBrick extends BaseBrick {
+        private final int layoutId;
+
+        private TestBrick(int layoutId) {
+            super(new HalfWidthBrickSize(), new ZeroBrickPadding());
+            this.layoutId = layoutId;
+        }
+
+        @Override
+        public void onBindData(BrickViewHolder holder) {
+
+        }
+
+        @Override
+        public int getLayout() {
+            return layoutId;
+        }
+
+        @Override
+        public BrickViewHolder createViewHolder(View itemView) {
+            return null;
+        }
+    }
+
+    private static final class TestBrick2 extends BaseBrick {
+
+        private TestBrick2() {
+            super(new HalfWidthBrickSize(), new ZeroBrickPadding());
+        }
+
+        @Override
+        public void onBindData(BrickViewHolder holder) {
+
+        }
+
+        @Override
+        public int getLayout() {
+            return 0;
+        }
+
+        @Override
+        public BrickViewHolder createViewHolder(View itemView) {
+            return null;
+        }
+    }
+
+    public static final class TestPlaceholderBrick extends BaseBrick {
+        private final int placeholderLayoutId;
+        private final boolean isDataReady;
+
+        private TestPlaceholderBrick(int placeholderLayoutId, boolean isDataReady) {
+            super(new HalfWidthBrickSize(), new ZeroBrickPadding());
+            this.placeholderLayoutId = placeholderLayoutId;
+            this.isDataReady = isDataReady;
+        }
+
+        @Override
+        public void onBindData(BrickViewHolder holder) {
+
+        }
+
+        @Override
+        public boolean isDataReady() {
+            return isDataReady;
+        }
+
+        @Override
+        public int getPlaceholderLayout() {
+            return placeholderLayoutId;
+        }
+
+        @Override
+        public int getLayout() {
+            return 0;
+        }
+
+        @Override
+        public BrickViewHolder createViewHolder(View itemView) {
+            return null;
+        }
+    }
+
+    public static class TestAdapterDataObserver extends RecyclerView.AdapterDataObserver {
+
+        private boolean changed = false;
+
+        private int itemRangeChangedPositionStart = -1;
+        private int itemRangeChangedItemCount = -1;
+
+        private int itemRangeInsertedPositionStart = -1;
+        private int itemRangeInsertedItemCount = -1;
+
+        private int itemRangeRemovedPositionStart = -1;
+        private int itemRangeRemovedItemCount = -1;
+
+        public void onChanged() {
+            changed = true;
+        }
+
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            itemRangeChangedPositionStart = positionStart;
+            itemRangeChangedItemCount = itemCount;
+        }
+
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            itemRangeChangedPositionStart = positionStart;
+            itemRangeChangedItemCount = itemCount;
+        }
+
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            itemRangeInsertedPositionStart = positionStart;
+            itemRangeInsertedItemCount = itemCount;
+        }
+
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            itemRangeRemovedPositionStart = positionStart;
+            itemRangeRemovedItemCount = itemCount;
+        }
+
+        public boolean isChanged() {
+            return changed;
+        }
+
+        public int getItemRangeChangedPositionStart() {
+            return itemRangeChangedPositionStart;
+        }
+
+        public int getItemRangeChangedItemCount() {
+            return itemRangeChangedItemCount;
+        }
+
+        public int getItemRangeInsertedPositionStart() {
+            return itemRangeInsertedPositionStart;
+        }
+
+        public int getItemRangeInsertedItemCount() {
+            return itemRangeInsertedItemCount;
+        }
+
+        public int getItemRangeRemovedPositionStart() {
+            return itemRangeRemovedPositionStart;
+        }
+
+        public int getItemRangeRemovedItemCount() {
+            return itemRangeRemovedItemCount;
+        }
+
+
+        public void setItemRangeChangedPositionStart(int itemRangeChangedPositionStart) {
+            this.itemRangeChangedPositionStart = itemRangeChangedPositionStart;
+        }
+
+        public void setItemRangeChangedItemCount(int itemRangeChangedItemCount) {
+            this.itemRangeChangedItemCount = itemRangeChangedItemCount;
+        }
+
+        public void setItemRangeInsertedPositionStart(int itemRangeInsertedPositionStart) {
+            this.itemRangeInsertedPositionStart = itemRangeInsertedPositionStart;
+        }
+
+        public void setItemRangeInsertedItemCount(int itemRangeInsertedItemCount) {
+            this.itemRangeInsertedItemCount = itemRangeInsertedItemCount;
+        }
     }
 }
