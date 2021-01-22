@@ -179,7 +179,6 @@ public abstract class BaseBrick {
                 dataManager.showItem(this);
             }
         }
-
     }
 
     /**
@@ -188,15 +187,6 @@ public abstract class BaseBrick {
     public void refreshItem() {
         if (dataManager != null) {
             dataManager.refreshItem(this);
-        }
-    }
-
-    /**
-     * If this brick as attached to a DataManager, smooth scroll this this brick in that DataManager.
-     */
-    public void smoothScroll() {
-        if (dataManager != null) {
-            dataManager.smoothScrollToBrick(this);
         }
     }
 

@@ -76,15 +76,6 @@ class BaseBrickTest {
     }
 
     @Test
-    fun testSmoothScroll() {
-        brick.smoothScroll()
-        brick.setDataManager(brickDataManager)
-        brick.smoothScroll()
-
-        verify(brickDataManager).smoothScrollToBrick(brick)
-    }
-
-    @Test
     fun testAddLastTo() {
         brick.addLastTo(brickDataManager)
 
