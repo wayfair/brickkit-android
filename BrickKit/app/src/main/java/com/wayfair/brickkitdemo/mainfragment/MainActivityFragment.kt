@@ -30,7 +30,7 @@ class MainActivityFragment : BrickFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val placeholderBrick = ActiveBrick(resources, R.string.empty) { changeFragment(SimpleBrickFragment.newInstance(100)) }
+        val placeholderBrick = ActiveBrick(resources, R.string.empty) { changeFragment(SimpleBrickFragment.newInstance()) }
             .also {
                 // Fake waiting as in a API request to show off placeholder when data is not ready
                 Handler(Looper.getMainLooper()).postDelayed(
