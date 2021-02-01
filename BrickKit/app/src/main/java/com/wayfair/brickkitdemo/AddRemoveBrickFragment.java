@@ -59,7 +59,7 @@ public class AddRemoveBrickFragment extends BrickFragment {
                                                     dataManager.addLast(
                                                             new TextBrick(
                                                                     new FullWidthBrickSize(),
-                                                                    brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
+                                                                    brickPaddingFactory,
                                                                     String.format(Locale.getDefault(), FORMAT, dataModel.getValue())
                                                             )
                                                     );
@@ -68,7 +68,7 @@ public class AddRemoveBrickFragment extends BrickFragment {
                                                             dataManager.getRecyclerViewItems().get(dataModel.getValue()),
                                                             new TextBrick(
                                                                     new FullWidthBrickSize(),
-                                                                    brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
+                                                                    brickPaddingFactory,
                                                                     String.format(Locale.getDefault(), FORMAT, dataModel.getValue())
                                                             )
                                                     );
@@ -85,7 +85,7 @@ public class AddRemoveBrickFragment extends BrickFragment {
             } else {
                 BaseBrick brick = new TextBrick(
                         new FullWidthBrickSize(),
-                        brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
+                        brickPaddingFactory,
                         String.format(Locale.getDefault(), FORMAT, i)
                 );
 
