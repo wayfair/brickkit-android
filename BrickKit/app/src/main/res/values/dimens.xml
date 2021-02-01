@@ -1,6 +1,5 @@
-<!-- Copyright © 2017-2020 Wayfair. All rights reserved. -->
+<!-- Copyright © 2017-2021 Wayfair. All rights reserved. -->
 <resources>
-    <dimen name="bg_text_height">14dp</dimen>
     <dimen name="four_dp">4dp</dimen>
     <dimen name="eight_dp">8dp</dimen>
 </resources>
