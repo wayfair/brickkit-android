@@ -19,6 +19,7 @@ import com.wayfair.brickkitdemo.SimpleBrickFragment
 import com.wayfair.brickkitdemo.StaggeredInfiniteScrollBrickFragment
 import com.wayfair.brickkitdemo.mainfragment.bricks.PassiveBrick
 import com.wayfair.brickkitdemo.mainfragment.bricks.ActiveBrick
+import java.util.concurrent.TimeUnit
 
 /**
  * Main fragment that links to the other child fragments. Additionally this shows an example of placeholders.
@@ -34,7 +35,7 @@ class MainActivityFragment : BrickFragment() {
                 // Fake waiting as in a API request to show off placeholder when data is not ready
                 Handler(Looper.getMainLooper()).postDelayed(
                     { it.text = getString(R.string.simple_brick_title) },
-                    2000
+                    TimeUnit.SECONDS.toMillis(2)
                 )
             }
 
