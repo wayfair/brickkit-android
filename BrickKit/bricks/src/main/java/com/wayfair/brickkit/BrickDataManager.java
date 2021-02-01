@@ -442,6 +442,24 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
+     * Return all the bricks that have the type.
+     *
+     * @param clazz The class we are looking for
+     * @return A list of all the bricks that have the same type
+     */
+    public List<BaseBrick> getBricksByClass(Class<?> clazz) {
+        List<BaseBrick> matchingItems = new ArrayList<>();
+
+        for (BaseBrick item : this.items) {
+            if (clazz.isInstance(item)) {
+                matchingItems.add(item);
+            }
+        }
+
+        return matchingItems;
+    }
+
+    /**
      * Inserts brick before the anchor brick.
      *
      * @param anchor brick to insert before
@@ -827,41 +845,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     private int adapterIndex(@Nullable BaseBrick item) {
         return getRecyclerViewItems().indexOf(item);
-    }
-
-    /**
-     * Removes all instances of a given class.
-     *
-     * @param clazz class to remove all instances of
-     */
-    public void removeAll(Class<?> clazz) {
-        ArrayList<BaseBrick> itemToRemove = new ArrayList<>();
-
-        for (BaseBrick item : this.items) {
-            if (clazz.isInstance(item)) {
-                itemToRemove.add(item);
-            }
-        }
-
-        removeItems(itemToRemove);
-    }
-
-    /**
-     * Removes all instances of a given tag.
-     *
-     * @param tag tag to remove all instances of
-     */
-    public void removeAllByTag(@NonNull Object tag) {
-        removeItems(getBricksByTag(tag));
-    }
-
-    /**
-     * Removes all instances of a given layout Id.
-     *
-     * @param layoutId layout to remove all instances of
-     */
-    public void removeAllByLayoutId(@LayoutRes int layoutId) {
-        removeItems(getBricksByLayoutId(layoutId));
     }
 
     /**
