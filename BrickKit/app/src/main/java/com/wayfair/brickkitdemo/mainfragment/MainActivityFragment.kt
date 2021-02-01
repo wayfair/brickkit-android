@@ -12,13 +12,13 @@ import com.wayfair.brickkit.size.BrickSize
 import com.wayfair.brickkit.size.PercentageBrickSize
 import com.wayfair.brickkitdemo.AddRemoveBrickFragment
 import com.wayfair.brickkitdemo.BrickFragment
-import com.wayfair.brickkitdemo.FragmentBrickFragment
 import com.wayfair.brickkitdemo.InfiniteScrollBrickFragment
 import com.wayfair.brickkitdemo.R
 import com.wayfair.brickkitdemo.SimpleBrickFragment
 import com.wayfair.brickkitdemo.StaggeredInfiniteScrollBrickFragment
-import com.wayfair.brickkitdemo.mainfragment.bricks.PassiveBrick
+import com.wayfair.brickkitdemo.fragmentbrick.FragmentBrickFragment
 import com.wayfair.brickkitdemo.mainfragment.bricks.ActiveBrick
+import com.wayfair.brickkitdemo.mainfragment.bricks.PassiveBrick
 import java.util.concurrent.TimeUnit
 
 /**
