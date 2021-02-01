@@ -1240,43 +1240,6 @@ public class BrickDataManagerTest {
     }
 
     @Test
-    public void testComputePaddingPositionSafelyForFirstItem_withZeroItems_resultsIn_NO_PADDING_POSITION_Value() {
-        // Given
-        BrickDataManager dataManager = new BrickDataManager();
-
-        // When
-        int paddingPosition = dataManager.computePaddingPositionSafelyForFirstItem();
-
-        // Verify
-        assertEquals(BrickDataManager.NO_PADDING_POSITION, paddingPosition);
-    }
-
-    @Test
-    public void testComputePaddingPositionSafelyForFirstItem_withMultipleItems_resultsInAccuratePosition() {
-        // Given
-        BrickDataManager dataManager = new BrickDataManager();
-        dataManager.setHorizontalRecyclerView(new RecyclerView(ApplicationProvider.getApplicationContext()));
-
-        // When
-        List<BaseBrick> newItems = new LinkedList<>();
-
-        BaseBrick brick1 = generateBrick();
-        brick1.setHidden(false);
-        newItems.add(brick1);
-
-        BaseBrick brick2 = generateBrick();
-        brick2.setHidden(false);
-        newItems.add(brick1);
-
-        dataManager.addLast(newItems);
-        dataManager.dataHasChanged();
-        int paddingPosition = dataManager.computePaddingPositionSafelyForFirstItem();
-
-        // Verify
-        assertNotEquals(BrickDataManager.NO_PADDING_POSITION, paddingPosition);
-    }
-
-    @Test
     public void testSafeNotifyItemInserted() {
         // Given
         List<BaseBrick> items = new LinkedList<>();
