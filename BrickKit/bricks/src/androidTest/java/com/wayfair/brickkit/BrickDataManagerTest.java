@@ -752,20 +752,6 @@ public class BrickDataManagerTest {
     }
 
     @Test
-    public void testRemoveAllTestBrick() {
-        manager.addLast(generateOtherBrick());
-
-        manager.removeAll(TestBrick.class);
-
-        assertEquals(1, manager.getRecyclerViewItems().size());
-        assertEquals(1, manager.getDataManagerItems().size());
-
-        assertTrue(observer.isChanged());
-
-        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged();
-    }
-
-    @Test
     public void testRemoveHiddenItems() {
         manager.addLast(generateHiddenBrick());
         manager.addLast(generateHiddenBrick());
@@ -1161,19 +1147,6 @@ public class BrickDataManagerTest {
     }
 
     @Test
-    public void testRemoveFromTagCache() {
-        BaseBrick baseBrick = generateBrick();
-        baseBrick.setTag(TAG);
-        manager.addLast(baseBrick);
-
-        assertEquals(1, manager.getBricksByTag(TAG).size());
-
-        manager.removeAllByTag(TAG);
-
-        assertNull(manager.getBricksByTag(TAG));
-    }
-
-    @Test
     public void testAddToLayoutIdCache() {
         BaseBrick baseBrick = generateBrick();
         manager.addLast(baseBrick);
@@ -1198,18 +1171,6 @@ public class BrickDataManagerTest {
         manager.addLast(baseBrick);
 
         assertNull(manager.getBricksByLayoutId(-1));
-    }
-
-    @Test
-    public void testRemoveFromLayoutIdCache() {
-        BaseBrick baseBrick = generateBrick();
-        manager.addLast(baseBrick);
-
-        assertEquals(STARTING_BRICKS + 1, manager.getBricksByLayoutId(baseBrick.getLayout()).size());
-
-        manager.removeAllByLayoutId(baseBrick.getLayout());
-
-        assertNull(manager.getBricksByLayoutId(baseBrick.getLayout()));
     }
 
     @Test
