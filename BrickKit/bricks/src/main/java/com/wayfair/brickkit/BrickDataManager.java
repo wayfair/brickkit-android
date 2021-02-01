@@ -46,6 +46,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
     private static final int NO_INDEX = -1;
 
+    @Nullable
     private BrickRecyclerAdapter brickRecyclerAdapter;
     private final SparseArray<LinkedList<BaseBrick>> idCache;
     private final HashMap<Object, LinkedList<BaseBrick>> tagCache;
@@ -181,7 +182,9 @@ public class BrickDataManager implements Serializable, BrickProvider {
         items.clear();
         items.addAll(bricks);
         dataHasChanged();
-        diffResult.dispatchUpdatesTo(brickRecyclerAdapter);
+        if (brickRecyclerAdapter != null) {
+            diffResult.dispatchUpdatesTo(brickRecyclerAdapter);
+        }
     }
 
     /**
@@ -475,7 +478,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     @VisibleForTesting
     void safeNotifyItemInserted(@Nullable BaseBrick item) {
         int adapterIndex = adapterIndex(item);
-        if (adapterIndex != NO_INDEX) {
+        if (brickRecyclerAdapter != null && adapterIndex != NO_INDEX) {
             brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
         }
     }
@@ -489,7 +492,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     @VisibleForTesting
     void safeNotifyItemRangeInserted(@Nullable BaseBrick item, int visibleCount) {
         int adapterIndex = adapterIndex(item);
-        if (adapterIndex != NO_INDEX) {
+        if (brickRecyclerAdapter != null && adapterIndex != NO_INDEX) {
             brickRecyclerAdapter.safeNotifyItemRangeInserted(adapterIndex, visibleCount);
         }
     }
