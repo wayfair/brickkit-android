@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.NoSuchElementException;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -873,19 +872,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         if (index != NO_INDEX) {
             recyclerView.smoothScrollToPosition(index);
         }
-    }
-
-    /**
-     * Safely checks / Determines if the brick is on the left wall, first row, right wall, last row.
-     * If a {@link NoSuchElementException} is thrown when retrieving the first brick, it is caught.
-     *
-     * @return index of first modified, non-null item or {@link #NO_PADDING_POSITION} for a null
-     * brick.
-     */
-    @VisibleForTesting
-    @SuppressWarnings("UnusedReturnValue")
-    int computePaddingPositionSafelyForFirstItem() {
-        return computePaddingPosition(getRecyclerViewItems().peek());
     }
 
     /**
