@@ -1,6 +1,12 @@
-<!-- Copyright © 2017 Wayfair. All rights reserved. -->
+<!-- Copyright © 2017-2021 Wayfair. All rights reserved. -->
 <resources>
     <string name="app_name">BrickKit</string>
     <string name="remove">-</string>
     <string name="add">+</string>
+    <string name="simple_brick_title">Simple Brick View</string>
+    <string name="add_remove_brick_title">Add/Remove Brick View</string>
+    <string name="infinite_scroll_brick_title">Infinite Scroll Brick View</string>
+    <string name="staggered_infinite_scroll_brick_title">Staggered Infinite Scroll Brick View</string>
+    <string name="fragment_brick_title">Fragment Brick View</string>
+    <string name="empty"/>
 </resources>
