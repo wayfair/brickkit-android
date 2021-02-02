@@ -20,6 +20,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.concurrent.CountDownLatch
 
 @RunWith(AndroidJUnit4::class)
 class ViewModelBrickTest {
@@ -216,14 +217,21 @@ class ViewModelBrickTest {
     @Test
     fun testOnChange() {
         val dataModel = TextDataModel(TEXT)
+        val viewModel = TextViewModel(dataModel)
+
+        val countDownLatch = CountDownLatch(1)
+        viewModel.addUpdateListener { countDownLatch.countDown() }
+
         val viewModelBrick = ViewModelBrick.Builder(R.layout.text_brick_vm)
-            .addViewModel(BR.viewModel, TextViewModel(dataModel))
+            .addViewModel(BR.viewModel, viewModel)
             .setPlaceholder(R.layout.text_brick_vm_placeholder)
             .build()
 
         assertFalse(viewModelBrick.isHidden)
 
         dataModel.text = ""
+
+        countDownLatch.await()
 
         assertTrue(viewModelBrick.isHidden)
     }
