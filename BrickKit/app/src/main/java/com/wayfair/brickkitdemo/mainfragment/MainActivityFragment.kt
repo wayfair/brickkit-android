@@ -15,7 +15,7 @@ import com.wayfair.brickkitdemo.BrickFragment
 import com.wayfair.brickkitdemo.infinitescroll.InfiniteScrollBrickFragment
 import com.wayfair.brickkitdemo.R
 import com.wayfair.brickkitdemo.simplebrick.SimpleBrickFragment
-import com.wayfair.brickkitdemo.StaggeredInfiniteScrollBrickFragment
+import com.wayfair.brickkitdemo.staggeredinfinitescroll.StaggeredInfiniteScrollBrickFragment
 import com.wayfair.brickkitdemo.fragmentbrick.FragmentBrickFragment
 import com.wayfair.brickkitdemo.mainfragment.bricks.ActiveBrick
 import com.wayfair.brickkitdemo.mainfragment.bricks.PassiveBrick
