@@ -108,7 +108,6 @@ internal class BrickRecyclerAdapter(
      * @param itemCount Number of items that have changed
      */
     fun safeNotifyItemRangeChanged(positionStart: Int, itemCount: Int) {
-        safeNotifyItemRangeChanged(positionStart, itemCount, null)
         if (positionStart >= 0 && itemCount >= 0) {
             runWhenNotComputingLayout { notifyItemRangeChanged(positionStart, itemCount) }
         } else {
