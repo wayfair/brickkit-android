@@ -35,7 +35,7 @@ class StaggeredInfiniteScrollBrickFragment : BrickFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         super.onCreateView(inflater, container, savedInstanceState)?.apply {
             findViewById<RecyclerView>(R.id.recycler_view).layoutManager =
-                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
+                StaggeredGridLayoutManager(COLUMN_COUNT, StaggeredGridLayoutManager.VERTICAL).apply {
                     isItemPrefetchEnabled = false
                 }
         }
@@ -65,11 +65,11 @@ class StaggeredInfiniteScrollBrickFragment : BrickFragment() {
         dataManager.addLast(
             (0 until PAGE_SIZE).map { i ->
                 TextBrick(
-                    if (i % 19 == 0) FullWidthBrickSize() else HalfWidthBrickSize(),
+                    if (i % FULL_WIDTH_MODULO == 0) FullWidthBrickSize() else HalfWidthBrickSize(),
                     BrickPaddingFactory(resources),
                     when {
-                        i % 19 == 0 -> "Brick: $page fullsize $i"
-                        i % 4 == 0 -> "Brick: $page multi\nline $i"
+                        i % FULL_WIDTH_MODULO == 0 -> "Brick: $page fullsize $i"
+                        i % MULTI_LINE_MODULO == 0 -> "Brick: $page multi\nline $i"
                         else -> "Brick: $page $i"
                     }
                 )
@@ -78,6 +78,9 @@ class StaggeredInfiniteScrollBrickFragment : BrickFragment() {
     }
 
     companion object {
+        private const val COLUMN_COUNT = 2
         private const val PAGE_SIZE = 100
+        private const val FULL_WIDTH_MODULO = 19
+        private const val MULTI_LINE_MODULO = 4
     }
 }
