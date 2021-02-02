@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright © 2017 Wayfair. All rights reserved. -->
+<!-- Copyright © 2017-2021 Wayfair. All rights reserved. -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,8 +16,8 @@
         android:layout_height="60dp"
         android:textColor="@android:color/white"
         android:gravity="center_vertical"
-        android:drawableEnd="@drawable/ic_arrow_forward"
-        android:drawableTint="@android:color/white"
+        app:drawableEndCompat="@drawable/ic_arrow_forward"
+        app:drawableTint="@android:color/white"
         tools:text="Sample"
         tools:ignore="UnusedAttribute,UselessLeaf" />
 
