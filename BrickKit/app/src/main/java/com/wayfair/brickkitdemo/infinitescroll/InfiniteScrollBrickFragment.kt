@@ -48,7 +48,11 @@ class InfiniteScrollBrickFragment : BrickFragment() {
 
     private fun addNewBricks() {
         dataManager.addLast(
-            (0..99).map { i -> TextBrick(FullPhoneFullHalfTabletBrickSize(), BrickPaddingFactory(resources), "Brick: $page $i") }
+            (0 until PAGE_SIZE).map { i -> TextBrick(FullPhoneFullHalfTabletBrickSize(), BrickPaddingFactory(resources), "Brick: $page $i") }
         )
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 100
     }
 }
