@@ -1,15 +1,14 @@
 apply plugin: 'com.android.application'
-apply plugin: 'checkstyle'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId 'com.wayfair.brickkitdemo'
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -35,21 +34,11 @@ android {
 }
 
 dependencies {
-    implementation "androidx.core:core:1.0.1"
-    implementation "androidx.fragment:fragment:1.0.0"
-    implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "androidx.recyclerview:recyclerview:1.0.0"
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.core:core-ktx:1.3.2"
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+    implementation "androidx.appcompat:appcompat:1.2.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "com.google.android.material:material:1.2.1"
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation project(path: ':bricks')
-}
-
-check.dependsOn("checkstyle")
-
-task checkstyle(type: Checkstyle) {
-    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
-    configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
-    source 'src/main'
-    include '**/*.java'
-    classpath = files() as FileCollection
 }

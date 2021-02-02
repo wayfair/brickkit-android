@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.wayfair.brickkit.brick.BaseBrick
 import com.wayfair.brickkit.size.BrickSize
 import com.wayfair.brickkit.size.PercentageBrickSize
-import com.wayfair.brickkitdemo.AddRemoveBrickFragment
+import com.wayfair.brickkitdemo.addremove.AddRemoveBrickFragment
 import com.wayfair.brickkitdemo.BrickFragment
 import com.wayfair.brickkitdemo.infinitescroll.InfiniteScrollBrickFragment
 import com.wayfair.brickkitdemo.R
@@ -56,7 +56,7 @@ class MainActivityFragment : BrickFragment() {
     }
 
     private fun changeFragment(fragment: Fragment) {
-        fragmentManager?.beginTransaction()?.replace(R.id.content, fragment)?.addToBackStack(null)?.commit()
+        parentFragmentManager.beginTransaction().replace(R.id.content, fragment).addToBackStack(null).commit()
     }
 
     companion object {

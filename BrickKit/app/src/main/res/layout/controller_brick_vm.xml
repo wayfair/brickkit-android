@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright © 2017 Wayfair. All rights reserved. -->
+<!-- Copyright © 2017-2021 Wayfair. All rights reserved. -->
 <layout xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable
-            name="controllerViewModel"
-            type="com.wayfair.brickkitdemo.ControllerViewModel" />
+        <variable name="viewModel" type="com.wayfair.brickkitdemo.addremove.viewmodel.ControllerViewModel" />
     </data>
+
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,36 +15,26 @@
         android:gravity="center"
         android:padding="@dimen/eight_dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout"
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/text_input_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:textColor="@color/colorAccent"
-                android:text="@{controllerViewModel.value}"
-                app:textChangedListener="@{controllerViewModel}"
-                tools:text="100" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/down_button"
+            android:layout_toStartOf="@id/up_button"
+            android:textColor="@android:color/black"
+            android:text="@{viewModel.value}"
+            tools:text="100" />
 
         <Button
             android:id="@+id/down_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/text_input_layout"
+            android:layout_alignParentStart="true"
             android:background="@android:color/transparent"
             android:text="@string/remove"
-            android:textColor="@color/colorAccent"
-            android:onClick="@{() -> controllerViewModel.remove()}"
+            android:textColor="@android:color/black"
+            android:onClick="@{viewModel.removeClickListener}"
             app:srcCompat="@drawable/arrow_down_black"
             tools:ignore="ContentDescription,RelativeOverlap" />
 
@@ -53,11 +43,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/text_input_layout"
+            android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
             android:text="@string/add"
-            android:textColor="@color/colorAccent"
-            android:onClick="@{() -> controllerViewModel.add()}"
+            android:textColor="@android:color/black"
+            android:onClick="@{viewModel.addClickListener}"
             app:srcCompat="@drawable/arrow_up_black"
             tools:ignore="ContentDescription" />
     </RelativeLayout>
