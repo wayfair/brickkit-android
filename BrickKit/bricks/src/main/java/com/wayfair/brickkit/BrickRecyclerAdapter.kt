@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.wayfair.brickkit.brick.BaseBrick
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactory
-import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactoryData
 
 /**
  * Extension of [androidx.recyclerview.widget.RecyclerView.Adapter] which combines a given
@@ -159,7 +158,7 @@ internal class BrickRecyclerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrickViewHolder =
-        BrickViewHolderFactory().createBrickViewHolder(BrickViewHolderFactoryData(TAG, parent, viewType, brickDataManager))
+        BrickViewHolderFactory().createBrickViewHolder(parent, viewType, brickDataManager)
 
     override fun onBindViewHolder(holder: BrickViewHolder, position: Int) {
         brickDataManager.brickAtPosition(position)?.let { baseBrick ->

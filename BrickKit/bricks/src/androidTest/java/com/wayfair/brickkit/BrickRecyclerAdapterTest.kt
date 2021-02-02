@@ -370,7 +370,7 @@ class BrickRecyclerAdapterTest {
     @Test
     fun testOnCreateViewHolder() {
         val brick = mock<BaseBrick>()
-        whenever(brick.layout).thenReturn(R.layout.test_layout)
+        whenever(brick.layout).thenReturn(R.layout.text_brick_vm)
         whenever(dataManager.brickWithLayout(any())).thenReturn(brick)
 
         adapter.onCreateViewHolder(LinearLayout(ApplicationProvider.getApplicationContext()), brick.layout)
