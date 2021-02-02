@@ -11,7 +11,6 @@ import android.widget.GridLayout;
 import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator;
 import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.viewholder.factory.BrickProvider;
-import com.wayfair.brickkit.util.CollectionUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -359,10 +358,8 @@ public class BrickDataManager implements Serializable, BrickProvider {
             dataHasChanged();
 
             List<BaseBrick> brickItems = getRecyclerViewItems();
-            boolean isTheIndexWithinTheCollectionBounds =
-                    CollectionUtil.isTheIndexWithinTheCollectionsBounds(index, brickItems);
 
-            if (brickRecyclerAdapter != null && isTheIndexWithinTheCollectionBounds) {
+            if (brickRecyclerAdapter != null && index < brickItems.size()) {
                 BaseBrick item = brickItems.get(index);
 
                 int refreshStartIndex = getRefreshStartIndexForBrick(item);
@@ -633,7 +630,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
                 brickRecyclerAdapter.safeNotifyItemRemoved(index);
                 List<BaseBrick> recyclerViewItems = getRecyclerViewItems();
 
-                if (CollectionUtil.isTheIndexWithinTheCollectionsBounds(index, recyclerViewItems)) {
+                if (index >= 0 && index < recyclerViewItems.size()) {
                     int refreshStartIndex = getRefreshStartIndexForBrick(recyclerViewItems.get(index));
                     safeNotifyItemRangeChange(refreshStartIndex);
                 }
