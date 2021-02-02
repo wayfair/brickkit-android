@@ -78,7 +78,7 @@ public class StaggeredInfiniteScrollBrickFragment extends BrickFragment {
 
             BaseBrick unusedBrick2 = new TextBrick(
                     brickSize,
-                    brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp),
+                    brickPaddingFactory,
                     text + textToAppend
             );
 

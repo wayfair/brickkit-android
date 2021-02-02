@@ -12,7 +12,7 @@ import com.wayfair.brickkit.size.BrickSize
 import com.wayfair.brickkit.size.PercentageBrickSize
 import com.wayfair.brickkitdemo.AddRemoveBrickFragment
 import com.wayfair.brickkitdemo.BrickFragment
-import com.wayfair.brickkitdemo.InfiniteScrollBrickFragment
+import com.wayfair.brickkitdemo.infinitescroll.InfiniteScrollBrickFragment
 import com.wayfair.brickkitdemo.R
 import com.wayfair.brickkitdemo.simplebrick.SimpleBrickFragment
 import com.wayfair.brickkitdemo.StaggeredInfiniteScrollBrickFragment
