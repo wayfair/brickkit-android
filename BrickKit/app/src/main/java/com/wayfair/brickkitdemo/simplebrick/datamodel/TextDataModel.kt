@@ -16,7 +16,7 @@ class TextDataModel(initialText: String) : DataModel() {
     /**
      * Append the string to the existing text.
      *
-     * @param newText the new sting to be appended
+     * @param newText the new string to be appended
      */
     fun appendText(newText: String) {
         text += newText
