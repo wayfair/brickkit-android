@@ -6,8 +6,8 @@ package com.wayfair.brickkitdemo.fragmentbrick
 import android.os.Bundle
 import com.wayfair.brickkitdemo.BrickFragment
 import com.wayfair.brickkitdemo.R
-import com.wayfair.brickkitdemo.SimpleBrickFragment
 import com.wayfair.brickkitdemo.fragmentbrick.bricks.FragmentBrick
+import com.wayfair.brickkitdemo.simplebrick.SimpleBrickFragment
 
 /**
  * Example of fragment containing [FragmentBrick]'s containing [SimpleBrickFragment]'s.

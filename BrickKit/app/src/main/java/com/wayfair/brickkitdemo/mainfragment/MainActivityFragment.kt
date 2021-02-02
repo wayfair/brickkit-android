@@ -14,7 +14,7 @@ import com.wayfair.brickkitdemo.AddRemoveBrickFragment
 import com.wayfair.brickkitdemo.BrickFragment
 import com.wayfair.brickkitdemo.InfiniteScrollBrickFragment
 import com.wayfair.brickkitdemo.R
-import com.wayfair.brickkitdemo.SimpleBrickFragment
+import com.wayfair.brickkitdemo.simplebrick.SimpleBrickFragment
 import com.wayfair.brickkitdemo.StaggeredInfiniteScrollBrickFragment
 import com.wayfair.brickkitdemo.fragmentbrick.FragmentBrickFragment
 import com.wayfair.brickkitdemo.mainfragment.bricks.ActiveBrick
@@ -30,7 +30,7 @@ class MainActivityFragment : BrickFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val placeholderBrick = ActiveBrick(resources, R.string.empty) { changeFragment(SimpleBrickFragment()) }
+        val placeholderBrick = ActiveBrick(resources, R.string.empty) { changeFragment(SimpleBrickFragment.newInstance()) }
             .also {
                 // Fake waiting as in a API request to show off placeholder when data is not ready
                 Handler(Looper.getMainLooper()).postDelayed(
