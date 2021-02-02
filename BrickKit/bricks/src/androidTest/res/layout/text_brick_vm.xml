@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright © 2017 Wayfair. All rights reserved. -->
+<!-- Copyright © 2017-2021 Wayfair. All rights reserved. -->
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="textViewModel"
+            name="viewModel"
             type="com.wayfair.brickkit.brick.ViewModelBrickTest.TextViewModel"/>
     </data>
 
@@ -21,7 +21,7 @@
             android:textSize="31sp"
             android:background="@android:color/white"
             android:padding="8dp"
-            android:text="@{textViewModel.text}"
+            android:text="@{viewModel.text}"
             tools:text="Some text. Some text. Some text. Some text. Some text. Some text. Some text. Some text. " />
 
     </RelativeLayout>
