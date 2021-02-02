@@ -40,7 +40,6 @@ class StaggeredInfiniteScrollBrickFragment : BrickFragment() {
                 }
         }
 
-
     override fun onResume() {
         super.onResume()
 
