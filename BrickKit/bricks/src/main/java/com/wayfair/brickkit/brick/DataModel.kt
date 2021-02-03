@@ -18,7 +18,7 @@ abstract class DataModel : Serializable {
      *
      * @param updateListener the listener to add
      */
-    fun addUpdateListener(updateListener: DataModelUpdateListener) {
+    open fun addUpdateListener(updateListener: DataModelUpdateListener) {
         updateListeners.add(updateListener)
     }
 
@@ -27,14 +27,14 @@ abstract class DataModel : Serializable {
      *
      * @param updateListener the listener to remove
      */
-    fun removeUpdateListener(updateListener: DataModelUpdateListener) {
+    open fun removeUpdateListener(updateListener: DataModelUpdateListener) {
         updateListeners.remove(updateListener)
     }
 
     /**
      * This function is called when you are ready to notify listeners that the data has changed.
      */
-    fun notifyChange() {
+    open fun notifyChange() {
         val handler = Handler(Looper.getMainLooper())
 
         updateListeners.forEach { updateListener ->
@@ -47,7 +47,7 @@ abstract class DataModel : Serializable {
      *
      * @return true if the data is ready, defaults to true
      */
-    open fun isReady(): Boolean = true
+    open val isReady: Boolean = true
 
     /**
      * The interface required to be implemented in order to listen for changes on [DataModel]s.

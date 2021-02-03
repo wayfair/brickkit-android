@@ -12,7 +12,7 @@ class DataModelTest {
 
     @Test
     fun testIsReady() {
-        assertTrue(dataModel.isReady())
+        assertTrue(dataModel.isReady)
     }
 
     @Test
