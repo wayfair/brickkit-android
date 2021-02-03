@@ -9,7 +9,7 @@ import com.wayfair.brickkit.brick.BaseBrick
 /**
  * A DiffUtil for Bricks.
  */
-class BrickDiffUtilCallback internal constructor(
+internal class BrickDiffUtilCallback internal constructor(
     private val oldList: List<BaseBrick>,
     private val newList: List<BaseBrick>
 ) : DiffUtil.Callback() {

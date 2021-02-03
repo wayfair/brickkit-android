@@ -88,6 +88,11 @@ class ViewModelBrickTest {
     }
 
     @Test
+    fun testEquals_viewModelsAreDifferentTypes() {
+        assertFalse(ViewModelBrick.Builder(R.layout.text_brick_vm).build() == mock<BaseBrick>())
+    }
+
+    @Test
     fun testAddViewModel() {
         val viewModelBrick = ViewModelBrick.Builder(R.layout.text_brick_vm)
             .addViewModel(BR.viewModel, TextViewModel(TextDataModel(TEXT)))
