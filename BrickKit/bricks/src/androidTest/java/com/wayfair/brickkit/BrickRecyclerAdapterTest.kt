@@ -15,6 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wayfair.brickkit.brick.BaseBrick
@@ -476,6 +477,29 @@ class BrickRecyclerAdapterTest {
     }
 
     @Test
+    fun testOnBindViewHolderWhenDataIsReady_staggeredGrid_notFullWidth() {
+        val spanSize = mock<BrickSize>()
+        whenever(spanSize.getSpans(any())).thenReturn(BrickDataManager.SPAN_COUNT - 1)
+
+        val brick = mock<BaseBrick>()
+        whenever(brick.spanSize).thenReturn(spanSize)
+
+        val listener = mock<OnReachedItemAtPosition>()
+        adapter.setOnReachedItemAtPosition(listener)
+
+        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(brick.isDataReady).thenReturn(true)
+
+        val layoutParams = mock<StaggeredGridLayoutManager.LayoutParams>()
+        val holder = BrickViewHolder(View(ApplicationProvider.getApplicationContext()).apply { this.layoutParams = layoutParams })
+        adapter.onBindViewHolder(holder, 0)
+
+        verify(brick).onBindData(holder)
+        verify(listener).bindingItemAtPosition(0)
+        verify(layoutParams).isFullSpan = false
+    }
+
+    @Test
     fun testOnBindViewHolderWhenDataIsReady_notStaggeredGrid() {
         val spanSize = mock<BrickSize>()
         whenever(spanSize.getSpans(any())).thenReturn(BrickDataManager.SPAN_COUNT)
@@ -503,7 +527,7 @@ class BrickRecyclerAdapterTest {
 
     @Test
     fun testOnViewAttachedToWindow() {
-        val brickViewHolder = mock<BrickViewHolder>()
+        val brickViewHolder = spy(BrickViewHolder(mock()))
 
         adapter.onViewAttachedToWindow(brickViewHolder)
 
@@ -512,7 +536,7 @@ class BrickRecyclerAdapterTest {
 
     @Test
     fun testOnViewDetachedFromWindow() {
-        val brickViewHolder = mock<BrickViewHolder>()
+        val brickViewHolder = spy(BrickViewHolder(mock()))
 
         adapter.onViewDetachedFromWindow(brickViewHolder)
 
