@@ -84,7 +84,7 @@ task checkstyle(type: Checkstyle) {
 }
 
 static def getCurrentVersion() {
-    return "git describe --abbrev=0 --tag".execute().text.trim()
+    return "0.9.73"
 }
 
 // This is mandatory
