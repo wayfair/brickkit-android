@@ -224,13 +224,13 @@ class ViewModelBrickTest {
         val dataModel = TextDataModel(TEXT)
         val viewModel = TextViewModel(dataModel)
 
-        val countDownLatch = CountDownLatch(1)
-        viewModel.addUpdateListener { countDownLatch.countDown() }
-
         val viewModelBrick = ViewModelBrick.Builder(R.layout.text_brick_vm)
             .addViewModel(BR.viewModel, viewModel)
             .setPlaceholder(R.layout.text_brick_vm_placeholder)
             .build()
+
+        val countDownLatch = CountDownLatch(1)
+        viewModel.addUpdateListener { countDownLatch.countDown() }
 
         assertFalse(viewModelBrick.isHidden)
 
@@ -260,7 +260,8 @@ class ViewModelBrickTest {
                 notifyChange()
             }
 
-        override fun isReady(): Boolean = text.isNotEmpty()
+        override val isReady: Boolean
+            get() = text.isNotEmpty()
     }
 
     companion object {
