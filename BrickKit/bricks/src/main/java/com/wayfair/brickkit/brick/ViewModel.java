@@ -14,7 +14,7 @@ import androidx.databinding.BaseObservable;
  * @param <DM> the {@link DataModel} type that drives this
  */
 public abstract class ViewModel<DM extends DataModel> extends BaseObservable implements DataModel.DataModelUpdateListener, Serializable {
-    protected DM dataModel;
+    private final DM dataModel;
     private transient Set<ViewModelUpdateListener> updateListeners;
 
     /**
@@ -36,8 +36,12 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
      *
      * @param dataModel the data model that is used to create the ViewModel
      */
-    public ViewModel(@Nullable DM dataModel) {
-        setDataModel(dataModel);
+    protected ViewModel(@Nullable DM dataModel) {
+        this.dataModel = dataModel;
+
+        if (dataModel != null) {
+            dataModel.addUpdateListener(this);
+        }
     }
 
     /**
@@ -64,23 +68,6 @@ public abstract class ViewModel<DM extends DataModel> extends BaseObservable imp
      */
     public DM getDataModel() {
         return dataModel;
-    }
-
-    /**
-     * Sets the underlying {@link DataModel}.
-     *
-     * @param dataModel the new {@link DataModel}
-     */
-    public void setDataModel(DM dataModel) {
-        if (dataModel == null && this.dataModel != null) {
-            this.dataModel.removeUpdateListener(this);
-        }
-
-        this.dataModel = dataModel;
-
-        if (dataModel != null) {
-            this.dataModel.addUpdateListener(this);
-        }
     }
 
     /**
