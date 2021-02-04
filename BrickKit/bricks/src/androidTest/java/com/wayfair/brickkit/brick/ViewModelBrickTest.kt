@@ -230,7 +230,13 @@ class ViewModelBrickTest {
             .build()
 
         val countDownLatch = CountDownLatch(1)
-        viewModel.addUpdateListener { countDownLatch.countDown() }
+        viewModel.addUpdateListener(
+            object : ViewModel.ViewModelUpdateListener {
+                override fun onChange() {
+                    countDownLatch.countDown()
+                }
+            }
+        )
 
         assertFalse(viewModelBrick.isHidden)
 
