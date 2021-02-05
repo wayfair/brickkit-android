@@ -1,6 +1,5 @@
 package com.wayfair.brickkit.brick
 
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.databinding.Bindable
@@ -100,22 +99,7 @@ class ViewModelBrickTest {
 
         viewModelBrick.addViewModel(BR.text, TextViewModel(TextDataModel(TEXT_2)))
 
-        assertEquals(2, viewModelBrick.getViewModels().size())
-    }
-
-    @Test
-    fun testSetViewModels() {
-        val viewModelBrick = ViewModelBrick.Builder(R.layout.text_brick_vm)
-            .addViewModel(BR.viewModel, TextViewModel(TextDataModel(TEXT)))
-            .build()
-
-        viewModelBrick.setViewModels(
-            SparseArray<ViewModel<*>>().apply {
-                put(BR.text, TextViewModel(TextDataModel(TEXT_2)))
-            }
-        )
-
-        assertEquals(1, viewModelBrick.getViewModels().size())
+        assertEquals(2, viewModelBrick.viewModels.size())
     }
 
     @Test
@@ -194,17 +178,6 @@ class ViewModelBrickTest {
 
         val viewModelBrick = ViewModelBrick.Builder(R.layout.text_brick_vm)
             .addViewModel(BR.viewModel, viewModel)
-            .build()
-
-        assertEquals(viewModel, viewModelBrick.viewModels[BR.viewModel])
-    }
-
-    @Test
-    fun testBuilder_setViewModels() {
-        val viewModel = mock<ViewModel<DataModel>>()
-
-        val viewModelBrick = ViewModelBrick.Builder(R.layout.text_brick_vm)
-            .setViewModels(SparseArray<ViewModel<DataModel>>().apply { put(BR.viewModel, viewModel) })
             .build()
 
         assertEquals(viewModel, viewModelBrick.viewModels[BR.viewModel])
