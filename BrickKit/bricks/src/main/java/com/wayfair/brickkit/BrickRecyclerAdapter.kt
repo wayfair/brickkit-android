@@ -180,7 +180,7 @@ internal class BrickRecyclerAdapter(
     override fun getItemViewType(position: Int): Int {
         val brick: BaseBrick? = brickDataManager.brickAtPosition(position)
         return when {
-            brick == null -> BaseBrick.DEFAULT_LAYOUT_RES_ID
+            brick == null -> DEFAULT_LAYOUT_RES_ID
             brick.isDataReady -> brick.layout
             else -> brick.placeholderLayout
         }
@@ -205,5 +205,6 @@ internal class BrickRecyclerAdapter(
 
     companion object {
         private val TAG = BrickRecyclerAdapter::class.java.name
+        const val DEFAULT_LAYOUT_RES_ID = 0
     }
 }

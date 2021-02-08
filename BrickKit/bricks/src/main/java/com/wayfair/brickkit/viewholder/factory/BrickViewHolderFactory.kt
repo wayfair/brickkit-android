@@ -8,7 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.wayfair.brickkit.brick.BaseBrick
+import com.wayfair.brickkit.BrickRecyclerAdapter
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 
 /**
@@ -32,7 +32,7 @@ internal class BrickViewHolderFactory {
     fun createBrickViewHolder(parent: ViewGroup, viewType: Int, provider: BrickProvider): BrickViewHolder {
         var viewHolder: BrickViewHolder? = null
         try {
-            if (viewType > BaseBrick.DEFAULT_LAYOUT_RES_ID) {
+            if (viewType > BrickRecyclerAdapter.DEFAULT_LAYOUT_RES_ID) {
                 val brick = provider.brickWithLayout(viewType) ?: provider.brickWithPlaceholderLayout(viewType)
                 viewHolder = brick?.createViewHolder(LayoutInflater.from(parent.context).inflate(viewType, parent, false))
             }

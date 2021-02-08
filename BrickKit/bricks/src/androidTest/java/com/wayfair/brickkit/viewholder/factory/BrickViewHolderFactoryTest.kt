@@ -12,6 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
+import com.wayfair.brickkit.BrickRecyclerAdapter
 import com.wayfair.brickkit.brick.BaseBrick
 import com.wayfair.brickkit.test.R
 import com.wayfair.brickkit.viewholder.BrickViewHolder
@@ -44,7 +45,7 @@ class BrickViewHolderFactoryTest {
 
     @Test
     fun testCreateBrickViewHolder_defaultResId() {
-        assertTrue(factory.createBrickViewHolder(parentView, BaseBrick.DEFAULT_LAYOUT_RES_ID, provider) is EmptyBrickViewHolder)
+        assertTrue(factory.createBrickViewHolder(parentView, BrickRecyclerAdapter.DEFAULT_LAYOUT_RES_ID, provider) is EmptyBrickViewHolder)
     }
 
     @Test

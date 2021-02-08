@@ -16,6 +16,8 @@ import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.wayfair.brickkit.brick.BaseBrick
+import com.wayfair.brickkit.padding.ZeroBrickPadding
+import com.wayfair.brickkit.size.FullWidthBrickSize
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
@@ -871,18 +873,17 @@ class BrickDataManagerTest {
         }
     }
 
-    open class TestBrick : BaseBrick() {
-        override fun getLayout() = 1
+    open class TestBrick : BaseBrick(FullWidthBrickSize(), ZeroBrickPadding()) {
+        override val layout = 1
         override fun onBindData(holder: BrickViewHolder) = Unit
-        override fun createViewHolder(itemView: View) = null
+        override fun createViewHolder(itemView: View) = BrickViewHolder(itemView)
     }
 
-    class TestPlaceholderBrick(private val isDataReady: Boolean) : BaseBrick() {
-        override fun isDataReady() = isDataReady
-        override fun getPlaceholderLayout() = 1
+    class TestPlaceholderBrick(override val isDataReady: Boolean) : BaseBrick(FullWidthBrickSize(), ZeroBrickPadding()) {
+        override val placeholderLayout = 1
         override fun onBindData(holder: BrickViewHolder) = Unit
-        override fun getLayout() = 0
-        override fun createViewHolder(itemView: View) = null
+        override val layout = 0
+        override fun createViewHolder(itemView: View) = BrickViewHolder(itemView)
     }
 
     companion object {

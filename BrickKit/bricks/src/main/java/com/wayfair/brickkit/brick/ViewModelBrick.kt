@@ -17,8 +17,8 @@ import com.wayfair.brickkit.viewholder.BrickViewHolder
  * insert information from a [ViewModel].
  */
 class ViewModelBrick private constructor(
-    private val layoutId: Int,
-    private val placeholderLayoutId: Int,
+    override val layout: Int,
+    override val placeholderLayout: Int,
     val viewModels: SparseArray<ViewModel<*>>,
     spanSize: BrickSize,
     padding: BrickPadding
@@ -64,16 +64,6 @@ class ViewModelBrick private constructor(
     /**
      * {@inheritDoc}
      */
-    override fun getLayout(): Int = layoutId
-
-    /**
-     * {@inheritDoc}
-     */
-    override fun getPlaceholderLayout(): Int = placeholderLayoutId
-
-    /**
-     * {@inheritDoc}
-     */
     override fun createViewHolder(itemView: View): BrickViewHolder = ViewModelBrickViewHolder(DataBindingUtil.bind(itemView)!!)
 
     /**
@@ -87,16 +77,17 @@ class ViewModelBrick private constructor(
     /**
      * {@inheritDoc}
      */
-    override fun isDataReady(): Boolean {
-        var isDataReady = viewModels.isNotEmpty()
+    override val isDataReady: Boolean
+        get() {
+            var isDataReady = viewModels.isNotEmpty()
 
-        var i = 0
-        while (isDataReady && i < viewModels.size()) {
-            isDataReady = viewModels.valueAt(i++).isDataModelReady
+            var i = 0
+            while (isDataReady && i < viewModels.size()) {
+                isDataReady = viewModels.valueAt(i++).isDataModelReady
+            }
+
+            return isDataReady
         }
-
-        return isDataReady
-    }
 
     override fun hashCode(): Int = super.hashCode()
 

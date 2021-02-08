@@ -1,41 +1,145 @@
 /*
- * Copyright © 2017-2020 Wayfair. All rights reserved.
+ * Copyright © 2017-2021 Wayfair. All rights reserved.
  */
 package com.wayfair.brickkit.brick
 
 import android.view.View
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.wayfair.brickkit.BrickDataManager
-import com.wayfair.brickkit.padding.BrickPadding
-import com.wayfair.brickkit.size.BrickSize
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.lang.UnsupportedOperationException
 
 class BaseBrickTest {
-    private val brickSize: BrickSize = mock()
     private val brickDataManager: BrickDataManager = mock()
-    private val brick: BaseBrick = TestBaseBrick(brickSize)
 
-    @Test
-    fun testBrickSizeBrickPaddingConstructor() {
-        val padding = mock<BrickPadding>()
-        whenever(padding.innerBottomPadding).thenReturn(PADDING)
-
-        val brick = TestBaseBrick(brickSize, padding)
-        assertEquals(brickSize, brick.spanSize)
-        assertEquals(PADDING, brick.padding.innerBottomPadding)
+    private val brick: BaseBrick = object : BaseBrick(mock(), mock()) {
+        override fun onBindData(holder: BrickViewHolder) {}
+        override val layout = LAYOUT
+        override fun createViewHolder(itemView: View): BrickViewHolder = mock()
     }
 
     @Test
     fun testHidden() {
+        brick.setDataManager(brickDataManager)
+        brick.setDataManager(null)
+
         assertFalse(brick.isHidden)
+
         brick.isHidden = true
         assertTrue(brick.isHidden)
+
+        brick.isHidden = false
+        assertFalse(brick.isHidden)
+
+        verifyZeroInteractions(brickDataManager)
+    }
+
+    @Test
+    fun testHidden_falseToTrue() {
+        brick.isHidden = false
+        brick.setDataManager(brickDataManager)
+
+        brick.isHidden = true
+        assertTrue(brick.isHidden)
+        verify(brickDataManager).hideItem(brick)
+    }
+
+    @Test
+    fun testHidden_falseToFalse() {
+        brick.isHidden = false
+        brick.setDataManager(brickDataManager)
+
+        brick.isHidden = true
+        assertTrue(brick.isHidden)
+        verify(brickDataManager, never()).showItem(brick)
+    }
+
+    @Test
+    fun testTag_nullDataManager() {
+        brick.setDataManager(brickDataManager)
+        brick.setDataManager(null)
+
+        brick.tag = null
+        brick.tag = TAG_1
+        brick.tag = TAG_2
+        brick.tag = null
+
+        verifyZeroInteractions(brickDataManager)
+    }
+
+    @Test
+    fun testTag_notNullToNotNull() {
+        brick.tag = TAG_1
+
+        brick.setDataManager(brickDataManager)
+
+        brick.tag = TAG_2
+
+        verify(brickDataManager).removeFromTagCache(brick)
+        verify(brickDataManager).addToTagCache(brick)
+    }
+
+    @Test
+    fun testTag_nullToNotNull() {
+        brick.tag = null
+
+        brick.setDataManager(brickDataManager)
+
+        brick.tag = TAG_2
+
+        verify(brickDataManager, never()).removeFromTagCache(brick)
+        verify(brickDataManager).addToTagCache(brick)
+    }
+
+    @Test
+    fun testTag_notNullToNull() {
+        brick.tag = TAG_1
+
+        brick.setDataManager(brickDataManager)
+
+        brick.tag = null
+
+        verify(brickDataManager).removeFromTagCache(brick)
+        verify(brickDataManager, never()).addToTagCache(brick)
+    }
+
+    @Test
+    fun testTag_nullToNull() {
+        brick.tag = null
+
+        brick.setDataManager(brickDataManager)
+
+        brick.tag = null
+
+        verifyZeroInteractions(brickDataManager)
+    }
+
+    @Test
+    fun testTag_sameTag() {
+        brick.tag = TAG_1
+
+        brick.setDataManager(brickDataManager)
+
+        brick.tag = TAG_1
+
+        verifyZeroInteractions(brickDataManager)
+    }
+
+    @Test
+    fun testLayout() {
+        assertEquals(LAYOUT, brick.layout)
+    }
+
+    @Test(expected = UnsupportedOperationException::class)
+    fun testPlaceholderLayout() {
+        brick.placeholderLayout
     }
 
     @Test
@@ -89,16 +193,9 @@ class BaseBrickTest {
         verify(brickDataManager).addFirst(brick)
     }
 
-    private class TestBaseBrick : BaseBrick {
-        constructor(spanSize: BrickSize, padding: BrickPadding) : super(spanSize, padding)
-        constructor(spanSize: BrickSize) : super(spanSize)
-
-        override fun onBindData(holder: BrickViewHolder) {}
-        override fun getLayout(): Int = 0
-        override fun createViewHolder(itemView: View): BrickViewHolder = mock()
-    }
-
     companion object {
-        private const val PADDING = 3
+        private const val LAYOUT = 1234
+        private const val TAG_1 = "tag 1"
+        private const val TAG_2 = "tag 2"
     }
 }
