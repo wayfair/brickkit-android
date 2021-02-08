@@ -21,7 +21,7 @@ class PassiveBrick(
 
     override fun onBindData(holder: BrickViewHolder) = Unit
 
-    override fun getLayout(): Int = R.layout.passive_brick
+    override val layout = R.layout.passive_brick
 
     override fun createViewHolder(itemView: View): BrickViewHolder = BrickViewHolder(itemView)
 }

@@ -28,19 +28,20 @@ class ActiveBrick(
             refreshItem()
         }
 
-    override fun onBindData(viewHolder: BrickViewHolder) {
-        val holder = viewHolder as ActiveBrickHolder
-        holder.textView.text = text
-        holder.itemView.setOnClickListener { onTouch.invoke() }
+    override fun onBindData(holder: BrickViewHolder) {
+        val viewHolder = holder as ActiveBrickHolder
+        viewHolder.textView.text = text
+        viewHolder.itemView.setOnClickListener { onTouch.invoke() }
     }
 
-    override fun getLayout(): Int = R.layout.active_brick
+    override val layout: Int = R.layout.active_brick
 
-    override fun getPlaceholderLayout(): Int = R.layout.active_brick_placeholder
+    override val placeholderLayout = R.layout.active_brick_placeholder
 
     override fun createViewHolder(itemView: View): BrickViewHolder = ActiveBrickHolder(itemView)
 
-    override fun isDataReady(): Boolean = text.isNotEmpty()
+    override val isDataReady
+        get() = text.isNotEmpty()
 
     /**
      * [BrickViewHolder] for ActiveBrick.

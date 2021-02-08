@@ -20,12 +20,12 @@ class TextBrick(
     private val text: CharSequence
 ) : BaseBrick(spanSize, brickPaddingFactory.getInnerOuterBrickPadding(R.dimen.four_dp, R.dimen.eight_dp)) {
 
-    override fun onBindData(viewHolder: BrickViewHolder) {
-        val editTextViewHolder = viewHolder as TextViewHolder
-        editTextViewHolder.textView.text = text
+    override fun onBindData(holder: BrickViewHolder) {
+        val viewHolder = holder as TextViewHolder
+        viewHolder.textView.text = text
     }
 
-    override fun getLayout(): Int = R.layout.text_brick
+    override val layout = R.layout.text_brick
 
     override fun createViewHolder(itemView: View): BrickViewHolder = TextViewHolder(itemView)
 

@@ -11,6 +11,7 @@ import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.wayfair.brickkit.brick.BaseBrick
+import com.wayfair.brickkit.padding.ZeroBrickPadding
 import com.wayfair.brickkit.size.HalfWidthBrickSize
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import com.wayfair.brickkitdemo.R
@@ -22,7 +23,7 @@ class FragmentBrick(
     private val fragmentManager: FragmentManager,
     private val fragment: Fragment,
     @ColorRes private val backgroundColor: Int
-) : BaseBrick(HalfWidthBrickSize()) {
+) : BaseBrick(HalfWidthBrickSize(), ZeroBrickPadding()) {
 
     override fun onBindData(holder: BrickViewHolder) {
         val viewHolder = holder as FragmentBrickViewHolder
@@ -42,7 +43,7 @@ class FragmentBrick(
         viewHolder.frameLayout.addView(view)
     }
 
-    override fun getLayout(): Int = R.layout.fragment_brick
+    override val layout = R.layout.fragment_brick
 
     override fun createViewHolder(itemView: View): BrickViewHolder = FragmentBrickViewHolder(itemView)
 
