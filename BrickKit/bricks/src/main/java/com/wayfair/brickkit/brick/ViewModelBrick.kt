@@ -34,7 +34,7 @@ class ViewModelBrick private constructor(
      * @param bindId the binding id
      * @return a [ViewModel] for the binding id
      */
-    fun getViewModel(bindId: Int): ViewModel<*> = viewModels[bindId]
+    fun getViewModel(bindId: Int): ViewModel<*>? = viewModels[bindId]
 
     /**
      * Add a view model to the Brick.
