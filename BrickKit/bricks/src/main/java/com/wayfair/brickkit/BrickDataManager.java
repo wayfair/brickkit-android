@@ -67,6 +67,14 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
+     *
+     * @return true if no items have been added to the BrickDataManager
+     */
+    public boolean isEmpty() {
+        return getDataManagerItems().isEmpty();
+    }
+
+    /**
      * Set the recycler view for this BrickDataManager, this will setup the underlying adapter and begin
      * displaying any bricks Use setHorizontalRecyclerView instead if you want a horizontal RecyclerView.
      *
