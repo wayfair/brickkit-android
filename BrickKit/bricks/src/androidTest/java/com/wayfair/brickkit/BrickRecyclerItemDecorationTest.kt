@@ -13,14 +13,13 @@ import com.wayfair.brickkit.padding.BrickPadding
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import java.util.LinkedList
 
 class BrickRecyclerItemDecorationTest {
     private val parent: RecyclerView = mock()
     private val outRect: Rect = Rect()
     private val view: View = mock()
     private val state: RecyclerView.State = mock()
-    private val bricks: LinkedList<BaseBrick> = LinkedList()
+    private val bricks = mutableListOf<BaseBrick>()
     private val brick: BaseBrick = mock()
     private lateinit var itemDecoration: BrickRecyclerItemDecoration
 

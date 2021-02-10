@@ -49,8 +49,8 @@ public class BrickDataManager implements Serializable, BrickProvider {
     private BrickRecyclerAdapter brickRecyclerAdapter;
     private final SparseArray<LinkedList<BaseBrick>> idCache;
     private final HashMap<Object, LinkedList<BaseBrick>> tagCache;
-    private LinkedList<BaseBrick> items;
-    private LinkedList<BaseBrick> currentlyVisibleItems;
+    private List<BaseBrick> items;
+    private List<BaseBrick> currentlyVisibleItems;
     private boolean dataHasChanged;
     private boolean vertical;
     private RecyclerView recyclerView;
@@ -130,10 +130,10 @@ public class BrickDataManager implements Serializable, BrickProvider {
     /**
      * Get the items visible in the {@link RecyclerView}.
      *
-     * @return LinkedList of visible bricks.
+     * @return List of visible bricks.
      */
     @NonNull
-    public LinkedList<BaseBrick> getRecyclerViewItems() {
+    public List<BaseBrick> getRecyclerViewItems() {
         if (dataHasChanged) {
             currentlyVisibleItems = new LinkedList<>();
 
@@ -154,7 +154,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      *
      * @param bricks the new list of bricks.
      */
-    public void updateBricks(LinkedList<BaseBrick> bricks) {
+    public void updateBricks(List<BaseBrick> bricks) {
         List<BaseBrick> newVisibleBricks = new LinkedList<>();
         for (BaseBrick brick : bricks) {
             if (!brick.isHidden()) {
@@ -197,9 +197,9 @@ public class BrickDataManager implements Serializable, BrickProvider {
     /**
      * Get all bricks.
      *
-     * @return LinkedList of all bricks.
+     * @return List of all bricks.
      */
-    public LinkedList<BaseBrick> getDataManagerItems() {
+    public List<BaseBrick> getDataManagerItems() {
         return items;
     }
 
@@ -291,7 +291,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
             return; // safety
         }
 
-        this.items.addLast(item);
+        this.items.add(item);
         addToIdCache(item);
         addToTagCache(item);
         item.setDataManager(this);
@@ -323,7 +323,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
             return; // safety
         }
 
-        this.items.addFirst(item);
+        this.items.add(0, item);
         addToIdCache(item);
         addToTagCache(item);
         item.setDataManager(this);
@@ -474,7 +474,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
         int anchorDataManagerIndex = items.indexOf(anchor);
 
         if (anchorDataManagerIndex == NO_INDEX) {
-            items.addFirst(item);
+            items.add(0, item);
         } else {
             items.add(anchorDataManagerIndex, item);
         }
@@ -563,7 +563,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
         int anchorDataManagerIndex = this.items.indexOf(anchor);
 
         if (anchorDataManagerIndex == -1) {
-            this.items.addLast(item);
+            this.items.add(item);
         } else {
             this.items.add(anchorDataManagerIndex + 1, item);
         }
@@ -663,7 +663,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
                 if (!getRecyclerViewItems().isEmpty()) {
-                    computePaddingPosition(getRecyclerViewItems().getFirst());
+                    computePaddingPosition(getRecyclerViewItems().get(0));
                 }
 
                 brickRecyclerAdapter.safeNotifyDataSetChanged();

@@ -30,12 +30,11 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.LinkedList
 
 @RunWith(AndroidJUnit4::class)
 class BrickRecyclerAdapterTest {
     private val observer: TestAdapterDataObserver = TestAdapterDataObserver()
-    private var bricks: LinkedList<BaseBrick> = LinkedList()
+    private var bricks = mutableListOf<BaseBrick>()
     private val recyclerView: RecyclerView = mock()
     private val dataManager: BrickDataManager = mock()
     private lateinit var adapter: BrickRecyclerAdapter
@@ -545,7 +544,7 @@ class BrickRecyclerAdapterTest {
 
     @Test
     fun testGetItemCount() {
-        repeat(BRICK_COUNT) { bricks.addFirst(mock()) }
+        repeat(BRICK_COUNT) { bricks.add(mock()) }
 
         assertEquals(BRICK_COUNT, adapter.itemCount)
     }
