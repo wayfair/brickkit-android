@@ -15,18 +15,16 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import java.util.LinkedList
-
 @RunWith(AndroidJUnit4::class)
 class BrickSpanSizeLookupTest {
 
     private var manager: BrickDataManager = mock()
-    private lateinit var bricks: LinkedList<BaseBrick>
+    private lateinit var bricks: MutableList<BaseBrick>
     private lateinit var brickSpanSizeLookup: BrickSpanSizeLookup
 
     @Before
     fun setup() {
-        bricks = LinkedList()
+        bricks = mutableListOf()
         whenever(manager.recyclerViewItems).thenReturn(bricks)
 
         brickSpanSizeLookup = BrickSpanSizeLookup(ApplicationProvider.getApplicationContext(), manager)

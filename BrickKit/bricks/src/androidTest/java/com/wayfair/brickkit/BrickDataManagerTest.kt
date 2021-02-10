@@ -28,7 +28,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.LinkedList
 
 @RunWith(AndroidJUnit4::class)
 class BrickDataManagerTest {
@@ -66,8 +65,9 @@ class BrickDataManagerTest {
 
     @Test
     fun testUpdateBricks() {
-        val bricks = LinkedList(manager.dataManagerItems)
-        bricks.addLast(TestBrick())
+        val bricks = mutableListOf<BaseBrick>()
+        bricks.addAll(manager.dataManagerItems)
+        bricks.add(TestBrick())
         bricks.add(1, TestBrick())
         bricks.add(3, TestBrick())
 
