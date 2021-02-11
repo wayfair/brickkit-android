@@ -765,57 +765,6 @@ class BrickDataManagerTest {
     }
 
     @Test
-    fun testAddToTagCache() {
-        manager.addLast(TestBrick().apply { tag = TAG })
-
-        assertEquals(1, manager.getBricksByTag(TAG).size)
-    }
-
-    @Test
-    fun testAddMultipleToTagCache() {
-        manager.addLast(listOf(TestBrick().apply { tag = TAG }, TestBrick().apply { tag = TAG }))
-
-        assertEquals(2, manager.getBricksByTag(TAG).size)
-    }
-
-    @Test
-    fun testAddNullToTagCache() {
-        val baseBrick = TestBrick().apply { tag = TAG }
-
-        manager.addLast(baseBrick)
-
-        baseBrick.tag = null
-
-        assertNull(manager.getBricksByTag(TAG))
-    }
-
-    @Test
-    fun testAddToLayoutIdCache() {
-        val baseBrick = TestBrick()
-
-        manager.addLast(baseBrick)
-
-        assertEquals((STARTING_BRICKS + 1), manager.getBricksByLayoutId(baseBrick.layout).size)
-    }
-
-    @Test
-    fun testAddMultipleToLayoutIdCache() {
-        val baseBrick = TestBrick()
-
-        manager.addLast(baseBrick)
-        manager.addLast(TestBrick())
-
-        assertEquals((STARTING_BRICKS + 2), manager.getBricksByLayoutId(baseBrick.layout).size)
-    }
-
-    @Test
-    fun testAddNullToLayoutIdCache() {
-        manager.addLast(TestBrick())
-
-        assertNull(manager.getBricksByLayoutId(-1))
-    }
-
-    @Test
     fun testMethodGetPaddingOrDefaults_resultsInPassedInValue() {
         manager.clear()
 
@@ -899,6 +848,5 @@ class BrickDataManagerTest {
 
     companion object {
         private const val STARTING_BRICKS = 4
-        private const val TAG = "Tag"
     }
 }

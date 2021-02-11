@@ -22,18 +22,6 @@ abstract class BaseBrick constructor(
      * The brick's tag. This is similar to a [View.getTag].
      */
     var tag: Any? = null
-        set(newTag) {
-            val oldTag = tag
-            if (oldTag != null && oldTag != newTag) {
-                dataManager?.removeFromTagCache(this)
-            }
-
-            field = newTag
-
-            if (oldTag != newTag && newTag != null) {
-                dataManager?.addToTagCache(this)
-            }
-        }
 
     /**
      * Whether the brick should be hidden.

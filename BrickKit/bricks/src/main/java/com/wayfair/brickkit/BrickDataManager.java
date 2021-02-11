@@ -5,7 +5,6 @@ package com.wayfair.brickkit;
 
 import android.content.Context;
 import android.util.Log;
-import android.util.SparseArray;
 import android.widget.GridLayout;
 
 import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator;
@@ -13,9 +12,7 @@ import com.wayfair.brickkit.brick.BaseBrick;
 import com.wayfair.brickkit.viewholder.factory.BrickProvider;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -47,24 +44,12 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
     @Nullable
     private BrickRecyclerAdapter brickRecyclerAdapter;
-    private final SparseArray<LinkedList<BaseBrick>> idCache;
-    private final HashMap<Object, LinkedList<BaseBrick>> tagCache;
-    private List<BaseBrick> items;
-    private List<BaseBrick> currentlyVisibleItems;
+    private List<BaseBrick> items = new LinkedList<>();
+    private List<BaseBrick> currentlyVisibleItems = new LinkedList<>();
     private boolean dataHasChanged;
     private boolean vertical;
     private RecyclerView recyclerView;
     private DataSetChangedListener dataSetChangedListener;
-
-    /**
-     * Constructor.
-     */
-    public BrickDataManager() {
-        this.items = new LinkedList<>();
-        this.idCache = new SparseArray<>();
-        this.tagCache = new HashMap<>();
-        this.currentlyVisibleItems = new LinkedList<>();
-    }
 
     /**
      *
@@ -173,15 +158,11 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void updateBricks(List<BaseBrick> bricks, DiffUtil.Callback diffUtilCallback) {
         // clean caches and the DataManager reference on each brick
-        idCache.clear();
-        tagCache.clear();
         for (BaseBrick item : items) {
             item.setDataManager(null);
         }
 
         for (BaseBrick item : bricks) {
-            addToIdCache(item);
-            addToTagCache(item);
             item.setDataManager(this);
         }
 
@@ -204,83 +185,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
-     * Adds a brick with a layout ID to the cache.
-     *
-     * @param item the Brick
-     */
-    private void addToIdCache(@NonNull BaseBrick item) {
-        synchronized (this.idCache) {
-            if (this.idCache.get(item.getLayout()) != null) {
-                this.idCache.get(item.getLayout()).add(item);
-            } else {
-                LinkedList<BaseBrick> list = new LinkedList<>();
-                list.add(item);
-                this.idCache.put(item.getLayout(), list);
-            }
-        }
-    }
-
-    /**
-     * Adds a brick with a tag to the cache.
-     *
-     * @param item the Brick
-     */
-    public void addToTagCache(BaseBrick item) {
-        synchronized (this.tagCache) {
-            if (item.getTag() != null) {
-                if (this.tagCache.containsKey(item.getTag())) {
-                    this.tagCache.get(item.getTag()).add(item);
-                } else {
-                    LinkedList<BaseBrick> list = new LinkedList<>();
-                    list.add(item);
-                    this.tagCache.put(item.getTag(), list);
-                }
-            }
-        }
-    }
-
-    /**
-     * Removes a brick with a layout ID from the cache.
-     *
-     * @param item the Brick
-     */
-    private void removeFromIdCache(@NonNull BaseBrick item) {
-        synchronized (this.idCache) {
-            if (this.idCache.get(item.getLayout()) != null) {
-                List<BaseBrick> list = this.idCache.get(item.getLayout());
-                list.remove(item);
-
-                if (list.isEmpty()) {
-                    this.idCache.remove(item.getLayout());
-                }
-            }
-        }
-    }
-
-    /**
-     * Removes a brick with a tag from the cache.
-     *
-     * @param item the Brick
-     */
-    public void removeFromTagCache(@NonNull BaseBrick item) {
-        synchronized (this.tagCache) {
-            if (item.getTag() != null && this.tagCache.containsKey(item.getTag())) {
-                List<BaseBrick> list = this.tagCache.get(item.getTag());
-                if (null == list) {
-                    Log.w(TAG, "removeFromTagCache: The tag cache is null.");
-                    return; // safety
-                }
-
-                list.remove(item);
-
-                if (list.isEmpty()) {
-                    this.tagCache.remove(item.getTag());
-                }
-            }
-        }
-    }
-
-    /**
      * Inserts brick after all other bricks.
      *
      * @param item the brick to add
@@ -292,8 +196,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         }
 
         this.items.add(item);
-        addToIdCache(item);
-        addToTagCache(item);
         item.setDataManager(this);
 
         if (!item.isHidden()) {
@@ -324,8 +226,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         }
 
         this.items.add(0, item);
-        addToIdCache(item);
-        addToTagCache(item);
         item.setDataManager(this);
 
         if (!item.isHidden()) {
@@ -356,8 +256,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         this.items.addAll(items);
 
         for (BaseBrick item : items) {
-            addToIdCache(item);
-            addToTagCache(item);
             item.setDataManager(this);
         }
 
@@ -427,44 +325,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
-     * Return all the bricks that have the tag.
-     *
-     * @param tag The tag we are looking for
-     * @return A list of all the bricks that have the same tag
-     */
-    public List<BaseBrick> getBricksByTag(@NonNull Object tag) {
-        return tagCache.get(tag) == null ? null : (List<BaseBrick>) tagCache.get(tag).clone();
-    }
-
-    /**
-     * Return all the bricks that have the layout.
-     *
-     * @param layoutId The layout id we are looking for
-     * @return A list of all the bricks that have the same layout
-     */
-    public List<BaseBrick> getBricksByLayoutId(@LayoutRes int layoutId) {
-        return idCache.get(layoutId) == null ? null : (List<BaseBrick>) idCache.get(layoutId).clone();
-    }
-
-    /**
-     * Return all the bricks that have the type.
-     *
-     * @param clazz The class we are looking for
-     * @return A list of all the bricks that have the same type
-     */
-    public List<BaseBrick> getBricksByClass(Class<?> clazz) {
-        List<BaseBrick> matchingItems = new ArrayList<>();
-
-        for (BaseBrick item : this.items) {
-            if (clazz.isInstance(item)) {
-                matchingItems.add(item);
-            }
-        }
-
-        return matchingItems;
-    }
-
-    /**
      * Inserts brick before the anchor brick.
      *
      * @param anchor brick to insert before
@@ -479,8 +339,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
             items.add(anchorDataManagerIndex, item);
         }
 
-        addToIdCache(item);
-        addToTagCache(item);
         item.setDataManager(this);
 
         if (!item.isHidden()) {
@@ -534,8 +392,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         }
         this.items.addAll(index, items);
         for (BaseBrick item : items) {
-            addToIdCache(item);
-            addToTagCache(item);
             item.setDataManager(this);
         }
 
@@ -568,8 +424,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
             this.items.add(anchorDataManagerIndex + 1, item);
         }
 
-        addToIdCache(item);
-        addToTagCache(item);
         item.setDataManager(this);
 
         if (!item.isHidden()) {
@@ -599,8 +453,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         }
         this.items.addAll(index, items);
         for (BaseBrick item : items) {
-            addToIdCache(item);
-            addToTagCache(item);
             item.setDataManager(this);
         }
 
@@ -626,8 +478,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     public void removeItem(BaseBrick item) {
         this.items.remove(item);
 
-        removeFromIdCache(item);
-        removeFromTagCache(item);
         item.setDataManager(null);
 
         if (!item.isHidden()) {
@@ -654,8 +504,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     public void removeItems(Collection<? extends BaseBrick> items) {
         this.items.removeAll(items);
         for (BaseBrick item : items) {
-            removeFromIdCache(item);
-            removeFromTagCache(item);
             item.setDataManager(null);
         }
         int visibleCount = getVisibleCount(items);
@@ -677,8 +525,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     public void clear() {
         int startCount = getRecyclerViewItems().size();
         this.items = new LinkedList<>();
-        this.idCache.clear();
-        this.tagCache.clear();
         dataHasChanged();
         if (brickRecyclerAdapter != null) {
             brickRecyclerAdapter.safeNotifyItemRangeRemoved(0, startCount);
@@ -746,12 +592,8 @@ public class BrickDataManager implements Serializable, BrickProvider {
     private void replaceBrick(int targetBrickIndex, BaseBrick replacement) {
         BaseBrick brickToRemove = items.get(targetBrickIndex);
         items.remove(brickToRemove);
-        removeFromIdCache(brickToRemove);
-        removeFromTagCache(brickToRemove);
         brickToRemove.setDataManager(null);
         items.add(targetBrickIndex, replacement);
-        addToIdCache(replacement);
-        addToTagCache(replacement);
         replacement.setDataManager(this);
         dataHasChanged();
     }
