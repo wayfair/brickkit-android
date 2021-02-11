@@ -12,6 +12,7 @@ import com.wayfair.brickkit.BrickDataManager
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.lang.UnsupportedOperationException
@@ -63,66 +64,8 @@ class BaseBrickTest {
 
     @Test
     fun testTag_nullDataManager() {
-        brick.setDataManager(brickDataManager)
-        brick.setDataManager(null)
+        assertNull(brick.tag)
 
-        brick.tag = null
-        brick.tag = TAG_1
-        brick.tag = TAG_2
-        brick.tag = null
-
-        verifyZeroInteractions(brickDataManager)
-    }
-
-    @Test
-    fun testTag_notNullToNotNull() {
-        brick.tag = TAG_1
-
-        brick.setDataManager(brickDataManager)
-
-        brick.tag = TAG_2
-
-        verify(brickDataManager).removeFromTagCache(brick)
-        verify(brickDataManager).addToTagCache(brick)
-    }
-
-    @Test
-    fun testTag_nullToNotNull() {
-        brick.tag = null
-
-        brick.setDataManager(brickDataManager)
-
-        brick.tag = TAG_2
-
-        verify(brickDataManager, never()).removeFromTagCache(brick)
-        verify(brickDataManager).addToTagCache(brick)
-    }
-
-    @Test
-    fun testTag_notNullToNull() {
-        brick.tag = TAG_1
-
-        brick.setDataManager(brickDataManager)
-
-        brick.tag = null
-
-        verify(brickDataManager).removeFromTagCache(brick)
-        verify(brickDataManager, never()).addToTagCache(brick)
-    }
-
-    @Test
-    fun testTag_nullToNull() {
-        brick.tag = null
-
-        brick.setDataManager(brickDataManager)
-
-        brick.tag = null
-
-        verifyZeroInteractions(brickDataManager)
-    }
-
-    @Test
-    fun testTag_sameTag() {
         brick.tag = TAG_1
 
         brick.setDataManager(brickDataManager)
@@ -196,6 +139,5 @@ class BaseBrickTest {
     companion object {
         private const val LAYOUT = 1234
         private const val TAG_1 = "tag 1"
-        private const val TAG_2 = "tag 2"
     }
 }
