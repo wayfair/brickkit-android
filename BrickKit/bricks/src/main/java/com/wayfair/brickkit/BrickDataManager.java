@@ -438,39 +438,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
-     * Inserts brick before the anchor brick.
-     *
-     * @param anchor brick to insert before
-     * @param items  the bricks to add
-     */
-    public void addAfterItem(BaseBrick anchor, Collection<? extends BaseBrick> items) {
-        int index = this.items.indexOf(anchor);
-
-        if (index == -1) {
-            index = getRecyclerViewItems().size();
-        } else {
-            index++;
-        }
-        this.items.addAll(index, items);
-        for (BaseBrick item : items) {
-            item.setDataManager(this);
-        }
-
-        int visibleCount = getVisibleCount(items);
-        if (visibleCount > 0) {
-            BaseBrick firstVisibleItem = getFirstVisibleItem(items);
-            dataHasChanged();
-
-            if (brickRecyclerAdapter != null) {
-                int refreshStartIndex = getRefreshStartIndexForBrick(firstVisibleItem);
-                safeNotifyItemRangeInserted(firstVisibleItem, visibleCount);
-                int itemCount = getRecyclerViewItems().size() - visibleCount - refreshStartIndex;
-                brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, itemCount);
-            }
-        }
-    }
-
-    /**
      * Remove a brick.
      *
      * @param item the brick to remove
