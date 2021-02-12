@@ -423,49 +423,6 @@ class BrickDataManagerTest {
     }
 
     @Test
-    fun testAddItemsAfterLastItem() {
-        manager.addAfterItem(manager.recyclerViewItems[3], listOf(TestBrick(), TestBrick(), TestBrick()))
-
-        assertEquals(7, manager.recyclerViewItems.size)
-        assertEquals(7, manager.dataManagerItems.size)
-        verify(observer).onItemRangeInserted(4, 3)
-        verify(observer).onItemRangeChanged(4, 0, null)
-        verify(dataSetChangedListener).onDataSetChanged()
-    }
-
-    @Test
-    fun testAddItemsWithOneHiddenAfterLastItem() {
-        manager.addAfterItem(manager.recyclerViewItems[3], listOf(TestBrick(), HiddenTestBrick(), TestBrick()))
-
-        assertEquals(6, manager.recyclerViewItems.size)
-        assertEquals(7, manager.dataManagerItems.size)
-        verify(observer).onItemRangeInserted(4, 2)
-        verify(observer).onItemRangeChanged(4, 0, null)
-        verify(dataSetChangedListener).onDataSetChanged()
-    }
-
-    @Test
-    fun testAddItemsWithAllHiddenAfterLastItem() {
-        manager.addAfterItem(manager.recyclerViewItems[3], listOf(HiddenTestBrick(), HiddenTestBrick(), HiddenTestBrick()))
-
-        assertEquals(4, manager.recyclerViewItems.size)
-        assertEquals(7, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
-        verify(dataSetChangedListener, never()).onDataSetChanged()
-    }
-
-    @Test
-    fun testAddItemsAfterMissingItem() {
-        manager.addAfterItem(TestBrick(), listOf(TestBrick(), TestBrick(), TestBrick()))
-
-        assertEquals(7, manager.recyclerViewItems.size)
-        assertEquals(7, manager.dataManagerItems.size)
-        verify(observer).onItemRangeInserted(4, 3)
-        verify(observer).onItemRangeChanged(4, 0, null)
-        verify(dataSetChangedListener).onDataSetChanged()
-    }
-
-    @Test
     fun testRemoveFirstItem() {
         manager.removeItem(manager.recyclerViewItems[0])
 
