@@ -21,7 +21,6 @@ import com.wayfair.brickkit.size.FullWidthBrickSize
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -719,25 +718,6 @@ class BrickDataManagerTest {
         manager.smoothScrollToBrick(manager.brickAtPosition(manager.recyclerViewItems.size - 1))
 
         manager.smoothScrollToBrick(TestBrick())
-    }
-
-    @Test
-    fun testMethodGetPaddingOrDefaults_resultsInPassedInValue() {
-        manager.clear()
-
-        val paddingPosition = manager.getPaddingPositionOrDefault(2)
-
-        assertNotEquals(BrickDataManager.DEFAULT_BRICK_POSITION, paddingPosition)
-        assertEquals(2, paddingPosition)
-    }
-
-    @Test
-    fun testMethodGetPaddingOrDefault_with_NO_PADDING_POSITION_forPosition_resultsInDefault() {
-        manager.clear()
-
-        val paddingPosition = manager.getPaddingPositionOrDefault(BrickDataManager.NO_PADDING_POSITION)
-
-        assertEquals(BrickDataManager.DEFAULT_BRICK_POSITION, paddingPosition)
     }
 
     @Test
