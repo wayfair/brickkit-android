@@ -358,7 +358,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     @VisibleForTesting
     void safeNotifyItemInserted(@Nullable BaseBrick item) {
-        int adapterIndex = adapterIndex(item);
+        int adapterIndex = getRecyclerViewItems().indexOf(item);
         if (brickRecyclerAdapter != null && adapterIndex != NO_INDEX) {
             brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
         }
@@ -372,7 +372,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     @VisibleForTesting
     void safeNotifyItemRangeInserted(@Nullable BaseBrick item, int visibleCount) {
-        int adapterIndex = adapterIndex(item);
+        int adapterIndex = getRecyclerViewItems().indexOf(item);
         if (brickRecyclerAdapter != null && adapterIndex != NO_INDEX) {
             brickRecyclerAdapter.safeNotifyItemRangeInserted(adapterIndex, visibleCount);
         }
@@ -448,7 +448,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
         item.setDataManager(null);
 
         if (!item.isHidden()) {
-            int index = adapterIndex(item);
+            int index = getRecyclerViewItems().indexOf(item);
             dataHasChanged();
 
             if (brickRecyclerAdapter != null) {
@@ -512,7 +512,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
             return; // safety: avoid an index out of bounds exception
         }
 
-        int targetIndexInAdapter = adapterIndex(target);
+        int targetIndexInAdapter = getRecyclerViewItems().indexOf(target);
         boolean indexNotFound = NO_INDEX == targetIndexInAdapter;
 
         if (indexNotFound == replacement.isHidden()) {
@@ -542,7 +542,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
                 safeNotifyItemRangeChange(refreshStartIndex);
             } else {
                 // item "inserted" notification
-                int adapterIndex = adapterIndex(replacement);
+                int adapterIndex = getRecyclerViewItems().indexOf(replacement);
                 int refreshStartIndex = getRefreshStartIndexForBrick(target);
                 brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
                 safeNotifyItemRangeChange(refreshStartIndex);
@@ -595,7 +595,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      * @param item the brick to refresh
      */
     public void refreshItem(BaseBrick item) {
-        int index = adapterIndex(item);
+        int index = getRecyclerViewItems().indexOf(item);
         if (items.contains(item) && index != -1 && !item.isHidden() && brickRecyclerAdapter != null) {
             brickRecyclerAdapter.safeNotifyItemChanged(index);
         }
@@ -608,7 +608,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void hideItem(BaseBrick item) {
         item.setHidden(true);
-        int index = adapterIndex(item);
+        int index = getRecyclerViewItems().indexOf(item);
         if (items.contains(item) && index != -1) {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
@@ -629,10 +629,10 @@ public class BrickDataManager implements Serializable, BrickProvider {
      */
     public void showItem(BaseBrick item) {
         item.setHidden(false);
-        if (items.contains(item) && adapterIndex(item) == -1) {
+        if (items.contains(item) && !getRecyclerViewItems().contains(item)) {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
-                int index = adapterIndex(item);
+                int index = getRecyclerViewItems().indexOf(item);
                 int refreshStartIndex = getRefreshStartIndexForBrick(item);
                 brickRecyclerAdapter.safeNotifyItemInserted(index);
                 safeNotifyItemRangeChange(refreshStartIndex);
@@ -649,16 +649,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         if (dataSetChangedListener != null) {
             dataSetChangedListener.onDataSetChanged();
         }
-    }
-
-    /**
-     * Method to get the index of the item in the visible items.
-     *
-     * @param item item to get the index of
-     * @return index of the item in the visible items or {@link #NO_INDEX}.
-     */
-    private int adapterIndex(@Nullable BaseBrick item) {
-        return getRecyclerViewItems().indexOf(item);
     }
 
     /**
