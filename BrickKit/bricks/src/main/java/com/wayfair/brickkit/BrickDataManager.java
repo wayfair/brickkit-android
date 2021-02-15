@@ -40,8 +40,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     @VisibleForTesting
     static final int DEFAULT_BRICK_POSITION = 0;
 
-    private static final int NO_INDEX = -1;
-
     @Nullable
     private BrickRecyclerAdapter brickRecyclerAdapter;
     private List<BaseBrick> items = new LinkedList<>();
@@ -334,7 +332,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     public void addBeforeItem(BaseBrick anchor, BaseBrick item) {
         int anchorDataManagerIndex = items.indexOf(anchor);
 
-        if (anchorDataManagerIndex == NO_INDEX) {
+        if (anchorDataManagerIndex == -1) {
             items.add(0, item);
         } else {
             items.add(anchorDataManagerIndex, item);
@@ -347,7 +345,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
             if (brickRecyclerAdapter != null) {
                 int refreshStartIndex = getRefreshStartIndexForBrick(item);
                 int adapterIndex = getRecyclerViewItems().indexOf(item);
-                if (adapterIndex != NO_INDEX) {
+                if (adapterIndex != -1) {
                     brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
                 }
                 int itemCount = getRecyclerViewItems().size() - refreshStartIndex;
@@ -365,7 +363,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     public void addBeforeItem(BaseBrick anchor, Collection<? extends BaseBrick> items) {
         int index = this.items.indexOf(anchor);
 
-        if (index == NO_INDEX) {
+        if (index == -1) {
             index = 0;
         }
         this.items.addAll(index, items);
@@ -381,7 +379,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
             if (brickRecyclerAdapter != null) {
                 int refreshStartIndex = getRefreshStartIndexForBrick(firstVisibleItem);
                 int adapterIndex = getRecyclerViewItems().indexOf(firstVisibleItem);
-                if (adapterIndex != NO_INDEX) {
+                if (adapterIndex != -1) {
                     brickRecyclerAdapter.safeNotifyItemRangeInserted(adapterIndex, visibleCount);
                 }
 
@@ -414,7 +412,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
             if (brickRecyclerAdapter != null) {
                 int refreshStartIndex = getRefreshStartIndexForBrick(item);
                 int adapterIndex = getRecyclerViewItems().indexOf(item);
-                if (adapterIndex != NO_INDEX) {
+                if (adapterIndex != -1) {
                     brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
                 }
                 int itemCount = getRecyclerViewItems().size() - refreshStartIndex;
@@ -494,13 +492,13 @@ public class BrickDataManager implements Serializable, BrickProvider {
     public synchronized void replaceItem(BaseBrick target, BaseBrick replacement) {
         int targetIndexInItems = items.indexOf(target);
 
-        if (targetIndexInItems == NO_INDEX) {
-            Log.w(TAG, "replaceItem: the target index is NO_INDEX");
+        if (targetIndexInItems == -1) {
+            Log.w(TAG, "replaceItem: the target index is -1");
             return; // safety: avoid an index out of bounds exception
         }
 
         int targetIndexInAdapter = getRecyclerViewItems().indexOf(target);
-        boolean indexNotFound = NO_INDEX == targetIndexInAdapter;
+        boolean indexNotFound = -1 == targetIndexInAdapter;
 
         if (indexNotFound == replacement.isHidden()) {
             if (!target.isHidden()) {
@@ -638,7 +636,7 @@ public class BrickDataManager implements Serializable, BrickProvider {
     public void smoothScrollToBrick(BaseBrick item) {
         int index = getRecyclerViewItems().indexOf(item);
 
-        if (index != NO_INDEX) {
+        if (index != -1) {
             recyclerView.smoothScrollToPosition(index);
         }
     }
