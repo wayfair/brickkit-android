@@ -136,6 +136,11 @@ class BaseBrickTest {
         verify(brickDataManager).addFirst(brick)
     }
 
+    @Test
+    fun testIsDataReady() {
+        assertTrue(brick.isDataReady)
+    }
+
     companion object {
         private const val LAYOUT = 1234
         private const val TAG_1 = "tag 1"

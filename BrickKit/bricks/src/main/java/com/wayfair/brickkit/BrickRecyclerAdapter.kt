@@ -157,7 +157,7 @@ internal class BrickRecyclerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrickViewHolder =
-        BrickViewHolderFactory().createBrickViewHolder(parent, viewType, brickDataManager)
+        BrickViewHolderFactory().createBrickViewHolder(parent, viewType, brickDataManager.recyclerViewItems)
 
     override fun onBindViewHolder(holder: BrickViewHolder, position: Int) {
         brickDataManager.brickAtPosition(position)?.let { baseBrick ->

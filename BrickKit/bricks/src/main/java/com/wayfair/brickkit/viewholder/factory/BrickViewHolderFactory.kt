@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wayfair.brickkit.BrickRecyclerAdapter
+import com.wayfair.brickkit.brick.BaseBrick
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 
 /**
@@ -25,22 +26,30 @@ internal class BrickViewHolderFactory {
      *
      * @param parent   of the view, passed into the [BrickViewHolder]'s constructor.
      * @param viewType of the view to create.  It can be a @LayoutRes id.
-     * @param provider provides bricks, based on resource id
+     * @param items [BaseBrick]s to search within
      *
      * @return the created [BrickViewHolder]
      */
-    fun createBrickViewHolder(parent: ViewGroup, viewType: Int, provider: BrickProvider): BrickViewHolder {
+    fun createBrickViewHolder(parent: ViewGroup, viewType: Int, items: List<BaseBrick>): BrickViewHolder {
         var viewHolder: BrickViewHolder? = null
         try {
             if (viewType > BrickRecyclerAdapter.DEFAULT_LAYOUT_RES_ID) {
-                val brick = provider.brickWithLayout(viewType) ?: provider.brickWithPlaceholderLayout(viewType)
+                val brick = brickWithLayout(items, viewType) ?: brickWithPlaceholderLayout(items, viewType)
                 viewHolder = brick?.createViewHolder(LayoutInflater.from(parent.context).inflate(viewType, parent, false))
             }
         } catch (nfe: Resources.NotFoundException) {
-            Log.w(TAG, "Unable to find the resource. parent=$parent, viewType=$viewType, brickProvider=$provider", nfe)
+            Log.w(TAG, "Unable to find the resource. parent=$parent, viewType=$viewType", nfe)
         }
 
         return viewHolder ?: EmptyBrickViewHolder(View(parent.context))
+    }
+
+    private fun brickWithLayout(items: List<BaseBrick>, layoutResId: Int): BaseBrick? {
+        return items.firstOrNull { brick -> brick.layout == layoutResId }
+    }
+
+    private fun brickWithPlaceholderLayout(items: List<BaseBrick>, layoutResId: Int): BaseBrick? {
+        return items.firstOrNull { brick -> !brick.isDataReady && brick.placeholderLayout == layoutResId }
     }
 
     /**

@@ -9,7 +9,6 @@ import android.widget.GridLayout;
 
 import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator;
 import com.wayfair.brickkit.brick.BaseBrick;
-import com.wayfair.brickkit.viewholder.factory.BrickProvider;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -17,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -30,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * <p>
  * This class maintains the bricks and handles notifying the underlying adapter when items are updated.
  */
-public class BrickDataManager implements Serializable, BrickProvider {
+public class BrickDataManager implements Serializable {
     private static final String TAG = BrickDataManager.class.getSimpleName();
     public static final int SPAN_COUNT = 240;
 
@@ -774,43 +772,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
         }
         brickRecyclerAdapter = null;
         recyclerView = null;
-    }
-
-    /**
-     * Retrieves a brick who's associated layout resource ID matches that of the parameter.
-     *
-     * @param layoutResId Layout resource ID
-     * @return An instance of BaseBrick or null
-     */
-    @Nullable
-    public BaseBrick brickWithLayout(@LayoutRes int layoutResId) {
-        List<BaseBrick> visibleItems = getRecyclerViewItems();
-        for (int i = 0; i < visibleItems.size(); i++) {
-            if (visibleItems.get(i).getLayout() == layoutResId) {
-                return visibleItems.get(i);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Retrieves a brick who's associated placeholder layout resource ID matches that of the parameter.
-     *
-     * @param placeholderLayoutResId Placeholder Layout resource ID
-     * @return An instance of BaseBrick or null
-     */
-    @Nullable
-    public BaseBrick brickWithPlaceholderLayout(@LayoutRes int placeholderLayoutResId) {
-        List<BaseBrick> visibleItems = getRecyclerViewItems();
-        for (int i = 0; i < visibleItems.size(); i++) {
-            if (!visibleItems.get(i).isDataReady() && visibleItems.get(i).getPlaceholderLayout()
-                    == placeholderLayoutResId) {
-                return visibleItems.get(i);
-            }
-        }
-
-        return null;
     }
 
     /**
