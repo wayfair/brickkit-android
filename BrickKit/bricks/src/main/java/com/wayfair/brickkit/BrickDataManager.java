@@ -346,23 +346,13 @@ public class BrickDataManager implements Serializable, BrickProvider {
             dataHasChanged();
             if (brickRecyclerAdapter != null) {
                 int refreshStartIndex = getRefreshStartIndexForBrick(item);
-                safeNotifyItemInserted(item);
+                int adapterIndex = getRecyclerViewItems().indexOf(item);
+                if (adapterIndex != NO_INDEX) {
+                    brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
+                }
                 int itemCount = getRecyclerViewItems().size() - refreshStartIndex;
                 brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, itemCount);
             }
-        }
-    }
-
-    /**
-     * Safely notifies of a single item insertion.
-     *
-     * @param item which was just inserted.
-     */
-    @VisibleForTesting
-    void safeNotifyItemInserted(@Nullable BaseBrick item) {
-        int adapterIndex = getRecyclerViewItems().indexOf(item);
-        if (brickRecyclerAdapter != null && adapterIndex != NO_INDEX) {
-            brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
         }
     }
 
@@ -433,7 +423,10 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
             if (brickRecyclerAdapter != null) {
                 int refreshStartIndex = getRefreshStartIndexForBrick(item);
-                safeNotifyItemInserted(item);
+                int adapterIndex = getRecyclerViewItems().indexOf(item);
+                if (adapterIndex != NO_INDEX) {
+                    brickRecyclerAdapter.safeNotifyItemInserted(adapterIndex);
+                }
                 int itemCount = getRecyclerViewItems().size() - refreshStartIndex;
                 brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, itemCount);
             }

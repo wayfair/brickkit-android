@@ -741,20 +741,6 @@ class BrickDataManagerTest {
     }
 
     @Test
-    fun testSafeNotifyItemInserted() {
-        val items = listOf(TestBrick(), TestBrick(), TestBrick(), TestBrick(), TestBrick())
-
-        manager.clear()
-        manager.addLast(items)
-
-        verify(observer).onItemRangeInserted(0, 5)
-
-        manager.safeNotifyItemInserted(items[1])
-
-        verify(observer).onItemRangeInserted(1, 1)
-    }
-
-    @Test
     fun testSafeNotifyItemRangeInserted() {
         val items = listOf(TestBrick(), TestBrick(), TestBrick(), TestBrick())
 
