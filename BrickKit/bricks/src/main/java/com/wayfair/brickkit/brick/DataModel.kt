@@ -11,7 +11,13 @@ import java.io.Serializable
  */
 abstract class DataModel : Serializable {
     @Transient
-    private val updateListeners = mutableSetOf<DataModelUpdateListener>()
+    private var updateListeners: MutableSet<DataModelUpdateListener>? = null
+        get() {
+            if (field == null) {
+                field = mutableSetOf()
+            }
+            return field
+        }
 
     /**
      * Add a [DataModelUpdateListener] to the list of listeners.
@@ -19,7 +25,7 @@ abstract class DataModel : Serializable {
      * @param updateListener the listener to add
      */
     open fun addUpdateListener(updateListener: DataModelUpdateListener) {
-        updateListeners.add(updateListener)
+        updateListeners!!.add(updateListener)
     }
 
     /**
@@ -28,7 +34,7 @@ abstract class DataModel : Serializable {
      * @param updateListener the listener to remove
      */
     open fun removeUpdateListener(updateListener: DataModelUpdateListener) {
-        updateListeners.remove(updateListener)
+        updateListeners!!.remove(updateListener)
     }
 
     /**
@@ -37,7 +43,7 @@ abstract class DataModel : Serializable {
     open fun notifyChange() {
         val handler = Handler(Looper.getMainLooper())
 
-        updateListeners.forEach { updateListener ->
+        updateListeners!!.forEach { updateListener ->
             handler.post { updateListener.notifyChange() }
         }
     }
