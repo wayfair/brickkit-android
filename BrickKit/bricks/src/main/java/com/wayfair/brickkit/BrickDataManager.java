@@ -357,20 +357,6 @@ public class BrickDataManager implements Serializable, BrickProvider {
     }
 
     /**
-     * Safely notifies of a range insertion.
-     *
-     * @param item         which was just inserted.
-     * @param visibleCount the item count for the range
-     */
-    @VisibleForTesting
-    void safeNotifyItemRangeInserted(@Nullable BaseBrick item, int visibleCount) {
-        int adapterIndex = getRecyclerViewItems().indexOf(item);
-        if (brickRecyclerAdapter != null && adapterIndex != NO_INDEX) {
-            brickRecyclerAdapter.safeNotifyItemRangeInserted(adapterIndex, visibleCount);
-        }
-    }
-
-    /**
      * Inserts brick before the anchor brick.
      *
      * @param anchor brick to insert before
@@ -394,7 +380,11 @@ public class BrickDataManager implements Serializable, BrickProvider {
 
             if (brickRecyclerAdapter != null) {
                 int refreshStartIndex = getRefreshStartIndexForBrick(firstVisibleItem);
-                safeNotifyItemRangeInserted(firstVisibleItem, visibleCount);
+                int adapterIndex = getRecyclerViewItems().indexOf(firstVisibleItem);
+                if (adapterIndex != NO_INDEX) {
+                    brickRecyclerAdapter.safeNotifyItemRangeInserted(adapterIndex, visibleCount);
+                }
+
                 int itemCount = getRecyclerViewItems().size() - visibleCount - refreshStartIndex;
                 brickRecyclerAdapter.safeNotifyItemRangeChanged(refreshStartIndex, itemCount);
             }

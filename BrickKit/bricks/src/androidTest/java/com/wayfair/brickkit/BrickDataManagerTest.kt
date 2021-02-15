@@ -741,17 +741,6 @@ class BrickDataManagerTest {
     }
 
     @Test
-    fun testSafeNotifyItemRangeInserted() {
-        val items = listOf(TestBrick(), TestBrick(), TestBrick(), TestBrick())
-
-        manager.clear()
-        manager.addLast(items)
-        manager.safeNotifyItemRangeInserted(items[3], 3)
-
-        verify(observer).onItemRangeInserted(3, 3)
-    }
-
-    @Test
     fun testSetDataSetChangedListener() {
         val listener = mock<DataSetChangedListener>()
 
