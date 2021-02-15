@@ -677,36 +677,6 @@ class BrickDataManagerTest {
     }
 
     @Test
-    fun testBrickWithLayout() {
-        manager.addLast(TestBrick())
-
-        assertNotNull(manager.brickWithLayout(1))
-    }
-
-    @Test
-    fun testBrickWithLayoutInvalidLayout() {
-        manager.addLast(TestBrick())
-
-        assertNull(manager.brickWithLayout(2))
-    }
-
-    @Test
-    fun testBrickWithPlaceholderLayoutWhenDataIsReady() {
-        manager.addLast(TestPlaceholderBrick(true))
-
-        assertNull(manager.brickWithPlaceholderLayout(1))
-        assertNull(manager.brickWithPlaceholderLayout(2))
-    }
-
-    @Test
-    fun testBrickWithPlaceholderLayoutWhenDataIsNotReady() {
-        manager.addLast(TestPlaceholderBrick(false))
-
-        assertNotNull(manager.brickWithPlaceholderLayout(1))
-        assertNull(manager.brickWithPlaceholderLayout(2))
-    }
-
-    @Test
     fun testBrickAtPosition() {
         assertNotNull(manager.brickAtPosition(manager.dataManagerItems.size - 1))
         assertNull(manager.brickAtPosition(manager.dataManagerItems.size))

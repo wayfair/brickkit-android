@@ -3,7 +3,6 @@
  */
 package com.wayfair.brickkit.viewholder.factory
 
-import android.content.res.Resources
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -25,47 +24,58 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class BrickViewHolderFactoryTest {
     private val factory = BrickViewHolderFactory()
-    private val provider: BrickProvider = mock()
+    private lateinit var bricks: List<BaseBrick>
     private lateinit var parentView: ViewGroup
 
     @Before
     fun setup() {
         val brick = mock<BaseBrick>()
+        whenever(brick.layout).thenReturn(VALID_RES_ID)
+        whenever(brick.isDataReady).thenReturn(true)
         whenever(brick.createViewHolder(any())).thenAnswer { answer -> TestBrickViewHolder(answer.arguments[0] as View) }
 
         val placeholderBrick = mock<BaseBrick>()
+        whenever(placeholderBrick.isDataReady).thenReturn(false)
+        whenever(placeholderBrick.placeholderLayout).thenReturn(UNUSED_RES_ID)
         whenever(placeholderBrick.createViewHolder(any())).thenAnswer { answer -> PlaceholderBrickViewHolder(answer.arguments[0] as View) }
 
-        whenever(provider.brickWithLayout(VALID_RES_ID)).thenReturn(brick)
-        whenever(provider.brickWithLayout(EXCEPTIONAL_RES_ID)).thenThrow(Resources.NotFoundException())
-        whenever(provider.brickWithPlaceholderLayout(PLACEHOLDER_RES_ID)).thenReturn(placeholderBrick)
+        val placeholderBrick2 = mock<BaseBrick>()
+        whenever(placeholderBrick2.isDataReady).thenReturn(false)
+        whenever(placeholderBrick2.placeholderLayout).thenReturn(PLACEHOLDER_RES_ID)
+        whenever(placeholderBrick2.createViewHolder(any())).thenAnswer { answer -> PlaceholderBrickViewHolder(answer.arguments[0] as View) }
+
+        val brickWithInvalidResId = mock<BaseBrick>()
+        whenever(brickWithInvalidResId.layout).thenReturn(EXCEPTIONAL_RES_ID)
+        whenever(brickWithInvalidResId.createViewHolder(any())).thenAnswer { answer -> TestBrickViewHolder(answer.arguments[0] as View) }
+
+        bricks = listOf(brick, placeholderBrick, placeholderBrick2, brickWithInvalidResId)
 
         parentView = FrameLayout(ApplicationProvider.getApplicationContext())
     }
 
     @Test
     fun testCreateBrickViewHolder_defaultResId() {
-        assertTrue(factory.createBrickViewHolder(parentView, BrickRecyclerAdapter.DEFAULT_LAYOUT_RES_ID, provider) is EmptyBrickViewHolder)
+        assertTrue(factory.createBrickViewHolder(parentView, BrickRecyclerAdapter.DEFAULT_LAYOUT_RES_ID, bricks) is EmptyBrickViewHolder)
     }
 
     @Test
     fun testCreateBrickViewHolder_provideNeither() {
-        assertTrue(factory.createBrickViewHolder(parentView, VALID_NON_MATCHED_RES_ID, provider) is EmptyBrickViewHolder)
+        assertTrue(factory.createBrickViewHolder(parentView, VALID_NON_MATCHED_RES_ID, bricks) is EmptyBrickViewHolder)
     }
 
     @Test
     fun testCreateBrickViewHolder_resourceNotFoundException() {
-        assertTrue(factory.createBrickViewHolder(parentView, EXCEPTIONAL_RES_ID, provider) is EmptyBrickViewHolder)
+        assertTrue(factory.createBrickViewHolder(parentView, EXCEPTIONAL_RES_ID, bricks) is EmptyBrickViewHolder)
     }
 
     @Test
     fun testCreateBrickViewHolder_provideBrickWithLayout() {
-        assertTrue(factory.createBrickViewHolder(parentView, VALID_RES_ID, provider) is TestBrickViewHolder)
+        assertTrue(factory.createBrickViewHolder(parentView, VALID_RES_ID, bricks) is TestBrickViewHolder)
     }
 
     @Test
     fun testCreateBrickViewHolder_provideBrickWithPlaceholderLayout() {
-        assertTrue(factory.createBrickViewHolder(parentView, PLACEHOLDER_RES_ID, provider) is PlaceholderBrickViewHolder)
+        assertTrue(factory.createBrickViewHolder(parentView, PLACEHOLDER_RES_ID, bricks) is PlaceholderBrickViewHolder)
     }
 
     private class TestBrickViewHolder(itemView: View) : BrickViewHolder(itemView)
@@ -76,5 +86,6 @@ class BrickViewHolderFactoryTest {
         private val PLACEHOLDER_RES_ID = R.layout.text_brick_vm_placeholder
         private const val VALID_NON_MATCHED_RES_ID = 1
         private const val EXCEPTIONAL_RES_ID = 2
+        private const val UNUSED_RES_ID = 3
     }
 }
