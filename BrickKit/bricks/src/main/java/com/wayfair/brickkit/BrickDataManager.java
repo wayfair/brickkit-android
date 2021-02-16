@@ -18,7 +18,6 @@ import java.util.ListIterator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,8 +31,7 @@ public class BrickDataManager implements Serializable {
     private static final String TAG = BrickDataManager.class.getSimpleName();
     public static final int SPAN_COUNT = 240;
 
-    @VisibleForTesting
-    static final int DEFAULT_BRICK_POSITION = 0;
+    private static final int DEFAULT_BRICK_POSITION = 0;
 
     @Nullable
     private BrickRecyclerAdapter brickRecyclerAdapter;
@@ -590,8 +588,7 @@ public class BrickDataManager implements Serializable {
     /**
      * Helper method to tell manager to update the items returned from getRecyclerViewItems().
      */
-    @VisibleForTesting
-    void dataHasChanged() {
+    private void dataHasChanged() {
         dataHasChanged = true;
         if (dataSetChangedListener != null) {
             dataSetChangedListener.onDataSetChanged();
@@ -772,19 +769,6 @@ public class BrickDataManager implements Serializable {
         }
         brickRecyclerAdapter = null;
         recyclerView = null;
-    }
-
-    /**
-     * Retrieves a brick at a specific position.
-     *
-     * @param position Position of the brick within the data set
-     * @return An instance of BaseBrick or null
-     */
-    public BaseBrick brickAtPosition(int position) {
-        if (position >= 0 && position < getRecyclerViewItems().size()) {
-            return getRecyclerViewItems().get(position);
-        }
-        return null;
     }
 
     /**
