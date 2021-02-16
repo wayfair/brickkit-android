@@ -13,6 +13,7 @@ import com.nhaarman.mockitokotlin2.atLeastOnce
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.reset
+import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.wayfair.brickkit.brick.BaseBrick
@@ -31,6 +32,7 @@ import org.junit.runner.RunWith
 class BrickDataManagerTest {
     private val observer: RecyclerView.AdapterDataObserver = mock()
     private val dataSetChangedListener: DataSetChangedListener = mock()
+    private lateinit var recyclerView: RecyclerView
     private lateinit var manager: BrickDataManager
 
     @Before
@@ -39,14 +41,30 @@ class BrickDataManagerTest {
             Looper.prepare()
         }
 
+        recyclerView = spy(RecyclerView(ApplicationProvider.getApplicationContext()))
         manager = BrickDataManager().apply {
-            recyclerView = RecyclerView(ApplicationProvider.getApplicationContext())
+            setRecyclerView(recyclerView)
 
             repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
 
             setDataSetChangedListener(dataSetChangedListener)
-            recyclerView.adapter?.registerAdapterDataObserver(observer)
+            getRecyclerView()?.adapter?.registerAdapterDataObserver(observer)
         }
+    }
+
+    @Test
+    fun testSetOnReachedItemAtPosition() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        val listener = mock<OnReachedItemAtPosition>()
+
+        manager.setOnReachedItemAtPosition(listener)
+
+        manager.setRecyclerView(recyclerView)
+
+        manager.setOnReachedItemAtPosition(listener)
     }
 
     @Test
@@ -77,6 +95,26 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testUpdateBricks_nullRecyclerView() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        val bricks = mutableListOf<BaseBrick>()
+        bricks.addAll(manager.dataManagerItems)
+        bricks.add(TestBrick())
+        bricks.add(HiddenTestBrick())
+        bricks.add(1, TestBrick())
+        bricks.add(3, TestBrick())
+
+        manager.updateBricks(bricks)
+
+        assertEquals(7, manager.recyclerViewItems.size)
+        assertEquals(8, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener)
+    }
+
+    @Test
     fun testAddLastHidden() {
         manager.addLast(HiddenTestBrick())
 
@@ -85,6 +123,17 @@ class BrickDataManagerTest {
 
         verifyZeroInteractions(observer)
         verify(dataSetChangedListener, never()).onDataSetChanged()
+    }
+
+    @Test
+    fun testAddLast_null() {
+        val baseBrick: BaseBrick? = null
+        manager.addLast(baseBrick)
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+
+        verifyZeroInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -107,6 +156,47 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testAddLastCollection_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        manager.addLast(
+            listOf(
+                TestBrick(),
+                HiddenTestBrick(),
+                TestBrick(),
+                HiddenTestBrick(),
+                TestBrick()
+            )
+        )
+
+        assertEquals(7, manager.recyclerViewItems.size)
+        assertEquals(9, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
+    fun testAddLastCollection_emptyCollection() {
+        manager.addLast(listOf())
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
+    fun testAddLastCollection_null() {
+        val bricks: List<BaseBrick>? = null
+        manager.addLast(bricks)
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+
+        verifyZeroInteractions(observer, dataSetChangedListener)
+    }
+
+    @Test
     fun testAddLastCollectionAllHidden() {
         manager.addLast(
             listOf(
@@ -125,6 +215,17 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testAddFirst_null() {
+        val baseBrick: BaseBrick? = null
+        manager.addFirst(baseBrick)
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+
+        verifyZeroInteractions(observer, dataSetChangedListener)
+    }
+
+    @Test
     fun testAddFirstVisible() {
         val newBrick = TestBrick()
 
@@ -139,6 +240,22 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testAddFirstVisible_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        val newBrick = TestBrick()
+
+        manager.addFirst(newBrick)
+
+        assertEquals(5, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+        assertEquals(newBrick, manager.dataManagerItems[0])
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
     fun testAddFirstVisibleHorizontal() {
         val dataSetChangedListener = mock<DataSetChangedListener>()
         val observer = mock<RecyclerView.AdapterDataObserver>()
@@ -149,7 +266,7 @@ class BrickDataManagerTest {
 
             repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
 
-            recyclerView.adapter?.registerAdapterDataObserver(observer)
+            getRecyclerView()?.adapter?.registerAdapterDataObserver(observer)
         }
 
         val newBrick = TestBrick()
@@ -176,6 +293,30 @@ class BrickDataManagerTest {
     @Test
     fun testAddBeforeFirstItem() {
         manager.addBeforeItem(manager.recyclerViewItems[0], TestBrick())
+
+        assertEquals(5, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+        verify(observer).onItemRangeInserted(0, 1)
+        verify(observer).onItemRangeChanged(0, 5, null)
+        verify(dataSetChangedListener).onDataSetChanged()
+    }
+
+    @Test
+    fun testAddBeforeFirstItem_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        manager.addBeforeItem(manager.recyclerViewItems[0], TestBrick())
+
+        assertEquals(5, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
+    fun testAddBeforeUnexpectedItem() {
+        manager.addBeforeItem(TestBrick(), TestBrick())
 
         assertEquals(5, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
@@ -323,6 +464,19 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testAddAfterFirstItem_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        manager.addAfterItem(manager.recyclerViewItems[0], TestBrick())
+
+        assertEquals(5, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
     fun testAddAfterLastItem() {
         manager.addAfterItem(manager.recyclerViewItems[3], TestBrick())
 
@@ -375,6 +529,35 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testAddItemsBeforeLastItem_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        manager.addBeforeItem(
+            manager.recyclerViewItems[3],
+            listOf(
+                TestBrick(),
+                TestBrick(),
+                TestBrick()
+            )
+        )
+
+        assertEquals(7, manager.recyclerViewItems.size)
+        assertEquals(7, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
+    fun testAddItemsBeforeLastItem_emptyList() {
+        manager.addBeforeItem(manager.recyclerViewItems[3], listOf())
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
     fun testAddItemsWithOneHiddenBeforeLastItem() {
         manager.addBeforeItem(
             manager.recyclerViewItems[3],
@@ -421,6 +604,29 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testRemoveItem_null() {
+        manager.removeItem(null)
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+
+        verifyZeroInteractions(observer, dataSetChangedListener)
+    }
+
+    @Test
+    fun testRemoveFirstItem_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        manager.removeItem(manager.recyclerViewItems[0])
+
+        assertEquals(3, manager.recyclerViewItems.size)
+        assertEquals(3, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
     fun testRemoveFirstItem() {
         manager.removeItem(manager.recyclerViewItems[0])
 
@@ -429,6 +635,15 @@ class BrickDataManagerTest {
         verify(observer).onItemRangeRemoved(0, 1)
         verify(observer).onItemRangeChanged(0, 3, null)
         verify(dataSetChangedListener).onDataSetChanged()
+    }
+
+    @Test
+    fun testRemoveInvalidItem() {
+        manager.removeItem(TestBrick())
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -468,6 +683,15 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testRemoveNoItems() {
+        manager.removeItems(listOf())
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
     fun testRemoveSomeItems() {
         manager.removeItems(listOf(manager.recyclerViewItems[1], manager.recyclerViewItems[2]))
 
@@ -475,6 +699,19 @@ class BrickDataManagerTest {
         assertEquals(2, manager.dataManagerItems.size)
         verify(observer).onChanged()
         verify(dataSetChangedListener).onDataSetChanged()
+    }
+
+    @Test
+    fun testRemoveSomeItems_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        manager.removeItems(listOf(manager.recyclerViewItems[1], manager.recyclerViewItems[2]))
+
+        assertEquals(2, manager.recyclerViewItems.size)
+        assertEquals(2, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -509,6 +746,21 @@ class BrickDataManagerTest {
         assertEquals(0, manager.dataManagerItems.size)
         verify(observer).onItemRangeRemoved(0, 4)
         verify(dataSetChangedListener).onDataSetChanged()
+    }
+
+    @Test
+    fun testClear_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        assertEquals(STARTING_BRICKS, manager.dataManagerItems.size)
+        assertEquals(STARTING_BRICKS, manager.recyclerViewItems.size)
+
+        manager.clear()
+
+        assertEquals(0, manager.dataManagerItems.size)
+        assertEquals(0, manager.recyclerViewItems.size)
     }
 
     @Test
@@ -590,6 +842,15 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testReplaceInvalidItem() {
+        manager.replaceItem(TestBrick(), HiddenTestBrick())
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+        verifyZeroInteractions(dataSetChangedListener, observer)
+    }
+
+    @Test
     fun testRefreshItemBothHidden() {
         val brickToRefresh = HiddenTestBrick()
 
@@ -624,14 +885,14 @@ class BrickDataManagerTest {
     }
 
     @Test
-    fun testRefreshHiddenItemWithVisibleItem() {
+    fun testShowItem_second() {
         val brickToRefresh = HiddenTestBrick()
 
         manager.addAfterItem(manager.recyclerViewItems[0], brickToRefresh)
 
         reset(observer)
 
-        manager.showItem(brickToRefresh)
+        brickToRefresh.isHidden = false
 
         assertEquals(5, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
@@ -642,14 +903,75 @@ class BrickDataManagerTest {
     }
 
     @Test
-    fun testRefreshVisibleItemWithHiddenItem() {
+    fun testShowItem_last() {
+        val brickToRefresh = HiddenTestBrick()
+
+        manager.addLast(brickToRefresh)
+
+        reset(observer)
+
+        brickToRefresh.isHidden = false
+
+        assertEquals(5, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+        verify(observer).onItemRangeInserted(4, 1)
+        verify(observer, never()).onItemRangeChanged(any(), any(), any())
+        verify(observer, never()).onItemRangeRemoved(any(), any())
+        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged()
+    }
+
+    @Test
+    fun testShowItem_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        val brickToRefresh = HiddenTestBrick()
+
+        manager.addLast(brickToRefresh)
+
+        brickToRefresh.isHidden = false
+
+        assertEquals(5, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+    }
+
+    @Test
+    fun testShowItem_unexpectedBrick() {
+        val brickToRefresh = TestBrick()
+
+        manager.showItem(brickToRefresh)
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+        verifyZeroInteractions(observer, dataSetChangedListener)
+    }
+
+    @Test
+    fun testShowItem_alreadyVisible() {
+        val brickToRefresh = TestBrick()
+
+        manager.addLast(brickToRefresh)
+
+        reset(observer)
+        reset(dataSetChangedListener)
+
+        manager.showItem(brickToRefresh)
+
+        assertEquals(5, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+        verifyZeroInteractions(observer, dataSetChangedListener)
+    }
+
+    @Test
+    fun testHideItem_second() {
         val brickToRefresh = TestBrick()
 
         manager.addAfterItem(manager.recyclerViewItems[0], brickToRefresh)
 
         reset(observer)
 
-        manager.hideItem(brickToRefresh)
+        brickToRefresh.isHidden = true
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
@@ -657,6 +979,69 @@ class BrickDataManagerTest {
         verify(observer).onItemRangeChanged(1, 3, null)
         verify(observer).onItemRangeRemoved(1, 1)
         verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged()
+    }
+
+    @Test
+    fun testHideItem_last() {
+        val brickToRefresh = TestBrick()
+
+        manager.addLast(brickToRefresh)
+
+        reset(observer)
+
+        brickToRefresh.isHidden = true
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+        verify(observer, never()).onItemRangeInserted(any(), any())
+        verify(observer, never()).onItemRangeChanged(any(), any(), any())
+        verify(observer).onItemRangeRemoved(4, 1)
+        verify(dataSetChangedListener, atLeastOnce()).onDataSetChanged()
+    }
+
+    @Test
+    fun testHideItem_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        val brickToRefresh = TestBrick()
+
+        manager.addLast(brickToRefresh)
+
+        brickToRefresh.isHidden = true
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+    }
+
+    @Test
+    fun testHideItem_unexpectedBrick() {
+        val brickToRefresh = TestBrick()
+
+        reset(observer)
+
+        manager.hideItem(brickToRefresh)
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(4, manager.dataManagerItems.size)
+        verifyZeroInteractions(observer, dataSetChangedListener)
+    }
+
+    @Test
+    fun testHideItem_alreadyHidden() {
+        val brickToRefresh = HiddenTestBrick()
+
+        manager.addLast(brickToRefresh)
+
+        reset(observer)
+        reset(dataSetChangedListener)
+
+        manager.hideItem(brickToRefresh)
+
+        assertEquals(4, manager.recyclerViewItems.size)
+        assertEquals(5, manager.dataManagerItems.size)
+        verifyZeroInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -669,17 +1054,45 @@ class BrickDataManagerTest {
     }
 
     @Test
+    fun testRefreshItem_nullAdapter() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        manager.refreshItem(manager.dataManagerItems.first())
+    }
+
+    @Test
     fun testOnDestroy() {
         manager.onDestroyView()
+        manager.onDestroyView()
 
-        assertNull(manager.recyclerView)
+        assertNull(manager.getRecyclerView())
+    }
+
+    @Test
+    fun testSmoothScrollToBrick_recyclerViewNotSet() {
+        val manager = BrickDataManager().apply {
+            repeat((0 until STARTING_BRICKS).count()) { addLast(TestBrick()) }
+        }
+
+        manager.smoothScrollToBrick(manager.recyclerViewItems.last())
+
+        verify(recyclerView, never()).smoothScrollToPosition(any())
     }
 
     @Test
     fun testSmoothScrollToBrick() {
         manager.smoothScrollToBrick(manager.recyclerViewItems.last())
 
+        verify(recyclerView).smoothScrollToPosition(manager.recyclerViewItems.lastIndex)
+    }
+
+    @Test
+    fun testSmoothScrollToBrick_missingBrick() {
         manager.smoothScrollToBrick(TestBrick())
+
+        verify(recyclerView, never()).smoothScrollToPosition(any())
     }
 
     @Test

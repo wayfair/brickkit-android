@@ -43,22 +43,22 @@ abstract class BaseBrick constructor(
     /**
      * Whether the brick should act as it is in the first row.
      */
-    open var isInFirstRow = false
+    internal open var isInFirstRow = false
 
     /**
      * Whether the brick should act as it is in the last row.
      */
-    open var isInLastRow = false
+    internal open var isInLastRow = false
 
     /**
      * Whether the brick should act as it is on the left wall.
      */
-    open var isOnLeftWall = false
+    internal open var isOnLeftWall = false
 
     /**
      * Whether the brick should act as it is on the right wall.
      */
-    open var isOnRightWall = false
+    internal open var isOnRightWall = false
 
     private var dataManager: BrickDataManager? = null
 
@@ -66,7 +66,7 @@ abstract class BaseBrick constructor(
      * Set the current DataManager this brick is connected to.
      * @param brickDataManager The current [BrickDataManager] for this brick
      */
-    fun setDataManager(brickDataManager: BrickDataManager?) {
+    internal fun setDataManager(brickDataManager: BrickDataManager?) {
         dataManager = brickDataManager
     }
 

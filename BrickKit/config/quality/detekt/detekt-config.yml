@@ -12,11 +12,11 @@ console-reports:
 
 comments:
   active: true
-  excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
+  excludes: "**/test/**,**/androidTest/**,**/*.Test.kt"
   CommentOverPrivateFunction:
-    active: true
+    active: false
   CommentOverPrivateProperty:
-    active: true
+    active: false
   EndOfSentenceFormat:
     active: false
     endOfSentenceFormat: ([.?!][ \t\n\r\f<])|([.?!]$)
