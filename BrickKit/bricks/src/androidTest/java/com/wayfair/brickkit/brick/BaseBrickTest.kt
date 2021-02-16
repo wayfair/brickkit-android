@@ -141,6 +141,24 @@ class BaseBrickTest {
         assertTrue(brick.isDataReady)
     }
 
+    @Test
+    fun testSmoothScroll() {
+        brick.setDataManager(brickDataManager)
+        brick.smoothScroll()
+
+        verify(brickDataManager).smoothScrollToBrick(brick)
+    }
+
+    @Test
+    fun testSmoothScroll_nullDataManager() {
+        brick.setDataManager(brickDataManager)
+        brick.setDataManager(null)
+
+        brick.smoothScroll()
+
+        verifyZeroInteractions(brickDataManager)
+    }
+
     companion object {
         private const val LAYOUT = 1234
         private const val TAG_1 = "tag 1"

@@ -120,6 +120,10 @@ abstract class BaseBrick constructor(
         dataManager?.refreshItem(this)
     }
 
+    open fun smoothScroll() {
+        dataManager?.smoothScrollToBrick(this)
+    }
+
     /**
      * Adds this brick to the end of the supplied [BrickDataManager].
      *
