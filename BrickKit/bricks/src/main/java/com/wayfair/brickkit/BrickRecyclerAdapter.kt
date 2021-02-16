@@ -160,7 +160,7 @@ internal class BrickRecyclerAdapter(
         BrickViewHolderFactory().createBrickViewHolder(parent, viewType, brickDataManager.recyclerViewItems)
 
     override fun onBindViewHolder(holder: BrickViewHolder, position: Int) {
-        brickDataManager.brickAtPosition(position)?.let { baseBrick ->
+        brickDataManager.recyclerViewItems.getOrNull(position)?.let { baseBrick ->
             (holder.itemView.layoutParams as? StaggeredGridLayoutManager.LayoutParams)?.isFullSpan =
                 baseBrick.spanSize.getSpans(holder.itemView.context) == BrickDataManager.SPAN_COUNT
 
@@ -178,7 +178,7 @@ internal class BrickRecyclerAdapter(
     override fun getItemCount(): Int = brickDataManager.recyclerViewItems.size
 
     override fun getItemViewType(position: Int): Int {
-        val brick: BaseBrick? = brickDataManager.brickAtPosition(position)
+        val brick: BaseBrick? = brickDataManager.recyclerViewItems.getOrNull(position)
         return when {
             brick == null -> DEFAULT_LAYOUT_RES_ID
             brick.isDataReady -> brick.layout

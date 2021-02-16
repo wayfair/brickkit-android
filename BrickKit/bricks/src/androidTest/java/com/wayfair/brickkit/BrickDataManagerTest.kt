@@ -21,7 +21,6 @@ import com.wayfair.brickkit.size.FullWidthBrickSize
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -677,15 +676,8 @@ class BrickDataManagerTest {
     }
 
     @Test
-    fun testBrickAtPosition() {
-        assertNotNull(manager.brickAtPosition(manager.dataManagerItems.size - 1))
-        assertNull(manager.brickAtPosition(manager.dataManagerItems.size))
-        assertNull(manager.brickAtPosition(-1))
-    }
-
-    @Test
     fun testSmoothScrollToBrick() {
-        manager.smoothScrollToBrick(manager.brickAtPosition(manager.recyclerViewItems.size - 1))
+        manager.smoothScrollToBrick(manager.recyclerViewItems.last())
 
         manager.smoothScrollToBrick(TestBrick())
     }

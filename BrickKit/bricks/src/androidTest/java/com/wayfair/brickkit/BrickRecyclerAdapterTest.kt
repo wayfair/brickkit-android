@@ -382,7 +382,7 @@ class BrickRecyclerAdapterTest {
     fun testOnBindViewHolderNullBrick() {
         val listener = mock<OnReachedItemAtPosition>()
         adapter.setOnReachedItemAtPosition(listener)
-        whenever(dataManager.brickAtPosition(0)).thenReturn(null)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf())
 
         val holder = mock<BrickViewHolder>()
 
@@ -394,7 +394,7 @@ class BrickRecyclerAdapterTest {
     @Test
     fun testOnBindViewHolderNullBindListenerWhenDataIsReady() {
         val brick = mock<BaseBrick>()
-        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf(brick))
         whenever(brick.isDataReady).thenReturn(true)
 
         val holder = BrickViewHolder(mock())
@@ -407,7 +407,7 @@ class BrickRecyclerAdapterTest {
     @Test
     fun testOnBindViewHolderNullBindListenerWhenDataIsNotReady() {
         val brick = mock<BaseBrick>()
-        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf(brick))
         whenever(brick.isDataReady).thenReturn(false)
 
         val holder = BrickViewHolder(mock())
@@ -424,7 +424,7 @@ class BrickRecyclerAdapterTest {
 
         adapter.setOnReachedItemAtPosition(listener)
 
-        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf(brick))
         whenever(brick.isDataReady).thenReturn(false)
 
         val holder = BrickViewHolder(mock())
@@ -442,7 +442,7 @@ class BrickRecyclerAdapterTest {
 
         adapter.setOnReachedItemAtPosition(listener)
 
-        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf(brick))
         whenever(brick.isDataReady).thenReturn(true)
 
         val holder = BrickViewHolder(mock())
@@ -463,7 +463,7 @@ class BrickRecyclerAdapterTest {
         val listener = mock<OnReachedItemAtPosition>()
         adapter.setOnReachedItemAtPosition(listener)
 
-        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf(brick))
         whenever(brick.isDataReady).thenReturn(true)
 
         val layoutParams = mock<StaggeredGridLayoutManager.LayoutParams>()
@@ -486,7 +486,7 @@ class BrickRecyclerAdapterTest {
         val listener = mock<OnReachedItemAtPosition>()
         adapter.setOnReachedItemAtPosition(listener)
 
-        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf(brick))
         whenever(brick.isDataReady).thenReturn(true)
 
         val layoutParams = mock<StaggeredGridLayoutManager.LayoutParams>()
@@ -509,7 +509,7 @@ class BrickRecyclerAdapterTest {
         val listener = mock<OnReachedItemAtPosition>()
         adapter.setOnReachedItemAtPosition(listener)
 
-        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf(brick))
         whenever(brick.isDataReady).thenReturn(true)
 
         val holder = BrickViewHolder(
@@ -554,7 +554,7 @@ class BrickRecyclerAdapterTest {
         val brick = mock<BaseBrick>()
         whenever(brick.layout).thenReturn(LAYOUT)
         whenever(brick.isDataReady).thenReturn(true)
-        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf(brick))
 
         assertEquals(LAYOUT, adapter.getItemViewType(0))
     }
@@ -564,14 +564,14 @@ class BrickRecyclerAdapterTest {
         val brick = mock<BaseBrick>()
         whenever(brick.placeholderLayout).thenReturn(PLACEHOLDER_LAYOUT)
         whenever(brick.isDataReady).thenReturn(false)
-        whenever(dataManager.brickAtPosition(0)).thenReturn(brick)
+        whenever(dataManager.recyclerViewItems).thenReturn(listOf(brick))
 
         assertEquals(PLACEHOLDER_LAYOUT, adapter.getItemViewType(0))
     }
 
     @Test
     fun testGetItemViewTypeInvalidPosition() {
-        whenever(dataManager.brickAtPosition(0)).thenReturn(null)
+        whenever(dataManager.dataManagerItems).thenReturn(listOf())
 
         assertEquals(0, adapter.getItemViewType(0))
     }

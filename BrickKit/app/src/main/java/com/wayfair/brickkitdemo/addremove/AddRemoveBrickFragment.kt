@@ -35,9 +35,7 @@ class AddRemoveBrickFragment : BrickFragment() {
                     dataModel,
                     object : Interactions {
                         override fun onRemoveClicked() {
-                            if (dataManager.dataManagerItems.size > 1) {
-                                dataManager.removeItem(dataManager.brickAtPosition(1))
-                            }
+                            dataManager.recyclerViewItems.firstOrNull { brick -> brick is TextBrick }?.let { dataManager.removeItem(it) }
                         }
 
                         override fun onAddClicked() {
