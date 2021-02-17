@@ -24,7 +24,7 @@ open class BrickFragment : Fragment() {
         inflater.inflate(R.layout.vertical_fragment_brick, container, false).apply {
             findViewById<RecyclerView>(R.id.recycler_view).apply {
                 (itemAnimator as DefaultItemAnimator?)?.supportsChangeAnimations = false
-                dataManager.recyclerView = this
+                dataManager.setRecyclerView(this)
             }
         }
 
