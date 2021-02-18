@@ -1,4 +1,4 @@
-[![Publish](https://github.com/wayfair/brickkit-android/workflows/Publish/badge.svg)]
+![Publish](https://github.com/wayfair/brickkit-android/workflows/Publish/badge.svg)
 [![codecov](https://codecov.io/gh/wayfair/brickkit-android/branch/dev/graph/badge.svg?token=nmCV7vVvWx)](https://codecov.io/gh/wayfair/brickkit-android)
 [ ![Download](https://api.bintray.com/packages/wayfair/brickkit-android/brickkit-android/images/download.svg) ](https://bintray.com/wayfair/brickkit-android/brickkit-android/_latestVersion)
 
