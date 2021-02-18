@@ -2,12 +2,6 @@
 [![codecov](https://codecov.io/gh/wayfair/brickkit-android/branch/dev/graph/badge.svg?token=nmCV7vVvWx)](https://codecov.io/gh/wayfair/brickkit-android)
 [ ![Download](https://api.bintray.com/packages/wayfair/brickkit-android/brickkit-android/images/download.svg) ](https://bintray.com/wayfair/brickkit-android/brickkit-android/_latestVersion)
 
-<div align="center">
-<span><img src="Docs/SampleImage/BrickKit.png" alt="BrickKit" title="BrickKit" ></span>
-<span style="font-size:60px; writing-mode: tb-rl;">BrickKit</span>
-</div>
-
-
 ## What is the BrickKit
 
 With BrickKit, you can manage complex, dynamic, device type specific, and orientation aware layouts with the same code. It's easy to reuse and extend bricks which highly reduces code redundancy and makes UI testing easier. BrickKit is based on RecyclerView meaning it works well with many (think thousands) items inside. It allows you to take advantage of the performance built into RecyclerView without needing to maintain your own RecyclerView.Adapter, instead letting you focus on other things.
