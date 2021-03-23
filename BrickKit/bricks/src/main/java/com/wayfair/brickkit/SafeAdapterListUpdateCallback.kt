@@ -2,7 +2,12 @@ package com.wayfair.brickkit
 
 import androidx.recyclerview.widget.ListUpdateCallback
 
-class SafeAdapterListUpdateCallback(
+/**
+ * A safe implementation of [androidx.recyclerview.widget.ListUpdateCallback],
+ * which allows updates to the adapter during scrolling by mapping the calls
+ * to safe versions.
+ */
+internal class SafeAdapterListUpdateCallback(
     private val adapter: BrickRecyclerAdapter
 ) : ListUpdateCallback {
 
