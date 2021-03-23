@@ -122,7 +122,11 @@ open class BrickDataManager : Serializable {
         currentItems.addAll(bricks)
 
         dataHasChanged()
-        brickRecyclerAdapter?.let { DiffUtil.calculateDiff(diffUtilCallback).dispatchUpdatesTo(it) }
+        brickRecyclerAdapter?.let {
+            DiffUtil.calculateDiff(diffUtilCallback).dispatchUpdatesTo(
+                SafeAdapterListUpdateCallback(it)
+            )
+        }
     }
 
     /**
