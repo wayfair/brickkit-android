@@ -17,7 +17,7 @@ import com.wayfair.brickkit.viewholder.factory.BrickViewHolderFactory
  * [BrickDataManager] to a given [RecyclerView].
  */
 @OpenForTesting
-internal class BrickRecyclerAdapter(
+class BrickRecyclerAdapter(
     val brickDataManager: BrickDataManager,
     private val recyclerView: RecyclerView
 ) : RecyclerView.Adapter<BrickViewHolder>() {
