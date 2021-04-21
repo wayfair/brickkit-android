@@ -1,0 +1,143 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (project.plugins.findPlugin("com.android.library")) {
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    }
+}
+
+artifacts {
+    archives androidSourcesJar
+}
+
+group = PUBLISH_GROUP_ID
+version = PUBLISH_VERSION
+
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+ext["sonatypeStagingProfileId"] = ''
+
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    Properties p = new Properties()
+    p.load(new FileInputStream(secretPropsFile))
+    p.each { name, value ->
+        ext[name] = value
+    }
+} else {
+    ext["signing.keyId"] = System.getenv('SIGNING_KEY_ID')
+    ext["signing.password"] = System.getenv('SIGNING_PASSWORD')
+    ext["signing.secretKeyRingFile"] = System.getenv('SIGNING_SECRET_KEY_RING_FILE')
+    ext["ossrhUsername"] = System.getenv('OSSRH_USERNAME')
+    ext["ossrhPassword"] = System.getenv('OSSRH_PASSWORD')
+    ext["sonatypeStagingProfileId"] = System.getenv('SONATYPE_STAGING_PROFILE_ID')
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId PUBLISH_GROUP_ID
+                artifactId PUBLISH_ARTIFACT_ID
+                version PUBLISH_VERSION
+                if (project.plugins.findPlugin("com.android.library")) {
+                    from components.release
+                } else {
+                    artifact("$buildDir/libs/${project.getName()}-${version}.jar")
+                }
+
+                artifact androidSourcesJar
+
+                pom {
+                    name = PUBLISH_ARTIFACT_ID
+                    description = 'Brickkit-Android RecyclerView based Layout Manager'
+                    url = 'https://github.com/wayfair/brickkit-android'
+                    licenses {
+                        license {
+                            name = 'License'
+                            url = 'https://github.com/wayfair/brickkit-android/blob/main/LICENSE'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'thusson13'
+                            name = 'Tom Husson'
+                            email = 'thusson@wayfair.com'
+                        }
+                        developer {
+                            id = 'Greg-at-Wayfair'
+                            name = 'Gregory Rasmussen'
+                            email = 'grasmussen@wayfair.com'
+                        }
+                        developer {
+                            id = 'rnorvielwf'
+                            name = 'Randall Norviel'
+                            email = 'rnorviel@wayfair.com'
+                        }
+                        developer {
+                            id = 'kenyee'
+                            name = 'Ken Yee'
+                            email = 'kyee@wayfair.com'
+                        }
+                        developer {
+                            id = 'mindwalkr'
+                            name = 'Richard Steventon'
+                            email = 'rsteventon1@wayfair.com'
+                        }
+                        developer {
+                            id = 'patbeagan1'
+                            name = 'Patrick Beagan'
+                            email = 'pbeagan@wayfair.com'
+                        }
+                        developer {
+                            id = 'sergenes'
+                            name = 'Sergey Nes'
+                            email = 'serge.nes@gmail.com'
+                        }
+                        developer {
+                            id = 'sneskoromny'
+                            name = 'Sergey Nes'
+                            email = 'sneskoromny@wayfair.com'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:github.com/wayfair/brickkit-android.git'
+                        developerConnection = 'scm:git:ssh://github.com/wayfair/brickkit-android.git'
+                        url = 'https://github.com/wayfair/brickkit-android.git/tree/main'
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                name = "sonatype"
+
+                def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+                credentials {
+                    username ossrhUsername
+                    password ossrhPassword
+                }
+            }
+        }
+    }
+}
+
+nexusStaging {
+    packageGroup = PUBLISH_GROUP_ID
+    stagingProfileId = sonatypeStagingProfileId
+    username = ossrhUsername
+    password = ossrhPassword
+}
+
+signing {
+    sign publishing.publications
+}
