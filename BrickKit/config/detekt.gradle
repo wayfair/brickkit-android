@@ -6,14 +6,14 @@ buildscript {
     }
 
     dependencies {
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.13.1"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0"
     }
 }
 
 apply plugin: 'io.gitlab.arturbosch.detekt'
 
 detekt {
-    toolVersion = "1.11.2"
+    toolVersion = "1.15.0"
 
     config = files(configFile('quality/detekt/detekt-config.yml'))
     baseline = file('detekt-baseline.xml')
