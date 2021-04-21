@@ -7,7 +7,15 @@ plugins {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+    PUBLISH_GROUP_ID = "com.wayfair"
+    PUBLISH_VERSION = getCurrentVersion()
+    PUBLISH_ARTIFACT_ID = 'brickkit-android'
+}
+
+apply from: "${project.rootDir}/scripts/publish-mavencentral.gradle"
 
 android {
     compileSdkVersion 29
@@ -88,51 +96,5 @@ static def getCurrentVersion() {
 }
 
 // This is mandatory
-group = 'com.wayfair'
-version = getCurrentVersion()
-
-publishing {
-    publications {
-        library(MavenPublication) {
-            groupId 'com.wayfair'
-            artifactId 'brickkit-android'
-            version getCurrentVersion()
-            pom {
-                licenses {
-                    license {
-                        name = 'The Apache Software License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution = 'repo'
-                    }
-                }
-            }
-
-            afterEvaluate {
-                artifact bundleReleaseAar
-            }
-        }
-    }
-}
-
-bintray {
-    publish true
-    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-    publications = ['library']
-
-    pkg {
-        userOrg = 'wayfair'
-        repo = 'brickkit-android'
-        name = 'brickkit-android'
-
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/wayfair/brickkit-android.git'
-        publicDownloadNumbers = false
-        version {
-            name = currentVersion
-            desc = 'Feature Release of brickkit-android'
-            vcsTag = currentVersion
-            released = new Date()
-        }
-    }
-}
+group = PUBLISH_GROUP_ID
+version = PUBLISH_VERSION

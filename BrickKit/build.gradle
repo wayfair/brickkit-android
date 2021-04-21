@@ -4,24 +4,31 @@ buildscript {
     }
 
     repositories {
-        jcenter()
         google()
         gradlePluginPortal()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21"
         classpath "org.jetbrains.kotlin:kotlin-allopen:1.4.21"
 
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         classpath 'io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0'
         classpath 'org.jlleitschuh.gradle:ktlint-gradle:9.4.1'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.22.0'
     }
 }
 
+apply plugin: 'io.codearte.nexus-staging'
+
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
 
