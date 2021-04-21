@@ -18,6 +18,11 @@ And add it as a Gradle compile dependency [Latest](https://bintray.com/wayfair/b
   compile "com.wayfair:brickkit-android:0.9.X"
 ```
 
+The latest version is available on the Maven Central [Latest](https://repo1.maven.org/maven2/com/wayfair/brickkit-android/1.0.1/)
+```
+  implementation "com.wayfair:brickkit-android:1.0.1"
+```
+
 ## Features of BrickKit
 
 ### Setting up BrickKit in your screen
