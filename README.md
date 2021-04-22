@@ -1,6 +1,6 @@
 ![Publish](https://github.com/wayfair/brickkit-android/workflows/Publish/badge.svg)
 [![codecov](https://codecov.io/gh/wayfair/brickkit-android/branch/dev/graph/badge.svg?token=nmCV7vVvWx)](https://codecov.io/gh/wayfair/brickkit-android)
-[ ![Download](https://api.bintray.com/packages/wayfair/brickkit-android/brickkit-android/images/download.svg) ](https://bintray.com/wayfair/brickkit-android/brickkit-android/_latestVersion)
+[ ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wayfair/brickkit-android/badge.svg) ](https://maven-badges.herokuapp.com/maven-central/com.wayfair/brickkit-android)
 
 ## What is BrickKit
 
@@ -18,7 +18,7 @@ And add it as a Gradle compile dependency [Latest](https://bintray.com/wayfair/b
   compile "com.wayfair:brickkit-android:0.9.X"
 ```
 
-The latest version is available on the Maven Central [Latest](https://repo1.maven.org/maven2/com/wayfair/brickkit-android/1.0.1/)
+The latest version is available on the Maven Central [Latest](https://maven-badges.herokuapp.com/maven-central/com.wayfair/brickkit-android)
 ```
   implementation "com.wayfair:brickkit-android:1.0.1"
 ```
