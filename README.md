@@ -1,6 +1,6 @@
 ![Publish](https://github.com/wayfair/brickkit-android/workflows/Publish/badge.svg)
 [![codecov](https://codecov.io/gh/wayfair/brickkit-android/branch/dev/graph/badge.svg?token=nmCV7vVvWx)](https://codecov.io/gh/wayfair/brickkit-android)
-[ ![Download](https://api.bintray.com/packages/wayfair/brickkit-android/brickkit-android/images/download.svg) ](https://bintray.com/wayfair/brickkit-android/brickkit-android/_latestVersion)
+[ ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wayfair/brickkit-android/badge.svg) ](https://maven-badges.herokuapp.com/maven-central/com.wayfair/brickkit-android)
 
 ## What is BrickKit
 
@@ -9,13 +9,14 @@ With BrickKit, you can manage complex, dynamic, device type specific, and orient
 
 ## How to import BrickKit as a library
 
-Add new maven endpoint to your repositories
+The latest version is available on the Maven Central.
+Add a MavenCentral to your repositories
 ```
-  maven { url "http://dl.bintray.com/wayfair/brickkit-android" }
+ mavenCentral()
 ```
-And add it as a Gradle compile dependency [Latest](https://bintray.com/wayfair/brickkit-android/brickkit-android/_latestVersion)
+And add it as a Gradle implementation dependency [Latest](https://maven-badges.herokuapp.com/maven-central/com.wayfair/brickkit-android)
 ```
-  compile "com.wayfair:brickkit-android:0.9.X"
+  implementation "com.wayfair:brickkit-android:1.0.1"
 ```
 
 ## Features of BrickKit
