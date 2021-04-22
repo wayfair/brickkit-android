@@ -9,16 +9,12 @@ With BrickKit, you can manage complex, dynamic, device type specific, and orient
 
 ## How to import BrickKit as a library
 
-Add new maven endpoint to your repositories
+The latest version is available on the Maven Central.
+Add a MavenCentral to your repositories
 ```
-  maven { url "http://dl.bintray.com/wayfair/brickkit-android" }
+ mavenCentral()
 ```
-And add it as a Gradle compile dependency [Latest](https://bintray.com/wayfair/brickkit-android/brickkit-android/_latestVersion)
-```
-  compile "com.wayfair:brickkit-android:0.9.X"
-```
-
-The latest version is available on the Maven Central [Latest](https://maven-badges.herokuapp.com/maven-central/com.wayfair/brickkit-android)
+And add it as a Gradle implementation dependency [Latest](https://maven-badges.herokuapp.com/maven-central/com.wayfair/brickkit-android)
 ```
   implementation "com.wayfair:brickkit-android:1.0.1"
 ```
