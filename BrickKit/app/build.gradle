@@ -3,12 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId 'com.wayfair.brickkitdemo'
         minSdkVersion 23
-        targetSdkVersion 33
+        //noinspection ExpiringTargetSdkVersion
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
