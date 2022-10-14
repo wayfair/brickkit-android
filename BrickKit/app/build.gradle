@@ -31,6 +31,7 @@ android {
         warningsAsErrors true
         abortOnError true
         disable "GradleDependency"
+        disable 'OldTargetApi'
     }
 }
 
