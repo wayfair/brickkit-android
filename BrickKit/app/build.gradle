@@ -8,7 +8,6 @@ android {
     defaultConfig {
         applicationId 'com.wayfair.brickkitdemo'
         minSdkVersion 23
-        //noinspection ExpiringTargetSdkVersion
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -32,6 +31,7 @@ android {
         warningsAsErrors true
         abortOnError true
         disable "GradleDependency"
+        disable 'OldTargetApi'
     }
 }
 
