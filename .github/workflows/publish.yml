@@ -18,6 +18,7 @@ jobs:
         with:
           java-version: 11.0.1+13
           distribution: 'zulu'
+          cache: gradle
       - name: Prepare environment
         env:
           GPG_KEY_CONTENTS: ${{ secrets.GPG_KEY_CONTENTS }}
