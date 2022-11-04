@@ -5,8 +5,6 @@ package com.wayfair.brickkit.brick
 
 import android.view.View
 import com.wayfair.brickkit.BrickDataManager
-import com.wayfair.brickkit.padding.BrickPadding
-import com.wayfair.brickkit.size.BrickSize
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
