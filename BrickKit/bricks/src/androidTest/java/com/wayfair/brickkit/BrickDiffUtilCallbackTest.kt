@@ -3,14 +3,14 @@
  */
 package com.wayfair.brickkit
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
 import com.wayfair.brickkit.brick.BaseBrick
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 
 class BrickDiffUtilCallbackTest {
     private lateinit var callback: BrickDiffUtilCallback

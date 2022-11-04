@@ -6,8 +6,8 @@ package com.wayfair.brickkit.size
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import com.wayfair.brickkit.R
 import org.junit.Assert
 

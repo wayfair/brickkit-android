@@ -12,12 +12,6 @@ import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.never
-import com.nhaarman.mockitokotlin2.spy
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
 import com.wayfair.brickkit.brick.BaseBrick
 import com.wayfair.brickkit.size.BrickSize
 import com.wayfair.brickkit.test.R
@@ -30,6 +24,12 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 
 @RunWith(AndroidJUnit4::class)
 class BrickRecyclerAdapterTest {

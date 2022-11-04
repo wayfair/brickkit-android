@@ -8,14 +8,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.atLeastOnce
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.never
-import com.nhaarman.mockitokotlin2.reset
-import com.nhaarman.mockitokotlin2.spy
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.wayfair.brickkit.brick.BaseBrick
 import com.wayfair.brickkit.padding.ZeroBrickPadding
 import com.wayfair.brickkit.size.FullWidthBrickSize
@@ -27,6 +19,14 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.any
+import org.mockito.kotlin.atLeastOnce
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.reset
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
 
 @RunWith(AndroidJUnit4::class)
 class BrickDataManagerTest {
@@ -111,7 +111,7 @@ class BrickDataManagerTest {
 
         assertEquals(7, manager.recyclerViewItems.size)
         assertEquals(8, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener)
+        verifyNoInteractions(dataSetChangedListener)
     }
 
     @Test
@@ -121,7 +121,7 @@ class BrickDataManagerTest {
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
 
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
         verify(dataSetChangedListener, never()).onDataSetChanged()
     }
 
@@ -133,7 +133,7 @@ class BrickDataManagerTest {
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
 
-        verifyZeroInteractions(observer, dataSetChangedListener)
+        verifyNoInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -173,7 +173,7 @@ class BrickDataManagerTest {
 
         assertEquals(7, manager.recyclerViewItems.size)
         assertEquals(9, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -182,7 +182,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -193,7 +193,7 @@ class BrickDataManagerTest {
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
 
-        verifyZeroInteractions(observer, dataSetChangedListener)
+        verifyNoInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -210,7 +210,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(9, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
         verify(dataSetChangedListener, never()).onDataSetChanged()
     }
 
@@ -222,7 +222,7 @@ class BrickDataManagerTest {
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
 
-        verifyZeroInteractions(observer, dataSetChangedListener)
+        verifyNoInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -252,7 +252,7 @@ class BrickDataManagerTest {
         assertEquals(5, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
         assertEquals(newBrick, manager.dataManagerItems[0])
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -286,7 +286,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
         verify(dataSetChangedListener, never()).onDataSetChanged()
     }
 
@@ -311,7 +311,7 @@ class BrickDataManagerTest {
 
         assertEquals(5, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -331,7 +331,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
         verify(dataSetChangedListener, never()).onDataSetChanged()
     }
 
@@ -384,7 +384,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
         verify(dataSetChangedListener, never()).onDataSetChanged()
     }
 
@@ -473,7 +473,7 @@ class BrickDataManagerTest {
 
         assertEquals(5, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -545,7 +545,7 @@ class BrickDataManagerTest {
 
         assertEquals(7, manager.recyclerViewItems.size)
         assertEquals(7, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -554,7 +554,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -588,7 +588,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(7, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
         verify(dataSetChangedListener, never()).onDataSetChanged()
     }
 
@@ -610,7 +610,7 @@ class BrickDataManagerTest {
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
 
-        verifyZeroInteractions(observer, dataSetChangedListener)
+        verifyNoInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -623,7 +623,7 @@ class BrickDataManagerTest {
 
         assertEquals(3, manager.recyclerViewItems.size)
         assertEquals(3, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -643,7 +643,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -678,7 +678,7 @@ class BrickDataManagerTest {
 
         assertEquals(5, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
         verify(dataSetChangedListener).onDataSetChanged()
     }
 
@@ -688,7 +688,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -711,7 +711,7 @@ class BrickDataManagerTest {
 
         assertEquals(2, manager.recyclerViewItems.size)
         assertEquals(2, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -775,7 +775,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
         verify(dataSetChangedListener, never()).onDataSetChanged()
     }
 
@@ -847,7 +847,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
-        verifyZeroInteractions(dataSetChangedListener, observer)
+        verifyNoInteractions(dataSetChangedListener, observer)
     }
 
     @Test
@@ -862,7 +862,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
         verify(dataSetChangedListener, never()).onDataSetChanged()
     }
 
@@ -944,7 +944,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer, dataSetChangedListener)
+        verifyNoInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -960,7 +960,7 @@ class BrickDataManagerTest {
 
         assertEquals(5, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer, dataSetChangedListener)
+        verifyNoInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -1025,7 +1025,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer, dataSetChangedListener)
+        verifyNoInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -1041,7 +1041,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(5, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer, dataSetChangedListener)
+        verifyNoInteractions(observer, dataSetChangedListener)
     }
 
     @Test
@@ -1050,7 +1050,7 @@ class BrickDataManagerTest {
 
         assertEquals(4, manager.recyclerViewItems.size)
         assertEquals(4, manager.dataManagerItems.size)
-        verifyZeroInteractions(observer)
+        verifyNoInteractions(observer)
     }
 
     @Test

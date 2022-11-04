@@ -3,8 +3,8 @@ package com.wayfair.brickkit
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Before
 import org.junit.runner.RunWith
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import org.junit.Test
 
 @RunWith(AndroidJUnit4::class)

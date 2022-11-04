@@ -6,8 +6,8 @@ package com.wayfair.brickkit
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import com.wayfair.brickkit.brick.BaseBrick
 import com.wayfair.brickkit.padding.BrickPadding
 import org.junit.Assert.assertEquals
