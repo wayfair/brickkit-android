@@ -64,6 +64,7 @@ dependencies {
 
     kaptAndroidTest 'androidx.databinding:databinding-compiler:7.3.1'
 
+    androidTestImplementation 'org.mockito:mockito-core:4.0.0'
     androidTestImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0") {
         exclude group: "org.mockito", module: "mockito-core"
     }
