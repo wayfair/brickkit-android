@@ -4,8 +4,8 @@
 package com.wayfair.brickkit.padding
 
 import android.content.res.Resources
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import com.wayfair.brickkit.R
 import org.junit.Assert.assertEquals
 import org.junit.Before

@@ -14,7 +14,7 @@ jobs:
       - name: 🧼 lint renovate config # Validates changes to renovate.json config file
         uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.2
         with:
-          config_file_path: 'renovate.json'          
+          config_file_path: 'renovate.json'
   ci-build:
     name: Run Build
     runs-on: ubuntu-latest
@@ -22,15 +22,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: set up JDK 1.8
+      - name: set up JDK 11
         uses: actions/setup-java@v2
         with:
-          java-version: 1.8
+          java-version: 11.0.1+13
           distribution: 'zulu'
+          cache: gradle
 
       - name: Build
         working-directory: ./BrickKit
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon
   ci-test:
     name: Run UI Tests
     runs-on: macos-latest
@@ -38,11 +39,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: set up JDK 1.8
+      - name: set up JDK 11
         uses: actions/setup-java@v2
         with:
-          java-version: 1.8
+          java-version: 11.0.1+13
           distribution: 'zulu'
+          cache: gradle
 
       - name: Run Tests
         uses: reactivecircus/android-emulator-runner@v2

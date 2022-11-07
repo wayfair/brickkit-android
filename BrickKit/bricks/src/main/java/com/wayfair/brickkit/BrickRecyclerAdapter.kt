@@ -3,6 +3,7 @@
  */
 package com.wayfair.brickkit
 
+import android.annotation.SuppressLint
 import android.os.Handler
 import android.util.Log
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ internal class BrickRecyclerAdapter(
     /**
      * Safe version of [RecyclerView.Adapter.notifyDataSetChanged].
      */
+    @SuppressLint("NotifyDataSetChanged")
     fun safeNotifyDataSetChanged() {
         runWhenNotComputingLayout { notifyDataSetChanged() }
     }

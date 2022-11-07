@@ -4,10 +4,6 @@
 package com.wayfair.brickkit.brick
 
 import android.view.View
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.never
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.wayfair.brickkit.BrickDataManager
 import com.wayfair.brickkit.viewholder.BrickViewHolder
 import org.junit.Assert.assertEquals
@@ -15,7 +11,10 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.lang.UnsupportedOperationException
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
 
 class BaseBrickTest {
     private val brickDataManager: BrickDataManager = mock()
@@ -39,7 +38,7 @@ class BaseBrickTest {
         brick.isHidden = false
         assertFalse(brick.isHidden)
 
-        verifyZeroInteractions(brickDataManager)
+        verifyNoInteractions(brickDataManager)
     }
 
     @Test
@@ -72,7 +71,7 @@ class BaseBrickTest {
 
         brick.tag = TAG_1
 
-        verifyZeroInteractions(brickDataManager)
+        verifyNoInteractions(brickDataManager)
     }
 
     @Test
@@ -83,34 +82,6 @@ class BaseBrickTest {
     @Test(expected = UnsupportedOperationException::class)
     fun testPlaceholderLayout() {
         brick.placeholderLayout
-    }
-
-    @Test
-    fun testInFirstRow() {
-        assertFalse(brick.isInFirstRow)
-        brick.isInFirstRow = true
-        assertTrue(brick.isInFirstRow)
-    }
-
-    @Test
-    fun testInLastRow() {
-        assertFalse(brick.isInLastRow)
-        brick.isInLastRow = true
-        assertTrue(brick.isInLastRow)
-    }
-
-    @Test
-    fun testOnLeftWall() {
-        assertFalse(brick.isOnLeftWall)
-        brick.isOnLeftWall = true
-        assertTrue(brick.isOnLeftWall)
-    }
-
-    @Test
-    fun testOnRightWall() {
-        assertFalse(brick.isOnRightWall)
-        brick.isOnRightWall = true
-        assertTrue(brick.isOnRightWall)
     }
 
     @Test
@@ -156,7 +127,7 @@ class BaseBrickTest {
 
         brick.smoothScroll()
 
-        verifyZeroInteractions(brickDataManager)
+        verifyNoInteractions(brickDataManager)
     }
 
     companion object {

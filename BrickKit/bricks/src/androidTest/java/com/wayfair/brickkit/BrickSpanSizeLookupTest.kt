@@ -5,9 +5,9 @@ package com.wayfair.brickkit
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import com.wayfair.brickkit.brick.BaseBrick
 import com.wayfair.brickkit.size.BrickSize
 import org.junit.Assert.assertEquals

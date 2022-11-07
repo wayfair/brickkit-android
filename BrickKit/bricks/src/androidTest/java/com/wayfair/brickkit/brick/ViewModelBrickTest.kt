@@ -5,9 +5,9 @@ import android.widget.LinearLayout
 import androidx.databinding.Bindable
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.spy
-import com.nhaarman.mockitokotlin2.verify
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
 import com.wayfair.brickkit.OpenForTesting
 import com.wayfair.brickkit.padding.BrickPadding
 import com.wayfair.brickkit.size.BrickSize

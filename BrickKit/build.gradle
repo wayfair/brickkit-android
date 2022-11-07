@@ -12,13 +12,13 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21"
-        classpath "org.jetbrains.kotlin:kotlin-allopen:1.4.21"
+        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20'
+        classpath 'org.jetbrains.kotlin:kotlin-allopen:1.7.20'
 
-        classpath 'io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0'
-        classpath 'org.jlleitschuh.gradle:ktlint-gradle:9.4.1'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0'
+        classpath 'org.jlleitschuh.gradle:ktlint-gradle:10.3.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.22.0'
     }
 }
