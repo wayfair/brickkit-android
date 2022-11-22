@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wayfair.brickkit.animator.AvoidFlickerItemAnimator
 import com.wayfair.brickkit.brick.BaseBrick
 import java.io.Serializable
+import java.lang.IllegalStateException
+import android.util.Log
 
 /**
  * Class which maintains a collection of bricks and manages how they are laid out in an provided RecyclerView.
@@ -396,7 +398,11 @@ open class BrickDataManager : Serializable {
      * Method called to release any related resources.
      */
     open fun onDestroyView() {
-        recyclerView?.adapter = null
+        try {
+            recyclerView?.adapter = null
+        } catch (e: IllegalStateException) {
+            Log.w(TAG, "Catching RecyclerView not registered exception")
+        }
         brickRecyclerAdapter = null
         recyclerView = null
     }
@@ -626,6 +632,7 @@ open class BrickDataManager : Serializable {
     }
 
     companion object {
+        private val TAG = BrickDataManager::class.java.name
         const val SPAN_COUNT = 240
     }
 }
