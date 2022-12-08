@@ -26,14 +26,15 @@ jobs:
         run: |
           git fetch --unshallow
           sudo bash -c "echo '$GPG_KEY_CONTENTS' | base64 -d > '$SIGNING_SECRET_KEY_RING_FILE'"
-      - name: Navigate to correct directory
-        run: cd ../.. && cd BrickKit
       - name: Release build
+        working-directory: ./BrickKit
         # assembleRelease for all modules, excluding non-library modules: sample, ui-components sample, docs
         run: ./gradlew assembleRelease -x :brickkit-android:assembleRelease
       - name: Source jar
+        working-directory: ./BrickKit
         run: ./gradlew androidSourcesJar
       - name: Publish to MavenCentral
+        working-directory: ./BrickKit
         run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseRepository
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
