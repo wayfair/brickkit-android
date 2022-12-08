@@ -26,15 +26,13 @@ jobs:
         run: |
           git fetch --unshallow
           sudo bash -c "echo '$GPG_KEY_CONTENTS' | base64 -d > '$SIGNING_SECRET_KEY_RING_FILE'"
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
       - name: Release build
         # assembleRelease for all modules, excluding non-library modules: sample, ui-components sample, docs
-        run: ./gradlew assembleRelease -x :brickkit-android:assembleRelease -x
+        run: gradle assembleRelease -x :brickkit-android:assembleRelease -x
       - name: Source jar
-        run: ./gradlew androidSourcesJar
+        run: gradle androidSourcesJar
       - name: Publish to MavenCentral
-        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseRepository
+        run: gradle publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseRepository
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
