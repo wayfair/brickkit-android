@@ -29,7 +29,7 @@ jobs:
       - name: Release build
         working-directory: ./BrickKit
         # assembleRelease for all modules, excluding non-library modules: sample, ui-components sample, docs
-        run: ./gradlew assembleRelease -x :brickkit-android:assembleRelease
+        run: ./gradlew assembleRelease
       - name: Source jar
         working-directory: ./BrickKit
         run: ./gradlew androidSourcesJar
